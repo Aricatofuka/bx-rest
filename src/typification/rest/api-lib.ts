@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core'
-import { iBxApiLib } from '@/lib/typification/bitrix/BxApiLib'
+import { iRestLib } from '@/typification/rest/lib'
 
 @Injectable({
     providedIn: 'root'
 })
 export class ApiLibServices {
-    BX24: iBxApiLib | false = false
+    BX24: iRestLib | false = false
 
     constructor() {
         // @ts-ignore
