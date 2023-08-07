@@ -1,23 +1,36 @@
 {
-  "name": "Bitrix Rest Api",
-  "description": "Bitrix Rest Api",
-  "homepage": "https://github.com/Aricatofuka/bx-rest",
-  "bugs": "https://github.com/Aricatofuka/bx-rest/issues",
+  "name": "bx-rest",
+  "version": "0.0.1",
+  "description": "bitrix rest api",
+  "main": "index.ts",
+  "dependencies": {
+    "entities": "^4.5.0",
+    "luxon": "^3.3.0",
+    "parse5": "^7.1.2",
+    "just-clone": "^6.2.0",
+    "safevalues": "^0.3.4",
+    "just-compare": "^2.3.0",
+    "rxjs": "^7.8.1",
+    "zone.js": "^0.13.1",
+    "tslib": "^2.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Aricatofuka/bx-rest"
+    "url": "git+https://github.com/Aricatofuka/bx-rest.git"
   },
-  "license": "MIT",
-  "scripts": {},
-  "version": "0.0.1",
-  "dependencies": {
-    "@angular/common": "^16.1.8",
-    "@angular/material": "^16.1.7",
-    "just-clone": "^6.2.0",
-    "just-compare": "^2.3.0",
-    "rxjs": "^7.8.1"
+  "keywords": [
+    "bitrxi",
+    "rest",
+    "api"
+  ],
+  "author": "Aricatofuka",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aricatofuka/bx-rest/issues"
   },
-  "devDependencies": {
-    "luxon": "^3.3.0"
-  }
+  "homepage": "https://github.com/Aricatofuka/bx-rest#readme"
 }
