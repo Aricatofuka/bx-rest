@@ -2,16 +2,16 @@ import { Observable, throwError, take, mergeMap, forkJoin } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import SnackBarService from '@/lib/services/snack-bar/snack-bar.service'
-import SessionKeyServices from '@/lib/services/api/bitrix/http/sessionKey'
+import SnackBarService from '@/services/snack-bar/snack-bar.service'
+import SessionKeyServices from '@/services/http/sessionKey'
 import clone from 'just-clone'
-import { iHttpParamSettings } from '@/lib/typification/bitrix/api/rest/settings'
-import BaseHttpServices from '@/lib/services/http/http'
+import { iHttpParamSettings } from '@/typification/rest/settings'
+import BaseHttpServices from '@/services/http/http'
 import {
     iBatchRequestAnswer, iBatchRequestParam,
     iBatchRequestParamArr,
     iBatchRequestParamHttp, keyBatch
-} from '@/lib/typification/bitrix/api/rest/batch/batchRequestParam'
+} from '@/typification/rest/batch/batchRequestParam'
 import flatten from 'just-flatten-it'
 
 @Injectable({

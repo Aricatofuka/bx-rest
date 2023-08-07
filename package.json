@@ -4,17 +4,23 @@
   "description": "bitrix rest api",
   "main": "index.ts",
   "dependencies": {
+    "@angular/common": "^16.1.8",
+    "@angular/core": "^16.1.8",
+    "@angular/router": "^16.1.8",
+    "@ngrx/store": "^16.2.0",
     "entities": "^4.5.0",
+    "just-clone": "^6.2.0",
+    "just-compare": "^2.3.0",
     "luxon": "^3.3.0",
     "parse5": "^7.1.2",
-    "just-clone": "^6.2.0",
-    "safevalues": "^0.3.4",
-    "just-compare": "^2.3.0",
     "rxjs": "^7.8.1",
-    "zone.js": "^0.13.1",
-    "tslib": "^2.6.1"
+    "safevalues": "^0.3.4",
+    "tslib": "^2.6.1",
+    "zone.js": "^0.13.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "just-flatten-it": "^5.2.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
