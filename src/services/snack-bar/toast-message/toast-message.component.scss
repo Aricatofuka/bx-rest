@@ -1,0 +1,53 @@
+:host {
+
+  display: flex;
+  background-color: red;
+
+  .mdc-snackbar__surface{
+    padding: 0;
+    margin: 0;
+  }
+  .error-message {
+    color: red;
+  }
+  &.error-box {
+    background-color: #eec1c1;
+
+    .error-message {
+      color: red;
+    }
+  }
+}
+
+mat-snack-bar-container.mdc-snackbar {
+
+  &.error-box {
+    .mdc-snackbar__surface{
+      background-color: #eec1c1;
+    }
+
+    .error-message {
+      color: red;
+    }
+  }
+
+  &.warning-box {
+    .mdc-snackbar__surface {
+      background-color: #f0f2b9;
+    }
+
+    .warning-message {
+      color: #15140f;
+    }
+  }
+
+  &.success-box {
+    .mdc-snackbar__surface {
+      background-color: #daf7d1;
+    }
+
+    .success-message {
+      color: #423f31;
+    }
+  }
+}
