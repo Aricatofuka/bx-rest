@@ -1,12 +1,6 @@
 {
-  "extends": "../tsconfig.json",
-  "compilerOptions": {
-    // "noEmit": false,
-    "baseUrl": "@",
-    "paths": {
-      "bx-rest": ["./"],
-      "bx-rest/*": ["./*"]
-    }
-  },
-  "include": ["./**/*.ts"]
+    "extends": "../tsconfig.json",
+    "include": [
+        "./**/*.ts"
+    ]
 }

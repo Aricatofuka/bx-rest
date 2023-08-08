@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
-import { time } from '@/const/time'
-// import { environment } from '@/environments/environment'
+import { time } from 'bx-rest/src/consts/time'
+// import { environment } from 'bx-rest/src/environments/environment'
 import { DateTime } from 'luxon'
 import { DateTimeOptions } from 'luxon/src/datetime'
 

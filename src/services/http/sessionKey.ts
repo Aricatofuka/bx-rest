@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core'
-import Cookies from '@/services/vanilla/сookies'
+import Cookies from 'bx-rest/src/services/vanilla/сookies'
 import { Store } from '@ngrx/store'
-import saveApplicationAuth from '@/typification/auth/save'
-import { environment as env } from '@/environments/environment'
+import saveApplicationAuth from 'bx-rest/src/typification/auth/save'
+// import { environment as env } from 'bx-rest/src/environments/environment'
 import { filter, Observable, of, Subscription, take } from 'rxjs'
 import { ActivatedRoute, ParamMap } from '@angular/router'
-import { saveAccessToken, saveApplicationAuthPath } from '@/store/auth'
+import { saveAccessToken, saveApplicationAuthPath } from 'bx-rest/src/store/auth'
 import { map } from 'rxjs/operators'
-import { BaseServices } from '@/services/base'
-import { BxApiLibServices } from '@/services/bx-api-lib'
-import { LocalStorageServices as LocalStorage } from '@/lib/services/vanilla/localStorage'
+import { BaseServices } from 'bx-rest/src/services/base'
+import { LocalStorageServices as LocalStorage } from 'bx-rest/src/services/vanilla/localStorage'
+import { RestServices } from 'bx-rest/src/typification/rest/api-lib'
 
 type IKeyAuth = 'sessid' | 'auth' | string
 
 @Injectable({
     providedIn: 'root'
 })
-
 export default class SessionKeyServices extends BaseServices {
 
     authHave = false
@@ -29,12 +28,12 @@ export default class SessionKeyServices extends BaseServices {
     constructor(
         public store: Store<{ auth: saveApplicationAuth }>,
         private route: ActivatedRoute,
-        public BxApiLib: BxApiLibServices,
+        public BxApiLib: RestServices,
     ) {
         super()
         this.authData$ = this.store.select('auth')
         this.authData$.subscribe(authData => {
-            if ((authData && !authData.access_token.length && !env.component) || !authData) {
+            if ((authData && !authData.access_token.length) || !authData) {
                 // получаем токен по собственным каналом (в битриксе приложение trace:apps.trace)
                 window.addEventListener('message', (event: MessageEvent) => {
                     if (event.origin !== window.origin) { // проверяем что это не наше сообщение (с текущего приложения)
@@ -129,16 +128,12 @@ export default class SessionKeyServices extends BaseServices {
                         }
 
                     })
-            } else if (env.component && this.getAuth().length) {
+            } else if (this.getAuth().length) {
                 this.authHave = true
             }
 
             this.authData = authData
         })
-
-        if (!env.production) {
-            this.authHave = true
-        }
     }
 
     subscribeAll() {
@@ -188,27 +183,23 @@ export default class SessionKeyServices extends BaseServices {
     }
 
     getAuthParams(): Observable<string | undefined> {
-        if (env.production && !env.component) {
+        // if (env.production && !env.component) {
             return this.authData$.pipe(
                 take(1),
                 map(v => (v) ? v.access_token : undefined)
             )
-        } else {
-            return of(this.getAuth())
-        }
+        // } else {
+        //     return of(this.getAuth())
+        // }
     }
 
     getBaseUrl(): Observable<string | undefined> {
-        if (env.public) {
             return this.authData$.pipe(
-                map(v => (v && v.domain) ? this.prepareBaseAddress(v.domain, env.urls.api.bitrix) : undefined)
+                map(v => (v && v.domain) ? this.prepareBaseAddress(v.domain, 'b24.trace-studio.com') : undefined)
             )
-        } else {
-            return of(env.urls.api.bitrix)
-        }
     }
 
-    getHomeUrl(): string {
-        return env.urls.home
-    }
+    // getHomeUrl(): string {
+    //     return env.urls.home
+    // }
 }

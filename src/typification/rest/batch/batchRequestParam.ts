@@ -1,4 +1,4 @@
-import iHttpAnswerBX from '@/lib/typification/bitrix/api/rest/base/httpAnswerBX'
+import iHttpAnswerBX from 'bx-rest/src/typification/rest/base/httpAnswerBX'
 
 export type keyBatch = string | number
 

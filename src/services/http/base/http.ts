@@ -1,8 +1,8 @@
 import { Observable, throwError } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 import { HttpParams } from '@angular/common/http'
-import { iHttpParamSettings } from '@/typification/rest/settings'
-import { BaseHttp } from '@/services/http/base/base'
+import { iHttpParamSettings } from 'bx-rest/src/typification/rest/settings'
+import { BaseHttp } from 'bx-rest/src/services/http/base/base'
 
 export class BaseHttpServices extends BaseHttp {
 

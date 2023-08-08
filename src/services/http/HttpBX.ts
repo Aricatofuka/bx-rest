@@ -1,27 +1,20 @@
 import { Observable, throwError, take, mergeMap, forkJoin } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
-import SnackBarService from 'bx-rest/src/services/snack-bar/snack-bar.service'
-import SessionKeyServices from 'bx-rest/src/services/http/sessionKey'
 import clone from 'just-clone'
 import { iHttpParamSettings } from 'bx-rest/src/typification/rest/settings'
+import BaseHttpServices from 'bx-rest/src/services/http/http'
 import {
     iBatchRequestAnswer, iBatchRequestParam,
     iBatchRequestParamArr,
     iBatchRequestParamHttp, keyBatch
 } from 'bx-rest/src/typification/rest/batch/batchRequestParam'
 import flatten from 'just-flatten-it'
-import { BaseHttpServices } from './base/http'
 
 @Injectable({
     providedIn: 'root'
 })
-export default class HttpServices extends BaseHttpServices {
-
-    constructor(http: HttpClient, snackBar: SnackBarService, public session: SessionKeyServices) {
-        super(http, snackBar)
-    }
+export default class HttpBXServices extends BaseHttpServices {
 
     timeNowOnServer() {
         return this.httpGet<{ result?: Date, error?: string }>('server.time').pipe(
@@ -180,3 +173,4 @@ export default class HttpServices extends BaseHttpServices {
     }
 
 }
+

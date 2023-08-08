@@ -1,13 +1,14 @@
-import BaseServices from '@/lib/services/base'
+import { BaseServices } from 'bx-rest/src/services/base'
 import { HttpParams } from '@angular/common/http'
-import { iHttpParamSettings } from '@/lib/typification/bitrix/api/rest/settings'
-import iHttpAnswerBX from '@/lib/typification/bitrix/api/rest/base/httpAnswerBX';
+import { iHttpParamSettings } from 'bx-rest/src/typification/rest/settings'
+import iHttpAnswerBX from 'bx-rest/src/typification/rest/base/httpAnswerBX'
 
 export class HttpData extends BaseServices {
 
     defSettings: iHttpParamSettings = {
         timeZone: {
-            calc: true
+            calc: true,
+            levelOut: false
         }
     }
 

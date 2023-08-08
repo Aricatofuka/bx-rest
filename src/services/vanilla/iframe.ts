@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
-import SessionKeyServices from '@/lib/services/api/bitrix/http/sessionKey'
+import SessionKeyServices from 'bx-rest/src/services/http/sessionKey'
 import { map, mergeMap, of } from 'rxjs'
-import SnackBarService from '@/lib/services/snack-bar/snack-bar.service'
+import SnackBarService from 'bx-rest/src/services/snack-bar/snack-bar.service'
 
 @Injectable({
   providedIn: 'root'

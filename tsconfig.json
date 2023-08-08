@@ -1,11 +1,24 @@
 {
     "compilerOptions": {
-        "target": "es5",
-        "lib": ["esnext", "dom"],
+        "experimentalDecorators": true,
+        "incremental": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "strict": true,
+        "noImplicitReturns": true,
+        "moduleResolution": "node",
+        "stripInternal": true,
+        "noEmit": true,
+        "lib": [
+            "esnext",
+            "dom"
+        ],
+        "target": "esnext",
+        "baseUrl": ".",
         "paths": {
-            "@/*": [
-                "src/*"
-            ]
-        },
+            "bx-rest": ["./"],
+            "bx-rest/*": ["./*"]
+        }
     },
 }

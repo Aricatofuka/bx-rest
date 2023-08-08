@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import JSON from '@/lib/services/vanilla/JSON'
+import JSON from 'bx-rest/src/services/vanilla/JSON'
 
 @Injectable({
   providedIn: 'root'

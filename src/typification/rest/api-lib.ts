@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core'
-import { iRestLib } from '@/typification/rest/lib'
+import { iRestLib } from 'bx-rest/src/typification/rest/lib'
 
 @Injectable({
     providedIn: 'root'
 })
-export class ApiLibServices {
+export class RestServices {
     BX24: iRestLib | false = false
 
     constructor() {

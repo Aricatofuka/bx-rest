@@ -1,8 +1,9 @@
-import { iHttpParamSettings } from '@/typification/rest/settings'
+// import { iHttpParamSettings } from '../../../typification/rest/settings'
+import { iHttpParamSettings } from 'bx-rest/src/typification/rest/settings'
 import { HttpClient } from '@angular/common/http'
-import SnackBarService from '@/services/snack-bar/snack-bar.service'
+import SnackBarService from 'bx-rest/src/services/snack-bar/snack-bar.service'
 import { Observable, of, } from 'rxjs'
-import { HttpData } from '@/services/http/HttpData'
+import { HttpData } from 'bx-rest/src/services/http/HttpData'
 import { Injectable } from '@angular/core'
 
 @Injectable({

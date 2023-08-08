@@ -2,20 +2,21 @@ import { Observable, of, take } from 'rxjs'
 import { first, map, mergeMap, tap } from 'rxjs/operators'
 import clone from 'just-clone'
 import compare from 'just-compare'
-import { iBXGetParam } from '@/typification/rest/user/get'
-import HttpBXServices from '@/lib/services/api/bitrix/http/HttpBX'
-import UserFilterSearch from '@/lib/typification/bitrix/api/rest/user/UserFilterSearch'
-import ImgServices from '@/lib/services/api/bitrix/custom/img'
+import { iBXGetParam } from 'bx-rest/src/typification/rest/user/get'
+import HttpBXServices from 'bx-rest/src/services/http/HttpBX'
+import UserFilterSearch from 'bx-rest/src/typification/rest/user/UserFilterSearch'
+// import ImgServices from 'bx-rest/src/services/api/bitrix/custom/img'
 import { Store } from '@ngrx/store'
-import { loadAll, saveArr, saveIDLoadedDepartment, saveSelf, storeUsers } from '@/lib/store/users'
-import { iCustomUserFieldInfo } from '@/lib/typification/bitrix/api/rest/user/CustomUserFieldInfo'
+import { loadAll, saveArr, saveIDLoadedDepartment, saveSelf, storeUsers } from 'bx-rest/src/store/users'
+import { iCustomUserFieldInfo } from 'bx-rest/src/typification/rest/user/CustomUserFieldInfo'
 import { DatePipe } from '@angular/common'
-import { BitrixApiUserMapServices } from '@/lib/services/map/bitrix/api/rest/user'
-import DateTrace from '@/lib/services/api/trace/metods/date'
-import { $get, $list, $search, $update, $user } from '@/lib/services/api/bitrix/rest/consts/part-name-metods'
-import SnackBarService from '@/lib/services/snack-bar/snack-bar.service'
-import iHttpAnswerBX from '@/lib/typification/bitrix/api/rest/base/httpAnswerBX'
-import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from '@/lib/typification/bitrix/api/rest/user/user'
+import { BitrixApiUserMapServices } from 'bx-rest/src/services/map/rest/user'
+// import DateTrace from 'bx-rest/src/services/api/trace/metods/date'
+import SnackBarService from 'bx-rest/src/services/snack-bar/snack-bar.service'
+import iHttpAnswerBX from 'bx-rest/src/typification/rest/base/httpAnswerBX'
+import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from 'bx-rest/src/typification/rest/user/user'
+import { $get, $list, $search, $update, $user } from '../../consts/part-name-metods'
+import { UserFilter } from '../../typification/rest/user/userFilter';
 
 export class BXRestUser {
     url = {
@@ -43,8 +44,8 @@ export class BXRestUser {
     constructor(
         private http: HttpBXServices,
         private snackBar: SnackBarService,
-        private img: ImgServices,
-        private dateTrace: DateTrace,
+       // private img: ImgServices,
+        //private dateTrace: DateTrace,
         private store: Store<{ users: storeUsers }>,
         private userMap: BitrixApiUserMapServices,
         private datePipe: DatePipe
@@ -307,9 +308,9 @@ export class BXRestUser {
         )
     }
 
-    getUrlCompressedImage(url: string, width: number, height: number) {
-        return this.img.getUrlCompressed(url, width, height)
-    }
+    // getUrlCompressedImage(url: string, width: number, height: number) {
+    //     return this.img.getUrlCompressed(url, width, height)
+    // }
 
     setDefParam(params: iBXGetParam) {
         if (!params.hasOwnProperty('ACTIVE')) {

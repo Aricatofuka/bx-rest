@@ -1,7 +1,7 @@
-import { BaseServices } from '@/services/base'
+import { BaseServices } from 'bx-rest/src/services/base'
 import { HttpParams } from '@angular/common/http'
-import { iHttpParamSettings } from '@/typification/rest/settings'
-import iHttpAnswerBX from '@/typification/rest/base/httpAnswerBX'
+import { iHttpParamSettings } from 'bx-rest/src/typification/rest/settings'
+import iHttpAnswerBX from 'bx-rest/src/typification/rest/base/httpAnswerBX'
 
 export class HttpData extends BaseServices {
 
