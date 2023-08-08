@@ -96,7 +96,6 @@
         "lint_src": "tslint -c tslint.json -p src/tsconfig.base.json \"src/**/*.ts\"",
         "lint": "npm-run-all --parallel lint_*",
         "dtslint": "tsc -b ./src/tsconfig.types.json && tslint -c spec-dtslint/tslint.json -p spec-dtslint/tsconfig.json \"spec-dtslint/**/*.ts\"",
-        "prepublishOnly": "npm run build:package && npm run lint && npm run test && npm run test:circular && npm run dtslint",
         "compile": "tsc -b ./src/tsconfig.cjs.json ./src/tsconfig.cjs.spec.json ./src/tsconfig.esm.json ./src/tsconfig.esm5.json ./src/tsconfig.esm5.rollup.json ./src/tsconfig.types.json ./src/tsconfig.types.spec.json ./spec/tsconfig.json",
         "build:clean": "shx rm -rf ./dist",
         "build:global": "node ./tools/make-umd-bundle.js && node ./tools/make-closure-core.js",
@@ -105,7 +104,9 @@
     },
     "//": [
         "build:package",
-        "npm-run-all build:clean compile && node ./tools/generate-alias.js"
+        "npm-run-all build:clean compile && node ./tools/generate-alias.js",
+        "prepublishOnly",
+        "npm run build:package && npm run lint && npm run test && npm run test:circular && npm run dtslint"
     ],
     "keywords": [
         "bitrxi",
@@ -118,12 +119,19 @@
         "url": "https://github.com/Aricatofuka/bx-rest/issues"
     },
     "homepage": "https://github.com/Aricatofuka/bx-rest#readme",
+    "files": [
+        "src",
+        "LICENSE.txt",
+        "package.json",
+        "README.md",
+        "tsconfig.json"
+    ],
     "exports": {
         "./package.json": {
             "default": "./package.json"
         },
         ".": {
-            "types": "./dist/types/index.d.ts",
+            "types": "./index.d.ts",
             "node": "./dist/cjs/index.js",
             "require": "./dist/cjs/index.js",
             "es2015": "./dist/esm/index.js",
