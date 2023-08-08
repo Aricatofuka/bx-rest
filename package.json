@@ -1,6 +1,6 @@
 {
     "name": "bx-rest",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "bitrix rest api",
     "typings": "./index.d.ts",
     "type": "module",
