@@ -1,0 +1,23 @@
+{
+  "name": "bx-rest",
+  "version": "0.0.8",
+  "description": "bitrix rest api",
+  "keywords": [
+    "bitrxi",
+    "rest",
+    "api"
+  ],
+  "author": "Aricatofuka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Aricatofuka/bx-rest/issues"
+  },
+  "homepage": "https://github.com/Aricatofuka/bx-rest#readme",
+  "peerDependencies": {
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}
