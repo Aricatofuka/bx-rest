@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import serialize from 'bx-rest/functions/serializeJavascript'
+import serialize from '../../functions/serializeJavascript'
 
 @Injectable({
   providedIn: 'root'

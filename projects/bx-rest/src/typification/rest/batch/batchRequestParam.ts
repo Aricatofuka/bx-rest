@@ -1,4 +1,4 @@
-import iHttpAnswerBX from 'bx-rest/typification/rest/base/httpAnswerBX'
+import iHttpAnswerBX from '../../../typification/rest/base/httpAnswerBX'
 
 export type keyBatch = string | number
 

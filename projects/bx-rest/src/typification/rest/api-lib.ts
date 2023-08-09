@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { iRestLib } from 'bx-rest/typification/rest/lib'
+import { iRestLib } from './lib'
 
 @Injectable({
     providedIn: 'root'

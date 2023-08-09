@@ -3,9 +3,6 @@
   "extends": "./tsconfig.lib.json",
   "compilerOptions": {
     "declarationMap": false,
-    "paths": {
-      "bx-rest/*": ["bx-rest/*"]
-    }
   },
   "angularCompilerOptions": {
     "compilationMode": "partial"

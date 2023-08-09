@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core'
-import Cookies from 'bx-rest/services/vanilla/сookies'
+import Cookies from '../../services/vanilla/сookies'
 import { Store } from '@ngrx/store'
-import saveApplicationAuth from 'bx-rest/typification/auth/save'
+import saveApplicationAuth from '../../typification/auth/save'
 // import { environment as env } from 'bx-rest/environments/environment'
 import { filter, Observable, Subscription, take } from 'rxjs'
 import { ActivatedRoute, ParamMap } from '@angular/router'
-import { saveAccessToken, saveApplicationAuthPath } from 'bx-rest/store/auth'
+import { saveAccessToken, saveApplicationAuthPath } from '../../store/auth'
 import { map } from 'rxjs/operators'
-import { BaseServices } from 'bx-rest/services/base'
-import { LocalStorageServices as LocalStorage } from 'bx-rest/services/vanilla/localStorage'
-import { RestServices } from 'bx-rest/typification/rest/api-lib'
+import { BaseServices } from '../../services/base'
+import { LocalStorageServices as LocalStorage } from '../../services/vanilla/localStorage'
+import { RestServices } from '../../typification/rest/api-lib'
 
 type IKeyAuth = 'sessid' | 'auth' | string
 

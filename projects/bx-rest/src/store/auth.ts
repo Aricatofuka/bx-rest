@@ -1,6 +1,6 @@
 import { Action, createReducer, on, props } from '@ngrx/store'
 import { createAction } from '@ngrx/store'
-import saveApplicationAuth from 'bx-rest/typification/auth/save'
+import saveApplicationAuth from '../typification/auth/save'
 import clone from 'just-clone'
 export interface saveApplicationAuthPath {
   access_token?: string, // основной авторизационный токен, требуемый для доступа к REST API

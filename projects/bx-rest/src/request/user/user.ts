@@ -2,21 +2,23 @@ import { Observable, of, take } from 'rxjs'
 import { first, map, mergeMap, tap } from 'rxjs/operators'
 import clone from 'just-clone'
 import compare from 'just-compare'
-import { iBXGetParam } from 'bx-rest/typification/rest/user/get'
-import HttpBXServices from 'bx-rest/services/http/HttpBX'
-import UserFilterSearch from 'bx-rest/typification/rest/user/UserFilterSearch'
+import { iBXGetParam } from '../../typification/rest/user/get'
+import HttpBXServices from '../../services/http/HttpBX'
+import UserFilterSearch from '../../typification/rest/user/UserFilterSearch'
 // import ImgServices from 'bx-rest/services/api/bitrix/custom/img'
 import { Store } from '@ngrx/store'
-import { loadAll, saveArr, saveIDLoadedDepartment, saveSelf, storeUsers } from 'bx-rest/store/users'
-import { iCustomUserFieldInfo } from 'bx-rest/typification/rest/user/CustomUserFieldInfo'
+import { loadAll, saveArr, saveIDLoadedDepartment, saveSelf, storeUsers } from '../../store/users'
+import { iCustomUserFieldInfo } from '../../typification/rest/user/CustomUserFieldInfo'
 import { DatePipe } from '@angular/common'
-import { BitrixApiUserMapServices } from 'bx-rest/services/map/rest/user'
+import { BitrixApiUserMapServices } from '../../services/map/rest/user'
 // import DateTrace from 'bx-rest/services/api/trace/metods/date'
-import SnackBarService from 'bx-rest/services/snack-bar/snack-bar.service'
-import iHttpAnswerBX from 'bx-rest/typification/rest/base/httpAnswerBX'
-import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from 'bx-rest/typification/rest/user/user'
+import SnackBarService from '../../services/snack-bar/snack-bar.service'
+import iHttpAnswerBX from '../../typification/rest/base/httpAnswerBX'
+import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from '../../typification/rest/user/user'
 import { $get, $list, $search, $update, $user } from '../../consts/part-name-metods'
-import { UserFilter } from '../../typification/rest/user/userFilter';
+import { UserFilter } from '../../typification/rest/user/userFilter'
+
+
 
 export class BXRestUser {
     url = {
