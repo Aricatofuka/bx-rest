@@ -2,13 +2,13 @@ import { Observable, throwError, take, mergeMap, forkJoin } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import clone from 'just-clone'
-import { iHttpParamSettings } from '@/bx-rest/typification/rest/settings'
-import BaseHttpServices from '@/bx-rest/services/http/http'
+import { iHttpParamSettings } from 'bx-rest/typification/rest/settings'
+import BaseHttpServices from 'bx-rest/services/http/http'
 import {
     iBatchRequestAnswer, iBatchRequestParam,
     iBatchRequestParamArr,
     iBatchRequestParamHttp, keyBatch
-} from '@/bx-rest/typification/rest/batch/batchRequestParam'
+} from 'bx-rest/typification/rest/batch/batchRequestParam'
 import flatten from 'just-flatten-it'
 
 @Injectable({

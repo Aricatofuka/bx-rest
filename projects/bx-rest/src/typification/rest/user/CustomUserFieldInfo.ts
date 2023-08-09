@@ -1,5 +1,5 @@
-import { iBXRestUserKey } from '@/bx-rest/typification/rest/user/user'
-import { iBXRestYesNo } from '@/bx-rest/typification/rest/base/YesNo'
+import { iBXRestUserKey } from 'bx-rest/typification/rest/user/user'
+import { iBXRestYesNo } from 'bx-rest/typification/rest/base/YesNo'
 
 export interface iCustomUserFieldInfo {
   ID: string,

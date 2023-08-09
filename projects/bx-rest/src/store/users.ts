@@ -1,7 +1,7 @@
 import { Action, createReducer, on, props } from '@ngrx/store'
 import { createAction } from '@ngrx/store'
 import clone from 'just-clone'
-import { iBXRestUser } from '@/bx-rest/typification/rest/user/user'
+import { iBXRestUser } from 'bx-rest/typification/rest/user/user'
 
 export interface storeUsers {
   load: {

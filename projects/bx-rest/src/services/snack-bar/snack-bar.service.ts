@@ -3,7 +3,7 @@
  * TODO: логирование
  */
 import { Injectable } from '@angular/core'
-import { ToastMessageComponent } from '@/bx-rest/services/snack-bar/toast-message/toast-message.component'
+import { ToastMessageComponent } from 'bx-rest/services/snack-bar/toast-message/toast-message.component'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Injectable({

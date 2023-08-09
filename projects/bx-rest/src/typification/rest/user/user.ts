@@ -1,4 +1,4 @@
-import { iBXRestYesNo } from '@/bx-rest/typification/rest/base/YesNo'
+import { iBXRestYesNo } from 'bx-rest/typification/rest/base/YesNo'
 
 export interface iBXRestUser extends iBXRestUserBase {
     ID: number,

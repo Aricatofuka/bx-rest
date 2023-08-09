@@ -4,7 +4,7 @@
   "compilerOptions": {
     "declarationMap": false,
     "paths": {
-      "@/bx-rest/*": ["bx-rest/*"]
+      "bx-rest/*": ["bx-rest/*"]
     }
   },
   "angularCompilerOptions": {
