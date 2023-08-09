@@ -18,8 +18,6 @@ import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from '../../typifi
 import { $get, $list, $search, $update, $user } from '../../consts/part-name-metods'
 import { UserFilter } from '../../typification/rest/user/userFilter'
 
-
-
 export class BXRestUser {
     url = {
         admin: [$user, 'admin'],
