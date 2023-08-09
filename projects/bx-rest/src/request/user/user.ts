@@ -17,7 +17,11 @@ import iHttpAnswerBX from '../../typification/rest/base/httpAnswerBX'
 import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from '../../typification/rest/user/user'
 import { $get, $list, $search, $update, $user } from '../../consts/part-name-metods'
 import { UserFilter } from '../../typification/rest/user/userFilter'
+import { Injectable } from '@angular/core'
 
+@Injectable({
+  providedIn: 'root'
+})
 export class BXRestUser {
     url = {
         admin: [$user, 'admin'],
