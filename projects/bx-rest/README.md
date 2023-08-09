@@ -2,23 +2,11 @@
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
 
-## Code scaffolding
+## Info
 
-Run `ng generate component component-name --project bx-rest` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project bx-rest`.
-> Note: Don't forget to add `--project bx-rest` or else it will be added to the default project in your `angular.json` file. 
+This is a test package and it doesn't work
 
-## Build
+## Plan
 
-Run `ng build bx-rest` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Publishing
-
-After building your library with `ng build bx-rest`, go to the dist folder `cd dist/bx-rest` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test bx-rest` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Make it work, and for this you need to throw the settings when it is requested
+  
