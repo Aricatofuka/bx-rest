@@ -3,5 +3,6 @@
  */
 
 // export * from './request/bx-rest.module'
-export * from './services/base'
-export * from './request/user/user'
+export * from './request/user'
+export * from './request/lists'
+export * from './request/lists/element'

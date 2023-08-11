@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
-import BaseMapServices from '../base'
-import { iBXRestUser, iBXRestUserHttp } from '../../../typification/rest/user/user'
+import BaseMapServices from '@/lib/services/map/base'
+import { iBXRestUser, iBXRestUserHttp } from '@/lib/typification/bitrix/api/rest/user/user'
 import clone from 'just-clone'
 
 @Injectable({
@@ -10,7 +10,7 @@ export class BitrixApiUserMapServices extends BaseMapServices {
 
     HttpToBX(user: iBXRestUserHttp): iBXRestUser {
         let res: iBXRestUser = Object.assign(clone(user), {
-            ID: this.toNum(user.ID),
+            ID: this.toNumber(user.ID),
             IS_ONLINE: this.toBool(user.IS_ONLINE),
             DATE_REGISTER: this.toDate(user.DATE_REGISTER),
             PERSONAL_BIRTHDAY: this.toDate(user.PERSONAL_BIRTHDAY),

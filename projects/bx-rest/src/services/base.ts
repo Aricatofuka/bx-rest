@@ -13,7 +13,7 @@ export class BaseServices {
         return (val) ? String(val) : ''
     }
 
-    toNumber(val: any): number {
+    toNum(val: any): number {
         return (val && Number(val)) ? Number(val) : 0
     }
 

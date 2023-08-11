@@ -1,3 +1,3 @@
-export default interface ApiPaginationBX {
+export interface iBXRestPagination {
   start?: number
 }
