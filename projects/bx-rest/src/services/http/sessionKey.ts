@@ -196,8 +196,8 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getBaseUrl(): Observable<string | undefined> {
-    return of(this.prepareBaseAddress(REST_SETTINGS.urls.home))
-    // return this.authData$.pipe( // разобраться позже
+    return of(this.prepareBaseAddress(REST_SETTINGS.urls.home, 'rest')) // TODO: вынести в настройки
+    // return this.authData$.pipe( // TODO: разобраться позже
     //   take(1),
     //   map(v => (v && v.domain) ? this.prepareBaseAddress(v.domain) : undefined)
     // )
