@@ -5,5 +5,8 @@ export const REST_SETTINGS: iRestSettings = {
     map: true,
     result: true
   },
-  auth: 'cookies'
+  auth: 'cookies',
+  urls: {
+    home: 'b24.trace-studio.com'
+  }
 }

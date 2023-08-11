@@ -4,4 +4,7 @@ export interface iRestSettings {
     result: boolean
   }
   auth: 'cookies'
+  urls: {
+    home: string
+  }
 }

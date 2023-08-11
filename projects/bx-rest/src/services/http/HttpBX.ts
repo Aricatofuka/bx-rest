@@ -103,6 +103,7 @@ export default class HttpBXServices extends BaseHttpServices {
           paramsClone[this.session.getKeyAuth()] = auth
           return this.session.getBaseUrl().pipe(mergeMap(v => {
             if (v) {
+              console.log('v', v)
               return this.http.post<T | undefined>(
                 this.prepareBaseAddress(v) + url,
                 this.getHttpParamsPost(paramsClone, new FormData(), false, [], settings))

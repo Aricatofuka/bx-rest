@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators'
 import { BaseServices } from '../base'
 import { LocalStorageServices as LocalStorage } from '../../services/vanilla/localStorage'
 import { RestServices } from '../../typification/rest/api-lib'
-import { REST_SETTINGS } from '../../settings';
+import { REST_SETTINGS } from '../../settings'
 
 type IKeyAuth = 'sessid' | 'auth' | string
 
@@ -196,9 +196,11 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getBaseUrl(): Observable<string | undefined> {
-    return this.authData$.pipe(
-      map(v => (v && v.domain) ? this.prepareBaseAddress(v.domain, 'b24.trace-studio.com') : undefined)
-    )
+    return of(this.prepareBaseAddress(REST_SETTINGS.urls.home))
+    // return this.authData$.pipe( // разобраться позже
+    //   take(1),
+    //   map(v => (v && v.domain) ? this.prepareBaseAddress(v.domain) : undefined)
+    // )
   }
 
   // getHomeUrl(): string {
