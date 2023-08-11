@@ -28,7 +28,7 @@ export class BXRestListsElement {
     return this.http.post<iHttpAnswerBX<iBXRestHttpListsElement[]>>(this.url.get, pram)
       .pipe(
         map(v => (v && v.result)
-          ? Object.assign(v, {result: v.result.map(i => this.mapResult.get(i))})
+          ? Object.assign(v, {result: v.result.map(i => this.mapResult.get(i))}) as iHttpAnswerBX<iBXRestHttpListsElement[]>
           : undefined
         )
       )
