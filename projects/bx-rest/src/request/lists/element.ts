@@ -4,7 +4,11 @@ import iHttpAnswerBX from '../../typification/rest/base/httpAnswerBX'
 import HttpBXServices from '../../services/http/HttpBX'
 import BXRestListsElementMap from '../../map/lists/element'
 import { iBXRestHttpListsElement, iBXRestParamListsElementGet } from '../../typification/rest/lists/element/get'
+import { Injectable } from '@angular/core'
 
+@Injectable({
+  providedIn: 'root'
+})
 export class BXRestListsElement {
   url = {
     add: [$lists, $element, $add], // Метод создаёт элемент списка

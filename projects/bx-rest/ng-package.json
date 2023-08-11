@@ -2,6 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/bx-rest",
   "lib": {
-    "entryFile": "src/bx-rest.ts"
+    "entryFile": "src/public-api.ts"
   }
 }
