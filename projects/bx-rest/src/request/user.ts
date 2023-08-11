@@ -6,7 +6,6 @@ import HttpBXServices from '../services/http/HttpBX'
 import UserFilterSearch from '../typification/rest/user/UserFilterSearch'
 import { Store } from '@ngrx/store'
 import { saveArr, saveSelf, storeUsers } from '../store/users'
-import { DatePipe } from '@angular/common'
 import { BitrixApiUserMapServices } from '../services/map/rest/user'
 // import DateTrace from 'bx-rest/services/api/trace/metods/date'
 import SnackBarService from '../services/snack-bar/snack-bar.service'
@@ -14,7 +13,6 @@ import iHttpAnswerBX from '../typification/rest/base/httpAnswerBX'
 import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from '../typification/rest/user/user'
 import { $get, $list, $search, $update, $user } from '../consts/part-name-metods'
 import { Injectable } from '@angular/core'
-import { mapResult } from '../functions/mapResult'
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +48,6 @@ export class BXRestUser {
     //private dateTrace: DateTrace,
     private store: Store<{ users: storeUsers }>,
     private userMap: BitrixApiUserMapServices,
-    private datePipe: DatePipe
   ) {
     this.user$ = this.store.select('users')
   }

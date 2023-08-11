@@ -9,6 +9,7 @@ import {
   $update
 } from '../consts/part-name-metods'
 import { Injectable } from '@angular/core'
+import { BXRestListsElement } from './lists/element'
 
 @Injectable({
   providedIn: 'root'
