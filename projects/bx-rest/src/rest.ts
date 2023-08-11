@@ -27,9 +27,9 @@ export class BXRest extends new Proxy(BXRestBase, {
   get(target, prop, receiver) {
     const res = Reflect.get(target, prop, receiver)
     console.log('res', res)
-    if (res in Observable) {
+    if (typeof res === 'function') {
       // let mapRes = new BXRestListsElementMap()
-      // console.log('res', res)
+      console.log('res', res)
       return Reflect.get(target, prop, receiver).pipe(
         // @ts-ignore
         map(v => (v && v.result)
