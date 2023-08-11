@@ -8,10 +8,6 @@ import HttpBXServices from '../../services/http/HttpBX'
 import BXRestListsElementMap from '../../map/lists/element'
 import { iBXRestHttpListsElement, iBXRestParamListsElementGet } from '../../typification/rest/lists/element/get'
 
-
-@Injectable({
-  providedIn: 'root'
-})
 class BXRestListsElementBase {
   url = {
     add: [$lists, $element, $add], // Метод создаёт элемент списка
