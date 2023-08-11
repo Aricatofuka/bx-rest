@@ -236,20 +236,3 @@ export class BXRestUser {
   }
 }
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BXRestUserRes extends new Proxy(BXRestUser, {
-  get(target, prop, receiver) {
-    const res = Reflect.get(target, prop, receiver)
-    if(res in Observable){
-      return Reflect.get(target, prop, receiver).pipe(
-        // @ts-ignore
-        map(v => mapResult(v))
-      )
-    }
-
-    return res
-  }
-}){}
-
