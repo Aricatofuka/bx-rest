@@ -82,20 +82,6 @@ export default class HttpServices extends BaseHttpServices {
         return flatten<T>(Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)))
     }
 
-    post<T>(name: string[],
-            params: any = {},
-            textError = '',
-            settings: iHttpParamSettings = this.defSettings) {
-        return this.httpPost<T>(this.getNameMethod(name), params, textError, settings)
-    }
-
-    get<T>(name: string[],
-           params: any = {},
-           textError = '',
-           settings: iHttpParamSettings = this.defSettings) {
-        return this.httpGet<T>(this.getNameMethod(name), params, textError, settings)
-    }
-
     override httpPost<T>(url: string,
                          params: any = {},
                          textError = '',

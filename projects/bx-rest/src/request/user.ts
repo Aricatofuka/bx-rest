@@ -1,11 +1,11 @@
 import { Observable, of } from 'rxjs'
-import { first, map, mergeMap, tap } from 'rxjs/operators'
+import { first,  mergeMap } from 'rxjs/operators'
 import clone from 'just-clone'
 import { iBXGetParam } from '../typification/rest/user/get'
 import HttpBXServices from '../services/http/HttpBX'
 import UserFilterSearch from '../typification/rest/user/UserFilterSearch'
 import { Store } from '@ngrx/store'
-import { saveArr, saveSelf, storeUsers } from '../store/users'
+import { saveArr, storeUsers } from '../store/users'
 import { BitrixApiUserMapServices } from '../services/map/rest/user'
 // import DateTrace from 'bx-rest/services/api/trace/metods/date'
 import SnackBarService from '../services/snack-bar/snack-bar.service'
@@ -53,21 +53,26 @@ export class BXRestUser {
   }
 
   admin() {
-    return this.http.get<iHttpAnswerBX<boolean>>(this.url.admin)
+    return this.http.get<boolean>(this.url.admin)
   }
 
-  get(params: iBXGetParam = {}): Observable<iHttpAnswerBX<iBXRestUserHttp[]> | undefined> {
+  get(params: iBXGetParam = {}) {
     let copyParams = clone(params)
     this.setDefParam(copyParams)
-    return this.http.post<iHttpAnswerBX<iBXRestUserHttp[]> | undefined>
-    (this.url.get, copyParams, 'Не удалось получить пользователей')
-      .pipe(
-        tap(v => {
-          if (v && v.result) {
-            this.saveArrUser(v.result)
-          }
-        })
-      )
+    return this.http.post<iBXRestUserHttp[], iBXRestUser[]>
+    (
+      this.url.get,
+      copyParams,
+      'Не удалось получить пользователей',
+      (v: iBXRestUserHttp[]) => {return v.map( i => this.userMap.HttpToBX(i))}
+    )
+      // .pipe(
+      //   tap(v => {
+      //     if (v && v.result) {
+      //       this.saveArrUser(v.result)
+      //     }
+      //   })
+      // )
   }
 
   current(update = false) {
@@ -88,21 +93,15 @@ export class BXRestUser {
   }
 
   private getSelfHttp() {
-    return this.http.get<iHttpAnswerBX<iBXRestUserHttp>>
+    return this.http.get<iBXRestUserHttp, iBXRestUser>
     (this.url.current, {}, 'Не удалось получить пользователя')
-      .pipe(
-        map(v => {
-          if (v && v.result) {
-            return this.userMap.HttpToBX(v.result)
-          }
-          return undefined
-        }),
-        tap(v => {
-          if (v) {
-            this.store.dispatch(saveSelf({self: v}))
-          }
-        }),
-      )
+      // .pipe(
+      //   tap(v => {
+      //     if (v) {
+      //       this.store.dispatch(saveSelf({self: v}))
+      //     }
+      //   }),
+      // )
   }
 
   access(access: string[], textError = 'Не удалось получить права') {
@@ -185,7 +184,7 @@ export class BXRestUser {
           this.snackBar.error('Одно из указанных полей отправлено не верно')
         }
       }
-      return this.http.post<iHttpAnswerBX<iBXRestUserHttp[]>>(
+      return this.http.post<iBXRestUserHttp[]>(
         this.url.update, sendData,
         'Не удалось обновить пользователя с ID' + user.ID
       )

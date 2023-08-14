@@ -1,10 +1,14 @@
 import { $add, $delete, $element, $file, $get, $lists, $update, $url } from '../../consts/part-name-metods'
-import { map } from 'rxjs/operators'
-import iHttpAnswerBX from '../../typification/rest/base/httpAnswerBX'
+
 import HttpBXServices from '../../services/http/HttpBX'
 import BXRestListsElementMap from '../../map/lists/element'
-import { iBXRestHttpListsElement, iBXRestParamListsElementGet } from '../../typification/rest/lists/element/get'
+import {
+  iBXRestHttpListsElement,
+  iBXRestListsElement,
+  iBXRestParamListsElementGet
+} from '../../typification/rest/lists/element/get'
 import { Injectable } from '@angular/core'
+
 
 @Injectable({
   providedIn: 'root'
@@ -25,13 +29,16 @@ export class BXRestListsElement {
   }
 
   get(pram: iBXRestParamListsElementGet) {
-    return this.http.post<iHttpAnswerBX<iBXRestHttpListsElement[]>>(this.url.get, pram)
-      .pipe(
-        map(v => (v && v.result)
-          ? Object.assign(v, {result: v.result.map(i => this.mapResult.get(i))}) as iHttpAnswerBX<iBXRestHttpListsElement[]>
-          : undefined
-        )
-      )
+    return this.http.post<iBXRestHttpListsElement[], iBXRestListsElement[]>(
+      this.url.get,
+      pram,
+      'Не Удалось получить элемент списка',
+      (v: iBXRestHttpListsElement[]) => v.map( i => this.mapResult.get(i))
+    )
+  }
+
+  customPipe() {
+
   }
 
   // add(param: iRestBXParamListsElementAdd) {
