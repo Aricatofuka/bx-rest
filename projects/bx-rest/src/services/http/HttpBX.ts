@@ -99,22 +99,13 @@ export default class HttpBXServices extends BaseHttpServices {
              settings: iHttpParamSettings = this.defSettings) {
     return this.httpPost<iHttpAnswerBX<T>>(this.getNameMethod(name), params, textError, settings).pipe(
       map(v => {
-          console.log('result', v)
           if (v && v.result && REST_SETTINGS.support.map && mapHttp) {
-            console.log('result2', mapHttp(v.result))
-            // console.log('result2', v, Array.isArray(v.result)
-            //   ? Object.assign(v, {result: v.result.map(i => mapHttp(i))}) as iHttpAnswerBX<R>
-            //   : Object.assign(v, {result: mapHttp(v.result)}) as iHttpAnswerBX<R>)
-
-            // Array.isArray(v.result)
-            //   ? Object.assign(v, {result: v.result.map(i => mapHttp(i))}) as iHttpAnswerBX<R>
-            //   :
-            return Object.assign(v, {result: mapHttp(v.result)}) as iHttpAnswerBX<R>
+            return Object.assign(v, {result: mapHttp(v.result)})
           }
           return v
         }
       ),
-      map(v => (v && REST_SETTINGS.support.result) ? mapResult : v)
+      map(v => (v && REST_SETTINGS.support.result) ? mapResult(v) : v)
     )
   }
 
