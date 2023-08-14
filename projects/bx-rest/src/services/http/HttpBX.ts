@@ -101,6 +101,7 @@ export default class HttpBXServices extends BaseHttpServices {
       map(v => {
           console.log('result', v)
           if (v && v.result && REST_SETTINGS.support.map && mapHttp) {
+            console.log('result2', mapHttp(v.result))
             // console.log('result2', v, Array.isArray(v.result)
             //   ? Object.assign(v, {result: v.result.map(i => mapHttp(i))}) as iHttpAnswerBX<R>
             //   : Object.assign(v, {result: mapHttp(v.result)}) as iHttpAnswerBX<R>)
