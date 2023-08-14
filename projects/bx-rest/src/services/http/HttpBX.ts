@@ -82,14 +82,24 @@ export default class HttpBXServices extends BaseHttpServices {
     return flatten<T>(Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)))
   }
 
-  post<T, R = T>(name: string[],
+  post<T>(name: string[],
+          params: any,
+          textError: string,
+          mapHttp?: undefined,
+          settings?: iHttpParamSettings): Observable<iHttpAnswerBX<T> | undefined>
+  post<T, R>(name: string[],
+             params: any,
+             textError: string,
+             mapHttp: TransformFunction<T, R>,
+             settings?: iHttpParamSettings): Observable<iHttpAnswerBX<R> | undefined>
+  post<T, R>(name: string[],
              params: any = {},
              textError = '',
              mapHttp: TransformFunction<T, R> | undefined = undefined,
              settings: iHttpParamSettings = this.defSettings) {
-
     return this.httpPost<iHttpAnswerBX<T>>(this.getNameMethod(name), params, textError, settings).pipe(
       map(v => {
+          console.log('result', v)
           if (v && v.result && REST_SETTINGS.support.map && mapHttp) {
             return Array.isArray(v.result)
               ? Object.assign(v, {result: v.result.map(i => mapHttp(i))}) as iHttpAnswerBX<R>
@@ -103,12 +113,12 @@ export default class HttpBXServices extends BaseHttpServices {
   }
 
   get<T, R = T>(name: string[],
-         params: any = {},
-         textError = '',
-         mapHttp: TransformFunction<T, R> = (v: any) => {
-           return v
-         },
-         settings: iHttpParamSettings = this.defSettings) {
+                params: any = {},
+                textError = '',
+                mapHttp: TransformFunction<T, R> = (v: any) => {
+                  return v
+                },
+                settings: iHttpParamSettings = this.defSettings) {
     return this.httpGet<iHttpAnswerBX<T>>(this.getNameMethod(name), params, textError, settings).pipe(
       map(v => {
           if (v && v.result && REST_SETTINGS.support.map) {
@@ -133,26 +143,26 @@ export default class HttpBXServices extends BaseHttpServices {
         if (auth) {
           const paramsClone = clone(params)
           paramsClone[this.session.getKeyAuth()] = auth
-          return this.session.getBaseUrl().pipe(mergeMap(v => {
-            if (v) {
-              console.log('v', v)
-              return this.http.post<T | undefined>(
-                this.prepareBaseAddress(v) + url,
-                this.getHttpParamsPost(paramsClone, new FormData(), false, [], settings))
-                .pipe(
-                  take(1),
-                  catchError(err => {
-                    if (!textError.length && err.error.error_description) {
-                      textError = err.error.error_description
-                    }
+          return this.session.getBaseUrl().pipe(
+            mergeMap(v => {
+              if (v) {
+                return this.http.post<T | undefined>(
+                  this.prepareBaseAddress(v) + url,
+                  this.getHttpParamsPost(paramsClone, new FormData(), false, [], settings))
+                  .pipe(
+                    take(1),
+                    catchError(err => {
+                      if (!textError.length && err.error.error_description) {
+                        textError = err.error.error_description
+                      }
 
-                    this.snackBar.error('Ошибка: ' + textError)
-                    return throwError(() => err)
-                  })
-                )
-            }
-            return throwError(() => 'get base url error')
-          }))
+                      this.snackBar.error('Ошибка: ' + textError)
+                      return throwError(() => err)
+                    })
+                  )
+              }
+              return throwError(() => 'get base url error')
+            }))
         } else {
           this.snackBar.error('Error: Auth not get')
           return throwError(() => 'auth not get')

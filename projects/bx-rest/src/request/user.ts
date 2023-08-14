@@ -185,7 +185,8 @@ export class BXRestUser {
         }
       }
       return this.http.post<iBXRestUserHttp[]>(
-        this.url.update, sendData,
+        this.url.update,
+        sendData,
         'Не удалось обновить пользователя с ID' + user.ID
       )
     } else {
