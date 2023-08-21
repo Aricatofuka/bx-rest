@@ -1,14 +1,11 @@
 import { $add, $delete, $element, $file, $get, $lists, $update, $url } from '../../consts/part-name-metods'
 
 import HttpBXServices from '../../services/http/HttpBX'
-import BXRestListsElementMap from '../../map/lists/element'
 import {
   iBXRestHttpListsElement,
-  iBXRestListsElement,
   iBXRestParamListsElementGet
 } from '../../typification/rest/lists/element/get'
 import { Injectable } from '@angular/core'
-
 
 @Injectable({
   providedIn: 'root'
@@ -24,16 +21,15 @@ export class BXRestListsElement {
 
   constructor(
     private http: HttpBXServices,
-    private mapResult: BXRestListsElementMap
+    // private mapResult: BXRestListsElementMap
   ) {
   }
 
   get(pram: iBXRestParamListsElementGet) {
-    return this.http.post<iBXRestHttpListsElement[], iBXRestListsElement[]>(
+    return this.http.post<iBXRestHttpListsElement[]>(
       this.url.get,
       pram,
-      'Не Удалось получить элемент списка',
-      (v: iBXRestHttpListsElement[]) => v.map( i => this.mapResult.get(i))
+      'Не Удалось получить элемент списка'
     )
   }
 

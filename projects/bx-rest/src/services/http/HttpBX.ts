@@ -7,14 +7,11 @@ import BaseHttpServices from '../../services/http/http'
 import {
   iBatchRequestAnswer, iBatchRequestParam,
   iBatchRequestParamArr,
-  iBatchRequestParamHttp, keyBatch
+  iBatchRequestParamHttp,
 } from '../../typification/rest/batch/batchRequestParam'
-import flatten from 'just-flatten-it'
-import { REST_SETTINGS } from '../../settings'
-import { mapResult } from '../../functions/mapResult'
-import iHttpAnswerBX from '../../typification/rest/base/httpAnswerBX'
+import { iBXRestAnswer } from '../../typification/rest/base/answer'
 
-type TransformFunction<T, R> = (input: T) => R;
+// type TransformFunction<T, R> = (input: T) => R;
 
 @Injectable({
   providedIn: 'root'
@@ -72,62 +69,28 @@ export default class HttpBXServices extends BaseHttpServices {
     return res
   }
 
-  override mapBranchResult<T>(res: iBatchRequestAnswer<T>[]) {
-    return Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)) as {
-      [key: keyBatch]: T
-    }
-  }
-
-  override mapBranchResultWithoutKey<T>(res: iBatchRequestAnswer<T>[]): T[] {
-    return flatten<T>(Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)))
-  }
+  // override mapBranchResult<T>(res: iBatchRequestAnswer<T>[]) {
+  //   return Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)) as {
+  //     [key: keyBatch]: T
+  //   }
+  // }
+  //
+  // override mapBranchResultWithoutKey<T>(res: iBatchRequestAnswer<T>[]): T[] {
+  //   return flatten<T>(Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)))
+  // }
 
   post<T>(name: string[],
-          params: any,
-          textError: string,
-          mapHttp?: undefined,
-          settings?: iHttpParamSettings): Observable<iHttpAnswerBX<T> | undefined>
-  post<T, R>(name: string[],
-             params: any,
-             textError: string,
-             mapHttp: TransformFunction<T, R>,
-             settings?: iHttpParamSettings): Observable<iHttpAnswerBX<R> | undefined>
-  post<T, R>(name: string[],
-             params: any = {},
-             textError = '',
-             mapHttp: TransformFunction<T, R> | undefined = undefined,
-             settings: iHttpParamSettings = this.defSettings) {
-    return this.httpPost<iHttpAnswerBX<T>>(this.getNameMethod(name), params, textError, settings).pipe(
-      map(v => {
-          if (v && v.result && REST_SETTINGS.support.map && mapHttp) {
-            return Object.assign(v, {result: mapHttp(v.result)})
-          }
-          return v
-        }
-      ),
-      map(v => (v && REST_SETTINGS.support.result) ? mapResult(v) : v)
-    )
+          params: any = {},
+          textError = '',
+          settings: iHttpParamSettings = this.defSettings) {
+    return this.httpPost<iBXRestAnswer<T>>(this.getNameMethod(name), params, textError, settings)
   }
 
-  get<T, R = T>(name: string[],
-                params: any = {},
-                textError = '',
-                mapHttp: TransformFunction<T, R> = (v: any) => {
-                  return v
-                },
-                settings: iHttpParamSettings = this.defSettings) {
-    return this.httpGet<iHttpAnswerBX<T>>(this.getNameMethod(name), params, textError, settings).pipe(
-      map(v => {
-          if (v && v.result && REST_SETTINGS.support.map) {
-            return Array.isArray(v.result)
-              ? Object.assign(v, {result: v.result.map(i => mapHttp(i))}) as iHttpAnswerBX<R>
-              : Object.assign(v, {result: mapHttp(v.result)}) as iHttpAnswerBX<R>
-          }
-          return v
-        }
-      ),
-      map(v => (v && REST_SETTINGS.support.result) ? mapResult : v)
-    )
+  get<T>(name: string[],
+         params: any = {},
+         textError = '',
+         settings: iHttpParamSettings = this.defSettings) {
+    return this.httpGet<iBXRestAnswer<T>>(this.getNameMethod(name), params, textError, settings)
   }
 
   override httpPost<T>(url: string,

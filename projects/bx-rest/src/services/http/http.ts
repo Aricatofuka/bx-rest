@@ -9,9 +9,8 @@ import { iHttpParamSettings } from '../../typification/rest/settings'
 import {
     iBatchRequestAnswer, iBatchRequestParam,
     iBatchRequestParamArr,
-    iBatchRequestParamHttp, keyBatch
+    iBatchRequestParamHttp,
 } from '../../typification/rest/batch/batchRequestParam'
-import flatten from 'just-flatten-it'
 import { BaseHttpServices } from './base/http'
 
 @Injectable({
@@ -74,13 +73,13 @@ export default class HttpServices extends BaseHttpServices {
         return res
     }
 
-    mapBranchResult<T>(res: iBatchRequestAnswer<T>[]){
-        return Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)) as {[key:keyBatch]: T}
-    }
-
-    mapBranchResultWithoutKey<T>(res: iBatchRequestAnswer<T>[]): T[]{
-        return flatten<T>(Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)))
-    }
+    // mapBranchResult<T>(res: iBatchRequestAnswer<T>[]){
+    //     return Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)) as {[key:keyBatch]: T}
+    // }
+    //
+    // mapBranchResultWithoutKey<T>(res: iBatchRequestAnswer<T>[]): T[]{
+    //     return flatten<T>(Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)))
+    // }
 
     override httpPost<T>(url: string,
                          params: any = {},

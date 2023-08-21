@@ -1,9 +1,8 @@
 export interface iRestSettings {
-  support: {
-    map: boolean
-    result: boolean
-  }
-  auth: 'cookies'
+  auth: {
+    source: string
+    key: string
+  },
   urls: {
     home: string
   }

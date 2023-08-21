@@ -1,7 +1,6 @@
-import { BaseServices } from '../../services/base'
+import { BaseServices } from '../base'
 import { HttpParams } from '@angular/common/http'
 import { iHttpParamSettings } from '../../typification/rest/settings'
-import iHttpAnswerBX from '../../typification/rest/base/httpAnswerBX'
 
 export class HttpData extends BaseServices {
 
@@ -118,13 +117,6 @@ export class HttpData extends BaseServices {
             }
         }
         return sendHttpParams
-    }
-
-    mapResult<T>(v: iHttpAnswerBX<T> | undefined): T | undefined {
-        if (v && (v.result || typeof v.result === 'boolean')) {
-            return v.result
-        }
-        return undefined
     }
 
     sliceArrayIntoChunks(arr: any[], chunkSize: number) {

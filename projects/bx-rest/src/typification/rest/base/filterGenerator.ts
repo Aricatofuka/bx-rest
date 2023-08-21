@@ -1,3 +1,3 @@
-export type filterGenerator<Type> = { [Property in keyof Type as `${filterGeneratorKey<Property & string>}`]?: Type[Property] }
-type filterGeneratorKey<T extends string> = `${filterKeys}${T}`
-type filterKeys = '' | '<' | '>'  | '!'  | '<='  | '>='
+export type BXRestFilterGenerator<Type> = { [Property in keyof Type as `${BXRestFilterGeneratorKey<Property & string>}`]?: Type[Property] }
+export type BXRestFilterGeneratorKey<T extends string> = `${BXRestFilterKeys}${T}`
+export type BXRestFilterKeys = '' | '<' | '>'  | '!'  | '<='  | '>='

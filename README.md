@@ -1,27 +1,70 @@
-# MyWorkspace
+# BX rest
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
 
-## Development server
+This is an intermediary between requests sent from the browser and includes a site on crm bitrix
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Install
 
-## Code scaffolding
+```shell
+npm install bx-rest
+```
+# Usage
+```typescript
+@NgModule({
+    declarations: [
+        AppComponent,
+        ...
+    ],
+    imports: [
+        BrowserModule
+        ...
+    ],
+    providers: [
+        NgxMaskPipe,
+        {
+            provide: REST_SETTINGS, useValue: {
+                auth: {
+                    source: 'cookies',
+                    key: 'auth'
+                },
+                urls: {
+                    home: 'your bitrix addres'
+                }
+            }
+        }
+    ],
+});
+document.cookie ='auth=ACCESS_TOKEN;  max-age=99999'
+```
+```typescript
+import { BXRest } from 'bx-rest'
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+@Component({
+  selector: 'app-any',
+  templateUrl: './any.component.html',
+  styleUrls: ['./any.component.scss']
+})
+export class AnyComponent {
 
-## Build
+  listElements$ = this.BXRest.lists.element.get({
+    IBLOCK_TYPE_ID: 'lists',
+    IBLOCK_ID: 150,
+    FILTER: {
+      ['>' + vacancies.del]: 0
+    }
+  })
+    
+  constructor(
+    private BXRest: BXRest,
+  ) {
+      
+  }
+}
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+# Future features
+- Auto get token
+- Mappers for normalization types
+- 100% coverage
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

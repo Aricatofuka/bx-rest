@@ -1,4 +1,4 @@
-export default interface iHttpAnswerBX<T> {
+export interface iBXRestAnswer<T> {
     result?: T | undefined,
     next?: number,
     total?: number,
