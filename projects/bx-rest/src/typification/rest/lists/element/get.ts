@@ -1,4 +1,5 @@
 import { iBXRestYesNo } from '../../base/YesNo'
+import { BXRestFilterKeys } from '../../base/filterGenerator'
 
 export interface iBXRestParamListsElementGet {
   IBLOCK_TYPE_ID: 'lists' | 'bitrix_processes' | 'lists_socnet'
@@ -7,6 +8,8 @@ export interface iBXRestParamListsElementGet {
   ELEMENT_ID?: number
   FILTER?: { [key: string]: any }
 }
+
+export type iBXRestListsElementKey = keyof iBXRestListsElement
 
 export interface iBXRestListsElement extends iBXRestBaseListsElement {
   BP_PUBLISHED: boolean
@@ -26,5 +29,10 @@ export interface iBXRestBaseListsElement {
   CODE: string | null
   IBLOCK_SECTION_ID: string | null
   NAME: string
-  [key: string]: any // TODO: описать все варианты
+  [key: `${BXRestFilterKeys}PROPERTY_${string}`]: { [key: string]: string | iBXRestParamListsElementGetHtml }
+}
+
+export interface iBXRestParamListsElementGetHtml {
+  TYPE: 'HTML',
+  TEXT: string
 }

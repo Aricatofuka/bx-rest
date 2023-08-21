@@ -1,18 +1,14 @@
-import { Observable, of } from 'rxjs'
-import { first,  mergeMap } from 'rxjs/operators'
+import { of } from 'rxjs'
 import clone from 'just-clone'
 import { iBXGetParam } from '../typification/rest/user/get'
 import HttpBXServices from '../services/http/HttpBX'
 import UserFilterSearch from '../typification/rest/user/UserFilterSearch'
-import { Store } from '@ngrx/store'
-import { saveArr, storeUsers } from '../store/users'
-import { BitrixApiUserMapServices } from '../services/map/rest/user'
 // import DateTrace from 'bx-rest/services/api/trace/metods/date'
 import SnackBarService from '../services/snack-bar/snack-bar.service'
-import iHttpAnswerBX from '../typification/rest/base/httpAnswerBX'
 import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from '../typification/rest/user/user'
 import { $get, $list, $search, $update, $user } from '../consts/part-name-metods'
 import { Injectable } from '@angular/core'
+import { iBXRestAnswer } from '../typification/rest/base/answer'
 
 @Injectable({
   providedIn: 'root'
@@ -39,17 +35,14 @@ export class BXRestUser {
     params: {ACTIVE: 1, start: 0}
   }
 
-  user$: Observable<storeUsers>
 
   constructor(
     private http: HttpBXServices,
     private snackBar: SnackBarService,
     // private img: ImgServices,
     //private dateTrace: DateTrace,
-    private store: Store<{ users: storeUsers }>,
-    private userMap: BitrixApiUserMapServices,
+    // private userMap: BitrixApiUserMapServices,
   ) {
-    this.user$ = this.store.select('users')
   }
 
   admin() {
@@ -59,12 +52,11 @@ export class BXRestUser {
   get(params: iBXGetParam = {}) {
     let copyParams = clone(params)
     this.setDefParam(copyParams)
-    return this.http.post<iBXRestUserHttp[], iBXRestUser[]>
+    return this.http.post<iBXRestUserHttp[]>
     (
       this.url.get,
       copyParams,
-      'Не удалось получить пользователей',
-      (v: iBXRestUserHttp[]) => {return v.map( i => this.userMap.HttpToBX(i))}
+      'Не удалось получить пользователей'
     )
       // .pipe(
       //   tap(v => {
@@ -75,37 +67,13 @@ export class BXRestUser {
       // )
   }
 
-  current(update = false) {
-    if (update) {
-      return this.getSelfHttp()
-    } else {
-      return this.user$.pipe(
-        mergeMap(v => {
-          if (v && v.self) {
-            return of(v.self)
-          } else {
-            return this.getSelfHttp()
-          }
-        }),
-        first()
-      )
-    }
-  }
-
-  private getSelfHttp() {
-    return this.http.get<iBXRestUserHttp, iBXRestUser>
+  current() {
+    return this.http.get<iBXRestUserHttp>
     (this.url.current, {}, 'Не удалось получить пользователя')
-      // .pipe(
-      //   tap(v => {
-      //     if (v) {
-      //       this.store.dispatch(saveSelf({self: v}))
-      //     }
-      //   }),
-      // )
   }
 
   access(access: string[], textError = 'Не удалось получить права') {
-    return this.http.get<iHttpAnswerBX<boolean> | undefined>(this.url.access, {ACCESS: access}, textError)
+    return this.http.get<iBXRestAnswer<boolean> | undefined>(this.url.access, {ACCESS: access}, textError)
   }
 
   // getAll(params: iBXGetParam = {}): Observable<iBXRestUser [] | undefined> {
@@ -143,15 +111,15 @@ export class BXRestUser {
   //   )
   // }
 
-  private saveArrUser(users: iBXRestUserHttp[]) {
-    let result: iBXRestUser [] = []
-    for (const user of users) {
-      result.push(this.userMap.HttpToBX(user))
-    }
-    this.store.dispatch(saveArr({arr: result}))
-
-    return result
-  }
+  // private saveArrUser(users: iBXRestUserHttp[]) {
+  //   let result: iBXRestUser [] = []
+  //   for (const user of users) {
+  //     result.push(this.userMap.HttpToBX(user))
+  //   }
+  //   this.store.dispatch(saveArr({arr: result}))
+  //
+  //   return result
+  // }
 
   search(params: string | UserFilterSearch) {
     if (typeof params === 'string') {
@@ -160,7 +128,7 @@ export class BXRestUser {
     if (typeof params.ACTIVE !== 'boolean') {
       params.ACTIVE = true
     }
-    return this.http.get<iHttpAnswerBX<iBXRestUserHttp[]>>(
+    return this.http.get<iBXRestAnswer<iBXRestUserHttp[]>>(
       this.url.search,
       params,
       'Сервер не отвечает на запрос поиска'
@@ -168,7 +136,7 @@ export class BXRestUser {
   }
 
   fields() {
-    return this.http.get<iHttpAnswerBX<iBXRestUserHttpField>>(this.url.fields)
+    return this.http.get<iBXRestAnswer<iBXRestUserHttpField>>(this.url.fields)
   }
 
   update(user: iBXRestUser, fieldUpdate: string[]) {
@@ -176,14 +144,14 @@ export class BXRestUser {
       let sendData: any = {
         ID: user.ID,
       }
-      const userBX = this.userMap.BXtoHttp(user)
-      for (const field of fieldUpdate) {
-        if (userBX[field]) {
-          sendData[field] = userBX[field]
-        } else {
-          this.snackBar.error('Одно из указанных полей отправлено не верно')
-        }
-      }
+      // const userBX = this.userMap.BXtoHttp(user)
+      // for (const field of fieldUpdate) {
+      //   if (userBX[field]) {
+      //     sendData[field] = userBX[field]
+      //   } else {
+      //     this.snackBar.error('Одно из указанных полей отправлено не верно')
+      //   }
+      // }
       return this.http.post<iBXRestUserHttp[]>(
         this.url.update,
         sendData,

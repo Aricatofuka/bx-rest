@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Inject, Injectable, Optional } from '@angular/core'
 import Cookies from '../../services/vanilla/сookies'
 import { Store } from '@ngrx/store'
 import saveApplicationAuth from '../../typification/auth/save'
@@ -26,12 +26,21 @@ export default class SessionKeyServices extends BaseServices {
     authData: new Subscription()
   }
 
+  REST_SETTINGS
+
   constructor(
     public store: Store<{ auth: saveApplicationAuth }>,
     private route: ActivatedRoute,
     public BxApiLib: RestServices,
+    @Optional() @Inject(REST_SETTINGS) REST_SETTINGS: {
+      auth: 'cookies',
+      urls: {
+        home: ''
+      }
+    }
   ) {
     super()
+    this.REST_SETTINGS = REST_SETTINGS
     this.authData$ = this.store.select('auth')
     this.authData$.subscribe(authData => {
       if ((authData && !authData.access_token.length) || !authData) {
@@ -142,22 +151,31 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getAuth(): string {
-    if ((<any>window).BX && (<any>window).BX.bitrix_sessid()) {
-      return (<any>window).BX.bitrix_sessid()
-    } else if (this.getSessid().length) {
-      let str = this.getSessid()
-      return (str) ? str : ''
-    } else {
-      return Cookies.get('auth')
+    switch (REST_SETTINGS.auth.key){
+      case 'auth':
+        return Cookies.get('auth')
+      default:
+        if ((<any>window).BX && (<any>window).BX.bitrix_sessid()) {
+          return (<any>window).BX.bitrix_sessid()
+        } else if (this.getSessid().length) {
+          let str = this.getSessid()
+          return (str) ? str : ''
+        } else {
+          return Cookies.get('auth')
+        }
     }
   }
 
   getKeyAuth(): IKeyAuth {
-    if ((<any>window).BX && (<any>window).BX.bitrix_sessid()
-      || this.getSessid().length) {
-      return 'sessid'
+    if(REST_SETTINGS.auth.key.length){
+      return REST_SETTINGS.auth.key
     } else {
-      return 'auth'
+      if ((<any>window).BX && (<any>window).BX.bitrix_sessid()
+        || this.getSessid().length) {
+        return 'sessid'
+      } else {
+        return 'auth'
+      }
     }
   }
 
@@ -184,7 +202,7 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getAuthParams(): Observable<string | undefined> {
-    switch (REST_SETTINGS.auth) {
+    switch (REST_SETTINGS.auth.source) {
       case 'cookies':
         return of(this.getAuth())
       default:
@@ -196,7 +214,7 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getBaseUrl(): Observable<string | undefined> {
-    return of(this.prepareBaseAddress(REST_SETTINGS.urls.home, 'rest')) // TODO: вынести в настройки
+    return of(this.prepareBaseAddress(this.REST_SETTINGS.urls.home, 'rest'))
     // return this.authData$.pipe( // TODO: разобраться позже
     //   take(1),
     //   map(v => (v && v.domain) ? this.prepareBaseAddress(v.domain) : undefined)

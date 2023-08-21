@@ -1,15 +1,15 @@
-import { Injectable } from '@angular/core';
-import BaseMapServices from './base';
-import BXRestListsElementMap from './lists/element';
+import { Injectable } from '@angular/core'
+import BaseMapServices from './base'
+import BXRestListsElementMap from './lists/element'
 
 
 @Injectable({
   providedIn: 'root'
 })
-export default class BXRestListsMap extends BaseMapServices {
+export default class BXRestMapLists extends BaseMapServices {
 
   constructor(public element: BXRestListsElementMap) {
-    super();
+    super()
   }
 
   // get(itemLists: iBXRestHttpListsElement): iBXRestListsElement
