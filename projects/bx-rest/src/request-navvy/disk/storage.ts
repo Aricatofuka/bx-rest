@@ -4,6 +4,10 @@ import { map } from 'rxjs/operators';
 import { BXRestMapResult } from '../../functions/mapResult'
 import BXRestMapDiskStorage from '../../map/disk/storage'
 import { iBXRestParamUploadFile } from '../../typification/rest/disk/storage/uploadfile'
+import { Navvy } from '../../services/navvy'
+import { SessionStorageServices } from '../../services/vanilla/sessionStorage'
+import { iBXRestFolderInfo } from '../../typification/rest/disk/folder'
+import { of, tap } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +18,9 @@ export class BXRestNavvyDiskStorage {
 
   constructor(
     private BXRestDiskStorage: BXRestDiskStorage,
-    private BXRestMapDiskStorage: BXRestMapDiskStorage
+    private BXRestMapDiskStorage: BXRestMapDiskStorage,
+    private Navvy: Navvy,
+    private SessionStorage: SessionStorageServices
     // private store: Store<{ BXDiskFolder: BXDiskFolderStore }>,
 
   ) {
@@ -22,30 +28,26 @@ export class BXRestNavvyDiskStorage {
   }
 
   getforapp() {
-    // return this.BXDiskFolder$.pipe(
-    //   take(1),
-    //   mergeMap(
-    //     saveData => {
-    //       if (saveData.folder.app) {
-    //         return of(saveData.folder.app)
-    //       }
-    return this.BXRestDiskStorage.getforapp().pipe(
-      map(v => BXRestMapResult(v)),
-      // tap(v => {
-      //   if (v) {
-      //     this.store.dispatch(saveFolderAppInfo({value: v}))
-      //   }
-      // })
-    )
-    //     }
-    //   )
-    // )
+    let res = this.SessionStorage.getItem<iBXRestFolderInfo>(this.constructor.name + this.getforapp.name)
+    if(res){
+      return of(res)
+    } else {
+      return this.Navvy.mapAndSnackBarError(this.BXRestDiskStorage.getforapp(), 'get root app folder').pipe(
+        tap(v => {
+          if(v){
+            this.SessionStorage.setItem(this.constructor.name + this.getforapp.name, v)
+          }
+        })
+      )
+    }
   }
 
   // TODO: разобраться с фильтром позже
   getchildren(param: { id: number, filter?: any }) {
-    return this.BXRestDiskStorage.getchildren(param).pipe(
-      map(v => BXRestMapResult(v)),
+    return this.Navvy.mapAndSnackBarError(
+      this.BXRestDiskStorage.getchildren(param),
+      'get root app folders and files'
+    ).pipe(
       map(v => {
         if (v && v.length) {
           return this.BXRestMapDiskStorage.getchildren(v)

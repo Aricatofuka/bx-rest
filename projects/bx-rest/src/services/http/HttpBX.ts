@@ -1,9 +1,9 @@
-import { Observable, throwError, take, mergeMap, forkJoin } from 'rxjs'
-import { catchError, map } from 'rxjs/operators'
+import { Observable, throwError, mergeMap, forkJoin } from 'rxjs'
+import { map } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import clone from 'just-clone'
 import { iHttpParamSettings } from '../../typification/rest/settings'
-import BaseHttpServices from '../../services/http/http'
+import { HttpServices } from './http'
 import {
   iBatchRequestAnswer, iBatchRequestParam,
   iBatchRequestParamArr,
@@ -16,9 +16,9 @@ import { iBXRestAnswer } from '../../typification/rest/base/answer'
 @Injectable({
   providedIn: 'root'
 })
-export default class HttpBXServices extends BaseHttpServices {
+export default class HttpBXServices extends HttpServices {
 
-  override timeNowOnServer() {
+  timeNowOnServer() {
     return this.httpGet<{ result?: Date, error?: string }>('server.time').pipe(
       map(v => {
         if (v && v.result) {
@@ -33,7 +33,7 @@ export default class HttpBXServices extends BaseHttpServices {
    * Это пиздец а не метод
    * @param param
    */
-  override branch<T, A>(param: iBatchRequestParamArr<T> | iBatchRequestParam<T>[]): Observable<iBatchRequestAnswer<A>[] | undefined> {
+  branch<T, A>(param: iBatchRequestParamArr<T> | iBatchRequestParam<T>[]): Observable<iBatchRequestAnswer<A>[] | undefined> {
     let prepareParam = Object.entries<string>(this.prepareBatch<T>(param))
     const size = 50 // больше не отдаст
     let subarray = [] //массив в который будет выведен результат.
@@ -53,7 +53,7 @@ export default class HttpBXServices extends BaseHttpServices {
     ) as Observable<iBatchRequestAnswer<A>[]>
   }
 
-  override prepareBatch<T>(param: iBatchRequestParamArr<T> | iBatchRequestParam<T>[]): iBatchRequestParamHttp {
+  prepareBatch<T>(param: iBatchRequestParamArr<T> | iBatchRequestParam<T>[]): iBatchRequestParamHttp {
     let res: iBatchRequestParamHttp = Object.keys(param).reduce(
       (obj, key) => {
         obj[key] = '';
@@ -81,21 +81,18 @@ export default class HttpBXServices extends BaseHttpServices {
 
   post<T>(name: string[],
           params: any = {},
-          textError = '',
           settings: iHttpParamSettings = this.defSettings) {
-    return this.httpPost<iBXRestAnswer<T>>(this.getNameMethod(name), params, textError, settings)
+    return this.httpPost<iBXRestAnswer<T>>(this.getNameMethod(name), params, settings)
   }
 
   get<T>(name: string[],
          params: any = {},
-         textError = '',
          settings: iHttpParamSettings = this.defSettings) {
-    return this.httpGet<iBXRestAnswer<T>>(this.getNameMethod(name), params, textError, settings)
+    return this.httpGet<iBXRestAnswer<T>>(this.getNameMethod(name), params, settings)
   }
 
   override httpPost<T>(url: string,
                        params: any = {},
-                       textError = '',
                        settings: iHttpParamSettings = this.defSettings
   ): Observable<T | undefined> {
     return this.session.getAuthParams().pipe(
@@ -109,22 +106,10 @@ export default class HttpBXServices extends BaseHttpServices {
                 return this.http.post<T | undefined>(
                   this.prepareBaseAddress(v) + url,
                   this.getHttpParamsPost(paramsClone, new FormData(), false, [], settings))
-                  .pipe(
-                    take(1),
-                    catchError(err => {
-                      if (!textError.length && err.error.error_description) {
-                        textError = err.error.error_description
-                      }
-
-                      this.snackBar.error('Ошибка: ' + textError)
-                      return throwError(() => err)
-                    })
-                  )
               }
               return throwError(() => 'get base url error')
             }))
         } else {
-          this.snackBar.error('Error: Auth not get')
           return throwError(() => 'auth not get')
         }
       }))
@@ -133,7 +118,6 @@ export default class HttpBXServices extends BaseHttpServices {
   override httpGet<T>(
     url: string,
     params: any = {},
-    textError = '',
     settings: iHttpParamSettings = this.defSettings
   ): Observable<T | undefined> {
     return this.session.getAuthParams().pipe(
@@ -151,29 +135,19 @@ export default class HttpBXServices extends BaseHttpServices {
           return this.session.getBaseUrl().pipe(
             mergeMap(v => {
               if (v) {
-                return this.http.get<T>(this.prepareBaseAddress(v) + url, options).pipe(
-                  take(1),
-                  catchError(err => {
-                    if (!textError.length && err.error.error_description) {
-                      textError = err.error.error_description
-                    }
-
-                    this.snackBar.error('Ошибка: ' + textError)
-                    return throwError(() => err)
-                  }))
+                return this.http.get<T>(this.prepareBaseAddress(v) + url, options)
               }
               return throwError(() => 'get base url error')
             })
           )
         } else {
-          this.snackBar.error('Error: Auth not get')
           return throwError(() => 'auth not get')
         }
       })
     )
   }
 
-  override getNameMethod(arr: string[]) {
+  getNameMethod(arr: string[]) {
     return arr.join('.')
   }
 

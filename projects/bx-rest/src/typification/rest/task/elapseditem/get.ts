@@ -1,6 +1,6 @@
-import Sort from '../../../sql/sort';
+import { Sort } from '../../base/sort'
 
-export default interface RequestParamsElapsedGetList {
+export interface iBXRestParamElapseditemGet {
   TASKID?: number,
   ORDER?: { // Массив для сортировки результата. Поле для сортировки может принимать значения:
     ID?: Sort, // идентификатор записи о затраченном времени
