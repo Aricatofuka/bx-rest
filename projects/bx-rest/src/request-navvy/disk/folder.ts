@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { map } from 'rxjs/operators'
 import BXRestMapDiskFolder from '../../map/disk/folder'
 import { BXRestDiskFolder } from '../../request/disk/folder'
-import { BXRestMapResult } from '../../functions/mapResult'
+import { Navvy } from '../../services/navvy'
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,8 @@ export class BXRestDiskNavvyFolder {
 
   constructor(
     private BXRestDiskFolder: BXRestDiskFolder,
-    private BXRestMapDiskFolder: BXRestMapDiskFolder
+    private BXRestMapDiskFolder: BXRestMapDiskFolder,
+    private Navvy: Navvy,
     // private diskFileBaseMap: diskFileBaseMapServices
   ) {
   }
@@ -32,10 +33,10 @@ export class BXRestDiskNavvyFolder {
   // }
 
   getchildren(id: number) {
-    return this.BXRestDiskFolder.getchildren(id).pipe(
+    return this.Navvy.mapAndSnackBarError(this.BXRestDiskFolder.getchildren(id), 'get folders and files').pipe(
       map(v => {
-        if (v && v.result) {
-          return this.BXRestMapDiskFolder.getContent(BXRestMapResult(v))
+        if (v) {
+          return this.BXRestMapDiskFolder.getContent(v)
         }
         return {file: [], folder: []}
       })

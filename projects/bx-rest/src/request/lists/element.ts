@@ -28,8 +28,7 @@ export class BXRestListsElement {
   get(pram: iBXRestParamListsElementGet) {
     return this.http.post<iBXRestHttpListsElement[]>(
       this.url.get,
-      pram,
-      'Не Удалось получить элемент списка'
+      pram
     )
   }
 

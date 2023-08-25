@@ -33,7 +33,7 @@ export class BXRestDiskStorage {
 
   getforapp() {
     return this.http.post<iBXRestFolderInfo>(
-      this.url.getforapp, {}, 'get root app folder'
+      this.url.getforapp, {}
     )
   }
 
@@ -41,8 +41,7 @@ export class BXRestDiskStorage {
   getchildren(param: {id: number, filter?: any}) {
     return this.http.post<(iBXRestFolderHttp | iBXRestFileHttp)[]>(
       this.url.getchildren,
-      param,
-      'get root app folders and files'
+      param
     )
   }
 

@@ -36,13 +36,12 @@ export class BXRestDiskFile {
   }
 
   get(id: number) {
-    return this.http.post<iBXRestFileHttp>(this.url.get, {id: id}, 'Не удалось получить файл')
+    return this.http.post<iBXRestFileHttp>(this.url.get, {id: id})
   }
 
   markDel(id: number) {
     return this.http.post<iBXRestFileHttp>(
       this.url.markdeleted,
-      {id: id},
-      'Не удалось переместить файл в корзину')
+      {id: id})
   }
 }

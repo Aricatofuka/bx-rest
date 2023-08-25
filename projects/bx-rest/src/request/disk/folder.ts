@@ -49,8 +49,7 @@ export class BXRestDiskFolder {
   getchildren(id: number) {
     return this.http.post<(iBXRestFolderHttp | iBXRestFileHttp)[]>(
       this.url.getchildren,
-      {id: id},
-      'get folders and files'
+      {id: id}
     )
   }
 }

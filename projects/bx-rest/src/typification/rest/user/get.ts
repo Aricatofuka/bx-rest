@@ -1,7 +1,7 @@
 import { iBXRestYesNo } from '../base/YesNo'
 import { iBXRestBaseParam } from '../support/param'
 
-export interface iBXGetParam extends iBXRestBaseParam {
+export interface iBXRestParamUserGet extends iBXRestBaseParam {
     ID?: number[] | number, // по ID
     PERSONAL_BIRTHDAY?: string | string[]
     order?: 'ASC' | 'DESC', // сортировка
