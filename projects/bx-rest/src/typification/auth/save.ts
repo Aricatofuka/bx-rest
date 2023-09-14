@@ -1,4 +1,4 @@
-export default interface saveApplicationAuth {
+export default interface iBXRestAuth {
   access_token: string, // основной авторизационный токен, требуемый для доступа к REST API
   client_endpoint: string, // адрес REST-интерфейса портала
   domain: string,

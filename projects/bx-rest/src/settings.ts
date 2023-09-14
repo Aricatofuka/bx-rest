@@ -1,6 +1,6 @@
 import { iRestSettings } from './typification/settings'
 
-export const REST_SETTINGS: iRestSettings = {
+export const BX_REST_SETTINGS: iRestSettings = {
   auth: {
     source: 'cookies',
     key: 'auth'

@@ -27,7 +27,7 @@ export class BXRestElapseditem {
   constructor(private http: HttpBXServices) {
   }
 
-  get(
+  getList(
     params: iBXRestParamElapseditemGet | undefined = undefined
   ) {
     if (params) {

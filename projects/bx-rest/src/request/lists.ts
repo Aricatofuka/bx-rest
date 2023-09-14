@@ -14,7 +14,7 @@ import { BXRestListsElement } from './lists/element'
 @Injectable({
   providedIn: 'root'
 })
-export default class BXRestLists {
+export class BXRestLists {
   url = {
     add: [$lists, $add], // Метод создаёт список
     delete: [$lists, $delete], // Метод удаляет список

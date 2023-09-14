@@ -31,8 +31,6 @@
     "@angular/material": "^15.2.9",
     "@angular/platform-browser": "^15.0.0",
     "@angular/platform-browser-dynamic": "^15.0.0",
-    "@angular/router": "^15.0.0",
-    "@ngrx/store": "^15.4.0",
     "just-clone": "^6.2.0",
     "just-compare": "^2.3.0",
     "just-flatten-it": "^5.2.0",

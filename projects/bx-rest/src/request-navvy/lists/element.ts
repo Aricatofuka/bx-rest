@@ -4,6 +4,7 @@ import { BXRestListsElement } from '../../request/lists/element'
 import { map } from 'rxjs/operators'
 import BXRestListsElementMap from '../../map/lists/element'
 import { Navvy } from '../../services/navvy'
+import { iBXRestParamListsElementAdd } from '../../typification/rest/lists/element/add'
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +18,19 @@ export class BXRestNavvyListsElement {
   ) {
   }
 
-  get(pram: iBXRestParamListsElementGet) {
+  get(param: iBXRestParamListsElementGet) {
     return this.Navvy.mapAndSnackBarError(
-      this.BXRestListsElement.get(pram),
+      this.BXRestListsElement.get(param),
       'Не удалось получить элемент списка'
     ).pipe(
       map(v => (v) ? this.BXRestMap.get(v) : undefined),
     )
   }
 
-  // add(param: iRestBXParamListsElementAdd) {
-  //   return this.http.post<iHttpAnswerBX<number>>(this.url.add, param)
-  // }
+  add(param: iBXRestParamListsElementAdd) {
+    return this.Navvy.mapAndSnackBarError(
+      this.BXRestListsElement.add(param),
+      'Не удалось получить элемент списка'
+    )
+  }
 }

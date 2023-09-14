@@ -1,3 +1,2 @@
-type tOrderOption = 'asc' // по возрастанию
+export type iBXRestOrderOption = 'asc' // по возрастанию
  | 'desc'  // по убыванию
-export default tOrderOption

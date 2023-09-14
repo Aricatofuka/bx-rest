@@ -102,18 +102,22 @@ export class BXRestUser {
   }
 
   private setDefParam(params: iBXRestParamUserGet) {
-    if (!params.hasOwnProperty('ACTIVE')) {
-      params.ACTIVE = this.def.params.ACTIVE
+    if(!params.FILTER) {
+      params.FILTER = {}
     }
-    if (params.ACTIVE && params.ACTIVE === 2) {
-      delete params.ACTIVE
+
+    if (!params.hasOwnProperty('ACTIVE')) {
+      params.FILTER.ACTIVE = this.def.params.ACTIVE
+    }
+    if (params.FILTER.ACTIVE && params.FILTER.ACTIVE === 2) {
+      delete params.FILTER.ACTIVE
     }
     if (!params.hasOwnProperty('start')) {
       params.start = this.def.params.start
     }
 
-    if (params.UF_DEPARTMENT && !params.UF_DEPARTMENT.length) {
-      delete params.UF_DEPARTMENT
+    if (params.FILTER.UF_DEPARTMENT && !params.FILTER.UF_DEPARTMENT.length) {
+      delete params.FILTER.UF_DEPARTMENT
     }
   }
 }

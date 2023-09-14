@@ -6,7 +6,7 @@ import BXRestListsElementMap from './lists/element'
 @Injectable({
   providedIn: 'root'
 })
-export default class BXRestMapLists extends BaseMapServices {
+export class BXRestMapLists extends BaseMapServices {
 
   constructor(public element: BXRestListsElementMap) {
     super()

@@ -3,7 +3,7 @@ import { time } from '../consts/time'
 // import { environment } from 'bx-rest/environments/environment'
 import { DateTime } from 'luxon'
 import { DateTimeOptions } from 'luxon/src/datetime'
-import { REST_SETTINGS } from '../settings';
+import { BX_REST_SETTINGS } from '../settings'
 
 @Injectable({
   providedIn: 'root'
@@ -115,7 +115,7 @@ export class BaseServices {
   getHomeAddress() {
     // return this.prepareBaseAddress(environment.urls.home)
 
-    return this.prepareBaseAddress(REST_SETTINGS.urls.home)
+    return this.prepareBaseAddress(BX_REST_SETTINGS.urls.home)
   }
 
   dateDiff(a: Date, b: Date) {

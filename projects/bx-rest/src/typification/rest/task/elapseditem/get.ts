@@ -1,39 +1,22 @@
-import { Sort } from '../../base/sort'
+import { iBXRestParamSort } from '../../base/sort'
+import { BXRestFilterGenerator } from '../../base/filterGenerator'
 
 export interface iBXRestParamElapseditemGet {
   TASKID?: number,
   ORDER?: { // Массив для сортировки результата. Поле для сортировки может принимать значения:
-    ID?: Sort, // идентификатор записи о затраченном времени
-    USER_ID?: Sort, // идентификатор пользователя, от имени которого была сделана запись о затраченном времени
-    MINUTES?: Sort, // затраченное время, минуты
-    SECONDS?: Sort,  // затраченное время, секунды
-    CREATED_DATE?: Sort, // дата создания записи
-    DATE_START?: Sort, // дата начала
-    DATE_STOP?: Sort // дата конца
+    ID?: iBXRestParamSort, // идентификатор записи о затраченном времени
+    USER_ID?: iBXRestParamSort, // идентификатор пользователя, от имени которого была сделана запись о затраченном времени
+    MINUTES?: iBXRestParamSort, // затраченное время, минуты
+    SECONDS?: iBXRestParamSort,  // затраченное время, секунды
+    CREATED_DATE?: iBXRestParamSort, // дата создания записи
+    DATE_START?: iBXRestParamSort, // дата начала
+    DATE_STOP?: iBXRestParamSort // дата конца
   }
     // Направление сортировки может принимать значения
     //   asc - по возрастанию
     // desc - по убыванию
     // Необязательный. По умолчанию фильтруется по убыванию идентификатора записи о затраченном времени
-  FILTER?: {	// Массив вида {"фильтруемое_поле": "значение фильтра" [, ...]}. Фильтруемое поле может принимать значения
-    ID?: number, // идентификатор комментария
-    USER_ID?: number | number[] // идентификатор пользователя, от имени которого была сделана запись о затраченном времени
-    CREATED_DATE?: string, // дата создания записи
-    '>CREATED_DATE'?: string,
-    '<CREATED_DATE'?: string,
-    '>=CREATED_DATE'?: string,
-    '<=CREATED_DATE'?: string,
-    '!CREATED_DATE'?: string,
-    // Перед названием фильтруемого поля может указать тип фильтрации
-    //   "!" - не равно
-    // "<" - меньше;
-    // "<=" - меньше либо равно;
-    // ">" - больше;
-    // ">=" - больше либо равно.
-    // "значения фильтра" - одиночное значение или массив.
-    //
-    //   Необязательный. По умолчанию записи не фильтруются.
-  }
+  FILTER?: BXRestFilterGenerator<iBXRestParamElapseditemGetFilter>
   SELECT?: string[]	// Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы.
                     // Если в массиве присутствует значение "*", то будут возвращены все доступные поля.
 
@@ -47,4 +30,10 @@ export interface iBXRestParamElapseditemGet {
       iNumPage: number //  номер страницы при постраничной навигации.
     }
   }
+}
+
+interface iBXRestParamElapseditemGetFilter {
+  ID?: number, // идентификатор комментария
+  USER_ID?: number | number[] // идентификатор пользователя, от имени которого была сделана запись о затраченном времени
+  CREATED_DATE?: string, // дата создания записи
 }
