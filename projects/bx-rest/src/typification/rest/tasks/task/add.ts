@@ -1,4 +1,4 @@
-import { iBXRestYesNo } from '../base/YesNo';
+import { iBXRestYesNo } from '../../base/YesNo';
 
 export interface iBXRestParamTaskAdd {
     ID?: number, // Идентификатор задачи
@@ -32,7 +32,7 @@ export interface iBXRestParamTaskAdd {
     COMMENTS_COUNT?: string, //	Кол-во комментариев
     NEW_COMMENTS_COUNT?: string, // Кол-во новых комментариев
     ALLOW_CHANGE_DEADLINE?: iBXRestYesNo,	// Разрешить менять сроки. По умолчанию - Нет
-    TASK_CONTROL?: iBXRestYesNo,	// Принять работу  По умолчанию - Нет
+    TASK_CONTROL?: iBXRestYesNo,	// Принять работу По умолчанию - Нет
     ADD_IN_REPORT?: iBXRestYesNo, //	Добавить в отчёт. По умолчанию - Нет
     FORKED_BY_TEMPLATE_ID?: iBXRestYesNo, //	Создано из шаблона. По умолчанию - Нет
     TIME_ESTIMATE?: number,	// Затраченое время

@@ -5,9 +5,9 @@ import { BXRestUser } from '../request/user'
 import { BXRestUserMap } from '../map/user'
 import { iBXRestParamUserGet } from '../typification/rest/user/get'
 import { Navvy } from '../services/navvy'
-import { SessionStorageServices } from '../services/vanilla/sessionStorage'
 import { iBXRestUser } from '../typification/rest/user/user'
 import UserFilterSearch from '../typification/rest/user/UserFilterSearch'
+import { SessionStorage } from '../services/vanilla/sessionStorage';
 
 
 @Injectable({
@@ -19,7 +19,6 @@ export class BXRestNavvyUser {
     private BXRestUser: BXRestUser,
     private BXRestUserMap: BXRestUserMap,
     private Navvy: Navvy,
-    private SessionStorage: SessionStorageServices
   ) {
   }
 
@@ -31,7 +30,7 @@ export class BXRestNavvyUser {
     if (update) {
       return this.self()
     } else {
-      let self = this.SessionStorage.getItem(this.constructor.name + this.self.name) as iBXRestUser
+      let self = SessionStorage.getItem(this.constructor.name + this.self.name) as iBXRestUser
       if(self){
         return of(self)
       }
@@ -57,7 +56,7 @@ export class BXRestNavvyUser {
         }),
         tap(v => {
           if (v) {
-            this.SessionStorage.setItem(this.constructor.name + this.self.name, v);
+            SessionStorage.setItem(this.constructor.name + this.self.name, v);
           }
         }),
       )

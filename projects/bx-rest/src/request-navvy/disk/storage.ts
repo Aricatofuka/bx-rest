@@ -5,7 +5,7 @@ import { BXRestMapResult } from '../../functions/mapResult'
 import BXRestMapDiskStorage from '../../map/disk/storage'
 import { iBXRestParamUploadFile } from '../../typification/rest/disk/storage/uploadfile'
 import { Navvy } from '../../services/navvy'
-import { SessionStorageServices } from '../../services/vanilla/sessionStorage'
+import { SessionStorage } from '../../services/vanilla/sessionStorage'
 import { iBXRestFolderInfo } from '../../typification/rest/disk/folder'
 import { of, tap } from 'rxjs'
 
@@ -20,7 +20,6 @@ export class BXRestNavvyDiskStorage {
     private BXRestDiskStorage: BXRestDiskStorage,
     private BXRestMapDiskStorage: BXRestMapDiskStorage,
     private Navvy: Navvy,
-    private SessionStorage: SessionStorageServices
     // private store: Store<{ BXDiskFolder: BXDiskFolderStore }>,
 
   ) {
@@ -28,14 +27,14 @@ export class BXRestNavvyDiskStorage {
   }
 
   getforapp() {
-    let res = this.SessionStorage.getItem<iBXRestFolderInfo>(this.constructor.name + this.getforapp.name)
+    let res = SessionStorage.getItem<iBXRestFolderInfo>(this.constructor.name + this.getforapp.name)
     if(res){
       return of(res)
     } else {
       return this.Navvy.mapAndSnackBarError(this.BXRestDiskStorage.getforapp(), 'get root app folder').pipe(
         tap(v => {
           if(v){
-            this.SessionStorage.setItem(this.constructor.name + this.getforapp.name, v)
+            SessionStorage.setItem(this.constructor.name + this.getforapp.name, v)
           }
         })
       )

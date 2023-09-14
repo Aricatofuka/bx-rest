@@ -95,24 +95,22 @@ export default class HttpBXServices extends HttpServices {
                        params: any = {},
                        settings: iHttpParamSettings = this.defSettings
   ): Observable<T | undefined> {
-    return this.session.getAuthParams().pipe(
-      mergeMap(auth => {
-        if (auth) {
-          const paramsClone = clone(params)
-          paramsClone[this.session.getKeyAuth()] = auth
-          return this.session.getBaseUrl().pipe(
-            mergeMap(v => {
-              if (v) {
-                return this.http.post<T | undefined>(
-                  this.prepareBaseAddress(v) + url,
-                  this.getHttpParamsPost(paramsClone, new FormData(), false, [], settings))
-              }
-              return throwError(() => 'get base url error')
-            }))
-        } else {
-          return throwError(() => 'auth not get')
-        }
-      }))
+    let auth = this.session.getAuthParams()
+    if (auth) {
+      const paramsClone = clone(params)
+      paramsClone[this.session.getKeyAuth()] = auth
+      return this.session.getBaseUrl().pipe(
+        mergeMap(v => {
+          if (v) {
+            return this.http.post<T | undefined>(
+              this.prepareBaseAddress(v) + url,
+              this.getHttpParamsPost(paramsClone, new FormData(), false, [], settings))
+          }
+          return throwError(() => 'get base url error')
+        }))
+    } else {
+      return throwError(() => 'auth not get')
+    }
   }
 
   override httpGet<T>(
@@ -120,31 +118,30 @@ export default class HttpBXServices extends HttpServices {
     params: any = {},
     settings: iHttpParamSettings = this.defSettings
   ): Observable<T | undefined> {
-    return this.session.getAuthParams().pipe(
-      mergeMap(auth => {
-        if (auth) {
-          if (params === null) {
-            params = {}
-          }
-          const paramsClone = clone(params)
-          paramsClone[this.session.getKeyAuth()] = auth
-          let options = {
-            params: this.getHttpParamsGet(paramsClone)
-          }
+    let auth = this.session.getAuthParams()
 
-          return this.session.getBaseUrl().pipe(
-            mergeMap(v => {
-              if (v) {
-                return this.http.get<T>(this.prepareBaseAddress(v) + url, options)
-              }
-              return throwError(() => 'get base url error')
-            })
-          )
-        } else {
-          return throwError(() => 'auth not get')
-        }
-      })
-    )
+    if (auth) {
+      if (params === null) {
+        params = {}
+      }
+      const paramsClone = clone(params)
+      paramsClone[this.session.getKeyAuth()] = auth
+      let options = {
+        params: this.getHttpParamsGet(paramsClone)
+      }
+
+      return this.session.getBaseUrl().pipe(
+        mergeMap(v => {
+          if (v) {
+            return this.http.get<T>(this.prepareBaseAddress(v) + url, options)
+          }
+          return throwError(() => 'get base url error')
+        })
+      )
+    } else {
+      return throwError(() => 'auth not get')
+    }
+
   }
 
   getNameMethod(arr: string[]) {

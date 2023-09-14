@@ -9,8 +9,9 @@ import {
   $isactionallowed,
   $task, $update
 } from '../../consts/part-name-metods'
-import { map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { map } from 'rxjs/operators'
+import { of } from 'rxjs'
+import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
 
 @Injectable({
   providedIn: 'root'
@@ -27,24 +28,19 @@ export class BXRestNavvyElapseditem {
     update: [$task, $elapseditem, $update], // Изменяет параметры записи о затраченном времени
   }
 
-  savedPermission$ = this.store.select('PermissionElapsedItemTask')
-  storeTask$: Observable<IStoreTask>
-
   constructor(
     private http: HttpBXServices,
     private snackBar: SnackBarService,
     private tasksBXServ: TasksBXServices,
     private userBXServ: UserBXServices,
     private elapsedBXMap: ElapsedBXMapServices,
-    private store: Store<{ PermissionElapsedItemTask: iSavePermissionElapsedItemTask[], tasks: IStoreTask }>,
   ) {
-    this.storeTask$ = this.store.select('tasks')
   }
 
-  get(
-    params: RequestParamsElapsedGetList | undefined = undefined,
+  getList(
+    params: iBXRestParamElapseditemGet | undefined = undefined,
     cache = false
-  ): Observable<iHttpAnswerBX<BXRestElapsed[]> | undefined> {
+  ) {
     if (params) {
       if (!params.TASKID && !params.SELECT) {
         params.SELECT = ['*']

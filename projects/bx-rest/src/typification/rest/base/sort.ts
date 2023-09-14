@@ -1,1 +1,1 @@
-export type Sort = 'ASC' | 'DESC'
+export type iBXRestParamSort = 'ASC' | 'DESC'

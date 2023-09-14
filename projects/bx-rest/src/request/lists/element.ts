@@ -6,6 +6,7 @@ import {
   iBXRestParamListsElementGet
 } from '../../typification/rest/lists/element/get'
 import { Injectable } from '@angular/core'
+import { iBXRestParamListsElementAdd } from '../../typification/rest/lists/element/add';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,10 @@ import { Injectable } from '@angular/core'
 export class BXRestListsElement {
   url = {
     add: [$lists, $element, $add], // Метод создаёт элемент списка
-    delete: [$lists, $element, $delete], // Метод удаляет элемент списка
+    delete: [$lists, $element, $delete], // Метод удаляет элемент списка // TODO: Реализовать
     get: [$lists, $element, $get], // Метод возвращает список элементов или элемент
-    update: [$lists, $element, $update], //	Метод обновляет элемент списка
-    getFileUrl: [$lists, $element, $get, $file, $url]  // Метод возвращает путь к файлу
+    update: [$lists, $element, $update], //	Метод обновляет элемент списка // TODO: Реализовать
+    getFileUrl: [$lists, $element, $get, $file, $url]  // Метод возвращает путь к файлу // TODO: Реализовать
   }
 
   constructor(
@@ -32,11 +33,7 @@ export class BXRestListsElement {
     )
   }
 
-  customPipe() {
-
+  add(param: iBXRestParamListsElementAdd) {
+    return this.http.post<number>(this.url.add, param)
   }
-
-  // add(param: iRestBXParamListsElementAdd) {
-  //   return this.http.post<iHttpAnswerBX<number>>(this.url.add, param)
-  // }
 }

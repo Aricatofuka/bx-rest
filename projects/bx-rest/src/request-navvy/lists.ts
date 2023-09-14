@@ -1,27 +1,11 @@
-import {
-  $add,
-  $delete,
-  $get,
-  $iblock,
-  $id,
-  $lists,
-  $type,
-  $update
-} from '../consts/part-name-metods'
 import { Injectable } from '@angular/core'
 import { BXRestNavvyListsElement } from './lists/element'
+
 
 @Injectable({
   providedIn: 'root'
 })
-export default class BXRestNavvyLists {
-  url = {
-    add: [$lists, $add], // Метод создаёт список
-    delete: [$lists, $delete], // Метод удаляет список
-    get: [$lists, $get], // Метод возвращает данные по спискам
-    update: [$lists, $update], // Метод обновляет существующий список
-    getIblockTypeId: [$lists, $get, $iblock, $type, $id], // Метод возвращает id типа инфоблока
-  }
+export class BXRestNavvyLists {
 
   constructor(
     public element: BXRestNavvyListsElement

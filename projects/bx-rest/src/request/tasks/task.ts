@@ -5,8 +5,11 @@ import {
   $task, $tasks, $update
 } from '../../consts/part-name-metods'
 import HttpBXServices from '../../services/http/HttpBX'
-import { iBXRestParamTaskAdd } from '../../typification/rest/task/fieldsForSend'
 import { iBXRestHttpTask } from '../../typification/rest/task/task'
+import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
+import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'
+import { iBXRestParamTasksList } from '../../typification/rest/tasks/task/list'
+// import { AnswerApiTaskBX } from '../../typification/rest/task/answers/task';
 
 @Injectable({
   providedIn: 'root'
@@ -88,44 +91,16 @@ export class BXRestTasksTask {
     this.snackBar.warning('not have field for update')
     return of(undefined)
   }
+  */
 
-  get(requestArray: RequestApiTaskBX): Observable<TaskBX | undefined> {
-    if (!requestArray.select) {
-      requestArray.select = this.def.select
-    }
-    return this.http.post<AnswerApiTaskOneBXHttp>(this.url.get, requestArray).pipe(
-      map(v => this.http.mapResult(v)),
-      map(v => (v && v.task) ? v.task : undefined),
-      map(v => (v) ? this.taskBXMap.TaskBXHttpToTaskBX(v) : undefined)
-    )
+  get(requestArray: iBXRestParamTaskGet) {
+    return this.http.post<{ task: iBXRestHttpTask | undefined }>(this.url.get, requestArray)
   }
 
-  list(requestArray: RequestApiTaskListBX = {}): Observable<AnswerApiTaskBX | undefined> {
-    if (!requestArray.select) {
-      requestArray.select = this.def.select
-    }
-    return this.http.post<AnswerApiTaskBXHttp | undefined>(this.url.list, requestArray).pipe(
-      map(v => {
-          if (v && v.result && v.result.tasks) {
-            const tasks = v.result.tasks.map(i => this.taskBXMap.TaskBXHttpToTaskBX(i))
-            this.store.dispatch(addToTaskList({data: tasks}))
-            return Object.assign(
-              v,
-              {
-                result:
-                  {
-                    tasks: tasks
-                  }
-              }
-            )
-
-          }
-          return undefined
-        }
-      )
-    )
+  list(param: iBXRestParamTasksList = {}) {
+    return this.http.post<{tasks: iBXRestHttpTask[] | undefined}>(this.url.list, param)
   }
-
+  /*
   listArray(requestArray: RequestApiTaskListBX = {}) {
     return this.list(requestArray).pipe(
       map(v => this.http.mapResult(v)),

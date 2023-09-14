@@ -8,7 +8,19 @@ import { iBXRestHttpTask, iBXRestTask } from '../typification/rest/task/task'
 })
 export class BXRestTaskMap extends BaseMapServices {
 
-  TaskBXHttpToTaskBX(item: iBXRestHttpTask): iBXRestTask {
+  add(item: iBXRestHttpTask): iBXRestTask{
+    return this.TaskBXHttpToTaskBX(item)
+  }
+
+  get(item: iBXRestHttpTask): iBXRestTask{
+    return this.TaskBXHttpToTaskBX(item)
+  }
+
+  list(item: iBXRestHttpTask[]): iBXRestTask[]{
+    return  item.map( i =>  this.TaskBXHttpToTaskBX(i))
+  }
+
+  private TaskBXHttpToTaskBX(item: iBXRestHttpTask): iBXRestTask {
     let result: iBXRestTask = {}
     if(item.id) { result.id = this.toNum(item.id) }
     if(item.parentId) { result.parentId = this.toNum(item.parentId) }

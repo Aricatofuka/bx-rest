@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core'
 import SnackBarService from '../../services/snack-bar/snack-bar.service'
-import { iBXRestParamTaskAdd } from '../../typification/rest/task/fieldsForSend'
 import { map } from 'rxjs/operators';
 import { BXRestTaskMap } from '../../map/task'
 import { BXRestTasksTask } from '../../request/tasks/task'
+import { iBXRestTaskFieldsName } from '../../typification/rest/task/base/fieldsName'
+import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
+import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'
+import { Navvy } from '../../services/navvy'
+import { iBXRestParamTasksList } from '../../typification/rest/tasks/task/list'
+import { tap } from 'rxjs';
+import { SessionStorage } from '../../services/vanilla/sessionStorage'
 
 // export interface TimeProcess {
 //   total: number,
@@ -19,23 +25,24 @@ export class BXRestNavvyTasksTask {
   // pageSize = 50
   // nowLoad$ = new ReplaySubject<TimeProcess>(1)
 
-  // def: { select: iBXRestTaskFieldsName[] } = {
-  //   select: ['ID', 'PARENT_ID', 'TITLE', 'DESCRIPTION', 'MARK', 'PRIORITY', 'STATUS', 'MULTITASK',
-  //     'GROUP_ID', 'STAGE_ID', 'CREATED_BY', 'CREATED_DATE', 'RESPONSIBLE_ID', 'ACCOMPLICES', 'AUDITORS',
-  //     'CHANGED_BY', 'CHANGED_DATE', 'STATUS_CHANGED_DATE', 'CLOSED_BY', 'CLOSED_DATE', 'DATE_START', 'VIEWED_DATE',
-  //     'DEADLINE', 'START_DATE_PLAN', 'END_DATE_PLAN', 'FORKED_BY_TEMPLATE_ID', 'TIME_ESTIMATE', 'TIME_SPENT_IN_LOGS',
-  //     'TAGS', 'ALLOW_TIME_TRACKING'
-  //   ]
-  // }
+  def: { select: iBXRestTaskFieldsName[] } = {
+    select: ['ID', 'PARENT_ID', 'TITLE', 'DESCRIPTION', 'MARK', 'PRIORITY', 'STATUS', 'MULTITASK',
+      'GROUP_ID', 'STAGE_ID', 'CREATED_BY', 'CREATED_DATE', 'RESPONSIBLE_ID', 'ACCOMPLICES', 'AUDITORS',
+      'CHANGED_BY', 'CHANGED_DATE', 'STATUS_CHANGED_DATE', 'CLOSED_BY', 'CLOSED_DATE', 'DATE_START', 'VIEWED_DATE',
+      'DEADLINE', 'START_DATE_PLAN', 'END_DATE_PLAN', 'FORKED_BY_TEMPLATE_ID', 'TIME_ESTIMATE', 'TIME_SPENT_IN_LOGS',
+      'TAGS', 'ALLOW_TIME_TRACKING'
+    ]
+  }
 
   // storeTask$: Observable<iStoreTask>
 
   constructor(
-    private BXRestTasks: BXRestTasksTask,
+    private BXRestTasksTask: BXRestTasksTask,
     private snackBar: SnackBarService,
    //  private store: Store<{ tasks: IStoreTask }>,
     private taskMap: BXRestTaskMap,
    // private taskResultMap: BitrixApiTaskResultMapServices
+    private Navvy: Navvy,
   ) {
    //  this.storeTask$ = this.store.select('tasks')
    //  this.nowLoad$.next({
@@ -45,14 +52,14 @@ export class BXRestNavvyTasksTask {
   }
 
   add(param: { fields: iBXRestParamTaskAdd }) {
-    return this.BXRestTasks.add(param).pipe(
+    return this.Navvy.mapAndSnackBarError(this.BXRestTasksTask.add(param), 'Не удалось получить задачу').pipe(
       map(v => {
-          if (v && v.result && v.result.task) {
-            return this.taskMap.TaskBXHttpToTaskBX(v.result.task)
-          }
-          return undefined
+        if (v && v.task) {
+          return this.taskMap.add(v.task)
         }
-      ))
+        return undefined
+      }
+    ))
     // return this.http.post<{ task: TaskBXHttp }>(this.url.add, {fields: param}).pipe(
     //   map(v => {
     //       if (v && v.result && v.result.task) {
@@ -92,44 +99,35 @@ export class BXRestNavvyTasksTask {
     this.snackBar.warning('not have field for update')
     return of(undefined)
   }
+  */
 
-  get(requestArray: RequestApiTaskBX): Observable<TaskBX | undefined> {
+  get(requestArray: iBXRestParamTaskGet) {
     if (!requestArray.select) {
       requestArray.select = this.def.select
     }
-    return this.http.post<AnswerApiTaskOneBXHttp>(this.url.get, requestArray).pipe(
-      map(v => this.http.mapResult(v)),
+    return this.Navvy.mapAndSnackBarError(this.BXRestTasksTask.get(requestArray), 'Не удалось получить задачу').pipe(
       map(v => (v && v.task) ? v.task : undefined),
-      map(v => (v) ? this.taskBXMap.TaskBXHttpToTaskBX(v) : undefined)
+      map(v => (v) ? this.taskMap.get(v) : undefined)
     )
   }
 
-  list(requestArray: RequestApiTaskListBX = {}): Observable<AnswerApiTaskBX | undefined> {
-    if (!requestArray.select) {
-      requestArray.select = this.def.select
-    }
-    return this.http.post<AnswerApiTaskBXHttp | undefined>(this.url.list, requestArray).pipe(
-      map(v => {
-          if (v && v.result && v.result.tasks) {
-            const tasks = v.result.tasks.map(i => this.taskBXMap.TaskBXHttpToTaskBX(i))
-            this.store.dispatch(addToTaskList({data: tasks}))
-            return Object.assign(
-              v,
-              {
-                result:
-                  {
-                    tasks: tasks
-                  }
-              }
-            )
 
+  list(param: iBXRestParamTasksList = {}) {
+    if (!param.select) {
+      param.select = this.def.select
+    }
+    return this.Navvy.mapAndSnackBarError(this.BXRestTasksTask.list(param), 'Не удалось получить задачи').pipe(
+      map(v => (v && v.tasks) ? v.tasks : undefined),
+      map(v => (v) ? this.taskMap.list(v) : undefined),
+      tap(v => {
+          if (v) {
+            SessionStorage.setItem(this.constructor.name + this.list.name, v)
           }
-          return undefined
         }
       )
     )
   }
-
+  /*
   listArray(requestArray: RequestApiTaskListBX = {}) {
     return this.list(requestArray).pipe(
       map(v => this.http.mapResult(v)),

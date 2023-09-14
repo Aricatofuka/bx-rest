@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core'
 import { BXRestUser } from './request/user'
-import BXRestLists from './request/lists'
-import BXRestListsMap from './map/lists'
-import BXRestNavvyLists from './request-navvy/lists'
-import { BXRestNavvyTasks } from './request-navvy/tasks'
+import { BXRestLists } from './request/lists'
+import { BXRestMapLists } from './map/lists'
 import { BXRestTasks } from './request/tasks'
-import { BXRestNavvyUser } from './request-navvy/user'
 import { BXRestDisk } from './request/disk'
+import { BXRestBizproc } from './request/bizproc'
+// Navvy
+import { BXRestNavvyLists } from './request-navvy/lists'
+import { BXRestNavvyTasks } from './request-navvy/tasks'
+import { BXRestNavvyUser } from './request-navvy/user'
 import { BXRestNavvyDisk } from './request-navvy/disk'
+import { BXRestNavvyBizproc } from './request-navvy/bizproc'
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +20,8 @@ export class BXRest {
     public user: BXRestUser,
     public lists: BXRestLists,
     public tasks: BXRestTasks,
-    public disk: BXRestDisk
+    public disk: BXRestDisk,
+    public bizproc: BXRestBizproc
   ) {
   }
 }
@@ -30,7 +34,8 @@ export class BXRestNavvy {
     public user: BXRestNavvyUser,
     public lists: BXRestNavvyLists,
     public tasks: BXRestNavvyTasks,
-    public disk: BXRestNavvyDisk
+    public disk: BXRestNavvyDisk,
+    public bizproc: BXRestNavvyBizproc
   ) {
   }
 }
@@ -40,7 +45,7 @@ export class BXRestNavvy {
 })
 export class BXRestMap {
   constructor(
-    public lists: BXRestListsMap
+    public lists: BXRestMapLists
   ) {
   }
 }

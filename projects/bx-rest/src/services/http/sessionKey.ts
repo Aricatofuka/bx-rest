@@ -1,16 +1,14 @@
-import { Inject, Injectable, Optional } from '@angular/core'
+import { Injectable } from '@angular/core'
 import Cookies from '../../services/vanilla/сookies'
-import { Store } from '@ngrx/store'
 import saveApplicationAuth from '../../typification/auth/save'
-// import { environment as env } from 'bx-rest/environments/environment'
-import { filter, Observable, of, Subscription, take } from 'rxjs'
-import { ActivatedRoute, ParamMap } from '@angular/router'
-import { saveAccessToken, saveApplicationAuthPath } from '../../store/auth'
-import { map } from 'rxjs/operators'
+import { Observable, of, Subscription } from 'rxjs'
+// import { ActivatedRoute, ParamMap } from '@angular/router'
 import { BaseServices } from '../base'
 import { LocalStorageServices as LocalStorage } from '../../services/vanilla/localStorage'
 import { RestServices } from '../../typification/rest/api-lib'
-import { REST_SETTINGS } from '../../settings'
+import { BX_REST_SETTINGS } from '../../settings'
+import iBXRestAuth from '../../typification/auth/save'
+import { SessionStorage } from '../vanilla/sessionStorage'
 
 type IKeyAuth = 'sessid' | 'auth' | string
 
@@ -20,130 +18,133 @@ type IKeyAuth = 'sessid' | 'auth' | string
 export default class SessionKeyServices extends BaseServices {
 
   authHave = false
-  authData$: Observable<saveApplicationAuth>
   authData: saveApplicationAuth | undefined
   subscribe = {
     authData: new Subscription()
   }
 
-  REST_SETTINGS
-
   constructor(
-    public store: Store<{ auth: saveApplicationAuth }>,
-    private route: ActivatedRoute,
+    // private route: ActivatedRoute,
     public BxApiLib: RestServices,
-    @Optional() @Inject(REST_SETTINGS) REST_SETTINGS: {
-      auth: 'cookies',
-      urls: {
-        home: ''
-      }
-    }
   ) {
     super()
-    this.REST_SETTINGS = REST_SETTINGS
-    this.authData$ = this.store.select('auth')
-    this.authData$.subscribe(authData => {
-      if ((authData && !authData.access_token.length) || !authData) {
-        // получаем токен по собственным каналом (в битриксе приложение trace:apps.trace)
-        window.addEventListener('message', (event: MessageEvent) => {
-          if (event.origin !== window.origin) { // проверяем что это не наше сообщение (с текущего приложения)
-            if (event.data && event.data.param) {
-              if (typeof event.data.param === 'string') {
-                event.data.param = JSON.parse(event.data.param)
-              }
+    let authData = SessionStorage.getItem<iBXRestAuth>(this.constructor.name)
+    if ((authData && !authData.access_token.length) || !authData) {
+      // получаем токен по собственным каналом (в битриксе приложение trace:apps.trace)
+      window.addEventListener('message', (event: MessageEvent) => {
+        if (event.origin !== window.origin) { // проверяем что это не наше сообщение (с текущего приложения)
+          if (event.data && event.data.param) {
+            if (typeof event.data.param === 'string') {
+              event.data.param = JSON.parse(event.data.param)
+            }
 
-              let save: saveApplicationAuthPath = {}
-
-              if (event.data.param.access_token) {
-                let param = event.data.param;
-                save.access_token = event.data.param.access_token
-                save = {
-                  access_token: (param.access_token) ? param.access_token : undefined,
-                  client_endpoint: (param.client_endpoint) ? param.client_endpoint : undefined,
-                  domain: (param.domain) ? param.domain : undefined,
-                  expires: (param.expires) ? param.expires : undefined,
-                  expires_in: (param.expires_in) ? param.expires_in : undefined,
-                  member_id: (param.member_id) ? param.member_id : undefined,
-                  refresh_token: (param.refresh_token) ? param.refresh_token : undefined,
-                  scope: (param.scope) ? param.scope : undefined,
-                  server_endpoint: (param.server_endpoint) ? param.server_endpoint : undefined,
-                  status: (param.status) ? param.status : undefined,
-                  user_id: (param.user_id) ? param.user_id : undefined,
-                  type: (param.type) ? param.type : undefined,
-                }
+            if (event.data.param.access_token) {
+              let param = event.data.param;
+              let save = {
+                access_token: (param.access_token) ? param.access_token : undefined,
+                client_endpoint: (param.client_endpoint) ? param.client_endpoint : undefined,
+                domain: (param.domain) ? param.domain : undefined,
+                expires: (param.expires) ? param.expires : undefined,
+                expires_in: (param.expires_in) ? param.expires_in : undefined,
+                member_id: (param.member_id) ? param.member_id : undefined,
+                refresh_token: (param.refresh_token) ? param.refresh_token : undefined,
+                scope: (param.scope) ? param.scope : undefined,
+                server_endpoint: (param.server_endpoint) ? param.server_endpoint : undefined,
+                status: (param.status) ? param.status : undefined,
+                user_id: (param.user_id) ? param.user_id : undefined,
+                type: (param.type) ? param.type : undefined,
               }
 
               if (Object.keys(save).length && save.access_token) {
-                this.store.dispatch(saveAccessToken(save))
+                SessionStorage.setItem(this.constructor.name, save)
                 this.subscribeAll()
               }
             }
           }
-        })
+        }
+      })
 
-        this.subscribe.authData = this.route.queryParamMap
-          .pipe(
-            filter(param =>
-              param.has('AUTH_ID')
-              || param.has('access_token')
-              || param.has('REFRESH_ID')
-              || param.has('DOMAIN')
-            )
+      /*
+      this.subscribe.authData = this.route.queryParamMap
+        .pipe(
+          filter(param =>
+            param.has('AUTH_ID')
+            || param.has('access_token')
+            || param.has('REFRESH_ID')
+            || param.has('DOMAIN')
           )
-          .subscribe((param: ParamMap) => {
-            let save: saveApplicationAuthPath = {}
-            if (param.has('AUTH_ID') && !authData.access_token.length) {
-              const get = param.get('AUTH_ID')
-              if (get) {
-                Cookies.set('auth', get) // потом убрать
-                save.access_token = get
+        )
+        .subscribe((param: ParamMap) => {
+          if(!save) {
+            let save = {
+              access_token: undefined,
+              client_endpoint: (param.client_endpoint) ? param.client_endpoint : undefined,
+              domain: (param.domain) ? param.domain : undefined,
+              expires: (param.expires) ? param.expires : undefined,
+              expires_in: (param.expires_in) ? param.expires_in : undefined,
+              member_id: (param.member_id) ? param.member_id : undefined,
+              refresh_token: (param.refresh_token) ? param.refresh_token : undefined,
+              scope: (param.scope) ? param.scope : undefined,
+              server_endpoint: (param.server_endpoint) ? param.server_endpoint : undefined,
+              status: (param.status) ? param.status : undefined,
+              user_id: (param.user_id) ? param.user_id : undefined,
+              type: (param.type) ? param.type : undefined,
+            }
+          }
+
+          if (param.has('AUTH_ID') && !authData?.access_token.length) {
+            const get = param.get('AUTH_ID')
+            if (get) {
+              Cookies.set('auth', get) //TODO: потом убрать
+              save.access_token = get
+            }
+          }
+
+          if (param.has('access_token') && !authData.access_token.length) {
+            const get = param.get('access_token')
+            if (get) {
+              Cookies.set('auth', get) // TODO: потом убрать
+              save.access_token = get
+            }
+          }
+
+          if (param.has('REFRESH_ID') && !authData.refresh_token.length) {
+            const get = param.get('REFRESH_ID')
+            if (get) {
+              save.refresh_token = get
+            }
+          }
+
+          if (param.has('DOMAIN') && !authData.domain.length) {
+            const get = param.get('DOMAIN')
+            if (get) {
+              save.domain = get
+            }
+          }
+          if (Object.keys(save).length && save.access_token) {
+            SessionStorage.setItem(this.constructor.name, save)
+            this.subscribeAll()
+          } else {
+            // если битрикс не шлёт нужные мне параметры на прямую
+            // просим их мне отдать так как описано это в документации
+            let f = () => {
+              if (this.BxApiLib.BX24) {
+                const initDate = this.BxApiLib.BX24.getAuth()
+                SessionStorage.setItem(this.constructor.name, save)
               }
             }
 
-            if (param.has('access_token') && !authData.access_token.length) {
-              const get = param.get('access_token')
-              if (get) {
-                Cookies.set('auth', get) // потом убрать
-                save.access_token = get
-              }
-            }
+            this.BxApiLib.init(f)
+          }
 
-            if (param.has('REFRESH_ID') && !authData.refresh_token.length) {
-              const get = param.get('REFRESH_ID')
-              if (get) {
-                save.refresh_token = get
-              }
-            }
+        })
+      */
+    } else if (this.getAuth().length) {
+      this.authHave = true
+    }
 
-            if (param.has('DOMAIN') && !authData.domain.length) {
-              const get = param.get('DOMAIN')
-              if (get) {
-                save.domain = get
-              }
-            }
-            if (Object.keys(save).length && save.access_token) {
-              this.store.dispatch(saveAccessToken(save))
-              this.subscribeAll()
-            } else {
-              // если битрикс не шлёт нужные мне параметры на прямую
-              // просим их мне отдать так как описано это в документации
-              let f = () => {
-                if (this.BxApiLib.BX24) {
-                  const initDate = this.BxApiLib.BX24.getAuth()
-                  this.store.dispatch(saveAccessToken(initDate))
-                }
-              }
+    this.authData = authData
 
-              this.BxApiLib.init(f)
-            }
-
-          })
-      } else if (this.getAuth().length) {
-        this.authHave = true
-      }
-
-      this.authData = authData
-    })
   }
 
   subscribeAll() {
@@ -151,8 +152,9 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getAuth(): string {
-    switch (REST_SETTINGS.auth.key){
+    switch (BX_REST_SETTINGS.auth.key) {
       case 'auth':
+        console.log('Cookies.get(\'auth\')', Cookies.get('auth'))
         return Cookies.get('auth')
       default:
         if ((<any>window).BX && (<any>window).BX.bitrix_sessid()) {
@@ -167,8 +169,8 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getKeyAuth(): IKeyAuth {
-    if(REST_SETTINGS.auth.key.length){
-      return REST_SETTINGS.auth.key
+    if (BX_REST_SETTINGS.auth.key.length) {
+      return BX_REST_SETTINGS.auth.key
     } else {
       if ((<any>window).BX && (<any>window).BX.bitrix_sessid()
         || this.getSessid().length) {
@@ -201,20 +203,18 @@ export default class SessionKeyServices extends BaseServices {
     return false
   }
 
-  getAuthParams(): Observable<string | undefined> {
-    switch (REST_SETTINGS.auth.source) {
+  getAuthParams(): string | undefined {
+    console.log('BX_REST_SETTINGS', BX_REST_SETTINGS)
+    switch (BX_REST_SETTINGS.auth.source) {
       case 'cookies':
-        return of(this.getAuth())
+        return this.getAuth()
       default:
-        return this.authData$.pipe(
-          take(1),
-          map(v => (v) ? v.access_token : undefined)
-        )
+        return (this.authData) ? this.authData.access_token : undefined
     }
   }
 
   getBaseUrl(): Observable<string | undefined> {
-    return of(this.prepareBaseAddress(this.REST_SETTINGS.urls.home, 'rest'))
+    return of(this.prepareBaseAddress(BX_REST_SETTINGS.urls.home, 'rest'))
     // return this.authData$.pipe( // TODO: разобраться позже
     //   take(1),
     //   map(v => (v && v.domain) ? this.prepareBaseAddress(v.domain) : undefined)
