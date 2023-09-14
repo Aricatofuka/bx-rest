@@ -154,7 +154,6 @@ export default class SessionKeyServices extends BaseServices {
   getAuth(): string {
     switch (BX_REST_SETTINGS.auth.key) {
       case 'auth':
-        console.log('Cookies.get(\'auth\')', Cookies.get('auth'))
         return Cookies.get('auth')
       default:
         if ((<any>window).BX && (<any>window).BX.bitrix_sessid()) {
@@ -204,7 +203,6 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getAuthParams(): string | undefined {
-    console.log('BX_REST_SETTINGS', BX_REST_SETTINGS)
     switch (BX_REST_SETTINGS.auth.source) {
       case 'cookies':
         return this.getAuth()
