@@ -1,6 +1,6 @@
 import { $add, $delete, $element, $file, $get, $lists, $update, $url } from '../../consts/part-name-metods'
 
-import HttpBXServices from '../../services/http/HttpBX'
+import { HttpBXServices } from '../../services/http/HttpBX'
 import {
   iBXRestHttpListsElement,
   iBXRestParamListsElementGet

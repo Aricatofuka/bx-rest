@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import {
   $add, $delete, $elapseditem, $get, $getlist, $getmanifest, $isactionallowed, $task, $update
 } from '../../consts/part-name-metods'
-import HttpBXServices from '../../services/http/HttpBX'
+import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
 import { iBXRestElapseditemHttp } from '../../typification/rest/task/elapseditem/item'
 import { iBXRestParamAddElapseditem } from '../../typification/rest/task/elapseditem/add'

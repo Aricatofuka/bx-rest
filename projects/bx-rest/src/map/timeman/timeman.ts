@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { statusWorkDayToday, statusWorkDayTodayHttp } from '@/lib/typification/bitrix/api/rest/timeman/status'
-import BaseMapServices from '@/lib/services/map/base'
+import { BaseMapServices } from '@/lib/services/map/base'
 
 @Injectable({
   providedIn: 'root'

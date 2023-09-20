@@ -3,7 +3,7 @@ import { $bizproc, $template, $workflow, $list, $add, $delete, $update } from '.
 import {
   iBXRestParamBizprocWorkflowTemplateList
 } from '../../../typification/rest/bizproc/workflow/template/list'
-import HttpBXServices from '../../../services/http/HttpBX'
+import { HttpBXServices } from '../../../services/http/HttpBX'
 
 @Injectable({
   providedIn: 'root'

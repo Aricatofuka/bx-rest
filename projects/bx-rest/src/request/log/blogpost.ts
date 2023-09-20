@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { $add, $blogpost, $delete, $get, $log, $share, $update } from '../../consts/part-name-metods'
-import HttpBXServices from '../../services/http/HttpBX';
+import { HttpBXServices } from '../../services/http/HttpBX';
 import { iBXRestParamLogBlogPostAdd } from '../../typification/rest/log/blogpost/add'
 
 @Injectable({

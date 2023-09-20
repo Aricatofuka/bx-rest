@@ -15,7 +15,10 @@ export class Navvy {
   ) {
   }
 
-  mapAndSnackBarError<T>(request: Observable<iBXRestAnswer<T> | undefined>, errorText: string){
+  mapAndSnackBarError<T>(
+    request: Observable<iBXRestAnswer<T> | undefined>,
+    errorText: string
+  ){
     return request.pipe(
       map(v => BXRestMapResult(v)),
       catchError(err => {

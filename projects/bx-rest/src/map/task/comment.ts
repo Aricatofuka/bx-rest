@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import BaseMapServices from '@/lib/services/map/base'
+import { BaseMapServices } from '@/lib/services/map/base'
 import { iCommentTask, iCommentTaskHtml } from '@/lib/typification/bitrix/api/rest/task/comment/comment'
 
 @Injectable({

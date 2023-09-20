@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import BaseMapServices from '../base'
+import { BaseMapServices } from '../base'
 import { iBXRestUser, iBXRestUserHttp } from '../../../typification/rest/user/user'
 import clone from 'just-clone'
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import BaseMapServices from '@/lib/services/map/base'
+import { BaseMapServices } from '@/lib/services/map/base'
 import { iTaskResult, iTaskResultHttp } from '@/lib/typification/bitrix/api/rest/task/result/result'
 
 @Injectable({
