@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { BXRestDiskNavvyFolder } from './folder'
+import { BXRestNavvyDiskFolder } from './folder'
 import { map, mergeMap, take } from 'rxjs/operators'
 import { BXRestNavvyDiskFile } from './file'
 import { BXRestNavvyDiskStorage } from './storage'
@@ -12,7 +12,7 @@ import { of } from 'rxjs'
 export class BXRestNavvyDiskOperation {
 
   constructor(
-    public folder: BXRestDiskNavvyFolder,
+    public folder: BXRestNavvyDiskFolder,
     public disk: BXRestNavvyDiskFile,
     private storage: BXRestNavvyDiskStorage,
   ) {

@@ -7,7 +7,7 @@ import { Navvy } from '../../services/navvy'
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestDiskNavvyFolder {
+export class BXRestNavvyDiskFolder {
 
   constructor(
     private BXRestDiskFolder: BXRestDiskFolder,
