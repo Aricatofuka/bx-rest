@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import HttpBXServices from '@/lib/services/api/bitrix/http/HttpBX'
+import { HttpBXServices } from '@/lib/services/api/bitrix/http/HttpBX'
 import iHttpAnswerBX from '@/lib/typification/bitrix/api/rest/base/httpAnswerBX';
 import { iDiskAttachedObject, iDiskAttachedObjectHttp } from '@/lib/typification/bitrix/api/rest/disk/AttachedObject'
 import { Observable } from 'rxjs'

@@ -6,6 +6,7 @@ import { BXRestTasks } from './request/tasks'
 import { BXRestDisk } from './request/disk'
 import { BXRestBizproc } from './request/bizproc'
 import { BXRestLog } from './request/log'
+import { BXRestCalendar } from './request/calendar'
 // Navvy
 import { BXRestNavvyLists } from './request-navvy/lists'
 import { BXRestNavvyTasks } from './request-navvy/tasks'
@@ -13,6 +14,7 @@ import { BXRestNavvyUser } from './request-navvy/user'
 import { BXRestNavvyDisk } from './request-navvy/disk'
 import { BXRestNavvyBizproc } from './request-navvy/bizproc'
 import { BXRestNavvyLog } from './request-navvy/log'
+import { BXRestNavvyCalendar } from './request-navvy/calendar'
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +26,8 @@ export class BXRest {
     public tasks: BXRestTasks,
     public disk: BXRestDisk,
     public bizproc: BXRestBizproc,
-    public log: BXRestLog
+    public log: BXRestLog,
+    public calendar: BXRestCalendar
   ) {
   }
 }
@@ -39,7 +42,8 @@ export class BXRestNavvy {
     public tasks: BXRestNavvyTasks,
     public disk: BXRestNavvyDisk,
     public bizproc: BXRestNavvyBizproc,
-    public log: BXRestNavvyLog
+    public log: BXRestNavvyLog,
+    public calendar: BXRestNavvyCalendar
   ) {
   }
 }

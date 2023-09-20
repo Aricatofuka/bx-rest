@@ -4,7 +4,7 @@ import {
   $get, $getaccess, $getFields, $getlist, $history, $list, $pause, $planner, $renew, $result, $start,
   $task, $tasks, $update
 } from '../../consts/part-name-metods'
-import HttpBXServices from '../../services/http/HttpBX'
+import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestHttpTask } from '../../typification/rest/task/task'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import BaseMapServices from '../base'
+import { BaseMapServices } from '../base'
 import {
   iBXRestHttpListsElement,
   iBXRestListsElement

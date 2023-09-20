@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import BaseMapServices from '../base'
+import { BaseMapServices } from '../base'
 import { iBXRestFile, iBXRestFileHttp } from '../../typification/rest/disk/file'
 import { iBXRestFolder, iBXRestFolderHttp } from '../../typification/rest/disk/folder'
 import { iBXRestFileAndFolderMap } from '../../typification/rest/disk/map';

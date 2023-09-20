@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import BaseMapServices from './base'
+import { BaseMapServices } from './base'
 import { iBXRestHttpTask, iBXRestTask } from '../typification/rest/task/task'
 
 

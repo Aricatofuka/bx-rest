@@ -4,6 +4,6 @@ import { BaseServices } from '../services/base'
 @Injectable({
   providedIn: 'root'
 })
-export default class BaseMapServices extends BaseServices{
+export class BaseMapServices extends BaseServices{
 
 }

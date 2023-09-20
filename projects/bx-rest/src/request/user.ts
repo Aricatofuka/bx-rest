@@ -1,7 +1,7 @@
 import { throwError } from 'rxjs'
 import clone from 'just-clone'
 import { iBXRestParamUserGet } from '../typification/rest/user/get'
-import HttpBXServices from '../services/http/HttpBX'
+import { HttpBXServices } from '../services/http/HttpBX'
 import UserFilterSearch from '../typification/rest/user/UserFilterSearch'
 import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from '../typification/rest/user/user'
 import { $get, $list, $search, $update, $user } from '../consts/part-name-metods'

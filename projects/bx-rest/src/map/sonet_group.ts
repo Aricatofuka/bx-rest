@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import BaseMapServices from '@/lib/services/map/base'
+import { BaseMapServices } from '@/lib/services/map/base'
 import { iBXWorkgroup, iBXWorkgroupHttp } from '@/lib/typification/bitrix/api/rest/sonet_group/list_workgroup'
 
 @Injectable({

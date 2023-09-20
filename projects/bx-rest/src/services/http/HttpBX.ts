@@ -16,7 +16,7 @@ import { iBXRestAnswer } from '../../typification/rest/base/answer'
 @Injectable({
   providedIn: 'root'
 })
-export default class HttpBXServices extends HttpServices {
+export class HttpBXServices extends HttpServices {
 
   timeNowOnServer() {
     return this.httpGet<{ result?: Date, error?: string }>('server.time').pipe(

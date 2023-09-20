@@ -3,7 +3,7 @@ import {
   $copyto, $disk, $folder, $get, $getchildren, $getFields,
   $markdeleted, $moveto, $rename, $restore, $uploadfile
 } from '../../consts/part-name-metods'
-import HttpBXServices from '../../services/http/HttpBX'
+import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestFolderHttp } from '../../typification/rest/disk/folder'
 import { iBXRestFileHttp } from '../../typification/rest/disk/file'
 
