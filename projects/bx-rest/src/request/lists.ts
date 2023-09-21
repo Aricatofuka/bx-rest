@@ -10,6 +10,8 @@ import {
 } from '../consts/part-name-metods'
 import { Injectable } from '@angular/core'
 import { BXRestListsElement } from './lists/element'
+import { HttpBXServices } from '../services/http/HttpBX'
+import { iBXRestListItemHttp, iBXRestParamListGet } from '../typification/rest/lists/get'
 
 @Injectable({
   providedIn: 'root'
@@ -24,52 +26,14 @@ export class BXRestLists {
   }
 
   constructor(
-    public element: BXRestListsElement
+    public element: BXRestListsElement,
+    private http: HttpBXServices,
   ) {
   }
 
-  // constructor(
-  //     private http: HttpBXServices,
-  //     private listsMap: ListsMapServices
-  // ) {
-  // }
-
-  // get(pram: iBXRestParamListGet): Observable<ItemLists[] | undefined> {
-  //     return this.http.post<iHttpAnswerBX<ItemListsBX[]>>(this.url.get, pram)
-  //         .pipe(
-  //             map(v => (v && v.length) ? v.map(i => this.listsMap.mapItemLists(i)) : [])
-  //         )
-  // }
-
-  // getAll(pram: getListParam): Observable<ItemListsBX[] | undefined> {
-  //     return this.getBase(pram)
-  //         .pipe(
-  //             mergeMap(items => {
-  //                 if (items && items.result) {
-  //                     if (items.next) {
-  //                         pram.start = items.next
-  //                         return this.getAll(pram).pipe(
-  //                             map(vEnd => {
-  //                                 if (vEnd && items.result) {
-  //                                     return [...items.result, ...vEnd]
-  //                                 }
-  //                                 return (items.result) ? items.result : []
-  //                             }))
-  //                     }
-  //                     return of(items.result)
-  //                 } else {
-  //                     return []
-  //                 }
-  //             })
-  //         )
-  // }
-
-  // getAllWithMap(pram: getListParam): Observable<ItemLists[] | undefined> {
-  //     return this.getAll(pram)
-  //         .pipe(
-  //             map(v => (v && v.length) ? v.map(i => this.listsMap.mapItemLists(i)) : [])
-  //         )
-  // }
+  get(pram: iBXRestParamListGet) {
+    return this.http.post<iBXRestListItemHttp[]>(this.url.get, pram)
+  }
 
   // getField(pram: getListFieldParam): Observable<iHttpAnswerBX<FieldItemLists[]> | undefined> {
   //     return this.http.post<iHttpAnswerBX<{ [key: string]: FieldItemLists }>>(this.url.field.get, pram)

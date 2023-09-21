@@ -14,7 +14,7 @@ export interface iBXRestParamListGet extends iBXRestPagination {
   // 'IBLOCK_ORDER': { "ID": "DESC" }
 }
 
-export interface iBXRestLists extends iBXRestBaseLists {
+export interface iBXRestListItem extends iBXRestBaseListItem {
   ACTIVE: boolean
   API_CODE: string
   BIZPROC: boolean
@@ -49,7 +49,7 @@ export interface iBXRestLists extends iBXRestBaseLists {
   XML_ID: string
 }
 
-export interface iBXRestHttpLists extends iBXRestBaseLists{
+export interface iBXRestListItemHttp extends iBXRestBaseListItem{
   ACTIVE: iBXRestYesNo
   API_CODE: string | null
   BIZPROC: iBXRestYesNo
@@ -84,7 +84,7 @@ export interface iBXRestHttpLists extends iBXRestBaseLists{
   XML_ID: string | null
 }
 
-interface iBXRestBaseLists {
+interface iBXRestBaseListItem {
   CODE: string
   DESCRIPTION_TYPE: 'text' // TODO: проверить возможно есть другие типы (на 11.11.2022 не видел ни одного)
   ELEMENTS_NAME: string
