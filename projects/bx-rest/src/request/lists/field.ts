@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core'
 import { $add, $delete, $field, $get, $lists, $type, $update } from '../../consts/part-name-metods'
+import { iBXRestFieldItem, iBXRestParamListField } from '../../typification/rest/lists/field/get'
+import { HttpBXServices } from '../../services/http/HttpBX'
 
 @Injectable({
   providedIn: 'root'
@@ -14,4 +16,14 @@ export default class BXRestListsField {
     },
     update: [$lists, $field, $update], // Метод обновляет поле списка
   }
+
+  constructor(
+    private http: HttpBXServices,
+  ) {
+  }
+
+  get(param: iBXRestParamListField) {
+    return this.http.post<{ [key: string]: iBXRestFieldItem }>(this.url.get, param)
+  }
+
 }

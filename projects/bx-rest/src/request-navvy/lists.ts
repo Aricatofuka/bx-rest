@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core'
 import { BXRestNavvyListsElement } from './lists/element'
-
+import { BXRestLists } from '../request/lists'
+import { iBXRestParamListGet } from '../typification/rest/lists/get'
+import { map } from 'rxjs/operators'
+import { Navvy } from '../services/navvy'
+import { BXRestMapLists } from '../map/lists'
 
 @Injectable({
   providedIn: 'root'
@@ -8,22 +12,19 @@ import { BXRestNavvyListsElement } from './lists/element'
 export class BXRestNavvyLists {
 
   constructor(
-    public element: BXRestNavvyListsElement
+    public element: BXRestNavvyListsElement,
+    private BXRestLists: BXRestLists,
+    private Navvy: Navvy,
+    private mapList: BXRestMapLists
   ) {
   }
 
-  // constructor(
-  //     private http: HttpBXServices,
-  //     private listsMap: ListsMapServices
-  // ) {
-  // }
 
-  // get(pram: iBXRestParamListGet): Observable<ItemLists[] | undefined> {
-  //     return this.http.post<iHttpAnswerBX<ItemListsBX[]>>(this.url.get, pram)
-  //         .pipe(
-  //             map(v => (v && v.length) ? v.map(i => this.listsMap.mapItemLists(i)) : [])
-  //         )
-  // }
+  get(param: iBXRestParamListGet) {
+    return this.Navvy.mapAndSnackBarError(this.BXRestLists.get(param), 'Не удалось получить список').pipe(
+      map(v =>  this.mapList.get(v))
+    )
+  }
 
   // getAll(pram: getListParam): Observable<ItemListsBX[] | undefined> {
   //     return this.getBase(pram)

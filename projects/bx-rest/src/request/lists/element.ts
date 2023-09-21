@@ -6,7 +6,7 @@ import {
   iBXRestParamListsElementGet
 } from '../../typification/rest/lists/element/get'
 import { Injectable } from '@angular/core'
-import { iBXRestParamListsElementAdd } from '../../typification/rest/lists/element/add';
+import { iBXRestParamListsElementAdd } from '../../typification/rest/lists/element/add'
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,6 @@ export class BXRestListsElement {
 
   constructor(
     private http: HttpBXServices,
-    // private mapResult: BXRestListsElementMap
   ) {
   }
 
@@ -36,4 +35,5 @@ export class BXRestListsElement {
   add(param: iBXRestParamListsElementAdd) {
     return this.http.post<number>(this.url.add, param)
   }
+
 }

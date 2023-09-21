@@ -3,6 +3,7 @@ import { $add, $blogpost, $delete, $get, $log, $share, $update } from '../../con
 import { iBXRestParamLogBlogPostAdd } from '../../typification/rest/log/blogpost/add'
 import { BXRestLogBlogPost } from '../../request/log/blogpost'
 import { Navvy } from '../../services/navvy'
+import { iBXRestParamBlogPostGet } from '../../typification/rest/log/blogpost/get'
 
 @Injectable({
   providedIn: 'root'
@@ -28,4 +29,9 @@ export class BXRestNavvyLogBlogPost {
   add(param: iBXRestParamLogBlogPostAdd) {
     return this.Navvy.mapAndSnackBarError(this.BXRestLogBlogPost.add(param), 'При добавлении поста')
   }
+
+  get(param: iBXRestParamBlogPostGet = {}) {
+    return this.Navvy.mapAndSnackBarError(this.BXRestLogBlogPost.get(param), 'Не удалось получить почты')
+  }
+
 }
