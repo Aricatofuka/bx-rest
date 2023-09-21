@@ -1,14 +1,22 @@
 import { Injectable } from '@angular/core'
-import { BaseMapServices } from '@/lib/services/map/base'
-import { iCommentTask, iCommentTaskHtml } from '@/lib/typification/bitrix/api/rest/task/comment/comment'
+import { iBXRestTaskComment, iBXRestTaskCommentHtml } from '../../typification/rest/task/commentitem/commentitem'
+import { BaseMapServices } from '../base'
 
 @Injectable({
   providedIn: 'root'
 })
-export class BitrixApiTaskCommentMapServices extends BaseMapServices {
+export class BXRestMapTaskCommentItem extends BaseMapServices {
 
-  iCommentTaskHtmlToiCommentTask(item: iCommentTaskHtml): iCommentTask {
-    if(item.ATTACHED_OBJECTS){
+  getlist(value: iBXRestTaskCommentHtml[] | undefined): iBXRestTaskComment[] | undefined {
+    return value ? value.map(i => this.iCommentTaskHtmlToiCommentTask(i)) : undefined
+  }
+
+  get(value: iBXRestTaskCommentHtml | undefined): iBXRestTaskComment | undefined {
+    return value ? this.iCommentTaskHtmlToiCommentTask(value) : undefined
+  }
+
+  private iCommentTaskHtmlToiCommentTask(item: iCommentTaskHtml): iCommentTask {
+    if (item.ATTACHED_OBJECTS) {
       return {
         ATTACHED_OBJECTS: Object.values(item.ATTACHED_OBJECTS).map(i => {
           return {
