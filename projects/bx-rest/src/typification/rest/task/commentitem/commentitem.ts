@@ -1,11 +1,11 @@
-export interface iCommentTask extends iCommentTaskBase {
+export interface iBXRestTaskComment extends iBXRestTaskCommentBase {
   ATTACHED_OBJECTS?: iCommentTaskFile[],
   AUTHOR_ID: number
   ID: number
   POST_DATE: Date,
 }
 
-export interface iCommentTaskHtml extends iCommentTaskBase {
+export interface iBXRestTaskCommentHtml extends iBXRestTaskCommentBase {
   ATTACHED_OBJECTS?: {
     [key: number]: iCommentTaskFileHtml
   }
@@ -14,7 +14,7 @@ export interface iCommentTaskHtml extends iCommentTaskBase {
   POST_DATE: string
 }
 
-interface iCommentTaskBase {
+interface iBXRestTaskCommentBase {
   AUTHOR_EMAIL: string
   AUTHOR_NAME: string
   POST_MESSAGE: string,

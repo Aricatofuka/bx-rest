@@ -1,17 +1,16 @@
-export interface iTaskStage extends iTaskStageBase{
+export interface iBXRestTaskStage extends iBXRestTaskStageBase{
   ID: number,
   SORT: number,
   ENTITY_ID: number
 }
 
-export interface iTaskStageHttp extends iTaskStageBase{
+export interface iBXRestTaskStageHttp extends iBXRestTaskStageBase{
   ID: string,
   SORT: string,
   ENTITY_ID: string
 }
 
-
-export interface iTaskStageBase{
+export interface iBXRestTaskStageBase{
   TITLE: string,
   COLOR: string,
   SYSTEM_TYPE: null, // ???

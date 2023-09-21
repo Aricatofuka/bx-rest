@@ -1,4 +1,4 @@
-export interface iAddTaskStage {
+export interface iBXRestAddTaskStage {
   TITLE: string, //	Заголовок стадии
   COLOR: string, //	Цвет стадии
   AFTER_ID?: number,	// Идентификатор стадии, после которой надо добавить. Если не указано или равно 0, добавится в начало.
