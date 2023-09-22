@@ -8,6 +8,7 @@ import { iBXRestElapseditemHttp } from '../../typification/rest/task/elapseditem
 import { iBXRestParamAddElapseditem } from '../../typification/rest/task/elapseditem/add'
 import { iBXRestParamUpdateElapseditem } from '../../typification/rest/task/elapseditem/update'
 import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapseditem/del'
+import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/isActionAllowedParam'
 
 @Injectable({
   providedIn: 'root'
@@ -28,30 +29,15 @@ export class BXRestElapseditem {
   }
 
   getList(
-    params: iBXRestParamElapseditemGet | undefined = undefined
+    param: iBXRestParamElapseditemGet | undefined = undefined
   ) {
-    if (params) {
-      if (!params.TASKID && !params.SELECT) {
-        params.SELECT = ['*']
-      }
-      if (!params.TASKID && !params.PARAMS) {
-        params.PARAMS = {
-          NAV_PARAMS: {
-            nPageSize: 50,
-            iNumPage: 1
-          }
-        }
-      }
-    }
-
-    return this.http.post<iBXRestElapseditemHttp[]>(this.url.getlist, params, 'не удалось получить время по задачам')
+    return this.http.post<iBXRestElapseditemHttp[]>(this.url.getlist, param)
   }
 
-  add(data: iBXRestParamAddElapseditem) {
+  add(param: iBXRestParamAddElapseditem) {
     return this.http.post<number>(
       this.url.add,
-      data,
-      'Не удалось добавить запись о времени',
+      param,
       {
         timeZone: {
           calc: false,
@@ -61,12 +47,11 @@ export class BXRestElapseditem {
     )
   }
 
-  update(data: iBXRestParamUpdateElapseditem) {
+  update(param: iBXRestParamUpdateElapseditem) {
     return this.http.post<null>
     (
       this.url.update,
-      data,
-      'Не удалось обновить запись о времени',
+      param,
       {
         timeZone: {
           calc: false,
@@ -79,9 +64,22 @@ export class BXRestElapseditem {
   del(param: iBXRestParamDelElapseditem) {
     return this.http.post<null>(
       this.url.delete,
-      {param},
-      'Не удалось удалить запись'
+      param
     )
+  }
+
+  /**
+   * idAction:
+   * 1 - ACTION_ELAPSED_TIME_ADD
+   * 2 - ACTION_ELAPSED_TIME_MODIFY
+   * 3 - ACTION_ELAPSED_TIME_REMOVE
+   * ITEMID - обязателен в конечной отправке но не обязателен для ACTION_ELAPSED_TIME_ADD,
+   * поэтому этом методе можно ставить "1" например, так же метод может выдавать ошибки о не доступности задачи
+   * поэтому рекомендую воспользоваться аналогичным методом в пространстве имен navvy
+   * @param param
+   */
+  isActionAllowed(param: iIsActionAllowedParam) {
+    return this.http.post<boolean>(this.url.isactionallowed, param)
   }
 
 }

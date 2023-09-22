@@ -9,6 +9,7 @@ import { iBXRestHttpTask } from '../../typification/rest/task/task'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'
 import { iBXRestParamTasksList } from '../../typification/rest/tasks/task/list'
+import { iBXRestParamTaskGetAccess, iBXRestTaskGetAccess } from '../../typification/rest/task/access/getaccess'
 // import { AnswerApiTaskBX } from '../../typification/rest/task/answers/task';
 
 @Injectable({
@@ -219,14 +220,11 @@ export class BXRestTasksTask {
   getPlannerList() {s
     return this.http.post<iHttpAnswerBX<(string | number)[]>>(this.url.planner.getlist)
   }
-
-  getaccess(id: number, users: number[] = []) {
-    return this.http.post<iHttpAnswerBX<iGetAccessTask>>(this.url.getaccess, {taskId: id, user: users})
-      .pipe(
-        map(v => this.http.mapResult(v)),
-        map(v => (v && v.allowedActions) ? v.allowedActions : undefined)
-      )
-  }
    */
+
+  getaccess(param: iBXRestParamTaskGetAccess) {
+    return this.http.post<iBXRestTaskGetAccess>(this.url.getaccess, param)
+  }
+
 }
 
