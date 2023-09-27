@@ -10,12 +10,11 @@ export class BXRestNavvyBizprocWorkflow {
 
   constructor(
     private BXRestBizprocWorkflow: BXRestBizprocWorkflow,
-    private Navvy: Navvy,
   ) {
   }
 
   start(param: iBXRestParamBizprocWorkflowStart)  {
-    return this.Navvy.mapAndSnackBarError(
+    return new Navvy(
       this.BXRestBizprocWorkflow.start(param),
       'Не удалось запустить бизнес процесс'
     )

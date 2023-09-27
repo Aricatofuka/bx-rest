@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core'
-import { catchError, map } from 'rxjs/operators'
-import { mergeMap, of, tap } from 'rxjs'
+import { map } from 'rxjs/operators'
+import { mergeMap, of, tap, throwError } from 'rxjs'
 import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
 import { BXRestElapseditem } from '../../request/task/elapseditem'
-import { Navvy } from '../../services/navvy'
 import { iBXRestParamAddElapseditem } from '../../typification/rest/task/elapseditem/add'
 import { Permission } from '../../services/permission'
 import { BXRestNavvyUser } from '../user'
 import { BXRestNavvyTasks } from '../tasks'
-import SnackBarService from '../../services/snack-bar/snack-bar.service'
 import { iBXRestParamUpdateElapseditem } from '../../typification/rest/task/elapseditem/update'
 import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/isActionAllowedParam'
 import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapseditem/del'
+import { Navvy } from '../../services/navvy'
+import { NavvyAlterPagNav } from '../../services/Navvy/NavvyAlternativePaginationNavigation'
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +22,17 @@ export class BXRestNavvyElapseditem {
     private BXRestElapseditem: BXRestElapseditem,
     private BXRestNavvyUser: BXRestNavvyUser,
     private BXRestNavvyTasks: BXRestNavvyTasks,
-    private Navvy: Navvy,
-    private snackBar: SnackBarService
   ) {
   }
+
+  /*
+  call(methodName: string, ...args: any[]){
+    if (typeof this[methodName] === 'function') {
+      return this[methodName](...args);
+    }
+    return this[methodName](...args);
+  }
+   */
 
   getList(
     param: iBXRestParamElapseditemGet | undefined = undefined
@@ -43,57 +50,43 @@ export class BXRestNavvyElapseditem {
         }
       }
     }
-    return this.Navvy.mapAndSnackBarError(
-      this.BXRestElapseditem.getList(param),
-      'не удалось получить время по задачам'
-    )
+    return new NavvyAlterPagNav(this.BXRestElapseditem.getList, param)
   }
 
   add(param: iBXRestParamAddElapseditem) {
     return this.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(allowedReadTask => {
         if (allowedReadTask) {
-          return this.checkPermissionReadTask(param.TASKID).pipe(
+          return this.checkPermissionAddTask(param.TASKID).pipe(
             mergeMap(allowed => {
               if (allowed) {
-                return this.Navvy.mapAndSnackBarError(
-                  this.BXRestElapseditem.add(param),
-                  'Не удалось добавить запись о времени',
-                )
+                return this.BXRestElapseditem.add(param)
               } else {
-                this.snackBar.error('Отсутствуют права добавление записи затраченного времени')
-                return of(false)
+                return throwError(() => new Error('Отсутствуют права добавление записи затраченного времени'))
               }
             }))
         } else {
-          this.snackBar.error('Отсутствуют права на чтение задачи')
-          return of(false)
+          return throwError(() => new Error('Отсутствуют права на чтение задачи'))
         }
       }))
   }
 
   update(param: iBXRestParamUpdateElapseditem) {
-    return this.checkPermissionReadTask(param.TASKID).pipe(
+    return new Navvy<null, boolean>(this.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(allowedReadTask => {
         if (allowedReadTask) {
           return this.isAllowedModify(param.TASKID, param.ITEMID).pipe(
             mergeMap(allowed => {
               if (allowed) {
-                return this.Navvy.mapAndSnackBarError(
-                  this.BXRestElapseditem.update(param),
-                  'Не удалось обновить запись о времени',
-                )
+                return this.BXRestElapseditem.update(param)
               } else {
-                this.snackBar.error('Отсутствуют права на изменение записи затраченного времени')
-                return of(false)
+                return throwError(() => new Error('Отсутствуют права на изменение записи затраченного времени'))
               }
             }))
-
         } else {
-          this.snackBar.error('Отсутствуют права на чтение задачи')
-          return of(false)
+          return throwError(() => new Error('Отсутствуют права на чтение задачи'))
         }
-      }))
+      })), 'Не удалось обновить элемент списка',(p: null) => (p == null))
   }
 
   /*
@@ -130,9 +123,23 @@ export class BXRestNavvyElapseditem {
       )
   }
    */
-  /*
-  getByInterval(idsUsers: number[], dateStart: Date, dateEnd: Date, cache = false) {
-    return this.getAll({
+
+  getByInterval(idsUsers: number[], dateStart: Date, dateEnd: Date) {
+    return new Navvy(
+      this.BXRestElapseditem.getList(
+        {
+          ORDER: {
+            ID: 'DESC'
+          },
+          FILTER: {
+            USER_ID: idsUsers,
+            '>=CREATED_DATE': dateStart.toLocaleString('ru-Ru'),
+            '<=CREATED_DATE': dateEnd.toLocaleString('ru-Ru'),
+          }
+        }
+      ))
+    /*
+    return this.BXRestElapseditem.getList({
         ORDER: {
           ID: 'DESC'
         },
@@ -141,13 +148,11 @@ export class BXRestNavvyElapseditem {
           '>=CREATED_DATE': dateStart.toLocaleString('ru-Ru'),
           '<=CREATED_DATE': dateEnd.toLocaleString('ru-Ru'),
         }
-      },
-      cache
-    ).pipe(
-      map(v => this.http.mapResult(v))
+      }
     )
-  }
    */
+
+  }
 
   /*
   getCacheOff(params: RequestParamsElapsedGetList | undefined = undefined) {
@@ -192,7 +197,7 @@ export class BXRestNavvyElapseditem {
       TASKID: idTask,
       ITEMID: 2,
       ACTIONID: idItem
-    }).pipe(
+    }).result().pipe(
       tap(v => {
         if (v !== undefined) {
           Permission.setTaskElapsedItem(idTask,
@@ -210,13 +215,13 @@ export class BXRestNavvyElapseditem {
     )
   }
 
-  isAllowedRemove(idTask: number, idItem: number) {
+  private isAllowedRemove(idTask: number, idItem: number) {
     return this.isActionAllowed(
       {
         TASKID: idTask,
         ITEMID: 3,
         ACTIONID: idItem
-      })
+      }).result()
   }
 
   /**
@@ -227,36 +232,66 @@ export class BXRestNavvyElapseditem {
    * @param param
    */
   isActionAllowed(param: iIsActionAllowedParam) {
-    return this.checkPermissionReadTask(param.TASKID).pipe(
+    return new Navvy<boolean, boolean>(this.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(canRead => {
         if (canRead) {
-          this.Navvy.mapAndSnackBarError(this.BXRestElapseditem.isActionAllowed(param), '').pipe(
-            catchError(v => {
-              console.error(v)
-              return of(false)
-            })
-          )
+          return this.BXRestElapseditem.isActionAllowed(param)
         }
-        return of(false)
+        return throwError(() => new Error('Отсутствуют права на чтение задачи'))
       })
-    )
+    ))
   }
 
-  checkPermissionReadTask(idTask: number) {
+  checkPermissionAddTask(idTask: number) {
     let permission = Permission.get()
     if (permission?.tasks?.length) {
       let findTask = permission.tasks.find(i => i.id === idTask)
       if (findTask?.permission) {
-        return of(findTask.permission.ACCEPT)
+        return of(findTask.permission['ELAPSEDTIME.ADD'])
       }
-      return this.BXRestNavvyUser.current().pipe(
+      return this.BXRestNavvyUser.current().result().pipe(
         mergeMap(self => {
           if (self) {
             return this.BXRestNavvyTasks.task.getaccess(
               {
                 id: idTask,
                 users: [self.ID]
-              }).pipe(
+              }).result().pipe(
+              tap(v => {
+                if (v && v[self.ID]) {
+                  Permission.set({
+                    tasks: [{id: idTask, permission: v[self.ID], elapsedItem: []}]
+                  })
+                }
+              }),
+              map(v => {
+                return (v && v[self.ID]) ? v[self.ID]['ELAPSEDTIME.ADD'] : false
+              }),
+            )
+          }
+          return of(undefined)
+        })
+      )
+    }
+
+    return of(undefined)
+  }
+
+  private checkPermissionReadTask(idTask: number) {
+    let permission = Permission.get()
+    if (permission?.tasks?.length) {
+      let findTask = permission.tasks.find(i => i.id === idTask)
+      if (findTask?.permission) {
+        return of(findTask.permission.ACCEPT)
+      }
+      return this.BXRestNavvyUser.current().result().pipe(
+        mergeMap(self => {
+          if (self) {
+            return this.BXRestNavvyTasks.task.getaccess(
+              {
+                id: idTask,
+                users: [self.ID]
+              }).result().pipe(
               tap(v => {
                 if (v && v[self.ID]) {
                   Permission.set({
@@ -278,27 +313,22 @@ export class BXRestNavvyElapseditem {
   }
 
   del(param: iBXRestParamDelElapseditem) {
-    return this.checkPermissionReadTask(param.TASKID).pipe(
+    return new Navvy( this.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(allowedReadTask => {
         if (allowedReadTask) {
           return this.isAllowedRemove(param.TASKID, param.ITEMID).pipe(
             mergeMap(allowed => {
               if (allowed) {
-                return this.Navvy.mapAndSnackBarError(this.BXRestElapseditem.del(param), 'Не удалось удалить запись')
-                  .pipe(
-                    map(v => (v === null)),
-                  )
+                return this.BXRestElapseditem.del(param)
               } else {
-                this.snackBar.error('Отсутствуют права на удаление записи затраченного времени')
-                return of(false)
+                return throwError(() => new Error('Отсутствуют права на удаление записи затраченного времени'))
               }
             }))
         } else {
-          this.snackBar.error('Отсутствуют права на чтение задачи')
-          return of(false)
+          return throwError(() => new Error('Отсутствуют права на чтение задачи'))
         }
       })
-    )
+    ), 'Не удалось удалить элемент списка', v => (v === null))
   }
 
 }

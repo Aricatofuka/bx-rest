@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core'
 import { BaseMapServices } from './base'
-import BXRestListsElementMap from './lists/element'
 import { iBXRestListItem, iBXRestListItemHttp } from '../typification/rest/lists/get'
 
 
@@ -9,15 +8,16 @@ import { iBXRestListItem, iBXRestListItemHttp } from '../typification/rest/lists
 })
 export class BXRestMapLists extends BaseMapServices {
 
-  constructor(public element: BXRestListsElementMap) {
-    super()
-  }
+  test = 'test'
+
+  static test2 = 'test'
 
   get(value: iBXRestListItemHttp[] | undefined): iBXRestListItem[] | undefined {
+    console.log('this.iBXRestListItemHttpToiBXRestListItem', this.iBXRestListItemHttpToiBXRestListItem, this.test, BXRestMapLists.test2, value)
     return (value) ? value.map(i => this.iBXRestListItemHttpToiBXRestListItem(i)) : undefined
   }
 
-  private iBXRestListItemHttpToiBXRestListItem(itemLists: iBXRestListItemHttp): iBXRestListItem
+  protected iBXRestListItemHttpToiBXRestListItem(itemLists: iBXRestListItemHttp): iBXRestListItem
   {
     return {
       ACTIVE: itemLists.ACTIVE === 'Y',

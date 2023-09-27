@@ -1,4 +1,4 @@
-import { throwError } from 'rxjs'
+import { share, throwError } from 'rxjs'
 import clone from 'just-clone'
 import { iBXRestParamUserGet } from '../typification/rest/user/get'
 import { HttpBXServices } from '../services/http/HttpBX'
@@ -54,8 +54,15 @@ export class BXRestUser {
     )
   }
 
-  current() {
-    return this.http.get<iBXRestUserHttp>(this.url.current, {})
+  current(update = false) {
+    let request = this.http.get<iBXRestUserHttp>(this.url.current, {})
+    if(update) {
+      return request
+    } else {
+      return request.pipe(
+        share()
+      )
+    }
   }
 
   update(user: iBXRestUser, fieldUpdate: string[]) {

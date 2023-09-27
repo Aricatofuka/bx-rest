@@ -12,6 +12,7 @@ import { Injectable } from '@angular/core'
 import { BXRestListsElement } from './lists/element'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestListItemHttp, iBXRestParamListGet } from '../typification/rest/lists/get'
+import BXRestListsField from './lists/field'
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,7 @@ export class BXRestLists {
 
   constructor(
     public element: BXRestListsElement,
+    public field: BXRestListsField,
     private http: HttpBXServices,
   ) {
   }
