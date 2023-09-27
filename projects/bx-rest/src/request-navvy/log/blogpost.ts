@@ -22,16 +22,15 @@ export class BXRestNavvyLogBlogPost {
 
   constructor(
     private BXRestLogBlogPost: BXRestLogBlogPost,
-    private Navvy: Navvy,
   ) {
   }
 
   add(param: iBXRestParamLogBlogPostAdd) {
-    return this.Navvy.mapAndSnackBarError(this.BXRestLogBlogPost.add(param), 'При добавлении поста')
+    return new Navvy(this.BXRestLogBlogPost.add(param))
   }
 
   get(param: iBXRestParamBlogPostGet = {}) {
-    return this.Navvy.mapAndSnackBarError(this.BXRestLogBlogPost.get(param), 'Не удалось получить почты')
+    return new Navvy(this.BXRestLogBlogPost.get(param))
   }
 
 }

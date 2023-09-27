@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core'
 import { BXRestNavvyDiskFolder } from './folder'
-import { map, mergeMap, take } from 'rxjs/operators'
+import { mergeMap } from 'rxjs/operators'
 import { BXRestNavvyDiskFile } from './file'
 import { BXRestNavvyDiskStorage } from './storage'
-import { BXRestMapResult } from '../../functions/mapResult'
-import { of } from 'rxjs'
+import { of, throwError } from 'rxjs'
+import { Navvy } from '../../services/navvy'
 
 @Injectable({
   providedIn: 'root'
@@ -19,9 +19,11 @@ export class BXRestNavvyDiskOperation {
   }
 
   // данные файла в base64
-  loadFileInAppFolder(file: { name: string, val: string }) {
-    return this.storage.getforapp().pipe(
-      take(1),
+  loadFileInAppFolder(file: {
+    name: string,
+    val: string
+  }) {
+    return new Navvy(this.storage.getforapp().result().pipe(
       mergeMap(infoFolder => {
         if (infoFolder) {
           return this.storage.uploadfile(
@@ -32,24 +34,22 @@ export class BXRestNavvyDiskOperation {
                 NAME: file.name
               },
               generateUniqueName: true
-            }).pipe(
-            map(v => BXRestMapResult(v)),
-          )
+            }).resultVanilla()
         }
-        return of(undefined)
+        return throwError(() => new Error('Отсутствует общее хранилище для приложения'))
       })
-    )
+    ))
   }
 
   getOfCreateRootContentFolderApp(folderName: string) {
-    return this.getOfCreateRootFolderApp(folderName).pipe(
+    return new Navvy(this.getOfCreateRootFolderApp(folderName).result().pipe(
       mergeMap(v => {
         if (v) {
-          return this.folder.getchildren(v.ID)
+          return this.folder.getchildren(v.ID).mapForVanilla()
         }
         return of(undefined)
       })
-    )
+    ))
   }
 
   getRootFoldersApp() {
@@ -60,10 +60,10 @@ export class BXRestNavvyDiskOperation {
     //       if (saveData.content.root.app) {
     //         return of(saveData.content.root.app)
     //       }
-    return this.storage.getforapp().pipe(
+    return new Navvy(this.storage.getforapp().result().pipe(
       mergeMap(v => {
         if (v && v.ID) {
-          return this.storage.getchildren({id: v.ID})
+          return this.storage.getchildren({id: v.ID}).mapForVanilla()
           //   .pipe(
           //   tap(v => {
           //     if (v) {
@@ -74,38 +74,37 @@ export class BXRestNavvyDiskOperation {
         }
         return of(undefined)
       })
-    )
+    ))
     //     }
     //   )
     // )
   }
-
 
   /**
    * Получать или создать папку, если её нет, с определенным именем для приложения
    * @param folderName
    */
   getOfCreateRootFolderApp(folderName: string) {
-    return this.getRootFoldersApp().pipe(
+    return new Navvy(this.getRootFoldersApp().result().pipe(
       mergeMap(v => {
           if (v) {
             if (v.folder.length) {
               let find = v.folder.find(i => i.NAME === folderName)
               if (find) {
-                return of(find)
+                return of({result: find})
               }
             }
           }
-          return this.storage.getforapp().pipe(
+          return this.storage.getforapp().result().pipe(
             mergeMap(v => {
               if (v && v.ID) {
-                return this.storage.addfolder({id: v.ID, data: {NAME: folderName}})
+                return this.storage.addfolder({id: v.ID, data: {NAME: folderName}}).resultVanilla()
               }
-              return of(undefined)
+              return throwError(() => new Error('Отсутствуют права добавление записи затраченного времени'))
             })
           )
         }
-      ))
+      )))
   }
 
 }

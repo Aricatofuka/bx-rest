@@ -3,11 +3,11 @@ import { map } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { BXRestUser } from '../request/user'
 import { BXRestUserMap } from '../map/user'
-import { iBXRestParamUserGet } from '../typification/rest/user/get'
 import { Navvy } from '../services/navvy'
-import { iBXRestUser } from '../typification/rest/user/user'
+import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user/user'
 import UserFilterSearch from '../typification/rest/user/UserFilterSearch'
-import { SessionStorage } from '../services/vanilla/sessionStorage';
+import { SessionStorage } from '../services/vanilla/sessionStorage'
+import { iBXRestAnswer } from '../typification/rest/base/answer'
 
 
 @Injectable({
@@ -16,62 +16,63 @@ import { SessionStorage } from '../services/vanilla/sessionStorage';
 export class BXRestNavvyUser {
 
   constructor(
-    private BXRestUser: BXRestUser,
+    // private override http: HttpBXServices,
     private BXRestUserMap: BXRestUserMap,
-    private Navvy: Navvy,
+    private BXRestUser: BXRestUser
   ) {
-  }
-
-  get(params: iBXRestParamUserGet = {}) {
-    return this.Navvy.mapAndSnackBarError(this.BXRestUser.get(params), 'Не удалось получить пользователей')
+   //  super(http, BXRestUserMap)
   }
 
   current(update = false) {
-    if (update) {
-      return this.self()
-    } else {
-      let self = SessionStorage.getItem(this.constructor.name + this.self.name) as iBXRestUser
-      if(self){
-        return of(self)
-      }
-      return this.self()
-    }
+    return new Navvy(
+      this.self(update),
+      '',
+      this.BXRestUserMap.current
+    )
   }
 
   update(user: iBXRestUser, fieldUpdate: string[]) {
-    return this.Navvy.mapAndSnackBarError(
+    return new Navvy(
       this.BXRestUser.update(user, fieldUpdate),
       'Не удалось обновить пользователя с ID' + user.ID
     )
   }
 
-  private self() {
-    return this.Navvy.mapAndSnackBarError(this.BXRestUser.current(), 'Не удалось получить пользователя')
-      .pipe(
-        map(v => {
-          if (v) {
-            return this.BXRestUserMap.current(v)
-          }
-          return undefined
-        }),
-        tap(v => {
-          if (v) {
-            SessionStorage.setItem(this.constructor.name + this.self.name, v);
-          }
-        }),
-      )
-  }
-
   search(params: string | UserFilterSearch) {
-    return this.Navvy.mapAndSnackBarError(this.BXRestUser.search(params), 'Сервер не отвечает на запрос поиска')
+    return new Navvy(this.BXRestUser.search(params), 'Сервер не отвечает на запрос поиска')
   }
 
-  access(access: string[]) {
-    return this.Navvy.mapAndSnackBarError(this.BXRestUser.access(access), 'Не удалось получить права')
+  access(params: string[]) {
+    return new Navvy(this.BXRestUser.access(params), 'Не удалось получить права')
   }
 
   fields() {
-    return this.Navvy.mapAndSnackBarError(this.BXRestUser.fields(), 'Не удалось поля')
+    return new Navvy(this.BXRestUser.fields(), 'Не удалось поля')
+  }
+
+  private self(update = false) {
+    if (update) {
+      return this.BXRestUser.current(update)
+    } else {
+      let self = SessionStorage.getItem(this.constructor.name + this.self.name) as iBXRestUserHttp
+      if(self){
+        return of({result: self} as iBXRestAnswer<iBXRestUserHttp>)
+      }
+      return this.BXRestUser.current(update)
+        .pipe(
+          map(v => {
+            if (v) {
+              return v
+            }
+            return undefined
+          }),
+          tap(v => {
+            if (v) {
+              SessionStorage.setItem(this.constructor.name + this.self.name, v);
+            }
+          }),
+        )
+    }
   }
 
   // getAll(params: iBXGetParam = {}): Observable<iBXRestUser [] | undefined> {

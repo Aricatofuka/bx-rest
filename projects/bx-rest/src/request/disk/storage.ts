@@ -6,6 +6,7 @@ import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestFile, iBXRestFileHttp } from '../../typification/rest/disk/file'
 import { iBXRestFolderHttp, iBXRestFolderInfo } from '../../typification/rest/disk/folder'
 import { iBXRestParamUploadFile } from '../../typification/rest/disk/storage/uploadfile'
+import { iBXRestParamGetchildren } from '../../typification/rest/disk/storage/getchildren'
 
 @Injectable({
   providedIn: 'root'
@@ -37,8 +38,7 @@ export class BXRestDiskStorage {
     )
   }
 
-  // TODO: разобраться с фильтром
-  getchildren(param: {id: number, filter?: any}) {
+  getchildren(param: iBXRestParamGetchildren) {
     return this.http.post<(iBXRestFolderHttp | iBXRestFileHttp)[]>(
       this.url.getchildren,
       param
