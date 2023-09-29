@@ -2,15 +2,10 @@ import { Injectable } from '@angular/core'
 import { BaseMapServices } from './base'
 import { iBXRestListItem, iBXRestListItemHttp } from '../typification/rest/lists/get'
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestMapLists extends BaseMapServices {
-
-  test = 'test'
-
-  static test2 = 'test'
 
   get(value: iBXRestListItemHttp[] | undefined): iBXRestListItem[] | undefined {
     return (value) ? value.map(i => this.iBXRestListItemHttpToiBXRestListItem(i)) : undefined
@@ -33,7 +28,7 @@ export class BXRestMapLists extends BaseMapServices {
       ELEMENT_NAME: this.toStr(itemLists.ELEMENT_NAME),
       EXTERNAL_ID: this.toStr(itemLists.EXTERNAL_ID),
       IBLOCK_TYPE_ID: this.toStr(itemLists.IBLOCK_TYPE_ID),
-      ID: Number(itemLists.ID),
+      ID: this.toNum(itemLists.ID),
       INDEX_ELEMENT: itemLists.INDEX_ELEMENT === 'Y',
       INDEX_SECTION: itemLists.INDEX_SECTION === 'Y',
       LANG_DIR: this.toStr(itemLists.LANG_DIR),
@@ -59,7 +54,7 @@ export class BXRestMapLists extends BaseMapServices {
       SECTION_PROPERTY: this.toStr(itemLists.SECTION_PROPERTY),
       SERVER_NAME: this.toStr(itemLists.SERVER_NAME),
       SOCNET_GROUP_ID: this.toStr(itemLists.SOCNET_GROUP_ID),
-      SORT: this.toStr(itemLists.SOCNET_GROUP_ID),
+      SORT: this.toNum(itemLists.SOCNET_GROUP_ID),
       TIMESTAMP_X: new Date(itemLists.TIMESTAMP_X),
       TMP_ID:  this.toStr(itemLists.SOCNET_GROUP_ID),
       VERSION: Number(itemLists.VERSION),
@@ -67,5 +62,4 @@ export class BXRestMapLists extends BaseMapServices {
       XML_ID:  this.toStr(itemLists.SOCNET_GROUP_ID),
     }
   }
-
 }
