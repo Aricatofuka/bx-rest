@@ -4,7 +4,7 @@ import {
 } from '../../consts/part-name-metods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
-import { iBXRestElapseditemHttp } from '../../typification/rest/task/elapseditem/item'
+import { iBXRestElapsedItemHttp } from '../../typification/rest/task/elapseditem/item'
 import { iBXRestParamAddElapseditem } from '../../typification/rest/task/elapseditem/add'
 import { iBXRestParamUpdateElapseditem } from '../../typification/rest/task/elapseditem/update'
 import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapseditem/del'
@@ -31,7 +31,7 @@ export class BXRestElapseditem {
   getList(
     param: iBXRestParamElapseditemGet | undefined = undefined
   ) {
-    return this.http.post<iBXRestElapseditemHttp[]>(this.url.getlist, param)
+    return this.http.post<iBXRestElapsedItemHttp[]>(this.url.getlist, param)
   }
 
   add(param: iBXRestParamAddElapseditem) {

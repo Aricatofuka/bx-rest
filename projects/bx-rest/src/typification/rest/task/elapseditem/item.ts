@@ -1,4 +1,4 @@
-export interface iBXRestElapseditem extends iBXRestElapseditemBase {
+export interface iBXRestElapsedItem extends iBXRestElapsedItemBase {
     ID: number
     MINUTES: number
     SECONDS: number
@@ -10,7 +10,7 @@ export interface iBXRestElapseditem extends iBXRestElapseditemBase {
     DATE_STOP: Date
 }
 
-export interface iBXRestElapseditemHttp extends iBXRestElapseditemBase {
+export interface iBXRestElapsedItemHttp extends iBXRestElapsedItemBase {
     ID: string
     MINUTES: string
     SECONDS: string
@@ -24,6 +24,6 @@ export interface iBXRestElapseditemHttp extends iBXRestElapseditemBase {
 }
 
 
-export interface iBXRestElapseditemBase {
+export interface iBXRestElapsedItemBase {
     COMMENT_TEXT: string
 }
