@@ -14,18 +14,19 @@ import { iBXRestParamGetchildren } from '../../typification/rest/disk/storage/ge
 export class BXRestNavvyDiskStorage {
 
   // BXDiskFolder$ = new Observable<BXDiskFolderStore>()
+  private Navvy: Navvy<BXRestDiskStorage, BXRestMapDiskStorage>
 
   constructor(
     private BXRestDiskStorage: BXRestDiskStorage,
     private BXRestMapDiskStorage: BXRestMapDiskStorage,
     // private store: Store<{ BXDiskFolder: BXDiskFolderStore }>,
-
   ) {
+    this.Navvy = new Navvy(this.BXRestDiskStorage, this.BXRestMapDiskStorage)
     // this.BXDiskFolder$ = this.store.select('BXDiskFolder')
   }
 
   getforapp() {
-    return new Navvy(this.getforappEnd(), 'get root app folder')
+    return this.Navvy.simple(this.getforappEnd, 'get root app folder')
   }
 
   private getforappEnd(){
@@ -43,26 +44,21 @@ export class BXRestNavvyDiskStorage {
     }
   }
 
-
   getchildren(param: iBXRestParamGetchildren) {
-    return new Navvy(
-      this.BXRestDiskStorage.getchildren(param),
+    return this.Navvy.simpleWithArg(
+      this.BXRestDiskStorage.getchildren,
+      param,
       'get root app folders and files',
-      v => {
-        if (v && v.length) {
-          return this.BXRestMapDiskStorage.getchildren(v)
-        }
-        return {file: [], folder: []}
-      }
+      this.BXRestMapDiskStorage.getchildren
     )
   }
 
   // TODO: разобраться что возвращает и что вставлять
   addfolder(param: { id: number, data: { NAME: string } }) {
-    return new Navvy(this.BXRestDiskStorage.addfolder(param))
+    return this.Navvy.simpleWithArg(this.BXRestDiskStorage.addfolder, param)
   }
 
   uploadfile(param: iBXRestParamUploadFile) {
-    return new Navvy(this.BXRestDiskStorage.uploadfile(param))
+    return this.Navvy.simpleWithArg(this.BXRestDiskStorage.uploadfile, param)
   }
 }

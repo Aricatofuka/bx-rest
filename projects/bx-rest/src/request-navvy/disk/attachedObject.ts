@@ -4,20 +4,22 @@ import BXRestMapDiskAttachedObject from '../../map/disk/attachedObject'
 import { Navvy } from '../../services/navvy'
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class BXRestNavvyDiskAttachedObject {
+  private Navvy: Navvy<BXRestDiskAttachedObject, BXRestMapDiskAttachedObject>
 
-    constructor(
-        private BXRestDiskAttachedObject: BXRestDiskAttachedObject,
-        private mapAttachedObject: BXRestMapDiskAttachedObject,
-    ) {
-    }
+  constructor(
+    private BXRestDiskAttachedObject: BXRestDiskAttachedObject,
+    private mapAttachedObject: BXRestMapDiskAttachedObject,
+  ) {
+    this.Navvy = new Navvy(this.BXRestDiskAttachedObject, this.mapAttachedObject)
+  }
 
-    get(id: number) {
-        return new Navvy(
-          this.BXRestDiskAttachedObject.get(id),
-          'Не удалось получить прикрепленные файлы',
-          this.mapAttachedObject.get)
-    }
+  get(id: number) {
+    return this.Navvy.simpleWithArg(
+      this.BXRestDiskAttachedObject.get, id,
+      'Не удалось получить прикрепленные файлы',
+      this.mapAttachedObject.get)
+  }
 }

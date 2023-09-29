@@ -8,7 +8,7 @@ import BXRestMapDiskBase from './base'
 })
 export default class BXRestMapDiskFolder extends BXRestMapDiskBase {
 
-  getContent(arr: (iBXRestFolderHttp | iBXRestFileHttp)[]){
-    return this.separationFoldersAndFiles(arr)
+  getContent(arr: (iBXRestFolderHttp | iBXRestFileHttp)[] | undefined){
+    return (arr) ? this.separationFoldersAndFiles(arr) : {file: [], folder: []}
   }
 }

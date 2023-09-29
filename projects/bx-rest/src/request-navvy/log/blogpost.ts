@@ -20,17 +20,20 @@ export class BXRestNavvyLogBlogPost {
     update: [$log, $blogpost, $update], // Изменяет сообщение Живой Ленты
   }
 
+  private Navvy: Navvy<BXRestLogBlogPost, undefined>
+
   constructor(
     private BXRestLogBlogPost: BXRestLogBlogPost,
   ) {
+    this.Navvy = new Navvy(this.BXRestLogBlogPost, undefined)
   }
 
   add(param: iBXRestParamLogBlogPostAdd) {
-    return new Navvy(this.BXRestLogBlogPost.add(param))
+    return this.Navvy.simpleWithArg(this.BXRestLogBlogPost.add, param)
   }
 
   get(param: iBXRestParamBlogPostGet = {}) {
-    return new Navvy(this.BXRestLogBlogPost.get(param))
+    return this.Navvy.simpleWithArg(this.BXRestLogBlogPost.get, param)
   }
 
 }

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core'
-import SnackBarService from '../../services/snack-bar/snack-bar.service'
-import { BXRestTaskMap } from '../../map/task'
 import { BXRestTasksTask } from '../../request/tasks/task'
 import { iBXRestTaskFieldsName } from '../../typification/rest/task/base/fieldsName'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'
 import { Navvy } from '../../services/navvy'
 import { iBXRestParamTasksList } from '../../typification/rest/tasks/task/list'
-import { iBXRestParamTaskGetAccess, iBXRestTaskGetAccess } from '../../typification/rest/task/access/getaccess'
+import { iBXRestParamTaskGetAccess } from '../../typification/rest/task/access/getaccess'
+import { BXRestMapTasksTask } from '../../map/tasks/task'
 
 // export interface TimeProcess {
 //   total: number,
@@ -33,14 +32,17 @@ export class BXRestNavvyTasksTask {
   }
 
   // storeTask$: Observable<iStoreTask>
+  Navvy: Navvy<BXRestTasksTask, BXRestMapTasksTask>
 
   constructor(
     private BXRestTasksTask: BXRestTasksTask,
-    private snackBar: SnackBarService,
+    // private snackBar: SnackBarService,
     //  private store: Store<{ tasks: IStoreTask }>,
-    private taskMap: BXRestTaskMap,
+    private BXRestMapTasksTask: BXRestMapTasksTask,
+
     // private taskResultMap: BitrixApiTaskResultMapServices
   ) {
+    this.Navvy = new Navvy(this.BXRestTasksTask, this.BXRestMapTasksTask)
     //  this.storeTask$ = this.store.select('tasks')
     //  this.nowLoad$.next({
     //    total: 0,
@@ -49,10 +51,11 @@ export class BXRestNavvyTasksTask {
   }
 
   add(param: { fields: iBXRestParamTaskAdd }) {
-    return new Navvy(
-      this.BXRestTasksTask.add(param),
+    return this.Navvy.simpleWithArg(
+      this.BXRestTasksTask.add,
+      param,
       'Не удалось добавить задачу',
-      this.taskMap.add
+      this.BXRestMapTasksTask.add
     )
     // return this.http.post<{ task: TaskBXHttp }>(this.url.add, {fields: param}).pipe(
     //   map(v => {
@@ -99,10 +102,11 @@ export class BXRestNavvyTasksTask {
     if (!param.select) {
       param.select = this.def.select
     }
-    return new Navvy(
-      this.BXRestTasksTask.get(param),
+    return this.Navvy.simpleWithArg(
+      this.BXRestTasksTask.get,
+      param,
       'Не удалось получить задачу',
-      this.taskMap.get
+      this.BXRestMapTasksTask.get
     )
   }
 
@@ -111,10 +115,11 @@ export class BXRestNavvyTasksTask {
     if (!param.select) {
       param.select = this.def.select
     }
-    return new Navvy(
-      this.BXRestTasksTask.list(param),
+    return this.Navvy.simpleWithArg(
+      this.BXRestTasksTask.list,
+      param,
       'Не удалось получить список задач',
-      this.taskMap.list
+      this.BXRestMapTasksTask.list
     )
   }
 
@@ -240,10 +245,11 @@ export class BXRestNavvyTasksTask {
    */
 
   getaccess(param: iBXRestParamTaskGetAccess) {
-    return new Navvy(
-      this.BXRestTasksTask.getaccess(param),
+    return this.Navvy.simpleWithArg(
+      this.BXRestTasksTask.getaccess,
+      param,
       'Не удалось получить права на указанных пользователей',
-      (v: iBXRestTaskGetAccess) => (v && v.allowedActions) ? v.allowedActions : undefined
+      this.BXRestMapTasksTask.getaccess
     )
   }
 

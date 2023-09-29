@@ -13,7 +13,6 @@ export class BXRestMapLists extends BaseMapServices {
   static test2 = 'test'
 
   get(value: iBXRestListItemHttp[] | undefined): iBXRestListItem[] | undefined {
-    console.log('this.iBXRestListItemHttpToiBXRestListItem', this.iBXRestListItemHttpToiBXRestListItem, this.test, BXRestMapLists.test2, value)
     return (value) ? value.map(i => this.iBXRestListItemHttpToiBXRestListItem(i)) : undefined
   }
 

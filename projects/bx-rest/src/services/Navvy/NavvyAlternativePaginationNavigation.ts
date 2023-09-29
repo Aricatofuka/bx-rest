@@ -4,7 +4,7 @@ import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import { iBXRestElapseditemHttp } from '../../typification/rest/task/elapseditem/item'
 import clone from 'just-clone'
 import { catchError } from 'rxjs/operators'
-import { NavvyParam } from './NavvyParam'
+import { NavvyPagNavBase } from './extends/NavvyPagNavBase'
 
 /**
  * Класс-прослойка-обработчик для методов работающих на альтернативной постраничной навигации тика как методы по
@@ -12,11 +12,10 @@ import { NavvyParam } from './NavvyParam'
  *
  * не завершенный класс, работаем от частного к общему
  */
-// export class NavvyAlterPagNav<T, R, P> extends Navvy<T, R, P>{
-export class NavvyAlterPagNav extends NavvyParam<iBXRestElapseditemHttp[], iBXRestElapseditemHttp[], iBXRestParamElapseditemGet | undefined>{
+export class NavvyAlterPagNav<C, M> extends NavvyPagNavBase<C, M, iBXRestElapseditemHttp[], iBXRestElapseditemHttp[], iBXRestParamElapseditemGet | undefined>{
 
   resultAll(){
-    return this.getAllTaskElapsedItem(this.func, this.param)
+    return this.mapAndSnackBarError(this.getAllTaskElapsedItem(this.func.call, this.param))
   }
 
   /**
@@ -30,7 +29,7 @@ export class NavvyAlterPagNav extends NavvyParam<iBXRestElapseditemHttp[], iBXRe
     func: (param: iBXRestParamElapseditemGet | undefined) => Observable<iBXRestAnswer<iBXRestElapseditemHttp[]> | undefined>,
     param: iBXRestParamElapseditemGet | undefined = undefined
   ) {
-    return func(param).pipe(
+    return func.call(this.requestClass, param).pipe(
       mergeMap(
         items => {
           if (items && items.result) {
@@ -56,7 +55,7 @@ export class NavvyAlterPagNav extends NavvyParam<iBXRestElapseditemHttp[], iBXRe
                 )
               }
               return from(requests).pipe(
-                concatMap(param => func(param)),
+                concatMap(param => func.call(this.requestClass, param)),
               )
               /*
               return this.getAllTaskElapsedItem(func, param).pipe(

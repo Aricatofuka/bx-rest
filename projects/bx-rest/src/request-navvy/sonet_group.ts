@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core'
-import {
-  iBXRestParamSonetGroupGet, iBXRestParamSonetHttp
-} from '../typification/rest/sonet_group/get'
-import { map } from 'rxjs/operators'
+import { iBXRestParamSonetGroupGet } from '../typification/rest/sonet_group/get'
 import { BXRestMapSonetGroup } from '../map/sonet_group'
 import { Navvy } from '../services/navvy'
 import { BXRestSonetGroup } from '../request/sonet_group'
@@ -12,20 +9,23 @@ import { BXRestSonetGroup } from '../request/sonet_group'
 })
 export class BXRestNavvySonetGroup {
 
+  private Navvy: Navvy<BXRestSonetGroup, BXRestMapSonetGroup>
+
   constructor(
     private BXRestSonetGroup: BXRestSonetGroup,
     private mapSonetGroup: BXRestMapSonetGroup,
   ) {
+    this.Navvy = new Navvy(this.BXRestSonetGroup, this.mapSonetGroup)
   }
 
   get(param: iBXRestParamSonetGroupGet = {
     filter: {},
     order: {}
   }) {
-    return new Navvy(
-      this.BXRestSonetGroup.get(param),
+    return this.Navvy.simpleWithArg(
+      this.BXRestSonetGroup.get, param,
       'Не удалось получить рабочую группу',
-        v => this.mapSonetGroup.get(v)
+      this.mapSonetGroup.get
     )
   }
 }

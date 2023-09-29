@@ -4,50 +4,52 @@ import { Injectable } from '@angular/core'
 import { BXRestUser } from '../request/user'
 import { BXRestUserMap } from '../map/user'
 import { Navvy } from '../services/navvy'
-import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user/user'
+import { iBXRestUserHttp } from '../typification/rest/user/user'
 import UserFilterSearch from '../typification/rest/user/UserFilterSearch'
 import { SessionStorage } from '../services/vanilla/sessionStorage'
 import { iBXRestAnswer } from '../typification/rest/base/answer'
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestNavvyUser {
 
+  private Navvy: Navvy<BXRestUser, BXRestUserMap>
+
   constructor(
-    // private override http: HttpBXServices,
     private BXRestUserMap: BXRestUserMap,
-    private BXRestUser: BXRestUser
+    private BXRestUser: BXRestUser,
   ) {
-   //  super(http, BXRestUserMap)
+    this.Navvy = new Navvy(this.BXRestUser, this.BXRestUserMap)
   }
 
   current(update = false) {
-    return new Navvy(
-      this.self(update),
+    return this.Navvy.simpleWithArg(
+      this.self,
+      update,
       '',
       this.BXRestUserMap.current
     )
   }
 
+  /*
   update(user: iBXRestUser, fieldUpdate: string[]) {
-    return new Navvy(
+    return this.Navvy.simple(
       this.BXRestUser.update(user, fieldUpdate),
       'Не удалось обновить пользователя с ID' + user.ID
     )
   }
-
+  */
   search(params: string | UserFilterSearch) {
-    return new Navvy(this.BXRestUser.search(params), 'Сервер не отвечает на запрос поиска')
+    return this.Navvy.simpleWithArg(this.BXRestUser.search, params, 'Сервер не отвечает на запрос поиска')
   }
 
   access(params: string[]) {
-    return new Navvy(this.BXRestUser.access(params), 'Не удалось получить права')
+    return this.Navvy.simpleWithArg(this.BXRestUser.access, params, 'Не удалось получить права')
   }
 
   fields() {
-    return new Navvy(this.BXRestUser.fields(), 'Не удалось поля')
+    return this.Navvy.simple(this.BXRestUser.fields, 'Не удалось поля')
   }
 
   private self(update = false) {
@@ -55,7 +57,7 @@ export class BXRestNavvyUser {
       return this.BXRestUser.current(update)
     } else {
       let self = SessionStorage.getItem(this.constructor.name + this.self.name) as iBXRestUserHttp
-      if(self){
+      if (self) {
         return of({result: self} as iBXRestAnswer<iBXRestUserHttp>)
       }
       return this.BXRestUser.current(update)
@@ -68,7 +70,7 @@ export class BXRestNavvyUser {
           }),
           tap(v => {
             if (v) {
-              SessionStorage.setItem(this.constructor.name + this.self.name, v);
+              SessionStorage.setItem(this.constructor.name + this.self.name, v)
             }
           }),
         )

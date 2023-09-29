@@ -7,15 +7,17 @@ import { Navvy } from '../../services/navvy'
   providedIn: 'root'
 })
 export class BXRestNavvyBizprocWorkflow {
+  private Navvy: Navvy<BXRestBizprocWorkflow, undefined>
 
   constructor(
     private BXRestBizprocWorkflow: BXRestBizprocWorkflow,
   ) {
+    this.Navvy = new Navvy(this.BXRestBizprocWorkflow, undefined)
   }
 
   start(param: iBXRestParamBizprocWorkflowStart)  {
-    return new Navvy(
-      this.BXRestBizprocWorkflow.start(param),
+    return this.Navvy.simpleWithArg(
+      this.BXRestBizprocWorkflow.start, param,
       'Не удалось запустить бизнес процесс'
     )
   }

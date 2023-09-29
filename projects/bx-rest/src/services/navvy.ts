@@ -1,38 +1,59 @@
 import { Observable } from 'rxjs'
 import { iBXRestAnswer } from '../typification/rest/base/answer'
-import { map } from 'rxjs/operators'
-import { NavvySupport, ReturnType } from './Navvy/NavvySupport'
+import { NavvySimple } from './Navvy/NavvySimple'
+import { NavvyAlterPagNav } from './Navvy/NavvyAlternativePaginationNavigation'
+import { iBXRestElapseditemHttp } from '../typification/rest/task/elapseditem/item'
+import { iBXRestParamElapseditemGet } from '../typification/rest/task/elapseditem/get'
+import { NavvyPagNav } from './Navvy/NavvyPagNav'
+import { iBXRestPagination } from '../typification/rest/base/ApiPaginationBX'
+import { NavvyPagNavWithUselessKey } from './Navvy/NavvyPagNavWithUselessKey'
 
-export class Navvy<T, R> extends NavvySupport<T, R> {
+export class Navvy<C, M> {
 
   constructor(
-    public func: Observable<iBXRestAnswer<T> | undefined>,
-    public testError: string = '',
-    public map: ((param: T) => R) | undefined = undefined
+    protected requestClass: C,
+    protected mapClass: M
     // private snackBar: SnackBarService,
   ) {
-    super()
   }
 
-  resultVanilla() {
-    return this.func
+  simple<T, R>(
+    func: () => Observable<iBXRestAnswer<T> | undefined>,
+    testError: string = '',
+    map: ((param: T) => R) | undefined = undefined
+  ) {
+    return new NavvySimple(this.requestClass, this.mapClass, func.call(this.requestClass), testError, map)
   }
 
-  mapForVanilla() {
-    return this.func.pipe(
-      map(v => (v && v.result && this.map) ? Object.assign(v,{result:  this.map(v.result)}) : v)
-    ) as ReturnType<Observable<iBXRestAnswer<T | undefined>>, Observable<iBXRestAnswer<R | undefined>>>
+  simpleWithArg<T, R, A>(
+    func: (param: A) => Observable<iBXRestAnswer<T> | undefined>,
+    arg: A,
+    testError: string = '',
+    map: ((param: T) => R) | undefined = undefined) {
+    return new NavvySimple(this.requestClass, this.mapClass, func.call(this.requestClass, arg), testError, map)
   }
 
-  result() {
-    console.log('this.map', this.map)
-    return this.mapAndSnackBarError(this.func).pipe(
-      map(v => (v && this.map) ? this.map(v) : v)
-    ) as ReturnType<Observable<T | undefined>, Observable<R | undefined>>
+  PagNav<T, R, A extends iBXRestPagination>(
+    func: (param: A) => Observable<iBXRestAnswer<T[]> | undefined>,
+    arg: A,
+    testError: string = '',
+    map: ((param: T[] | undefined) => R[] | undefined) | undefined = undefined) {
+    return new NavvyPagNav(this.requestClass, this.mapClass, func, arg, testError, map)
   }
 
-  // TODO: реализовать
-  resultAll(){
+  PagNavWithUselessKey<T, R, A extends iBXRestPagination>(
+    func: (param: A) => Observable<iBXRestAnswer<{ [key: string]: T }> | undefined>,
+    arg: A,
+    testError: string = '',
+    map: ((param: { [key: string]: T } | undefined) => R[] | undefined) | undefined = undefined) {
+    return new NavvyPagNavWithUselessKey(this.requestClass, this.mapClass, func, arg, testError, map)
+  }
 
+  alterPagNav(
+    func: (param: iBXRestParamElapseditemGet | undefined) => Observable<iBXRestAnswer<iBXRestElapseditemHttp[]> | undefined>,
+    arg: iBXRestParamElapseditemGet | undefined = undefined,
+    testError: string = '',
+    map: ((param: iBXRestElapseditemHttp[] | undefined) => iBXRestElapseditemHttp[] | undefined) | undefined = undefined) {
+    return new NavvyAlterPagNav(this.requestClass, this.mapClass, func, arg, testError, map)
   }
 }

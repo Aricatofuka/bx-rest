@@ -11,18 +11,21 @@ import { iBXRestParamUpdateElapseditem } from '../../typification/rest/task/elap
 import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/isActionAllowedParam'
 import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapseditem/del'
 import { Navvy } from '../../services/navvy'
-import { NavvyAlterPagNav } from '../../services/Navvy/NavvyAlternativePaginationNavigation'
+import { BXRestMapTaskElapseditem } from '../../map/task/elapseditem'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestNavvyElapseditem {
+  private Navvy: Navvy<BXRestElapseditem, BXRestMapTaskElapseditem>
 
   constructor(
     private BXRestElapseditem: BXRestElapseditem,
     private BXRestNavvyUser: BXRestNavvyUser,
     private BXRestNavvyTasks: BXRestNavvyTasks,
+    private BXRestMapElapseditem: BXRestMapTaskElapseditem,
   ) {
+    this.Navvy = new Navvy(this.BXRestElapseditem, this.BXRestMapElapseditem)
   }
 
   /*
@@ -50,7 +53,7 @@ export class BXRestNavvyElapseditem {
         }
       }
     }
-    return new NavvyAlterPagNav(this.BXRestElapseditem.getList, param)
+    return this.Navvy.alterPagNav(this.BXRestElapseditem.getList, param)
   }
 
   add(param: iBXRestParamAddElapseditem) {
@@ -72,7 +75,7 @@ export class BXRestNavvyElapseditem {
   }
 
   update(param: iBXRestParamUpdateElapseditem) {
-    return new Navvy<null, boolean>(this.checkPermissionReadTask(param.TASKID).pipe(
+    return this.Navvy.simple( () => this.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(allowedReadTask => {
         if (allowedReadTask) {
           return this.isAllowedModify(param.TASKID, param.ITEMID).pipe(
@@ -86,7 +89,7 @@ export class BXRestNavvyElapseditem {
         } else {
           return throwError(() => new Error('Отсутствуют права на чтение задачи'))
         }
-      })), 'Не удалось обновить элемент списка',(p: null) => (p == null))
+      })), 'Не удалось обновить элемент списка', this.BXRestMapElapseditem.update)
   }
 
   /*
@@ -123,7 +126,7 @@ export class BXRestNavvyElapseditem {
       )
   }
    */
-
+  /*
   getByInterval(idsUsers: number[], dateStart: Date, dateEnd: Date) {
     return new Navvy(
       this.BXRestElapseditem.getList(
@@ -151,8 +154,9 @@ export class BXRestNavvyElapseditem {
       }
     )
    */
-
+/*
   }
+
 
   /*
   getCacheOff(params: RequestParamsElapsedGetList | undefined = undefined) {
@@ -232,7 +236,7 @@ export class BXRestNavvyElapseditem {
    * @param param
    */
   isActionAllowed(param: iIsActionAllowedParam) {
-    return new Navvy<boolean, boolean>(this.checkPermissionReadTask(param.TASKID).pipe(
+    return this.Navvy.simple(() => this.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(canRead => {
         if (canRead) {
           return this.BXRestElapseditem.isActionAllowed(param)
@@ -313,7 +317,7 @@ export class BXRestNavvyElapseditem {
   }
 
   del(param: iBXRestParamDelElapseditem) {
-    return new Navvy( this.checkPermissionReadTask(param.TASKID).pipe(
+    return this.Navvy.simple( () => this.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(allowedReadTask => {
         if (allowedReadTask) {
           return this.isAllowedRemove(param.TASKID, param.ITEMID).pipe(

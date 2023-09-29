@@ -1,6 +1,7 @@
 import { iBXRestYesNo } from '../../base/YesNo'
+import { iBXRestPagination } from '../../base/ApiPaginationBX'
 
-export interface iBXRestParamListField {
+export interface iBXRestParamListField extends iBXRestPagination {
   IBLOCK_TYPE_ID: 'lists' | 'bitrix_processes' | 'lists_socnet' // id типа инфоблока:
   // lists - тип инфоблока списка
   // bitrix_processes - тип инфоблока процессов
