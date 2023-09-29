@@ -8,11 +8,14 @@ import { Navvy } from '../../services/navvy'
 })
 export class BXRestNavvyDiskFolder {
 
+  private Navvy: Navvy<BXRestDiskFolder, BXRestMapDiskFolder>
+
   constructor(
     private BXRestDiskFolder: BXRestDiskFolder,
     private BXRestMapDiskFolder: BXRestMapDiskFolder,
     // private diskFileBaseMap: diskFileBaseMapServices
   ) {
+    this.Navvy = new Navvy(this.BXRestDiskFolder, this.BXRestMapDiskFolder)
   }
 
   // uploadfile(id: number, fileContent: string[]) {
@@ -31,8 +34,9 @@ export class BXRestNavvyDiskFolder {
   // }
 
   getchildren(id: number) {
-    return new Navvy(
-      this.BXRestDiskFolder.getchildren(id),
+    return this.Navvy.simpleWithArg(
+      this.BXRestDiskFolder.getchildren,
+      id,
       'get folders and files',
       this.BXRestMapDiskFolder.getContent
     )

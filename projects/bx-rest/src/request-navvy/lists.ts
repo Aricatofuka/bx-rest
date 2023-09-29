@@ -11,17 +11,19 @@ import BXRestNavvyListsField from './lists/field'
 })
 export class BXRestNavvyLists {
 
+  protected Navvy: Navvy<BXRestLists, BXRestMapLists>
+
   constructor(
     public element: BXRestNavvyListsElement,
     public field: BXRestNavvyListsField,
     protected mapList: BXRestMapLists,
-    protected BXRestLists: BXRestLists
+    protected BXRestLists: BXRestLists,
   ) {
+    this.Navvy = new Navvy(this.BXRestLists, this.mapList)
   }
 
   get(param: iBXRestParamListGet) {
-    console.error('this.mapList.get', this.mapList.get)
-    return new Navvy(this.BXRestLists.get(param),'Не удалось получить список', this.mapList.get)
+    return this.Navvy.PagNav(this.BXRestLists.get, param,'Не удалось получить список', this.mapList.get)
   }
 
   // getAll(pram: getListParam): Observable<ItemListsBX[] | undefined> {

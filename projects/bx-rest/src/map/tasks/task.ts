@@ -1,12 +1,15 @@
+import { iBXRestTaskGetAccess } from '../../typification/rest/task/access/getaccess'
+import { iBXRestHttpTask, iBXRestTask } from '../../typification/rest/task/task'
+import { BaseMapServices } from '../base'
 import { Injectable } from '@angular/core'
-import { BaseMapServices } from './base'
-import { iBXRestHttpTask, iBXRestTask } from '../typification/rest/task/task'
-
 
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestTaskMap extends BaseMapServices {
+export class BXRestMapTasksTask extends BaseMapServices{
+  getaccess(v: iBXRestTaskGetAccess | undefined){
+    return (v && v.allowedActions) ? v.allowedActions : undefined
+  }
 
   add(item: { task: iBXRestHttpTask } | undefined): iBXRestTask | undefined {
     return (item) ? this.TaskBXHttpToTaskBX(item.task) : undefined

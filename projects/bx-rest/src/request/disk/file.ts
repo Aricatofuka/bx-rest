@@ -39,7 +39,7 @@ export class BXRestDiskFile {
     return this.http.post<iBXRestFileHttp>(this.url.get, {id: id})
   }
 
-  markDel(id: number) {
+  markdeleted(id: number) {
     return this.http.post<iBXRestFileHttp>(
       this.url.markdeleted,
       {id: id})

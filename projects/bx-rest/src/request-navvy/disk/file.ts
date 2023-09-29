@@ -1,33 +1,37 @@
 import { Injectable } from '@angular/core'
-import { BaseServices } from '../../services/base'
 import { BXRestDiskFile } from '../../request/disk/file'
 import { Navvy } from '../../services/navvy'
-import { NavvyParam } from '../../services/Navvy/NavvyParam'
+import { BXRestMapDiskFile } from '../../map/disk/file'
 
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestNavvyDiskFile extends BaseServices {
+export class BXRestNavvyDiskFile {
+
+  private Navvy: Navvy<BXRestDiskFile, BXRestMapDiskFile>
 
   constructor(
     private BXRestDiskFile: BXRestDiskFile,
+    private BXRestMapDiskFile: BXRestMapDiskFile,
   ) {
-    super()
+    this.Navvy = new Navvy(this.BXRestDiskFile, this.BXRestMapDiskFile)
   }
 
   get(id: number) {
-    return new Navvy(
-      this.BXRestDiskFile.get(id),
+    return this.Navvy.simpleWithArg(
+      this.BXRestDiskFile.get,
+      id,
       'Не удалось получить файл',
-      (v) => (v) ? Object.assign(v, {SIZE: this.toNum(v.SIZE)}) : undefined
+      this.BXRestMapDiskFile.get
     )
   }
 
-  markDel(id: number) {
-    return new Navvy(
-      this.BXRestDiskFile.markDel(id),
+  markdeleted(id: number) {
+    return this.Navvy.simpleWithArg(
+      this.BXRestDiskFile.markdeleted,
+      id,
       'Не удалось переместить файл в корзину',
-      (v) => (v) ? Object.assign(v, {SIZE: this.toNum(v.SIZE)}) : undefined
+      this.BXRestMapDiskFile.markdeleted
     )
   }
 }

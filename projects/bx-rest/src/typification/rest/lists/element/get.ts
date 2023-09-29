@@ -1,7 +1,8 @@
 import { iBXRestYesNo } from '../../base/YesNo'
 import { BXRestFilterKeys } from '../../base/filterGenerator'
+import { iBXRestPagination } from '../../base/ApiPaginationBX'
 
-export interface iBXRestParamListsElementGet {
+export interface iBXRestParamListsElementGet extends iBXRestPagination{
   IBLOCK_TYPE_ID: 'lists' | 'bitrix_processes' | 'lists_socnet'
   IBLOCK_ID: number
   SOCNET_GROUP_ID?: number
