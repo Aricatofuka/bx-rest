@@ -45,7 +45,7 @@ export class BXRestMapLists extends BaseMapServices {
       RSS_FILE_ACTIVE: itemLists.RSS_FILE_ACTIVE === 'Y',
       RSS_FILE_DAYS: this.toStr(itemLists.RSS_FILE_DAYS),
       RSS_FILE_LIMIT: this.toStr(itemLists.RSS_FILE_LIMIT),
-      RSS_TTL: Number(itemLists.RSS_TTL),
+      RSS_TTL: this.toNum(itemLists.RSS_TTL),
       RSS_YANDEX_ACTIVE: itemLists.RSS_YANDEX_ACTIVE === 'Y',
       SECTIONS_NAME: this.toStr(itemLists.SECTIONS_NAME),
       SECTION_CHOOSER: this.toStr(itemLists.SECTION_CHOOSER),
@@ -54,12 +54,12 @@ export class BXRestMapLists extends BaseMapServices {
       SECTION_PROPERTY: this.toStr(itemLists.SECTION_PROPERTY),
       SERVER_NAME: this.toStr(itemLists.SERVER_NAME),
       SOCNET_GROUP_ID: this.toStr(itemLists.SOCNET_GROUP_ID),
-      SORT: this.toNum(itemLists.SOCNET_GROUP_ID),
+      SORT: this.toNum(itemLists.SORT),
       TIMESTAMP_X: new Date(itemLists.TIMESTAMP_X),
-      TMP_ID:  this.toStr(itemLists.SOCNET_GROUP_ID),
-      VERSION: Number(itemLists.VERSION),
+      TMP_ID:  this.toStr(itemLists.TMP_ID),
+      VERSION: this.toNum(itemLists.VERSION),
       WORKFLOW: itemLists.WORKFLOW === 'Y',
-      XML_ID:  this.toStr(itemLists.SOCNET_GROUP_ID),
+      XML_ID:  this.toStr(itemLists.XML_ID),
     }
   }
 }
