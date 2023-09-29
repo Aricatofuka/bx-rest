@@ -1,7 +1,5 @@
 # BX rest
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
-
 This is an intermediary between requests sent from the browser and includes a site on crm bitrix
 
 ### Install
