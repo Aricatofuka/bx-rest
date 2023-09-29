@@ -1,7 +1,7 @@
 import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
 import { concatMap, from, mergeMap, Observable, throwError } from 'rxjs'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
-import { iBXRestElapseditemHttp } from '../../typification/rest/task/elapseditem/item'
+import { iBXRestElapsedItemHttp } from '../../typification/rest/task/elapseditem/item'
 import clone from 'just-clone'
 import { catchError } from 'rxjs/operators'
 import { NavvyPagNavBase } from './extends/NavvyPagNavBase'
@@ -12,7 +12,7 @@ import { NavvyPagNavBase } from './extends/NavvyPagNavBase'
  *
  * не завершенный класс, работаем от частного к общему
  */
-export class NavvyAlterPagNav<C, M> extends NavvyPagNavBase<C, M, iBXRestElapseditemHttp[], iBXRestElapseditemHttp[], iBXRestParamElapseditemGet | undefined>{
+export class NavvyAlterPagNav<C, M> extends NavvyPagNavBase<C, M, iBXRestElapsedItemHttp[], iBXRestElapsedItemHttp[], iBXRestParamElapseditemGet | undefined>{
 
   resultAll(){
     return this.mapAndSnackBarError(this.getAllTaskElapsedItem(this.func.call, this.param))
@@ -26,7 +26,7 @@ export class NavvyAlterPagNav<C, M> extends NavvyPagNavBase<C, M, iBXRestElapsed
    * @param param
    */
   private getAllTaskElapsedItem(
-    func: (param: iBXRestParamElapseditemGet | undefined) => Observable<iBXRestAnswer<iBXRestElapseditemHttp[]> | undefined>,
+    func: (param: iBXRestParamElapseditemGet | undefined) => Observable<iBXRestAnswer<iBXRestElapsedItemHttp[]> | undefined>,
     param: iBXRestParamElapseditemGet | undefined = undefined
   ) {
     return func.call(this.requestClass, param).pipe(

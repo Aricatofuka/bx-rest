@@ -12,6 +12,7 @@ import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/
 import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapseditem/del'
 import { Navvy } from '../../services/navvy'
 import { BXRestMapTaskElapseditem } from '../../map/task/elapseditem'
+import { BXRestNavvyOperationElapseditem } from './operation/elapseditem'
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class BXRestNavvyElapseditem {
     private BXRestNavvyUser: BXRestNavvyUser,
     private BXRestNavvyTasks: BXRestNavvyTasks,
     private BXRestMapElapseditem: BXRestMapTaskElapseditem,
+    public operation: BXRestNavvyOperationElapseditem
   ) {
     this.Navvy = new Navvy(this.BXRestElapseditem, this.BXRestMapElapseditem)
   }
@@ -126,37 +128,6 @@ export class BXRestNavvyElapseditem {
       )
   }
    */
-  /*
-  getByInterval(idsUsers: number[], dateStart: Date, dateEnd: Date) {
-    return new Navvy(
-      this.BXRestElapseditem.getList(
-        {
-          ORDER: {
-            ID: 'DESC'
-          },
-          FILTER: {
-            USER_ID: idsUsers,
-            '>=CREATED_DATE': dateStart.toLocaleString('ru-Ru'),
-            '<=CREATED_DATE': dateEnd.toLocaleString('ru-Ru'),
-          }
-        }
-      ))
-    /*
-    return this.BXRestElapseditem.getList({
-        ORDER: {
-          ID: 'DESC'
-        },
-        FILTER: {
-          USER_ID: idsUsers,
-          '>=CREATED_DATE': dateStart.toLocaleString('ru-Ru'),
-          '<=CREATED_DATE': dateEnd.toLocaleString('ru-Ru'),
-        }
-      }
-    )
-   */
-/*
-  }
-
 
   /*
   getCacheOff(params: RequestParamsElapsedGetList | undefined = undefined) {
