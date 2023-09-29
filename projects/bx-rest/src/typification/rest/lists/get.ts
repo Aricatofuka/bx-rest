@@ -47,6 +47,7 @@ export interface iBXRestListItem extends iBXRestBaseListItem {
   VERSION: number
   WORKFLOW: boolean
   XML_ID: string
+  SORT: number
 }
 
 export interface iBXRestListItemHttp extends iBXRestBaseListItem{
@@ -82,6 +83,7 @@ export interface iBXRestListItemHttp extends iBXRestBaseListItem{
   VERSION: string
   WORKFLOW: iBXRestYesNo
   XML_ID: string | null
+  SORT: string
 }
 
 interface iBXRestBaseListItem {
@@ -98,5 +100,4 @@ interface iBXRestBaseListItem {
   SECTIONS_NAME: string
   SECTION_CHOOSER: string
   SECTION_NAME: string
-  SORT: string
 }
