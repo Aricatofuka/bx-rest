@@ -31,9 +31,4 @@ export class NavvySimple<C, M, T, R> extends NavvySupport<C, M, T, R> {
       map(v => (v && this.map) ? this.map.call(this.mapClass, v) : v)
     ) as ReturnTypeNavvy<Observable<T | undefined>, Observable<R | undefined>>
   }
-
-  // TODO: реализовать
-  resultAll(){
-
-  }
 }

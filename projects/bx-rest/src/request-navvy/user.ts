@@ -5,14 +5,20 @@ import { BXRestUser } from '../request/user'
 import { BXRestUserMap } from '../map/user'
 import { Navvy } from '../services/navvy'
 import { iBXRestUserHttp } from '../typification/rest/user/user'
-import UserFilterSearch from '../typification/rest/user/UserFilterSearch'
 import { SessionStorage } from '../services/vanilla/sessionStorage'
 import { iBXRestAnswer } from '../typification/rest/base/answer'
+import { iBXRestParamUserGet } from '../typification/rest/user/get'
+import clone from 'just-clone'
+import { iBXRestParamUserSearch } from '../typification/rest/user/search'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestNavvyUser {
+
+  def: { params: { ACTIVE: 1, start: 0 } } = {
+    params: {ACTIVE: 1, start: 0}
+  }
 
   private Navvy: Navvy<BXRestUser, BXRestUserMap>
 
@@ -21,6 +27,25 @@ export class BXRestNavvyUser {
     private BXRestUser: BXRestUser,
   ) {
     this.Navvy = new Navvy(this.BXRestUser, this.BXRestUserMap)
+  }
+
+  admin() {
+    return this.Navvy.simple(
+      this.BXRestUser.admin,
+      'Информация о возможных принадлежности человека к администратору не получена'
+    )
+  }
+
+  get(params: iBXRestParamUserGet = {}){
+    let copyParams = clone(params)
+    this.setDefParam(copyParams)
+
+    return this.Navvy.PagNav(
+      this.BXRestUser.get,
+      copyParams,
+      'Не удалось получить пользователей',
+      this.BXRestUserMap.get
+    )
   }
 
   current(update = false) {
@@ -40,12 +65,27 @@ export class BXRestNavvyUser {
     )
   }
   */
-  search(params: string | UserFilterSearch) {
-    return this.Navvy.simpleWithArg(this.BXRestUser.search, params, 'Сервер не отвечает на запрос поиска')
+  search(params: string | iBXRestParamUserSearch) {
+    if (typeof params === 'string') {
+      params = {FIND: params}
+    }
+    if (typeof params.ACTIVE !== 'boolean') {
+      params.ACTIVE = true
+    }
+    return this.Navvy.PagNav(
+      this.BXRestUser.search,
+      params,
+      'Сервер не отвечает на запрос поиска',
+      this.BXRestUserMap.get
+    )
   }
 
   access(params: string[]) {
-    return this.Navvy.simpleWithArg(this.BXRestUser.access, params, 'Не удалось получить права')
+    return this.Navvy.simpleWithArg(
+      this.BXRestUser.access,
+      params,
+      'Не удалось получить права'
+    )
   }
 
   fields() {
@@ -142,6 +182,26 @@ export class BXRestNavvyUser {
   //     }),
   //   )
   // }
+
+  private setDefParam(params: iBXRestParamUserGet) {
+    if(!params.FILTER) {
+      params.FILTER = {}
+    }
+
+    if (!params.hasOwnProperty('ACTIVE')) {
+      params.FILTER.ACTIVE = this.def.params.ACTIVE
+    }
+    if (params.FILTER.ACTIVE && params.FILTER.ACTIVE === 2) {
+      delete params.FILTER.ACTIVE
+    }
+    if (!params.hasOwnProperty('start')) {
+      params.start = this.def.params.start
+    }
+
+    if (params.FILTER.UF_DEPARTMENT && !params.FILTER.UF_DEPARTMENT.length) {
+      delete params.FILTER.UF_DEPARTMENT
+    }
+  }
 
 }
 
