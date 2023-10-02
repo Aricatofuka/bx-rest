@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BXRestTaskCommentItem } from '../../request/task/commentitem'
 import { Navvy } from '../../services/navvy'
-import { map } from 'rxjs/operators'
 import { BXRestMapTaskCommentItem } from '../../map/task/commentitem'
 import { iBXRestParamTaskCommentItemGet } from '../../typification/rest/task/commentitem/get'
 import { iBXRestTaskCommentItemUpdate } from '../../typification/rest/task/commentitem/update'
@@ -18,34 +17,35 @@ import SnackBarService from '../../services/snack-bar/snack-bar.service'
 })
 export class BXRestNavvyTaskCommentItem {
 
+  protected Navvy: Navvy<BXRestTaskCommentItem, BXRestMapTaskCommentItem>
+
   constructor(
     private BXRestTaskCommentItem: BXRestTaskCommentItem,
-    private Navvy: Navvy,
     private mapTaskCommentItem: BXRestMapTaskCommentItem,
     private snackBar: SnackBarService,
   ) {
+    this.Navvy = new Navvy(this.BXRestTaskCommentItem, this.mapTaskCommentItem)
   }
 
   add(param: iBXRestCommentTaskAdd) {
-    return this.Navvy.mapAndSnackBarError(
-      this.BXRestTaskCommentItem.add(param),
+    return this.Navvy.simpleWithArg(
+      this.BXRestTaskCommentItem.add, param,
       'Не удалось добавить комментарий к задаче'
     )
   }
 
   update(param: iBXRestTaskCommentItemUpdate) {
-    return this.Navvy.mapAndSnackBarError(
-      this.BXRestTaskCommentItem.update(param),
+    return this.Navvy.simpleWithArg(
+      this.BXRestTaskCommentItem.update, param,
       'Не удалось обновить комментарий к задаче'
     )
   }
 
   get(param: iBXRestParamTaskCommentItemGet) {
-    return this.Navvy.mapAndSnackBarError(
-      this.BXRestTaskCommentItem.get(param),
-      'Не удалось получить комментарий к задаче'
-    ).pipe(
-      map(v => this.mapTaskCommentItem.get(v))
+    return this.Navvy.simpleWithArg(
+      this.BXRestTaskCommentItem.get, param,
+      'Не удалось получить комментарий к задаче',
+      this.mapTaskCommentItem.get
     )
   }
 
@@ -55,20 +55,19 @@ export class BXRestNavvyTaskCommentItem {
       POST_DATE: 'asc'
     }
   }) {
-    return this.Navvy.mapAndSnackBarError(
-      this.BXRestTaskCommentItem.getlist(param),
-      'Не удалось получить комментарии к задаче'
-    ).pipe(
-      map(v => this.mapTaskCommentItem.getlist(v))
+    return this.Navvy.simpleWithArg(
+      this.BXRestTaskCommentItem.getlist, param,
+      'Не удалось получить комментарии к задаче',
+      this.mapTaskCommentItem.getlist
     )
   }
 
   del(param: BXRestTaskCommentItemDelete) {
     if (param.ITEMID > 0) {
-      return this.get(param).pipe(
+      return this.get(param).result().pipe(
         mergeMap(_ => {
-          return this.Navvy.mapAndSnackBarError(
-            this.BXRestTaskCommentItem.del(param),
+          return this.Navvy.simpleWithArg(
+            this.BXRestTaskCommentItem.del, param,
             'Не удалось удалить комментарий'
           )
         })

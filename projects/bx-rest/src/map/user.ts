@@ -8,7 +8,16 @@ import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user/user'
 })
 export class BXRestUserMap extends BaseMapServices {
 
-  current(user: iBXRestUserHttp): iBXRestUser {
+  get(v: iBXRestUserHttp[] | undefined): iBXRestUser[] | undefined
+  {
+    return (v) ? v.map(i => this.userHttpToTrace(i)) : undefined
+  }
+
+  current(v: iBXRestUserHttp): iBXRestUser {
+    return this.userHttpToTrace(v)
+  }
+
+  private userHttpToTrace(user: iBXRestUserHttp): iBXRestUser {
     let res: iBXRestUser = Object.assign(clone(user), {
       ID: this.toNum(user.ID),
       IS_ONLINE: this.toBool(user.IS_ONLINE),
@@ -22,7 +31,7 @@ export class BXRestUserMap extends BaseMapServices {
     return res
   }
 
-  BXtoHttp(user: iBXRestUser): iBXRestUserHttp {
+   BXtoHttp(user: iBXRestUser): iBXRestUserHttp {
     return Object.assign(clone(user), {
       ID: this.toStr(user.ID),
       IS_ONLINE: this.toBXYorN(user.IS_ONLINE),

@@ -1,4 +1,6 @@
-export default interface UserFilterSearch {
+import { iBXRestPagination } from '../base/ApiPaginationBX'
+
+export interface iBXRestParamUserSearch extends iBXRestPagination {
   NAME?: string // имя
   LAST_NAME?: string, // фамилия
   SECOND_NAME?: string, // отчество
