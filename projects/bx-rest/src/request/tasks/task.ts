@@ -10,7 +10,6 @@ import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'
 import { iBXRestParamTasksList } from '../../typification/rest/tasks/task/list'
 import { iBXRestParamTaskGetAccess, iBXRestTaskGetAccess } from '../../typification/rest/task/access/getaccess'
-// import { AnswerApiTaskBX } from '../../typification/rest/task/answers/task';
 
 @Injectable({
   providedIn: 'root'
@@ -59,7 +58,7 @@ export class BXRestTasksTask {
   }
 
   constructor(
-    private http: HttpBXServices,
+    private http: HttpBXServices
   ) {
   }
 

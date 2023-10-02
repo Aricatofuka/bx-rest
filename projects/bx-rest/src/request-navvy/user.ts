@@ -10,6 +10,7 @@ import { iBXRestAnswer } from '../typification/rest/base/answer'
 import { iBXRestParamUserGet } from '../typification/rest/user/get'
 import clone from 'just-clone'
 import { iBXRestParamUserSearch } from '../typification/rest/user/search'
+import { BXRestNavvyUserUserfield } from './user/userfield'
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,7 @@ export class BXRestNavvyUser {
   constructor(
     private BXRestUserMap: BXRestUserMap,
     private BXRestUser: BXRestUser,
+    public userfield: BXRestNavvyUserUserfield
   ) {
     this.Navvy = new Navvy(this.BXRestUser, this.BXRestUserMap)
   }

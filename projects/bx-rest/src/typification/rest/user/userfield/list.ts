@@ -1,7 +1,7 @@
-import { iBXRestUserKey } from '../../../typification/rest/user/user'
-import { iBXRestYesNo } from '../../../typification/rest/base/YesNo'
+import { iBXRestUserKey } from '../user'
+import { iBXRestYesNo } from '../../base/YesNo'
 
-export interface iCustomUserFieldInfo {
+export interface iBXRestUserUserField {
   ID: string,
   ENTITY_ID: "USER",
   FIELD_NAME: iBXRestUserKey,

@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core'
 import { BXRestNavvyLists } from './lists'
 import { forkJoin, mergeMap, Observable, of, throwError } from 'rxjs'
 import { BXRestNavvyBizprocWorkflow } from './bizproc/workflow'
-import { Navvy } from '../services/navvy'
-
 
 @Injectable({
   providedIn: 'root'

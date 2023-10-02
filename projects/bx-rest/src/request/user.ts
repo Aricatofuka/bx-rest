@@ -2,11 +2,12 @@ import { share, throwError } from 'rxjs'
 import { iBXRestParamUserGet } from '../typification/rest/user/get'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from '../typification/rest/user/user'
-import { $get, $list, $search, $update, $user } from '../consts/part-name-metods'
+import { $get, $search, $update, $user } from '../consts/part-name-metods'
 import { Injectable } from '@angular/core'
 import { iBXRestAnswer } from '../typification/rest/base/answer'
 import { BXRestUserMap } from '../map/user'
 import { iBXRestParamUserSearch } from '../typification/rest/user/search'
+import { BXRestUserUserfield } from './user/userfield'
 
 @Injectable({
   providedIn: 'root'
@@ -24,14 +25,12 @@ export class BXRestUser {
     // D1 - подразделение с id=1
     // G1 - группа с id=1
     fields: [$user, 'fields'],
-    userfield: {
-      list: [$user, 'userfield', $list]
-    }
   }
 
   constructor(
     private http: HttpBXServices,
-    private BXRestUserMap: BXRestUserMap
+    private BXRestUserMap: BXRestUserMap,
+    public userfield: BXRestUserUserfield
   ) {
   }
 
