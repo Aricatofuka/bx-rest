@@ -2,7 +2,6 @@ import { of, tap } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { BXRestUser } from '../request/user'
-import { BXRestUserMap } from '../map/user'
 import { Navvy } from '../services/navvy'
 import { iBXRestUserHttp } from '../typification/rest/user/user'
 import { SessionStorage } from '../services/vanilla/sessionStorage'
@@ -11,6 +10,7 @@ import { iBXRestParamUserGet } from '../typification/rest/user/get'
 import clone from 'just-clone'
 import { iBXRestParamUserSearch } from '../typification/rest/user/search'
 import { BXRestNavvyUserUserfield } from './user/userfield'
+import { BXRestMapUser } from '../map/user'
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +21,10 @@ export class BXRestNavvyUser {
     params: {ACTIVE: 1, start: 0}
   }
 
-  private Navvy: Navvy<BXRestUser, BXRestUserMap>
+  private Navvy: Navvy<BXRestUser, BXRestMapUser>
 
   constructor(
-    private BXRestUserMap: BXRestUserMap,
+    private BXRestUserMap: BXRestMapUser,
     private BXRestUser: BXRestUser,
     public userfield: BXRestNavvyUserUserfield
   ) {
@@ -61,6 +61,26 @@ export class BXRestNavvyUser {
 
   /*
   update(user: iBXRestUser, fieldUpdate: string[]) {
+
+      if (fieldUpdate && fieldUpdate.length) {
+      let sendData: any = {
+        ID: user.ID,
+      }
+      const userBX = this.BXRestUserMap.BXtoHttp(user)
+      for (const field of fieldUpdate) {
+        if (userBX[field]) {
+          sendData[field] = userBX[field]
+        } else {
+          return throwError(() => 'One sent field is empty')
+        }
+      }
+      return this.http.post<iBXRestUserHttp[]>(
+        this.url.update,
+        sendData
+      )
+    } else {
+      return throwError(() => 'All sent field for edit is empty')
+    }
     return this.Navvy.simple(
       this.BXRestUser.update(user, fieldUpdate),
       'Не удалось обновить пользователя с ID' + user.ID

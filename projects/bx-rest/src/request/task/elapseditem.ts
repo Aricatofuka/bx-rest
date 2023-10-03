@@ -29,7 +29,7 @@ export class BXRestElapseditem {
   }
 
   getList(
-    param: iBXRestParamElapseditemGet | undefined = undefined
+    param: iBXRestParamElapseditemGet = {}
   ) {
     return this.http.post<iBXRestElapsedItemHttp[]>(this.url.getlist, param)
   }

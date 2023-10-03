@@ -2,10 +2,8 @@ import { Observable } from 'rxjs'
 import { iBXRestAnswer } from '../typification/rest/base/answer'
 import { NavvySimple } from './Navvy/NavvySimple'
 import { NavvyAlterPagNav } from './Navvy/NavvyAlternativePaginationNavigation'
-import { iBXRestElapsedItemHttp } from '../typification/rest/task/elapseditem/item'
-import { iBXRestParamElapseditemGet } from '../typification/rest/task/elapseditem/get'
 import { NavvyPagNav } from './Navvy/NavvyPagNav'
-import { iBXRestPagination } from '../typification/rest/base/ApiPaginationBX'
+import { iBXRestAlternativePagination, iBXRestPagination } from '../typification/rest/base/ApiPaginationBX'
 import { NavvyPagNavWithUselessKey } from './Navvy/NavvyPagNavWithUselessKey'
 
 export class Navvy<C, M> {
@@ -49,11 +47,11 @@ export class Navvy<C, M> {
     return new NavvyPagNavWithUselessKey(this.requestClass, this.mapClass, func, arg, testError, map)
   }
 
-  alterPagNav(
-    func: (param: iBXRestParamElapseditemGet | undefined) => Observable<iBXRestAnswer<iBXRestElapsedItemHttp[]> | undefined>,
-    arg: iBXRestParamElapseditemGet | undefined = undefined,
+  alterPagNav<T, R, A extends iBXRestAlternativePagination>(
+    func: (param: A) => Observable<iBXRestAnswer<T[]> | undefined>,
+    arg: A,
     testError: string = '',
-    map: ((param: iBXRestElapsedItemHttp[] | undefined) => iBXRestElapsedItemHttp[] | undefined) | undefined = undefined) {
+    map: ((param: T[] | undefined) => R[] | undefined) | undefined = undefined) {
     return new NavvyAlterPagNav(this.requestClass, this.mapClass, func, arg, testError, map)
   }
 }

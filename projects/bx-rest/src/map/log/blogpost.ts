@@ -1,12 +1,12 @@
 import { BaseMapServices } from '../base'
 import { Injectable } from '@angular/core'
-import { iBXRestBlogPostHttp } from '../../typification/rest/log/blogpost/get'
-import { iBXRestBlogPostEssenceHttp } from '../../typification/rest/log/blogpost/essence'
+import { iBXRestBlogPost, iBXRestBlogPostHttp } from '../../typification/rest/log/blogpost/get'
+import { iBXRestBlogPostEssence, iBXRestBlogPostEssenceHttp } from '../../typification/rest/log/blogpost/essence'
 
 @Injectable({
   providedIn: 'root'
 })
-export class  BXRestMapBlogPost extends BaseMapServices {
+export class  BXRestMapLogBlogPost extends BaseMapServices {
 
   get(item: iBXRestBlogPostHttp[] | undefined): iBXRestBlogPost[] | undefined {
     return (item) ? item.map(i => this.iBlogPostBXHttpToiBlogPostBX(i)) : undefined
