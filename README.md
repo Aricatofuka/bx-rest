@@ -75,7 +75,7 @@ import { BXRestNavvy, BXMap } from 'bx-rest'
 })
 export class AnyComponent {
 
-  listElements$ = this.BXRest.lists.element.get({
+  listElements$ = this.BXRestNavvy.lists.element.get({
     IBLOCK_TYPE_ID: 'lists',
     IBLOCK_ID: 150,
     FILTER: {
