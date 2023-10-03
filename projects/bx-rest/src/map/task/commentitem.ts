@@ -15,21 +15,21 @@ export class BXRestMapTaskCommentItem extends BaseMapServices {
     return value ? this.iCommentTaskHtmlToiCommentTask(value) : undefined
   }
 
-  private iCommentTaskHtmlToiCommentTask(item: iCommentTaskHtml): iCommentTask {
+  private iCommentTaskHtmlToiCommentTask(item: iBXRestTaskCommentHtml): iBXRestTaskComment {
     if (item.ATTACHED_OBJECTS) {
       return {
         ATTACHED_OBJECTS: Object.values(item.ATTACHED_OBJECTS).map(i => {
           return {
-            ATTACHMENT_ID: this.toNumber(i.ATTACHMENT_ID),
-            FILE_ID: this.toNumber(i.FILE_ID),
-            SIZE: this.toNumber(i.SIZE),
+            ATTACHMENT_ID: this.toNum(i.ATTACHMENT_ID),
+            FILE_ID: this.toNum(i.FILE_ID),
+            SIZE: this.toNum(i.SIZE),
             DOWNLOAD_URL: i.DOWNLOAD_URL,
             NAME: i.NAME,
             VIEW_URL: i.VIEW_URL
           }
         }),
-        AUTHOR_ID: this.toNumber(item.AUTHOR_ID),
-        ID: this.toNumber(item.ID),
+        AUTHOR_ID: this.toNum(item.AUTHOR_ID),
+        ID: this.toNum(item.ID),
         POST_DATE: this.toDate(item.POST_DATE),
         AUTHOR_EMAIL: item.AUTHOR_EMAIL,
         AUTHOR_NAME: item.AUTHOR_NAME,
@@ -38,8 +38,8 @@ export class BXRestMapTaskCommentItem extends BaseMapServices {
       }
     } else {
       return {
-        AUTHOR_ID: this.toNumber(item.AUTHOR_ID),
-        ID: this.toNumber(item.ID),
+        AUTHOR_ID: this.toNum(item.AUTHOR_ID),
+        ID: this.toNum(item.ID),
         POST_DATE: this.toDate(item.POST_DATE),
         AUTHOR_EMAIL: item.AUTHOR_EMAIL,
         AUTHOR_NAME: item.AUTHOR_NAME,

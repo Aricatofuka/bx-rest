@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core'
 import { BaseMapServices } from './base'
 import { iBXRestListItem, iBXRestListItemHttp } from '../typification/rest/lists/get'
+import BXRestMapListsElement from './lists/element'
+import { BXRestMapListsField } from './lists/field'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestMapLists extends BaseMapServices {
 
+  constructor(
+    public element: BXRestMapListsElement,
+    public field: BXRestMapListsField
+  ) {
+    super()
+  }
   get(value: iBXRestListItemHttp[] | undefined): iBXRestListItem[] | undefined {
     return (value) ? value.map(i => this.iBXRestListItemHttpToiBXRestListItem(i)) : undefined
   }

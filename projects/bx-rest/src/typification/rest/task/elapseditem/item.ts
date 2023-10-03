@@ -17,7 +17,6 @@ export interface iBXRestElapsedItemHttp extends iBXRestElapsedItemBase {
     TASK_ID: string
     USER_ID: string
     SOURCE: string
-    COMMENT_TEXT: string
     CREATED_DATE: string
     DATE_START: string
     DATE_STOP: string

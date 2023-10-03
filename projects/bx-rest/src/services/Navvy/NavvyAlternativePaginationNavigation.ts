@@ -1,10 +1,10 @@
-import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
-import { concatMap, from, mergeMap, Observable, throwError } from 'rxjs'
+import { concat, concatMap, from, last, mergeMap, shareReplay, tap, throwError } from 'rxjs'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
-import { iBXRestElapsedItemHttp } from '../../typification/rest/task/elapseditem/item'
 import clone from 'just-clone'
-import { catchError } from 'rxjs/operators'
+import { catchError, map } from 'rxjs/operators'
 import { NavvyPagNavBase } from './extends/NavvyPagNavBase'
+import { ReturnTypeNavvy } from './NavvySupport'
+import { iBXRestAlternativePagination } from '../../typification/rest/base/ApiPaginationBX'
 
 /**
  * Класс-прослойка-обработчик для методов работающих на альтернативной постраничной навигации тика как методы по
@@ -12,64 +12,61 @@ import { NavvyPagNavBase } from './extends/NavvyPagNavBase'
  *
  * не завершенный класс, работаем от частного к общему
  */
-export class NavvyAlterPagNav<C, M> extends NavvyPagNavBase<C, M, iBXRestElapsedItemHttp[], iBXRestElapsedItemHttp[], iBXRestParamElapseditemGet | undefined>{
+export class NavvyAlterPagNav<C, M, T, R, P extends iBXRestAlternativePagination> extends NavvyPagNavBase<C, M, T[], R[], P> {
 
-  resultAll(){
-    return this.mapAndSnackBarError(this.getAllTaskElapsedItem(this.func.call, this.param))
+  resultAll() {
+    let save: ReturnTypeNavvy<T, R>[] = []
+    return this.resultAllEnd()
+      .pipe(
+        map(v => {
+            if (v) {
+              save.push(...v as ReturnTypeNavvy<T, R>[])
+            }
+            return save
+          }
+        ),
+        last(),
+        shareReplay(1)
+      )
   }
 
-  /**
-   * Метод в котором все должно крутиться, не конечный вариант
-   * работаем от частного к общему
-   *
-   * @param func
-   * @param param
-   */
-  private getAllTaskElapsedItem(
-    func: (param: iBXRestParamElapseditemGet | undefined) => Observable<iBXRestAnswer<iBXRestElapsedItemHttp[]> | undefined>,
-    param: iBXRestParamElapseditemGet | undefined = undefined
-  ) {
-    return func.call(this.requestClass, param).pipe(
+  private resultAllEnd() {
+    // return  this.mapForVanillaEnd(this.func, this.param)
+    return this.resultVanilla().pipe(
       mergeMap(
         items => {
           if (items && items.result) {
-            if (items.next) {
-              param = (param) ? param : {}
-              param.PARAMS = {
-                NAV_PARAMS: {
-                  nPageSize: this.pageSize,
-                  iNumPage: items.next / this.pageSize + 1
-                }
-              }
-              let requests: iBXRestParamElapseditemGet[] = []
-              for (let i = 0; i < this.pageSize; i + this.pageSize) {
-                let paramClone = clone(param)
+            if (items.total && items.next) {
+              let requests: P[] = []
+              for (let i = items.next; i < items.total; i = i + this.pageSize) {
+                let paramClone = clone(this.param)
                 paramClone.PARAMS = {
                   NAV_PARAMS: {
                     nPageSize: this.pageSize,
-                    iNumPage: (items.next + i) / this.pageSize + 1
+                    iNumPage: i / this.pageSize + 1
                   }
                 }
                 requests.push(
                   paramClone
                 )
               }
-              return from(requests).pipe(
-                concatMap(param => func.call(this.requestClass, param)),
+              return concat(
+                this.mapResultForGetAll(items),
+                from(requests).pipe(
+                  concatMap(param =>
+                    this.resultEnd(this.func, param).pipe(
+                      tap(_ => {
+                        if(param && param.PARAMS && items.total) {
+                          this.load$.next((param.PARAMS.NAV_PARAMS.iNumPage * this.pageSize + this.pageSize)/items.total)
+                        }
+                      }),
+                    )
+                  ),
+                )
               )
-              /*
-              return this.getAllTaskElapsedItem(func, param).pipe(
-                map(vEnd => {
-                  if (vEnd && vEnd.result && items.result) {
-                    return merge(clone(vEnd), {result: [...items.result, ...vEnd.result]})
-                  }
-                  return items
-                })
-              )
-               */
             }
           }
-          return from([items])
+          return this.mapResultForGetAll(items)
         }
       ),
       catchError(err => {
@@ -78,6 +75,12 @@ export class NavvyAlterPagNav<C, M> extends NavvyPagNavBase<C, M, iBXRestElapsed
         return throwError(() => err)
       })
     )
+  }
+
+  private mapResultForGetAll(items: iBXRestAnswer<T[]> | undefined){
+    return (items?.result) ? from([items.result]).pipe(
+      map(v => (v && this.map) ? this.map.call(this.mapClass, v) : v)
+    ) : from([] as ReturnTypeNavvy<T, R>[])
   }
 
   /*

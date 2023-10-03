@@ -6,7 +6,11 @@ import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user/user'
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestUserMap extends BaseMapServices {
+export class BXRestMapUser extends BaseMapServices {
+
+  constructor() {
+    super()
+  }
 
   get(v: iBXRestUserHttp[] | undefined): iBXRestUser[] | undefined
   {
@@ -18,7 +22,8 @@ export class BXRestUserMap extends BaseMapServices {
   }
 
   private userHttpToTrace(user: iBXRestUserHttp): iBXRestUser {
-    let res: iBXRestUser = Object.assign(clone(user), {
+    let res: iBXRestUser = Object.assign(
+      clone(user), {
       ID: this.toNum(user.ID),
       IS_ONLINE: this.toBool(user.IS_ONLINE),
       DATE_REGISTER: this.toDate(user.DATE_REGISTER),

@@ -1,7 +1,8 @@
 import { iBXRestParamSort } from '../../base/sort'
 import { BXRestFilterGenerator } from '../../base/filterGenerator'
+import { iBXRestAlternativePagination } from '../../base/ApiPaginationBX'
 
-export interface iBXRestParamElapseditemGet {
+export interface iBXRestParamElapseditemGet extends iBXRestAlternativePagination{
   TASKID?: number,
   ORDER?: { // Массив для сортировки результата. Поле для сортировки может принимать значения:
     ID?: iBXRestParamSort, // идентификатор записи о затраченном времени
@@ -17,19 +18,9 @@ export interface iBXRestParamElapseditemGet {
     // desc - по убыванию
     // Необязательный. По умолчанию фильтруется по убыванию идентификатора записи о затраченном времени
   FILTER?: BXRestFilterGenerator<iBXRestParamElapseditemGetFilter>
-  SELECT?: string[]	// Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы.
-                    // Если в массиве присутствует значение "*", то будут возвращены все доступные поля.
-
-  // Значение по умолчанию - пустой массив array() - означает, что будут возвращены все поля основной таблицы запроса.
-  // PARAMS	Массив для опций вызова. Элементом является массив NAV_PARAMS вида {"опция вызова": 'значение' [, ...]}, хранящий следующие опции:
-  // nPageSize - количество элементов на странице. В целях ограничения нагрузки на постраничную навигацию наложено ограничение в 50 записей.
-  // iNumPage - номер страницы при постраничной навигации.
-  PARAMS?: {
-    NAV_PARAMS: {
-      nPageSize: number,  // колличество элементов на странице. В целях ограничения нагрузки на постраничную навигацию наложено ограничение в 50 записей.
-      iNumPage: number //  номер страницы при постраничной навигации.
-    }
-  }
+  SELECT?: string[]	// Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы
+                    // Если в массиве присутствует значение "*", то будут возвращены все доступные поля
+  // Значение по умолчанию - пустой массив array() - означает, что будут возвращены все поля основной таблицы запроса
 }
 
 interface iBXRestParamElapseditemGetFilter {

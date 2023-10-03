@@ -1,11 +1,13 @@
 import { NavvySupport, ReturnTypeNavvy } from '../NavvySupport'
-import { Observable } from 'rxjs'
+import { Observable, ReplaySubject } from 'rxjs'
 import { iBXRestAnswer } from '../../../typification/rest/base/answer'
 import { map } from 'rxjs/operators'
 
 export abstract class NavvyPagNavBase<C, M, T, R, P> extends NavvySupport<C, M, T, R> {
 
  //  load: number = 0
+
+  load$ = new ReplaySubject<number>(1)
 
   public constructor(
     requestClass: C,
@@ -15,6 +17,7 @@ export abstract class NavvyPagNavBase<C, M, T, R, P> extends NavvySupport<C, M, 
     protected testError: string = '',
     protected map: ((param: T | undefined) => R | undefined) | undefined = undefined) {
     super(requestClass, mapClass)
+    this.load$.next(0.001)
   }
 
   resultVanilla() {

@@ -19,15 +19,16 @@ import { BXRestNavvyOperationElapseditem } from './operation/elapseditem'
 })
 export class BXRestNavvyElapseditem {
   private Navvy: Navvy<BXRestElapseditem, BXRestMapTaskElapseditem>
+  public operation: BXRestNavvyOperationElapseditem
 
   constructor(
     private BXRestElapseditem: BXRestElapseditem,
     private BXRestNavvyUser: BXRestNavvyUser,
     private BXRestNavvyTasks: BXRestNavvyTasks,
     private BXRestMapElapseditem: BXRestMapTaskElapseditem,
-    public operation: BXRestNavvyOperationElapseditem
   ) {
     this.Navvy = new Navvy(this.BXRestElapseditem, this.BXRestMapElapseditem)
+    this.operation = new BXRestNavvyOperationElapseditem(this)
   }
 
   /*
@@ -40,7 +41,7 @@ export class BXRestNavvyElapseditem {
    */
 
   getList(
-    param: iBXRestParamElapseditemGet | undefined = undefined
+    param: iBXRestParamElapseditemGet = {}
   ) {
     if (param) {
       if (!param.TASKID && !param.SELECT) {
@@ -55,7 +56,12 @@ export class BXRestNavvyElapseditem {
         }
       }
     }
-    return this.Navvy.alterPagNav(this.BXRestElapseditem.getList, param)
+    return this.Navvy.alterPagNav(
+      this.BXRestElapseditem.getList,
+      param,
+      'Не удалось получить список затраченного на задачу(-и) времени',
+      this.BXRestMapElapseditem.getList
+    )
   }
 
   add(param: iBXRestParamAddElapseditem) {

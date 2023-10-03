@@ -11,7 +11,6 @@ import {
 export default class BXRestMapListsElement extends BaseMapServices {
 
   get(items: iBXRestHttpListsElement[] | undefined): iBXRestListsElement[] | undefined {
-
     return (items)
       ? items.map(item => Object.assign(item, {
         BP_PUBLISHED: item.BP_PUBLISHED === 'Y',

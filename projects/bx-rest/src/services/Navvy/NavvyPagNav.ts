@@ -1,4 +1,4 @@
-import { concat, concatMap, from, last, mergeMap, throwError } from 'rxjs'
+import { concat, concatMap, from, last, mergeMap, shareReplay, throwError } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import clone from 'just-clone'
 import { iBXRestPagination } from '../../typification/rest/base/ApiPaginationBX'
@@ -21,6 +21,7 @@ export class NavvyPagNav<C, M, T, R, P extends iBXRestPagination> extends NavvyP
           }
         ),
         last(),
+        shareReplay(1)
       )
   }
 
