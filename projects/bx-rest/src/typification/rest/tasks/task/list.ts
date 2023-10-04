@@ -1,18 +1,12 @@
 import { iBXRestParamSort } from '../../base/sort'
 import { iBXRestYesNo } from '../../base/YesNo'
 import { iBXRestTaskFieldsName } from '../../task/base/fieldsName'
-import { iBXRestFilterGenerator } from '../../base/filterGenerator'
-import { iBXRestPagination } from '../../base/ApiPaginationBX'
-import { iBXRestHttpTask } from '../../task/task'
+import { BXRestFilterGenerator } from '../../base/filterGenerator'
 
-export interface iBXRestParamTasksListHttp {
-  tasks: iBXRestHttpTask[] | undefined
-}
-
-export interface iBXRestParamTasksList extends iBXRestPagination{
+export interface iBXRestParamTasksList {
     order?: iBXRestParamTaskListOrder,
     filter?: iBXRestParamTaskListFilter,
-    select?: iBXRestFilterGenerator<iBXRestTaskFieldsName>[], // массив выводимых полей
+    select?: BXRestFilterGenerator<iBXRestTaskFieldsName[]>, // массив выводимых полей
 }
 
 export interface iBXRestParamTaskListOrder { // Массив для сортировки результата. Массив вида {"поле_сортировки": 'направление сортировки' [, ...]}.

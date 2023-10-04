@@ -115,7 +115,7 @@ export class BXRestNavvyTasksTask {
     if (!param.select) {
       param.select = this.def.select
     }
-    return this.Navvy.PagNavTasks(
+    return this.Navvy.simpleWithArg(
       this.BXRestTasksTask.list,
       param,
       'Не удалось получить список задач',
