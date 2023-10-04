@@ -1,5 +1,5 @@
 import { iBXRestYesNo } from '../../base/YesNo'
-import { BXRestFilterKeys } from '../../base/filterGenerator'
+import { iBXRestFilterKeys } from '../../base/filterGenerator'
 import { iBXRestPagination } from '../../base/ApiPaginationBX'
 
 export interface iBXRestParamListsElementGet extends iBXRestPagination{
@@ -30,7 +30,7 @@ export interface iBXRestBaseListsElement {
   CODE: string | null
   IBLOCK_SECTION_ID: string | null
   NAME: string
-  [key: `${BXRestFilterKeys}PROPERTY_${string}`]: { [key: string]: string | iBXRestParamListsElementGetHtml }
+  [key: `${iBXRestFilterKeys}PROPERTY_${string}`]: { [key: string]: string | iBXRestParamListsElementGetHtml }
 }
 
 export interface iBXRestParamListsElementGetHtml {

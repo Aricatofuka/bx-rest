@@ -1,4 +1,4 @@
-export interface BXRestTasksTaskApproveHttp {
+export interface iBXRestTasksTaskApproveHttp {
   id: string
   parentId: string | null
   title: string

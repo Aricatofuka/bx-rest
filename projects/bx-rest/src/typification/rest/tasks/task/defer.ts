@@ -1,5 +1,5 @@
-import { BXRestTasksTaskApproveHttp } from './approve'
+import { iBXRestTasksTaskApproveHttp } from './approve'
 
-export interface BXRestTasksTaskDeferHttp extends BXRestTasksTaskApproveHttp{
-  
+export interface iBXRestTasksTaskDeferHttp extends iBXRestTasksTaskApproveHttp{
+
 }
