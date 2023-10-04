@@ -5,6 +5,7 @@ import { NavvyAlterPagNav } from './Navvy/NavvyAlternativePaginationNavigation'
 import { NavvyPagNav } from './Navvy/NavvyPagNav'
 import { iBXRestAlternativePagination, iBXRestPagination } from '../typification/rest/base/ApiPaginationBX'
 import { NavvyPagNavWithUselessKey } from './Navvy/NavvyPagNavWithUselessKey'
+import { NavvyPagNavTasks } from './Navvy/NavvyPagNavTasks'
 
 export class Navvy<C, M> {
 
@@ -37,6 +38,14 @@ export class Navvy<C, M> {
     testError: string = '',
     map: ((param: T[] | undefined) => R[] | undefined) | undefined = undefined) {
     return new NavvyPagNav(this.requestClass, this.mapClass, func, arg, testError, map)
+  }
+
+  PagNavTasks<T, R, A extends iBXRestPagination>(
+    func: (param: A) => Observable<iBXRestAnswer<{tasks: T[] | undefined}> | undefined>,
+    arg: A,
+    testError: string = '',
+    map: ((param: {tasks: T[] | undefined}  | undefined) => R[] | undefined) | undefined = undefined) {
+    return new NavvyPagNavTasks(this.requestClass, this.mapClass, func, arg, testError, map)
   }
 
   PagNavWithUselessKey<T, R, A extends iBXRestPagination>(

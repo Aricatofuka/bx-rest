@@ -2,6 +2,7 @@ import { iBXRestTaskGetAccess } from '../../typification/rest/task/access/getacc
 import { iBXRestHttpTask, iBXRestTask } from '../../typification/rest/task/task'
 import { BaseMapServices } from '../base'
 import { Injectable } from '@angular/core'
+import { iBXRestParamTasksListHttp } from '../../typification/rest/tasks/task/list'
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ export class BXRestMapTasksTask extends BaseMapServices{
     return (item && item.task) ? this.TaskBXHttpToTaskBX(item.task) : undefined
   }
 
-  list(item: {tasks: iBXRestHttpTask[] | undefined} | undefined): iBXRestTask[] | undefined{
+  list(item: iBXRestParamTasksListHttp | undefined): iBXRestTask[] | undefined{
     return (item && item.tasks) ?  item.tasks.map( i =>  this.TaskBXHttpToTaskBX(i)) : undefined
   }
 
