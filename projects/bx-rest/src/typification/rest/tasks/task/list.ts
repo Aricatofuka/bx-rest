@@ -2,8 +2,9 @@ import { iBXRestParamSort } from '../../base/sort'
 import { iBXRestYesNo } from '../../base/YesNo'
 import { iBXRestTaskFieldsName } from '../../task/base/fieldsName'
 import { BXRestFilterGenerator } from '../../base/filterGenerator'
+import { iBXRestPagination } from '../../base/ApiPaginationBX'
 
-export interface iBXRestParamTasksList {
+export interface iBXRestParamTasksList extends iBXRestPagination{
     order?: iBXRestParamTaskListOrder,
     filter?: iBXRestParamTaskListFilter,
     select?: BXRestFilterGenerator<iBXRestTaskFieldsName[]>, // массив выводимых полей

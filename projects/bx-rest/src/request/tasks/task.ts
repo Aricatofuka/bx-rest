@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import {
-  $add, $approve, $attach, $complete, $counters, $deger, $delegate, $delete, $disapprove, $favorite, $files,
+  $add, $approve, $attach, $complete, $counters, $defer, $delegate, $delete, $disapprove, $favorite, $files,
   $get, $getaccess, $getFields, $getlist, $history, $list, $pause, $planner, $renew, $result, $start,
   $task, $tasks, $update
 } from '../../consts/part-name-metods'
@@ -10,6 +10,9 @@ import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'
 import { iBXRestParamTasksList } from '../../typification/rest/tasks/task/list'
 import { iBXRestParamTaskGetAccess, iBXRestTaskGetAccess } from '../../typification/rest/task/access/getaccess'
+import { BXRestTasksTaskApproveHttp } from '../../typification/rest/task/approve'
+import { BXRestTasksTaskCompleteHttp } from '../../typification/rest/task/complete'
+import { BXRestTasksTaskDeferHttp } from '../../typification/rest/task/defer'
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +26,7 @@ export class BXRestTasksTask {
     counters: {
       get: [$tasks, $task, $counters, $get], //Получает счетчики пользователя
     },
-    deger: [$tasks, $task, $deger], // Переводит задачу в статус «отложена»
+    defer: [$tasks, $task, $defer], // Переводит задачу в статус «отложена»
     delegate: [$tasks, $task, $delegate], // Метод для делегирования задачи
     delete: [$tasks, $task, $delete], // Удаляет задачу
     disapprove: [$tasks, $task, $disapprove], // Позволяет отклонить задачу
@@ -66,6 +69,18 @@ export class BXRestTasksTask {
     return this.http.post<{ task: iBXRestHttpTask }>(this.url.add, param)
   }
 
+  approve(id: number) {
+    return this.http.post<{ task: BXRestTasksTaskApproveHttp }>(this.url.approve, {taskId: id})
+  }
+
+  complete(id: number) {
+    return this.http.post<{ task: BXRestTasksTaskCompleteHttp }>(this.url.complete, {taskId: id})
+  }
+
+  defer(id: number) {
+    return this.http.post<{ task: BXRestTasksTaskDeferHttp }>(this.url.defer, {taskId: id})
+  }
+
   /*
   update(taskId: number, updateFields: iBXRestTaskFieldsName[], task: iBXRestTask) {
     let sendTask: Record<string, any> = {}
@@ -100,6 +115,7 @@ export class BXRestTasksTask {
   list(param: iBXRestParamTasksList = {}) {
     return this.http.post<{tasks: iBXRestHttpTask[] | undefined}>(this.url.list, param)
   }
+
   /*
   listArray(requestArray: RequestApiTaskListBX = {}) {
     return this.list(requestArray).pipe(
