@@ -8,11 +8,11 @@ import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestHttpTask } from '../../typification/rest/task/task'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'
-import { iBXRestParamTasksList } from '../../typification/rest/tasks/task/list'
+import { iBXRestParamTasksList, iBXRestParamTasksListHttp } from '../../typification/rest/tasks/task/list'
 import { iBXRestParamTaskGetAccess, iBXRestTaskGetAccess } from '../../typification/rest/task/access/getaccess'
-import { BXRestTasksTaskApproveHttp } from '../../typification/rest/task/approve'
-import { BXRestTasksTaskCompleteHttp } from '../../typification/rest/task/complete'
-import { BXRestTasksTaskDeferHttp } from '../../typification/rest/task/defer'
+import { BXRestTasksTaskApproveHttp } from '../../typification/rest/tasks/task/approve'
+import { BXRestTasksTaskCompleteHttp } from '../../typification/rest/tasks/task/complete'
+import { BXRestTasksTaskDeferHttp } from '../../typification/rest/tasks/task/defer'
 
 @Injectable({
   providedIn: 'root'
@@ -112,8 +112,10 @@ export class BXRestTasksTask {
     return this.http.post<{ task: iBXRestHttpTask | undefined }>(this.url.get, requestArray)
   }
 
-  list(param: iBXRestParamTasksList = {}) {
-    return this.http.post<{tasks: iBXRestHttpTask[] | undefined}>(this.url.list, param)
+  list(param: iBXRestParamTasksList
+    // = {}
+  ) {
+    return this.http.post<iBXRestParamTasksListHttp>(this.url.list, param)
   }
 
   /*
