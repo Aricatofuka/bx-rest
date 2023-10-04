@@ -1,5 +1,5 @@
 import { iBXRestParamSort } from '../../base/sort'
-import { BXRestFilterGenerator } from '../../base/filterGenerator'
+import { iBXRestFilterGenerator } from '../../base/filterGenerator'
 import { iBXRestAlternativePagination } from '../../base/ApiPaginationBX'
 
 export interface iBXRestParamElapseditemGet extends iBXRestAlternativePagination{
@@ -17,7 +17,7 @@ export interface iBXRestParamElapseditemGet extends iBXRestAlternativePagination
     //   asc - по возрастанию
     // desc - по убыванию
     // Необязательный. По умолчанию фильтруется по убыванию идентификатора записи о затраченном времени
-  FILTER?: BXRestFilterGenerator<iBXRestParamElapseditemGetFilter>
+  FILTER?: iBXRestFilterGenerator<iBXRestParamElapseditemGetFilter>
   SELECT?: string[]	// Массив полей записей, которые будут возвращены методом. Можно указать только те поля, которые необходимы
                     // Если в массиве присутствует значение "*", то будут возвращены все доступные поля
   // Значение по умолчанию - пустой массив array() - означает, что будут возвращены все поля основной таблицы запроса

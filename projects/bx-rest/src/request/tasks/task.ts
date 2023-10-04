@@ -10,9 +10,9 @@ import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'
 import { iBXRestParamTasksList, iBXRestParamTasksListHttp } from '../../typification/rest/tasks/task/list'
 import { iBXRestParamTaskGetAccess, iBXRestTaskGetAccess } from '../../typification/rest/task/access/getaccess'
-import { BXRestTasksTaskApproveHttp } from '../../typification/rest/tasks/task/approve'
-import { BXRestTasksTaskCompleteHttp } from '../../typification/rest/tasks/task/complete'
-import { BXRestTasksTaskDeferHttp } from '../../typification/rest/tasks/task/defer'
+import { iBXRestTasksTaskApproveHttp } from '../../typification/rest/tasks/task/approve'
+import { iBXRestTasksTaskCompleteHttp } from '../../typification/rest/tasks/task/complete'
+import { iBXRestTasksTaskDeferHttp } from '../../typification/rest/tasks/task/defer'
 
 @Injectable({
   providedIn: 'root'
@@ -70,15 +70,15 @@ export class BXRestTasksTask {
   }
 
   approve(id: number) {
-    return this.http.post<{ task: BXRestTasksTaskApproveHttp }>(this.url.approve, {taskId: id})
+    return this.http.post<{ task: iBXRestTasksTaskApproveHttp }>(this.url.approve, {taskId: id})
   }
 
   complete(id: number) {
-    return this.http.post<{ task: BXRestTasksTaskCompleteHttp }>(this.url.complete, {taskId: id})
+    return this.http.post<{ task: iBXRestTasksTaskCompleteHttp }>(this.url.complete, {taskId: id})
   }
 
   defer(id: number) {
-    return this.http.post<{ task: BXRestTasksTaskDeferHttp }>(this.url.defer, {taskId: id})
+    return this.http.post<{ task: iBXRestTasksTaskDeferHttp }>(this.url.defer, {taskId: id})
   }
 
   /*
