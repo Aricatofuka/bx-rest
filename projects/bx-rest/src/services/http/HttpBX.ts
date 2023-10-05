@@ -1,5 +1,4 @@
 import { Observable, throwError, mergeMap, forkJoin } from 'rxjs'
-import { map } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import clone from 'just-clone'
 import { iHttpParamSettings } from '../../typification/rest/settings'
@@ -10,6 +9,7 @@ import {
   iBatchRequestParamHttp,
 } from '../../typification/rest/batch/batchRequestParam'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
+import { HttpHeaders } from '@angular/common/http'
 
 // type TransformFunction<T, R> = (input: T) => R;
 
@@ -18,19 +18,9 @@ import { iBXRestAnswer } from '../../typification/rest/base/answer'
 })
 export class HttpBXServices extends HttpServices {
 
-  timeNowOnServer() {
-    return this.httpGet<{ result?: Date, error?: string }>('server.time').pipe(
-      map(v => {
-        if (v && v.result) {
-          return new Date(v.result)
-        }
-        return undefined
-      }),
-    )
-  }
-
   /**
    * Это пиздец а не метод
+   * TODO: Удалить данный метод после реализации его в разделе Navvy
    * @param param
    */
   branch<T, A>(param: iBatchRequestParamArr<T> | iBatchRequestParam<T>[]): Observable<iBatchRequestAnswer<A>[] | undefined> {
@@ -79,12 +69,26 @@ export class HttpBXServices extends HttpServices {
   //   return flatten<T>(Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)))
   // }
 
+  /**
+   * Основной метод для запросов
+   *
+   * @param name
+   * @param params
+   * @param settings
+   */
   post<T>(name: string[],
           params: any = {},
           settings: iHttpParamSettings = this.defSettings) {
     return this.httpPost<iBXRestAnswer<T>>(this.getNameMethod(name), params, settings)
   }
 
+  /**
+   * Второстепенный метод для запросов. По возможности лучше не использовать
+   *
+   * @param name
+   * @param params
+   * @param settings
+   */
   get<T>(name: string[],
          params: any = {},
          settings: iHttpParamSettings = this.defSettings) {
@@ -102,9 +106,11 @@ export class HttpBXServices extends HttpServices {
       return this.session.getBaseUrl().pipe(
         mergeMap(v => {
           if (v) {
+            // это более быстрый способ запроса чем отправка Form Data
             return this.http.post<T | undefined>(
-              this.prepareBaseAddress(v) + url,
-              this.getHttpParamsPost(paramsClone, new FormData(), false, [], settings))
+              this.prepareBaseAddress(v) + url, JSON.stringify(paramsClone),
+              {headers: new HttpHeaders().set('Content-Type', 'application/json')}
+            )
           }
           return throwError(() => 'get base url error')
         }))
@@ -128,6 +134,7 @@ export class HttpBXServices extends HttpServices {
       paramsClone[this.session.getKeyAuth()] = auth
       let options = {
         params: this.getHttpParamsGet(paramsClone)
+        // params: JSON.stringify(paramsClone)
       }
 
       return this.session.getBaseUrl().pipe(

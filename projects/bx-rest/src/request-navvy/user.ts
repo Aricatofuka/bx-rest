@@ -1,4 +1,4 @@
-import { of, tap } from 'rxjs'
+import { of, shareReplay, tap } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { BXRestUser } from '../request/user'
@@ -51,7 +51,9 @@ export class BXRestNavvyUser {
   }
 
   current(update = false) {
-    return this.Navvy.simpleWithArg(
+    const navvy = new Navvy(this, this.BXRestUserMap)
+
+    return navvy.simpleWithArg(
       this.self,
       update,
       '',
@@ -118,9 +120,9 @@ export class BXRestNavvyUser {
     if (update) {
       return this.BXRestUser.current(update)
     } else {
-      let self = SessionStorage.getItem(this.constructor.name + this.self.name) as iBXRestUserHttp
+      let self = SessionStorage.getItem(this.constructor.name + this.self.name) as iBXRestAnswer<iBXRestUserHttp>
       if (self) {
-        return of({result: self} as iBXRestAnswer<iBXRestUserHttp>)
+        return of(self)
       }
       return this.BXRestUser.current(update)
         .pipe(
@@ -130,6 +132,7 @@ export class BXRestNavvyUser {
             }
             return undefined
           }),
+          shareReplay(1),
           tap(v => {
             if (v) {
               SessionStorage.setItem(this.constructor.name + this.self.name, v)

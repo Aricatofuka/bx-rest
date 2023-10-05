@@ -33,7 +33,7 @@ export class BXRestUser {
   }
 
   admin() {
-    return this.http.get<boolean>(this.url.admin)
+    return this.http.post<boolean>(this.url.admin)
   }
 
   get(params: iBXRestParamUserGet = {}) {
@@ -45,7 +45,7 @@ export class BXRestUser {
   }
 
   current(update = false) {
-    let request = this.http.get<iBXRestUserHttp>(this.url.current, {})
+    let request = this.http.post<iBXRestUserHttp>(this.url.current, {})
     if (update) {
       return request
     } else {
@@ -63,15 +63,15 @@ export class BXRestUser {
   }
 
   search(params: iBXRestParamUserSearch) {
-    return this.http.get<iBXRestUserHttp[]>(this.url.search, params)
+    return this.http.post<iBXRestUserHttp[]>(this.url.search, params)
   }
 
   access(access: string[]) {
-    return this.http.get<iBXRestAnswer<boolean> | undefined>(this.url.access, {ACCESS: access})
+    return this.http.post<iBXRestAnswer<boolean> | undefined>(this.url.access, {ACCESS: access})
   }
 
   fields() {
-    return this.http.get<iBXRestAnswer<iBXRestUserHttpField>>(this.url.fields)
+    return this.http.post<iBXRestAnswer<iBXRestUserHttpField>>(this.url.fields)
   }
 }
 

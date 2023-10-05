@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { iBXRestElapsedItem, iBXRestElapsedItemHttp } from '../../typification/rest/task/elapseditem/item'
+import { iBXRestTaskElapsedItem, iBXRestTaskElapsedItemHttp } from '../../typification/rest/task/elapseditem/item'
 import { BaseMapServices } from '../base'
 
 @Injectable({
@@ -10,11 +10,11 @@ export class BXRestMapTaskElapseditem extends BaseMapServices {
     return (p == null)
   }
 
-  getList(v: iBXRestElapsedItemHttp[] | undefined) {
+  getList(v: iBXRestTaskElapsedItemHttp[] | undefined) {
     return (v) ? v.map(i => this.ElapsedItemHttpToElapsedItem(i)) : undefined
   }
 
-  ElapsedItemHttpToElapsedItem(item: iBXRestElapsedItemHttp): iBXRestElapsedItem {
+  ElapsedItemHttpToElapsedItem(item: iBXRestTaskElapsedItemHttp): iBXRestTaskElapsedItem {
     return Object.assign(item, {
       ID: this.toNum(item.ID),
       MINUTES: this.toNum(item.MINUTES),
