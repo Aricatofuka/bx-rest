@@ -36,40 +36,48 @@ export interface iBXRestTask extends iBXRestBaseTask {
   allowTimeTracking?: boolean
 }
 
-
 export interface iBXRestHttpTask extends iBXRestBaseTask {
   id?: string,
-  parentId?: string,
-  priority?: string,
-  status?: string,
+  parentId?: string
+  priority?: string
+  status?: string
   multitask?: iBXRestYesNo,
-  groupId?: string,
-  stageId?: string,
-  createdBy?: string,
-  createdDate?: string,
-  responsibleId?: string,
-  changedBy?: string,
-  changedDate?: string,
-  statusChangedBy?: string,
-  statusChangedDate?: string,
-  closedBy?: string,
-  closedDate?: string,
-  dateStart?: string,
-  deadline?: string,
-  startDatePlan?: string,
-  endDatePlan?: string,
-  forumTopicId?: string,
-  forumId?: string,
-  viewedDate?: string,
-  sorting?: string,
-  durationPlan?: string,
-  descriptionInBbcode?: iBXRestYesNo,
-  accomplices?: string[],
-  subStatus?: string,
-  creator?: iBXRestHttpTaskPeople,
-  responsible?: iBXRestHttpTaskPeople,
+  groupId?: string
+  group?: iBXRestHttpTaskGroupHttp
+  stageId?: string
+  createdBy?: string
+  createdDate?: string
+  responsibleId?: string
+  changedBy?: string
+  changedDate?: string
+  statusChangedBy?: string
+  statusChangedDate?: string
+  closedBy?: string
+  closedDate?: string | null
+  dateStart?: string
+  deadline?: string
+  startDatePlan?: string
+  endDatePlan?: string
+  forumTopicId?: string
+  forumId?: string
+  viewedDate?: string
+  sorting?: string
+  durationPlan?: string
+  descriptionInBbcode?: iBXRestYesNo
+  accomplices?: string[]
+  subStatus?: string
+  additionalData: any[] // TODO: разобраться позже
+  creator?: iBXRestHttpTaskPeople
+  responsible?: iBXRestHttpTaskPeople
   accomplicesData?: {[key: number]: iBXRestHttpTaskPeople}
   allowTimeTracking?: iBXRestYesNo
+}
+
+export interface iBXRestHttpTaskGroupHttp {
+  id: string
+  name: string
+  opened: boolean
+  membersCount: number
 }
 
 export interface iBXRestBaseTask {

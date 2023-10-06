@@ -65,11 +65,15 @@ export class BXRestNavvyTaskCommentItem {
   del(param: BXRestTaskCommentItemDelete) {
     if (param.ITEMID > 0) {
       return this.get(param).result().pipe(
-        mergeMap(_ => {
-          return this.Navvy.simpleWithArg(
-            this.BXRestTaskCommentItem.del, param,
-            'Не удалось удалить комментарий'
-          )
+        mergeMap(v => {
+          if(v) {
+            return this.Navvy.simpleWithArg(
+              this.BXRestTaskCommentItem.del, param,
+              'Не удалось удалить комментарий'
+            ).result()
+          }
+          this.snackBar.warning('comment not exist')
+          return of(false)
         })
       )
     } else {

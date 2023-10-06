@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
-import { BXRestElapseditem } from './task/elapseditem'
+import { BXRestTaskElapseditem } from './task/elapseditem'
+import { BXRestTaskCommentItem } from './task/commentitem'
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,8 @@ import { BXRestElapseditem } from './task/elapseditem'
 export class BXRestTask {
 
   constructor(
-    public elapseditem: BXRestElapseditem,
+    public elapseditem: BXRestTaskElapseditem,
+    public commentitem: BXRestTaskCommentItem
   ) {
   }
 

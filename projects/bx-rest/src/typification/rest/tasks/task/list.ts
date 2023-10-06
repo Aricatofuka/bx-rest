@@ -3,10 +3,56 @@ import { iBXRestYesNo } from '../../base/YesNo'
 import { iBXRestTaskFieldsName } from '../../task/base/fieldsName'
 import { iBXRestFilterGenerator } from '../../base/filterGenerator'
 import { iBXRestPagination } from '../../base/ApiPaginationBX'
-import { iBXRestHttpTask } from '../../task/task'
+import { iBXRestHttpTask, iBXRestHttpTaskGroupHttp, iBXRestTask } from '../../task/task'
 
-export interface iBXRestParamTasksListHttp {
-  tasks: iBXRestHttpTask[] | undefined
+export interface iBXRestTasksTaskListHttp<T extends iBXRestHttpTasksTaskList | iBXRestTasksTaskListHttpDefault> {
+  tasks: T[] | undefined
+}
+
+export interface iBXRestHttpTasksTaskList extends iBXRestHttpTask {}
+
+export interface iBXRestTasksTaskList extends iBXRestTask {}
+
+/**
+ * Если при запросе tasks.task.list не указывать выводимые поля (select) отдаст этот набор
+ */
+export interface iBXRestTasksTaskListHttpDefault extends iBXRestHttpTask {
+  closedDate: null
+  createdDate: string
+  durationFact: string
+  group: iBXRestHttpTaskGroupHttp
+  additionalData: any[]
+  id: string
+  image: string
+  membersCount: number
+  name: string
+  opened: boolean
+  groupId: string
+  projectId: string
+  timeEstimate: string
+  timeSpentInLogs: string
+  title: string
+}
+
+/**
+ * Если при запросе tasks.task.list не указывать выводимые поля (select) отдаст этот набор
+ */
+export interface iBXRestTasksTaskListDefault extends iBXRestTask {
+  closedDate: Date | undefined
+  createdDate: Date
+  durationFact: string
+  group: iBXRestHttpTaskGroupHttp
+  additionalData: any[]
+  id: number
+  image: string
+  membersCount: number
+  name: string
+  opened: boolean
+  groupId: number
+  projectId: string
+  timeEstimate: string
+  timeSpentInLogs: string
+  title: string
 }
 
 export interface iBXRestParamTasksList extends iBXRestPagination{

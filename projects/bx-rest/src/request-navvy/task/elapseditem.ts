@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { map } from 'rxjs/operators'
 import { mergeMap, of, tap, throwError } from 'rxjs'
 import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
-import { BXRestElapseditem } from '../../request/task/elapseditem'
+import { BXRestTaskElapseditem } from '../../request/task/elapseditem'
 import { iBXRestParamAddElapseditem } from '../../typification/rest/task/elapseditem/add'
 import { Permission } from '../../services/permission'
 import { BXRestNavvyUser } from '../user'
@@ -19,11 +19,11 @@ import { HttpBXServices } from '../../services/http/HttpBX'
   providedIn: 'root'
 })
 export class BXRestNavvyElapseditem {
-  private Navvy: Navvy<BXRestElapseditem, BXRestMapTaskElapseditem>
+  private Navvy: Navvy<BXRestTaskElapseditem, BXRestMapTaskElapseditem>
   public operation: BXRestNavvyOperationElapseditem
 
   constructor(
-    private BXRestElapseditem: BXRestElapseditem,
+    private BXRestElapseditem: BXRestTaskElapseditem,
     private BXRestNavvyUser: BXRestNavvyUser,
     private BXRestNavvyTasks: BXRestNavvyTasks,
     private BXRestMapElapseditem: BXRestMapTaskElapseditem,

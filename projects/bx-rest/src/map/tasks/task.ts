@@ -2,7 +2,12 @@ import { iBXRestTaskGetAccess } from '../../typification/rest/task/access/getacc
 import { iBXRestHttpTask, iBXRestTask } from '../../typification/rest/task/task'
 import { BaseMapServices } from '../base'
 import { Injectable } from '@angular/core'
-import { iBXRestParamTasksListHttp } from '../../typification/rest/tasks/task/list'
+import {
+  iBXRestHttpTasksTaskList, iBXRestTasksTaskList, iBXRestTasksTaskListDefault, iBXRestTasksTaskListHttp,
+  iBXRestTasksTaskListHttpDefault
+} from '../../typification/rest/tasks/task/list'
+
+type SelectInterfaceTypeTasksTaskList<T> = T extends iBXRestHttpTasksTaskList ? iBXRestTasksTaskList : iBXRestTasksTaskListDefault
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +25,12 @@ export class BXRestMapTasksTask extends BaseMapServices{
     return (item && item.task) ? this.TaskBXHttpToTaskBX(item.task) : undefined
   }
 
-  list(item: iBXRestParamTasksListHttp | undefined): iBXRestTask[] | undefined{
+  list<T extends iBXRestHttpTasksTaskList | iBXRestTasksTaskListHttpDefault>(item: iBXRestTasksTaskListHttp<T> | undefined): iBXRestTask[] | undefined{
     return (item && item.tasks) ?  item.tasks.map( i =>  this.TaskBXHttpToTaskBX(i)) : undefined
   }
 
-  private TaskBXHttpToTaskBX(item: iBXRestHttpTask): iBXRestTask {
-    let result: iBXRestTask = {}
+  private TaskBXHttpToTaskBX<T extends iBXRestHttpTasksTaskList | iBXRestTasksTaskListHttpDefault>(item: T) {
+    let result: any = {}
     if(item.id) { result.id = this.toNum(item.id) }
     if(item.parentId) { result.parentId = this.toNum(item.parentId) }
     if(item.priority) { result.priority = this.toNum(item.priority) }
@@ -61,6 +66,6 @@ export class BXRestMapTasksTask extends BaseMapServices{
         Object.values(item.accomplicesData).map(i => Object.assign(i, {id: this.toNum(i.id)}))  }
     if(item.allowTimeTracking) { result.allowTimeTracking = item.allowTimeTracking === 'Y' }
 
-    return Object.assign(item, result)
+    return Object.assign(item, result) as SelectInterfaceTypeTasksTaskList<T>
   }
 }
