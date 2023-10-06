@@ -1,7 +1,7 @@
 import { iBXRestParamElapseditemGet } from '../../../typification/rest/task/elapseditem/get'
 import { BXRestNavvyElapseditem } from '../elapseditem'
 import { HttpBXServices } from '../../../services/http/HttpBX'
-import { iBXRestTaskElapsedItemHttp } from '../../../typification/rest/task/elapseditem/item'
+import { iBXRestTaskElapsedItem, iBXRestTaskElapsedItemHttp } from '../../../typification/rest/task/elapseditem/item'
 import { $elapseditem, $getlist, $task } from '../../../consts/part-name-metods'
 import { map } from 'rxjs/operators'
 import { BXRestMapTaskElapseditem } from '../../../map/task/elapseditem'
@@ -45,7 +45,7 @@ export class BXRestNavvyOperationElapseditem {
         if (v && v.length) {
           return this.http.mapBranchResultWithoutKey(v).map(
             i => this.BXRestMapElapseditem.getList(i)
-          )
+          ).filter((i): i is iBXRestTaskElapsedItem[] => i !== undefined).flat()
         }
         return undefined
       })
