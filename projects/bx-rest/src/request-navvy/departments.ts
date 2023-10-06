@@ -9,7 +9,7 @@ import { iBXRestDepartmentUpdate } from '../typification/rest/department/update'
 @Injectable({
   providedIn: 'root'
 })
-export default class BXRestNavvyDepartment {
+export class BXRestNavvyDepartment {
 
   protected Navvy: Navvy<BXRestDepartment, BXRestMapDepartment>
 
