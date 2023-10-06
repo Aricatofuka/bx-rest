@@ -13,6 +13,7 @@ import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapsed
 import { Navvy } from '../../services/navvy'
 import { BXRestMapTaskElapseditem } from '../../map/task/elapseditem'
 import { BXRestNavvyOperationElapseditem } from './operation/elapseditem'
+import { HttpBXServices } from '../../services/http/HttpBX'
 
 @Injectable({
   providedIn: 'root'
@@ -26,9 +27,10 @@ export class BXRestNavvyElapseditem {
     private BXRestNavvyUser: BXRestNavvyUser,
     private BXRestNavvyTasks: BXRestNavvyTasks,
     private BXRestMapElapseditem: BXRestMapTaskElapseditem,
+    private http: HttpBXServices,
   ) {
     this.Navvy = new Navvy(this.BXRestElapseditem, this.BXRestMapElapseditem)
-    this.operation = new BXRestNavvyOperationElapseditem(this)
+    this.operation = new BXRestNavvyOperationElapseditem(this.http, this, this.BXRestMapElapseditem)
   }
 
   /*

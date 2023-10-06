@@ -10,6 +10,7 @@ import {
 } from '../../typification/rest/batch/batchRequestParam'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import { HttpHeaders } from '@angular/common/http'
+import flatten from 'just-flatten-it'
 
 // type TransformFunction<T, R> = (input: T) => R;
 
@@ -65,9 +66,9 @@ export class HttpBXServices extends HttpServices {
   //   }
   // }
   //
-  // override mapBranchResultWithoutKey<T>(res: iBatchRequestAnswer<T>[]): T[] {
-  //   return flatten<T>(Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)))
-  // }
+  mapBranchResultWithoutKey<T>(res: iBatchRequestAnswer<T>[]): T[] {
+    return flatten<T>(Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)))
+  }
 
   /**
    * Основной метод для запросов
