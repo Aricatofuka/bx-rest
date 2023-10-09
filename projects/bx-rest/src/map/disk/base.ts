@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core'
 import { BaseMapServices } from '../base'
-import { iBXRestFile, iBXRestFileHttp } from '../../typification/rest/disk/file'
+import { iBXRestDiskFile, iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 import { iBXRestFolder, iBXRestFolderHttp } from '../../typification/rest/disk/folder'
-import { iBXRestFileAndFolderMap } from '../../typification/rest/disk/map';
+import { iBXRestDiskFileAndFolderMap } from '../../typification/rest/disk/map';
 
 @Injectable({
   providedIn: 'root'
 })
 export default class BXRestMapDiskBase extends BaseMapServices {
 
-  separationFoldersAndFiles(arr: (iBXRestFolderHttp | iBXRestFileHttp)[]){
-    let result: iBXRestFileAndFolderMap = {file: [], folder: []}
+  separationFoldersAndFiles(arr: (iBXRestFolderHttp | iBXRestDiskFileHttp)[]){
+    let result: iBXRestDiskFileAndFolderMap = {file: [], folder: []}
     for (let i of arr) {
       if (this.instanceOfiFile(i)) {
         result.file.push(
@@ -56,7 +56,7 @@ export default class BXRestMapDiskBase extends BaseMapServices {
     return result
   }
 
-  instanceOfiFile(object: any): object is iBXRestFile {
+  instanceOfiFile(object: any): object is iBXRestDiskFile {
     return object && object.TYPE && object.TYPE === 'file'
   }
 

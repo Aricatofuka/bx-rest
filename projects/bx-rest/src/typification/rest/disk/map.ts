@@ -1,7 +1,7 @@
 import { iBXRestFolder } from './folder'
-import { iBXRestFile } from './file'
+import { iBXRestDiskFile } from './file'
 
-export interface iBXRestFileAndFolderMap {
-  file: iBXRestFile[],
+export interface iBXRestDiskFileAndFolderMap {
+  file: iBXRestDiskFile[],
   folder: iBXRestFolder[]
 }

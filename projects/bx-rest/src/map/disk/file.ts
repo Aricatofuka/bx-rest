@@ -1,4 +1,4 @@
-import { iBXRestFileHttp } from '../../typification/rest/disk/file'
+import { iBXRestDiskFile, iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 import { BaseMapServices } from '../base'
 import { Injectable } from '@angular/core'
 
@@ -7,11 +7,11 @@ import { Injectable } from '@angular/core'
 })
 export class BXRestMapDiskFile extends BaseMapServices {
 
-  get(v: iBXRestFileHttp | undefined){
+  get(v: iBXRestDiskFileHttp | undefined): iBXRestDiskFile | undefined {
     return (v) ? Object.assign(v, {SIZE: this.toNum(v.SIZE)}) : undefined
   }
 
-  markdeleted(v: iBXRestFileHttp | undefined){
+  markdeleted(v: iBXRestDiskFileHttp | undefined): iBXRestDiskFile | undefined {
     return (v) ? Object.assign(v, {SIZE: this.toNum(v.SIZE)}) : undefined
   }
 }

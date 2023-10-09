@@ -5,17 +5,17 @@ import { iBXRestDiskAttachedObjectHttp } from '../../typification/rest/disk/Atta
 
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class BXRestDiskAttachedObject {
-    url = {
-        get: [$disk, 'attachedObject', $get]
-    }
+  url = {
+    get: [$disk, 'attachedObject', $get]
+  }
 
   constructor(private http: HttpBXServices) {
   }
 
-    get(id: number) {
-        return this.http.post<iBXRestDiskAttachedObjectHttp>(this.url.get, {id: id})
-    }
+  get(id: number) {
+    return this.http.post<iBXRestDiskAttachedObjectHttp>(this.url.get, {id: id})
+  }
 }

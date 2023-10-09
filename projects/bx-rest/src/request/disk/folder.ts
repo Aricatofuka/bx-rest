@@ -5,7 +5,7 @@ import {
 } from '../../consts/part-name-metods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestFolderHttp } from '../../typification/rest/disk/folder'
-import { iBXRestFileHttp } from '../../typification/rest/disk/file'
+import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +47,7 @@ export class BXRestDiskFolder {
   }
 
   getchildren(id: number) {
-    return this.http.post<(iBXRestFolderHttp | iBXRestFileHttp)[]>(
+    return this.http.post<(iBXRestFolderHttp | iBXRestDiskFileHttp)[]>(
       this.url.getchildren,
       {id: id}
     )

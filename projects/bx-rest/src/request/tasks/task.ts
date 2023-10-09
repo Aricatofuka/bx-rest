@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import {
   $add, $approve, $attach, $complete, $counters, $defer, $delegate, $delete, $disapprove, $favorite, $files,
-  $get, $getaccess, $getFields, $getlist, $history, $list, $pause, $planner, $renew, $result, $start,
+  $get, $getaccess, $getFields, $history, $list, $pause, $renew, $result, $start,
   $task, $tasks, $update
 } from '../../consts/part-name-metods'
 import { HttpBXServices } from '../../services/http/HttpBX'
@@ -60,9 +60,6 @@ export class BXRestTasksTask {
       list: [$tasks, $task, $result, $list], // Просмотр списка результатов к задаче
       addFromComment: [$tasks, $task, $result, 'addFromComment'], // Создание результата задачи из комментария
       deleteFromComment: [$tasks, $task, $result, 'deleteFromComment'], // Удаление результата задачи по комментарию из которого он был создан
-    },
-    planner: {
-      getlist: [$task, $planner, $getlist], // Возвращает массив, содержащий идентификаторы задач в плане на день
     }
   }
 
@@ -237,10 +234,6 @@ export class BXRestTasksTask {
           }
           return undefined
         }))
-  }
-
-  getPlannerList() {s
-    return this.http.post<iHttpAnswerBX<(string | number)[]>>(this.url.planner.getlist)
   }
    */
 

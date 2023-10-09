@@ -3,7 +3,7 @@ import {
   $disk, $get, $getchildren, $getFields, $getlist, $getTypes, $rename, $storage, $uploadfile
 } from '../../consts/part-name-metods'
 import { HttpBXServices } from '../../services/http/HttpBX'
-import { iBXRestFile, iBXRestFileHttp } from '../../typification/rest/disk/file'
+import { iBXRestDiskFile, iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 import { iBXRestFolderHttp, iBXRestFolderInfo } from '../../typification/rest/disk/folder'
 import { iBXRestParamUploadFile } from '../../typification/rest/disk/storage/uploadfile'
 import { iBXRestParamGetchildren } from '../../typification/rest/disk/storage/getchildren'
@@ -39,7 +39,7 @@ export class BXRestDiskStorage {
   }
 
   getchildren(param: iBXRestParamGetchildren) {
-    return this.http.post<(iBXRestFolderHttp | iBXRestFileHttp)[]>(
+    return this.http.post<(iBXRestFolderHttp | iBXRestDiskFileHttp)[]>(
       this.url.getchildren,
       param
     )
@@ -51,7 +51,7 @@ export class BXRestDiskStorage {
   }
 
   uploadfile(param: iBXRestParamUploadFile) {
-    return this.http.post<iBXRestFile>(this.url.uploadfile, param)
+    return this.http.post<iBXRestDiskFile>(this.url.uploadfile, param)
   }
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { iBXRestFolderHttp } from '../../typification/rest/disk/folder'
-import { iBXRestFileHttp } from '../../typification/rest/disk/file'
+import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 import BXRestMapDiskBase from './base'
 
 @Injectable({
@@ -8,7 +8,7 @@ import BXRestMapDiskBase from './base'
 })
 export default class BXRestMapDiskFolder extends BXRestMapDiskBase {
 
-  getContent(arr: (iBXRestFolderHttp | iBXRestFileHttp)[] | undefined){
+  getContent(arr: (iBXRestFolderHttp | iBXRestDiskFileHttp)[] | undefined){
     return (arr) ? this.separationFoldersAndFiles(arr) : {file: [], folder: []}
   }
 }

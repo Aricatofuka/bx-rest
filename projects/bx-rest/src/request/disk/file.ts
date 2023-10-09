@@ -11,7 +11,7 @@ import {
   $rename, $restore
 } from '../../consts/part-name-metods'
 import { HttpBXServices } from '../../services/http/HttpBX'
-import { iBXRestFileHttp } from '../../typification/rest/disk/file'
+import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 
 @Injectable({
   providedIn: 'root'
@@ -36,11 +36,11 @@ export class BXRestDiskFile {
   }
 
   get(id: number) {
-    return this.http.post<iBXRestFileHttp>(this.url.get, {id: id})
+    return this.http.post<iBXRestDiskFileHttp>(this.url.get, {id: id})
   }
 
   markdeleted(id: number) {
-    return this.http.post<iBXRestFileHttp>(
+    return this.http.post<iBXRestDiskFileHttp>(
       this.url.markdeleted,
       {id: id})
   }
