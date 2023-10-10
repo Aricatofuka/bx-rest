@@ -1,36 +1,28 @@
 import { Injectable } from '@angular/core'
-import { map } from 'rxjs/operators'
 import { mergeMap, of, tap, throwError } from 'rxjs'
 import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
 import { BXRestTaskElapseditem } from '../../request/task/elapseditem'
 import { iBXRestParamAddElapseditem } from '../../typification/rest/task/elapseditem/add'
 import { Permission } from '../../services/permission'
-import { BXRestNavvyUser } from '../user'
-import { BXRestNavvyTasks } from '../tasks'
 import { iBXRestParamUpdateElapseditem } from '../../typification/rest/task/elapseditem/update'
 import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/isActionAllowedParam'
 import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapseditem/del'
 import { Navvy } from '../../services/navvy'
 import { BXRestMapTaskElapseditem } from '../../map/task/elapseditem'
 import { BXRestNavvyOperationElapseditem } from './operation/elapseditem'
-import { HttpBXServices } from '../../services/http/HttpBX'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestNavvyElapseditem {
   private Navvy: Navvy<BXRestTaskElapseditem, BXRestMapTaskElapseditem>
-  public operation: BXRestNavvyOperationElapseditem
 
   constructor(
     private BXRestElapseditem: BXRestTaskElapseditem,
-    private BXRestNavvyUser: BXRestNavvyUser,
-    private BXRestNavvyTasks: BXRestNavvyTasks,
     private BXRestMapElapseditem: BXRestMapTaskElapseditem,
-    private http: HttpBXServices,
+    public operation: BXRestNavvyOperationElapseditem
   ) {
     this.Navvy = new Navvy(this.BXRestElapseditem, this.BXRestMapElapseditem)
-    this.operation = new BXRestNavvyOperationElapseditem(this.http, this, this.BXRestMapElapseditem)
   }
 
   /*
@@ -67,10 +59,10 @@ export class BXRestNavvyElapseditem {
   }
 
   add(param: iBXRestParamAddElapseditem) {
-    return this.checkPermissionReadTask(param.TASKID).pipe(
+    return this.operation.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(allowedReadTask => {
         if (allowedReadTask) {
-          return this.checkPermissionAddTask(param.TASKID).pipe(
+          return this.operation.checkPermissionAddElapsedtimeToTask(param.TASKID).pipe(
             mergeMap(allowed => {
               if (allowed) {
                 return this.BXRestElapseditem.add(param)
@@ -84,8 +76,13 @@ export class BXRestNavvyElapseditem {
       }))
   }
 
+  /**
+   * Обновление записи рабочего времени
+   *
+   * @param param
+   */
   update(param: iBXRestParamUpdateElapseditem) {
-    return this.Navvy.simple( () => this.checkPermissionReadTask(param.TASKID).pipe(
+    return this.Navvy.simple(() => this.operation.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(allowedReadTask => {
         if (allowedReadTask) {
           return this.isAllowedModify(param.TASKID, param.ITEMID).pipe(
@@ -215,7 +212,7 @@ export class BXRestNavvyElapseditem {
    * @param param
    */
   isActionAllowed(param: iIsActionAllowedParam) {
-    return this.Navvy.simple(() => this.checkPermissionReadTask(param.TASKID).pipe(
+    return this.Navvy.simple(() => this.operation.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(canRead => {
         if (canRead) {
           return this.BXRestElapseditem.isActionAllowed(param)
@@ -225,78 +222,8 @@ export class BXRestNavvyElapseditem {
     ))
   }
 
-  checkPermissionAddTask(idTask: number) {
-    let permission = Permission.get()
-    if (permission?.tasks?.length) {
-      let findTask = permission.tasks.find(i => i.id === idTask)
-      if (findTask?.permission) {
-        return of(findTask.permission['ELAPSEDTIME.ADD'])
-      }
-      return this.BXRestNavvyUser.current().result().pipe(
-        mergeMap(self => {
-          if (self) {
-            return this.BXRestNavvyTasks.task.getaccess(
-              {
-                id: idTask,
-                users: [self.ID]
-              }).result().pipe(
-              tap(v => {
-                if (v && v[self.ID]) {
-                  Permission.set({
-                    tasks: [{id: idTask, permission: v[self.ID], elapsedItem: []}]
-                  })
-                }
-              }),
-              map(v => {
-                return (v && v[self.ID]) ? v[self.ID]['ELAPSEDTIME.ADD'] : false
-              }),
-            )
-          }
-          return of(undefined)
-        })
-      )
-    }
-
-    return of(undefined)
-  }
-
-  private checkPermissionReadTask(idTask: number) {
-    let permission = Permission.get()
-    if (permission?.tasks?.length) {
-      let findTask = permission.tasks.find(i => i.id === idTask)
-      if (findTask?.permission) {
-        return of(findTask.permission.ACCEPT)
-      }
-      return this.BXRestNavvyUser.current().result().pipe(
-        mergeMap(self => {
-          if (self) {
-            return this.BXRestNavvyTasks.task.getaccess(
-              {
-                id: idTask,
-                users: [self.ID]
-              }).result().pipe(
-              tap(v => {
-                if (v && v[self.ID]) {
-                  Permission.set({
-                    tasks: [{id: idTask, permission: v[self.ID], elapsedItem: []}]
-                  })
-                }
-              }),
-              map(v => {
-                return (v && v[self.ID]) ? v[self.ID].ACCEPT : false
-              }),
-            )
-          }
-          return of(undefined)
-        })
-      )
-    }
-
-    return of(undefined)
-  }
-
   del(param: iBXRestParamDelElapseditem) {
-    return this.Navvy.simple( () => this.checkPermissionReadTask(param.TASKID).pipe(
+    return this.Navvy.simple(() => this.operation.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(allowedReadTask => {
         if (allowedReadTask) {
           return this.isAllowedRemove(param.TASKID, param.ITEMID).pipe(

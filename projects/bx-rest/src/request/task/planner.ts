@@ -6,12 +6,13 @@ import { HttpBXServices } from '../../services/http/HttpBX'
   providedIn: 'root'
 })
 export class BXRestTaskPlanner {
+
   constructor(
     private http: HttpBXServices
   ) {
   }
 
-  getlist(){
+  getList(){
     return this.http.post<(string | number)[]>([$task, $planner, $getlist])
   }
 }

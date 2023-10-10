@@ -7,6 +7,7 @@ import {
   iBatchRequestAnswer, iBatchRequestParam,
   iBatchRequestParamArr,
   iBatchRequestParamHttp,
+  keyBatch,
 } from '../../typification/rest/batch/batchRequestParam'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import { HttpHeaders } from '@angular/common/http'
@@ -60,12 +61,12 @@ export class HttpBXServices extends HttpServices {
     return res
   }
 
-  // override mapBranchResult<T>(res: iBatchRequestAnswer<T>[]) {
-  //   return Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)) as {
-  //     [key: keyBatch]: T
-  //   }
-  // }
-  //
+  mapBranchResult<T>(res: iBatchRequestAnswer<T>[]) {
+    return Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)) as {
+      [key: keyBatch]: T
+    }
+  }
+
   mapBranchResultWithoutKey<T>(res: iBatchRequestAnswer<T>[]): T[] {
     return flatten<T>(Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)))
   }
