@@ -12,7 +12,7 @@ import { iBXRestDepartmentUpdate } from '../typification/rest/department/update'
 })
 export class BXRestDepartment {
 
-  url = {
+  protected url = {
     get: [$department, $get],
     del: [$department, $delete],
     add: [$department, $add],

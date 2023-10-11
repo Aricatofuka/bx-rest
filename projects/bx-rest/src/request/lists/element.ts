@@ -12,7 +12,8 @@ import { iBXRestParamListsElementAdd } from '../../typification/rest/lists/eleme
   providedIn: 'root'
 })
 export class BXRestListsElement {
-  url = {
+
+  protected url = {
     add: [$lists, $element, $add], // Метод создаёт элемент списка
     delete: [$lists, $element, $delete], // Метод удаляет элемент списка // TODO: Реализовать
     get: [$lists, $element, $get], // Метод возвращает список элементов или элемент

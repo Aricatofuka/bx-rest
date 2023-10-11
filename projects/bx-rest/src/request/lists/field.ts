@@ -7,7 +7,8 @@ import { HttpBXServices } from '../../services/http/HttpBX'
   providedIn: 'root'
 })
 export default class BXRestListsField {
-  url = {
+
+  protected url = {
     add: [$lists, $field, $add], // Метод создает поле списка
     delete: [$lists, $field, $delete], // Метод удаляет поле списка
     get: [$lists, $field, $get], // Метод возвращает данные поля

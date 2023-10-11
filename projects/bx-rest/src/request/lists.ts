@@ -18,7 +18,7 @@ import BXRestListsField from './lists/field'
   providedIn: 'root'
 })
 export class BXRestLists {
-  url = {
+  protected url = {
     add: [$lists, $add], // Метод создаёт список
     delete: [$lists, $delete], // Метод удаляет список
     get: [$lists, $get], // Метод возвращает данные по спискам

@@ -5,7 +5,8 @@ import { $add, $blogcomment, $log } from '../../consts/part-name-metods'
   providedIn: 'root'
 })
 export class BXRestLogBlogComment {
-  url = {
+
+  protected url = {
     add: [$log, $blogcomment, $add], //	Добавляет комментарий к сообщению Живой ленты
   }
 }

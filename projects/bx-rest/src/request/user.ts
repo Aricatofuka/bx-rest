@@ -13,7 +13,7 @@ import { BXRestUserUserfield } from './user/userfield'
 })
 export class BXRestUser {
 
-  url = {
+  protected url = {
     admin: [$user, 'admin'],
     get: [$user, $get],
     current: [$user, 'current'],

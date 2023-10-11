@@ -10,7 +10,7 @@ import { HttpBXServices } from '../../../services/http/HttpBX'
 })
 export class BXRestBizprocWorkflowTemplate {
 
-  url = {
+  protected url = {
     add: [$bizproc, $workflow, $template, $add],	// Добавляет шаблон Бизнес-процесса // TODO: реализовать
     delete: [$bizproc, $workflow, $template, $delete], // Удаляет шаблон Бизнес-процесса // TODO: реализовать
     update: [$bizproc, $workflow, $template, $update],	// Изменяет шаблон Бизнес-процесса // TODO: реализовать

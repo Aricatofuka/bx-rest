@@ -11,7 +11,7 @@ import { iBXRestParamTaskStagesCanMoveTask } from '../../typification/rest/task/
 })
 export class BXRestTaskStages {
 
-  url = {
+  protected url = {
     add: [$task, $stages, $add], // Метод добавляет стадии Канбана / Моего плана
     canmovetask: [$task, $stages, 'canmovetask'], // Метод определяет, может ли текущий пользователь перемещать задачи в указанной сущности
     delete: [$task, $stages, $delete], // Метод удаляет стадии Канбана / Моего плана

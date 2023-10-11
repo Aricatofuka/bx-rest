@@ -1,14 +1,14 @@
-export interface iTaskResult extends iTaskResultBase{
+export interface iBXRestTasksTaskResult extends iBXRestTasksTaskResultBase{
   createdAt: Date,
   updatedAt: Date
 }
 
-export interface iTaskResultHttp extends iTaskResultBase{
+export interface iBXRestTasksTaskResultHttp extends iBXRestTasksTaskResultBase {
   createdAt: string
   updatedAt: string
 }
 
- interface iTaskResultBase {
+ interface iBXRestTasksTaskResultBase {
   commentId: number,
   createdBy: number,
   fileInfo: null, // ???

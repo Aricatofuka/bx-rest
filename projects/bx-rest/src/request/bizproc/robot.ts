@@ -5,7 +5,7 @@ import { $bizproc, $delete, $update, $list, $robot, $add } from '../../consts/pa
   providedIn: 'root'
 })
 export class BXRestBizprocRobot {
-  url = {
+  protected url = {
     add: [$bizproc, $robot, $add], // Регистрирует нового робота
     delete: [$bizproc, $robot, $delete], // Удаляет зарегистрированного робота
     list: [$bizproc, $robot, $list], // Список зарегистрированных приложением роботов

@@ -7,7 +7,8 @@ import { iBXRestUserUserField } from '../../typification/rest/user/userfield/lis
   providedIn: 'root'
 })
 export class BXRestUserUserfield {
-  url = {
+
+  protected url = {
     list: ['userfield', $list]
   }
 

@@ -32,7 +32,7 @@ export class BXRestNavvyTasksTask {
   }
 
   // storeTask$: Observable<iStoreTask>
-  Navvy: Navvy<BXRestTasksTask, BXRestMapTasksTask>
+  private Navvy: Navvy<BXRestTasksTask, BXRestMapTasksTask>
 
   constructor(
     private BXRestTasksTask: BXRestTasksTask,
@@ -211,38 +211,7 @@ export class BXRestNavvyTasksTask {
         }
       })
     )
-  }
-
-  deleteResultFromComment(commentID: number) {
-    return this.http.post<iHttpAnswerBX<any>>(this.url.result.deleteFromComment, {commentId: commentID})
-  }
-
-  addResultFromComment(commentID: number) {
-    return this.http.post<iHttpAnswerBX<iTaskResultHttp>>(this.url.result.addFromComment, {commentId: commentID})
-      .pipe(
-        map(v => {
-          if (v && v.result) {
-            this.taskResultMap.iTaskResultHttpToiTaskResult(v.result)
-          }
-          return undefined
-        }))
-  }
-
-  getResulList(taskId: number): Observable<iTaskResult[] | undefined> {
-    return this.http.post<iHttpAnswerBX<iTaskResultHttp[]>>(this.url.result.list, {taskId: taskId})
-      .pipe(
-        map(v => {
-          if (v && v.result) {
-            return v.result.map(i => this.taskResultMap.iTaskResultHttpToiTaskResult(i))
-          }
-          return undefined
-        }))
-  }
-
-  getPlannerList() {
-    return this.http.post<iHttpAnswerBX<(string | number)[]>>(this.url.planner.getlist)
-  }
-   */
+  }   */
 
   getaccess(param: iBXRestParamTaskGetAccess) {
     return this.Navvy.simpleWithArg(

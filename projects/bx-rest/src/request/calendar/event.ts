@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core'
 })
 export class BXRestCalendarEvent {
 
-  url = {
+  protected url = {
     add: [$calendar, $event, $add], //	Добавляет новое событие
     delete: [$calendar, $event, $delete], // Удаляет событие
     get: [$calendar, $event, $get], // Возвращает список событий календаря

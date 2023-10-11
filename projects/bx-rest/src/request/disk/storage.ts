@@ -12,7 +12,8 @@ import { iBXRestParamGetchildren } from '../../typification/rest/disk/storage/ge
   providedIn: 'root'
 })
 export class BXRestDiskStorage {
-  url = {
+
+  protected url = {
     getfields: [$disk, $storage, $getFields],  // Возвращает описание полей хранилища
     get: [$disk, $storage, $get], //	Возвращает хранилище по идентификатору
     rename: [$disk, $storage, $rename], // Переименовывает хранилище.

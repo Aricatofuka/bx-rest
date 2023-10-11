@@ -7,7 +7,7 @@ import { BXRestUserUserfield } from '../../request/user/userfield'
 })
 export class BXRestNavvyUserUserfield {
 
-  Navvy: Navvy<BXRestUserUserfield, undefined>
+  private Navvy: Navvy<BXRestUserUserfield, undefined>
 
   constructor(
     private BXRestUserUserfield: BXRestUserUserfield

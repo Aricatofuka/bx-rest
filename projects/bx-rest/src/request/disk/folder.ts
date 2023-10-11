@@ -11,7 +11,8 @@ import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
   providedIn: 'root'
 })
 export class BXRestDiskFolder {
-  url = {
+
+  protected url = {
     getfields: [$disk, $folder, $getFields], // Возвращает описание полей папки
     get: [$disk, $folder, $get], // Возвращает папку по идентификатору
     getchildren: [$disk, $folder, $getchildren], // Возвращает список файлов и папок, которые находятся непосредственно в папке

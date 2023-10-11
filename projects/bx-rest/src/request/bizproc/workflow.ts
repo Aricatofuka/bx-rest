@@ -10,7 +10,7 @@ import { iBXRestParamBizprocWorkflowStart } from '../../typification/rest/bizpro
 })
 export class BXRestBizprocWorkflow {
 
-  url = {
+  protected url = {
     instances: [$bizproc, $workflow, $instances], // Возвращает список запущенных бизнес-процессов // TODO: реализовать
     terminate: [$bizproc, $workflow, $terminate], // Останавливает активный Бизнес-процесс // TODO: реализовать
     start: [$bizproc, $workflow, $start], // Запускает Бизнес-процесс

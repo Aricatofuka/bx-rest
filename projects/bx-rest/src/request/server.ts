@@ -10,7 +10,8 @@ import { HttpBXServices } from '../services/http/HttpBX'
   providedIn: 'root'
 })
 export class BXRestServer {
-  url = {
+
+  protected url = {
     time: [$server, $time]
   }
 

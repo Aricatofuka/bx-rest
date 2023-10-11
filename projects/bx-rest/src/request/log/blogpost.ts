@@ -8,7 +8,8 @@ import { iBXRestBlogPostHttp, iBXRestParamBlogPostGet } from '../../typification
   providedIn: 'root'
 })
 export class BXRestLogBlogPost {
-  url = {
+
+  protected url = {
     add: [$log, $blogpost, $add], // Добавляет в Живую Ленту сообщение от имени текущего пользователя
     // getusers: {
     //   important: 'log.blogpost.getusers.important' // Отдает массив ID пользователей, прочитавших Важное сообщение

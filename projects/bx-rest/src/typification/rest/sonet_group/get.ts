@@ -4,8 +4,8 @@ import { Modify } from '../../base/modyfy'
 
 
 export interface iBXRestParamSonetGroupGet {
-  filter: iBXRestParamSonetFilerWorkgroup,
-  order: iBXRestParamSonetOrderWorkgroup
+  FILTER?: iBXRestParamSonetFilerWorkgroup,
+  ORDER?: iBXRestParamSonetOrderWorkgroup
 }
 
 export type iBXRestParamSonetFilerWorkgroup = {

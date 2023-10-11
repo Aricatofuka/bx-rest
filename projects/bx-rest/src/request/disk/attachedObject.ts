@@ -8,7 +8,8 @@ import { iBXRestDiskAttachedObjectHttp } from '../../typification/rest/disk/Atta
   providedIn: 'root'
 })
 export class BXRestDiskAttachedObject {
-  url = {
+
+  protected url = {
     get: [$disk, 'attachedObject', $get]
   }
 

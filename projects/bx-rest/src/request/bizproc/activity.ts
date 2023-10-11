@@ -5,7 +5,7 @@ import { $bizproc, $add, $activity, $delete, $list, $update, $log } from '../../
   providedIn: 'root'
 })
 export class BXRestBizprocActivity {
-  url = {
+  protected url = {
     add: [$bizproc, $activity, $add], // Добавляет новое действие в бизнес-процесс
     delete: [$bizproc, $activity, $delete], // Удаляет действие
     list: [$bizproc, $activity, $list], // Возвращает список установленных приложением действий

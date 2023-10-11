@@ -6,6 +6,10 @@ import {
   iBXRestHttpTasksTaskList, iBXRestTasksTaskList, iBXRestTasksTaskListDefault, iBXRestTasksTaskListHttp,
   iBXRestTasksTaskListHttpDefault
 } from '../../typification/rest/tasks/task/list'
+import {
+  iBXRestTasksTaskGetHttp
+} from '../../typification/rest/tasks/task/get'
+import { BXRestMapTasksTaskResult } from './task/result'
 
 type SelectInterfaceTypeTasksTaskList<T> = T extends iBXRestHttpTasksTaskList ? iBXRestTasksTaskList : iBXRestTasksTaskListDefault
 
@@ -13,6 +17,10 @@ type SelectInterfaceTypeTasksTaskList<T> = T extends iBXRestHttpTasksTaskList ? 
   providedIn: 'root'
 })
 export class BXRestMapTasksTask extends BaseMapServices{
+
+  constructor(public result: BXRestMapTasksTaskResult) {
+    super()
+  }
   getaccess(v: iBXRestTaskGetAccess | undefined){
     return (v && v.allowedActions) ? v.allowedActions : undefined
   }
@@ -21,11 +29,11 @@ export class BXRestMapTasksTask extends BaseMapServices{
     return (item) ? this.TaskBXHttpToTaskBX(item.task) : undefined
   }
 
-  get(item: {task: iBXRestHttpTask | undefined } | undefined ): iBXRestTask | undefined {
+  get<T extends iBXRestHttpTasksTaskList | iBXRestTasksTaskListHttpDefault>(item: iBXRestTasksTaskGetHttp<T> | undefined ) {
     return (item && item.task) ? this.TaskBXHttpToTaskBX(item.task) : undefined
   }
 
-  list<T extends iBXRestHttpTasksTaskList | iBXRestTasksTaskListHttpDefault>(item: iBXRestTasksTaskListHttp<T> | undefined): iBXRestTask[] | undefined{
+  list<T extends iBXRestHttpTasksTaskList | iBXRestTasksTaskListHttpDefault>(item: iBXRestTasksTaskListHttp<T> | undefined) {
     return (item && item.tasks) ?  item.tasks.map( i =>  this.TaskBXHttpToTaskBX(i)) : undefined
   }
 

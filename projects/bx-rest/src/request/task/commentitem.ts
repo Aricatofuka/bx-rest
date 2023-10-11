@@ -21,7 +21,8 @@ import { BXRestTaskCommentItemDelete } from '../../typification/rest/task/commen
   providedIn: 'root'
 })
 export class BXRestTaskCommentItem {
-  url = {
+
+  protected url = {
     getmanifest: [$task, $commentitem, $getmanifest], // Возвращает список методов и их описание
     getlist: [$task, $commentitem, $getlist], // Возвращает список комментариев к задаче
     get: [$task, $commentitem, $get], // Возвращает комментарий к задаче

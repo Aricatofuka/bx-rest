@@ -17,7 +17,7 @@ import {
 })
 export class BXRestSonetGroup {
 
-  url = {
+  protected url = {
     create: [$sonet_group, $create], // Создает группу соцсети, используя метод API CSocNetGroup::CreateGroup(), указывая владельцем группы текущего пользователя
     delete: [$sonet_group, $delete], // Удаляет группу соцсети
     // feature: {
@@ -57,10 +57,8 @@ export class BXRestSonetGroup {
   //   )
   // }
 
-  get(param: iBXRestParamSonetGroupGet = {
-    filter: {},
-    order: {}
-  }) {
+  get(param: iBXRestParamSonetGroupGet = {}
+  ) {
     return this.http.post<iBXRestParamSonetHttp[]>(this.url.get, param)
   }
 }

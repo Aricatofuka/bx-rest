@@ -15,7 +15,7 @@ import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/
 })
 export class BXRestTaskElapseditem {
 
-  url = {
+  protected url = {
     getmanifest: [$task, $elapseditem, $getmanifest], // Возвращает список методов и их описание
     getlist: [$task, $elapseditem, $getlist], // Возвращает список записей о затраченном времени по задаче
     get: [$task, $elapseditem, $get], // Возвращает запись о затраченном времени по ее идентификатору

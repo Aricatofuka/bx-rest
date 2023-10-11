@@ -17,7 +17,8 @@ import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
   providedIn: 'root'
 })
 export class BXRestDiskFile {
-  url = {
+
+  protected url = {
     getfields: [$disk, $file, $getFields], // Возвращает описание полей файла
     get: [$disk, $file, $get], // Возвращает файл по идентификатору
     rename: [$disk, $file, $rename], // Переименовывает файл

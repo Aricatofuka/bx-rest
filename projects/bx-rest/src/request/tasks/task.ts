@@ -7,7 +7,10 @@ import {
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestHttpTask } from '../../typification/rest/task/task'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
-import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'
+import iBXRestParamTaskGet, {
+  iBXRestHttpTasksTaskGet, iBXRestTasksTaskGetHttp,
+  iBXRestTasksTaskGetHttpDefault
+} from '../../typification/rest/tasks/task/get'
 import {
   iBXRestHttpTasksTaskList,
   iBXRestParamTasksList, iBXRestTasksTaskListHttp,
@@ -17,15 +20,28 @@ import { iBXRestParamTaskGetAccess, iBXRestTaskGetAccess } from '../../typificat
 import { iBXRestTasksTaskApproveHttp } from '../../typification/rest/tasks/task/approve'
 import { iBXRestTasksTaskCompleteHttp } from '../../typification/rest/tasks/task/complete'
 import { iBXRestTasksTaskDeferHttp } from '../../typification/rest/tasks/task/defer'
+import { BXRestTasksTaskResult } from './task/result'
+import { iBXRestFilterGenerator } from '../../typification/rest/base/filterGenerator'
+import { iBXRestTaskFieldsName } from '../../typification/rest/task/base/fieldsName'
 
-type SelectInterfaceType<T> = T extends iBXRestParamTasksList & { select: [] } ? iBXRestTasksTaskListHttpDefault : iBXRestHttpTasksTaskList
+
+interface iBXRestParamTasksListWithSelect extends iBXRestParamTasksList {
+  select: iBXRestFilterGenerator<iBXRestTaskFieldsName>[]
+}
+
+interface iBXRestParamTasksGetWithSelect extends iBXRestParamTasksList {
+  select: iBXRestFilterGenerator<iBXRestTaskFieldsName>[]
+}
+
+type SelectInterfaceListType<T> = T extends iBXRestParamTasksListWithSelect ? iBXRestTasksTaskListHttpDefault : iBXRestHttpTasksTaskList
+type SelectInterfaceGetType<T> = T extends iBXRestParamTasksGetWithSelect ? iBXRestTasksTaskGetHttpDefault : iBXRestHttpTasksTaskGet
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestTasksTask {
 
-  url = {
+  protected url = {
     add: [$tasks, $task, $add], // Создает задачу
     approve: [$tasks, $task, $approve], // Позволяет принять задачу
     complete: [$tasks, $task, $complete], // Переводит задачу в статус «завершена»
@@ -56,14 +72,10 @@ export class BXRestTasksTask {
     startwatch: [$tasks, $task, 'startwatch'], // Позволяет наблюдать за задачей
     stopwatch: [$tasks, $task, 'stopwatch'], // Останавливает наблюдение за задачей
     update: [$tasks, $task, $update], // Обновляет задачу
-    result: {
-      list: [$tasks, $task, $result, $list], // Просмотр списка результатов к задаче
-      addFromComment: [$tasks, $task, $result, 'addFromComment'], // Создание результата задачи из комментария
-      deleteFromComment: [$tasks, $task, $result, 'deleteFromComment'], // Удаление результата задачи по комментарию из которого он был создан
-    }
   }
 
   constructor(
+    public result: BXRestTasksTaskResult,
     private http: HttpBXServices
   ) {
   }
@@ -111,13 +123,13 @@ export class BXRestTasksTask {
   }
   */
 
-  get(requestArray: iBXRestParamTaskGet) {
-    return this.http.post<{ task: iBXRestHttpTask | undefined }>(this.url.get, requestArray)
+  get<P extends iBXRestParamTasksGetWithSelect | iBXRestParamTaskGet>(param: P) {
+    return this.http.post<iBXRestTasksTaskGetHttp<SelectInterfaceGetType<P>>>(this.url.get, param)
   }
 
-  list(param: iBXRestParamTasksList = {}
+  list<P extends iBXRestParamTasksListWithSelect | iBXRestParamTasksList>(param: P
   ) {
-    return this.http.post<iBXRestTasksTaskListHttp<SelectInterfaceType<iBXRestParamTasksList>>>(this.url.list, param)
+    return this.http.post<iBXRestTasksTaskListHttp<SelectInterfaceListType<P>>>(this.url.list, param)
   }
 
   /*
@@ -208,32 +220,6 @@ export class BXRestTasksTask {
         }
       })
     )
-  }
-
-  deleteResultFromComment(commentID: number) {
-    return this.http.post<iHttpAnswerBX<any>>(this.url.result.deleteFromComment, {commentId: commentID})
-  }
-
-  addResultFromComment(commentID: number) {
-    return this.http.post<iHttpAnswerBX<iTaskResultHttp>>(this.url.result.addFromComment, {commentId: commentID})
-      .pipe(
-        map(v => {
-          if (v && v.result) {
-            this.taskResultMap.iTaskResultHttpToiTaskResult(v.result)
-          }
-          return undefined
-        }))
-  }
-
-  getResulList(taskId: number): Observable<iTaskResult[] | undefined> {
-    return this.http.post<iHttpAnswerBX<iTaskResultHttp[]>>(this.url.result.list, {taskId: taskId})
-      .pipe(
-        map(v => {
-          if (v && v.result) {
-            return v.result.map(i => this.taskResultMap.iTaskResultHttpToiTaskResult(i))
-          }
-          return undefined
-        }))
   }
    */
 

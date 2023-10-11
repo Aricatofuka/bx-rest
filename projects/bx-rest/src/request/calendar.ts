@@ -8,7 +8,7 @@ export class BXRestCalendar {
 
   // TODO: эту дичь расформировать потом по классам
   /*
-  url = {
+  protected url = {
     accessibility: {get: getNameMethod([$calendar, $accessibility, $get])}, // Возвращает занятость пользователей из списка.
     meeting: {
       params: {
