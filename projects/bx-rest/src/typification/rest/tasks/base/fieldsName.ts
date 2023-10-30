@@ -1,3 +1,12 @@
+import { iBXRestHttpTask, iBXRestTask } from '../task'
+import { CamelToSnake } from 'snake-camel-types'
+
+type UppercaseKeys<T extends CamelToSnake<iBXRestHttpTask | iBXRestTask>> = {
+  [K in keyof T as Uppercase<K & string>]: T[K];
+};
+
+export type iBXRestTaskFieldsName = keyof UppercaseKeys<CamelToSnake<iBXRestHttpTask | iBXRestTask>>;
+/*
 export type iBXRestTaskFieldsName = 'ID' // идентификатор задачи
     | 'PARENT_ID' // идентификатор родительской задачи
     | 'TITLE' // название задачи
@@ -47,3 +56,4 @@ export type iBXRestTaskFieldsName = 'ID' // идентификатор зада�
     | 'ACTIVITY_DATE'
     | 'TAGS'
     | 'ALLOW_TIME_TRACKING' // разрешён трек времени
+*/

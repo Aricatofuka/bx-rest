@@ -1,13 +1,13 @@
-import { iBXRestTasksTaskResult } from '../../../typification/rest/tasks/task/result/result'
 import { Injectable } from '@angular/core'
-import { BXRestMapTasksTask } from '../../../map/tasks/task'
 import { Navvy } from '../../../services/navvy'
 import { BXRestMapTasksTaskResult } from '../../../map/tasks/task/result'
+import { iBXRestParamTasksTaskResultList } from '../../../typification/rest/tasks/result/list'
+import { BXRestTasksTaskResult } from '../../../request/tasks/task/result'
 
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestTasksTaskResult {
+export class BXRestNavvyTasksTaskResult {
 
   private Navvy: Navvy<BXRestTasksTaskResult, BXRestMapTasksTaskResult>
 
@@ -19,28 +19,28 @@ export class BXRestTasksTaskResult {
   }
 
   deleteFromComment(commentID: number) {
-    return this.http.post<any>(this.url.deleteFromComment, {commentId: commentID})
+    return this.Navvy.simpleWithArg(
+      this.BXRestTasksTaskResult.deleteFromComment,
+      commentID,
+      'Не удалось удалить комментарий'
+    )
   }
 
   addFromComment(commentID: number) {
-    return this.http.post<iBXRestTasksTaskResult>(this.url.addFromComment, {commentId: commentID})
-      .pipe(
-        map(v => {
-          if (v && v.result) {
-            this.taskResultMap.iTaskResultHttpToiTaskResult(v.result)
-          }
-          return undefined
-        }))
+    return this.Navvy.simpleWithArg(
+      this.BXRestTasksTaskResult.addFromComment,
+      commentID,
+      'Не удалось добавить комментарий',
+      this.BXRestMapTasksTaskResult.addFromComment
+    )
   }
 
-  list(taskId: number) {
-    return this.http.post<iTaskResultHttp[]>(this.url.list, {taskId: taskId})
-      .pipe(
-        map(v => {
-          if (v && v.result) {
-            return v.result.map(i => this.taskResultMap.iTaskResultHttpToiTaskResult(i))
-          }
-          return undefined
-        }))
+  list(param: iBXRestParamTasksTaskResultList) {
+    return this.Navvy.PagNav(
+      this.BXRestTasksTaskResult.list,
+      param,
+      'Не удалось добавить комментарий',
+      this.BXRestMapTasksTaskResult.list
+    )
   }
 }

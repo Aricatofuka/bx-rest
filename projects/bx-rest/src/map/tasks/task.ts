@@ -1,17 +1,18 @@
 import { iBXRestTaskGetAccess } from '../../typification/rest/task/access/getaccess'
-import { iBXRestHttpTask, iBXRestTask } from '../../typification/rest/task/task'
 import { BaseMapServices } from '../base'
 import { Injectable } from '@angular/core'
 import {
-  iBXRestHttpTasksTaskList, iBXRestTasksTaskList, iBXRestTasksTaskListDefault, iBXRestTasksTaskListHttp,
-  iBXRestTasksTaskListHttpDefault
-} from '../../typification/rest/tasks/task/list'
+  iBXRestTasksTaskList,
+  iBXRestTasksTaskListHttp,
+  } from '../../typification/rest/tasks/task/list'
 import {
-  iBXRestTasksTaskGetHttp
+  iBXRestTasksTaskGetHttp, iBXRestTasksTaskGetHttpDefault
 } from '../../typification/rest/tasks/task/get'
 import { BXRestMapTasksTaskResult } from './task/result'
+import { iBXRestHttpTask, iBXRestTask } from '../../typification/rest/tasks/task'
+import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
 
-type SelectInterfaceTypeTasksTaskList<T> = T extends iBXRestHttpTasksTaskList ? iBXRestTasksTaskList : iBXRestTasksTaskListDefault
+/// type SelectInterfaceTypeTasksTaskList<T> = T extends iBXRestHttpTasksTaskList ? iBXRestTasksTaskList : iBXRestTasksTaskListDefault
 
 @Injectable({
   providedIn: 'root'
@@ -25,19 +26,20 @@ export class BXRestMapTasksTask extends BaseMapServices{
     return (v && v.allowedActions) ? v.allowedActions : undefined
   }
 
-  add(item: { task: iBXRestHttpTask } | undefined): iBXRestTask | undefined {
+  add(item: { task: iBXRestTasksTaskGetHttpDefault } | undefined): iBXRestTask | undefined {
     return (item) ? this.TaskBXHttpToTaskBX(item.task) : undefined
   }
 
-  get<T extends iBXRestHttpTasksTaskList | iBXRestTasksTaskListHttpDefault>(item: iBXRestTasksTaskGetHttp<T> | undefined ) {
+  get(item: iBXRestTasksTaskGetHttp<iBXRestTaskFieldsName[]> | undefined ) {
     return (item && item.task) ? this.TaskBXHttpToTaskBX(item.task) : undefined
   }
 
-  list<T extends iBXRestHttpTasksTaskList | iBXRestTasksTaskListHttpDefault>(item: iBXRestTasksTaskListHttp<T> | undefined) {
-    return (item && item.tasks) ?  item.tasks.map( i =>  this.TaskBXHttpToTaskBX(i)) : undefined
+  list<S extends iBXRestTaskFieldsName[]>(item: iBXRestTasksTaskListHttp<S> | undefined) {
+    // @ts-ignore
+    return (item && item.tasks) ?  item.tasks.map( i =>  this.TaskBXHttpToTaskBX<iBXRestTasksTaskListHttp<S>, iBXRestTasksTaskList<S>>(i)) : undefined
   }
 
-  private TaskBXHttpToTaskBX<T extends iBXRestHttpTasksTaskList | iBXRestTasksTaskListHttpDefault>(item: T) {
+  private TaskBXHttpToTaskBX<T extends Partial<iBXRestHttpTask>, R>(item: T): R {
     let result: any = {}
     if(item.id) { result.id = this.toNum(item.id) }
     if(item.parentId) { result.parentId = this.toNum(item.parentId) }
@@ -74,6 +76,6 @@ export class BXRestMapTasksTask extends BaseMapServices{
         Object.values(item.accomplicesData).map(i => Object.assign(i, {id: this.toNum(i.id)}))  }
     if(item.allowTimeTracking) { result.allowTimeTracking = item.allowTimeTracking === 'Y' }
 
-    return Object.assign(item, result) as SelectInterfaceTypeTasksTaskList<T>
+    return Object.assign(item, result)
   }
 }

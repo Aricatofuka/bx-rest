@@ -10,16 +10,19 @@ import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapsed
 import { Navvy } from '../../services/navvy'
 import { BXRestMapTaskElapseditem } from '../../map/task/elapseditem'
 import { BXRestNavvyOperationElapseditem } from './operation/elapseditem'
+import { BXRestNavvyDelegateElapseditem } from './delegate/elapseditem'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestNavvyElapseditem {
+
   private Navvy: Navvy<BXRestTaskElapseditem, BXRestMapTaskElapseditem>
 
   constructor(
     private BXRestElapseditem: BXRestTaskElapseditem,
     private BXRestMapElapseditem: BXRestMapTaskElapseditem,
+    private delegate: BXRestNavvyDelegateElapseditem,
     public operation: BXRestNavvyOperationElapseditem
   ) {
     this.Navvy = new Navvy(this.BXRestElapseditem, this.BXRestMapElapseditem)
@@ -37,25 +40,7 @@ export class BXRestNavvyElapseditem {
   getList(
     param: iBXRestParamElapseditemGet = {}
   ) {
-    if (param) {
-      if (!param.TASKID && !param.SELECT) {
-        param.SELECT = ['*']
-      }
-      if (!param.TASKID && !param.PARAMS) {
-        param.PARAMS = {
-          NAV_PARAMS: {
-            nPageSize: 50,
-            iNumPage: 1
-          }
-        }
-      }
-    }
-    return this.Navvy.alterPagNav(
-      this.BXRestElapseditem.getList,
-      param,
-      'Не удалось получить список затраченного на задачу(-и) времени',
-      this.BXRestMapElapseditem.getList
-    )
+    return this.delegate.getList(param)
   }
 
   add(param: iBXRestParamAddElapseditem) {

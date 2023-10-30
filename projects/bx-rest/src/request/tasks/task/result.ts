@@ -1,7 +1,8 @@
 import { $list, $result, $task, $tasks } from '../../../consts/part-name-metods'
 import { HttpBXServices } from '../../../services/http/HttpBX'
-import { iBXRestTasksTaskResult } from '../../../typification/rest/tasks/task/result/result'
+import { iBXRestTasksTaskResultHttp } from '../../../typification/rest/tasks/task/result/result'
 import { Injectable } from '@angular/core'
+import { iBXRestParamTasksTaskResultList } from '../../../typification/rest/tasks/result/list'
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +23,10 @@ export class BXRestTasksTaskResult {
   }
 
   addFromComment(commentID: number) {
-    return this.http.post<iBXRestTasksTaskResult>(this.url.addFromComment, {commentId: commentID})
+    return this.http.post<iBXRestTasksTaskResultHttp>(this.url.addFromComment, {commentId: commentID})
   }
 
-  list(taskId: number) {
-    return this.http.post<iBXRestTasksTaskResult[]>(this.url.list, {taskId: taskId})
+  list(param: iBXRestParamTasksTaskResultList) {
+    return this.http.post<iBXRestTasksTaskResultHttp[]>(this.url.list, param)
   }
 }

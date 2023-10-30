@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core'
 import { BXRestTasksTask } from '../../request/tasks/task'
-import { iBXRestTaskFieldsName } from '../../typification/rest/task/base/fieldsName'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'
 import { Navvy } from '../../services/navvy'
 import { iBXRestParamTasksList } from '../../typification/rest/tasks/task/list'
 import { iBXRestParamTaskGetAccess } from '../../typification/rest/task/access/getaccess'
 import { BXRestMapTasksTask } from '../../map/tasks/task'
+import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
+import { BXRestNavvyTasksTaskResult } from './task/result'
 
 // export interface TimeProcess {
 //   total: number,
@@ -35,6 +36,7 @@ export class BXRestNavvyTasksTask {
   private Navvy: Navvy<BXRestTasksTask, BXRestMapTasksTask>
 
   constructor(
+    public result: BXRestNavvyTasksTaskResult,
     private BXRestTasksTask: BXRestTasksTask,
     // private snackBar: SnackBarService,
     //  private store: Store<{ tasks: IStoreTask }>,
@@ -98,9 +100,10 @@ export class BXRestNavvyTasksTask {
   }
   */
 
-  get(param: iBXRestParamTaskGet) {
+  get(param: iBXRestParamTaskGet<iBXRestTaskFieldsName[]>) {
     if (!param.select) {
       param.select = this.def.select
+
     }
     return this.Navvy.simpleWithArg(
       this.BXRestTasksTask.get,
@@ -111,7 +114,7 @@ export class BXRestNavvyTasksTask {
   }
 
 
-  list(param: iBXRestParamTasksList = {}) {
+  list(param: iBXRestParamTasksList<iBXRestTaskFieldsName[]> = {}) {
     if (!param.select) {
       param.select = this.def.select
     }

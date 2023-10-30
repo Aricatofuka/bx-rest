@@ -1,40 +1,38 @@
 import { Injectable } from '@angular/core'
 import {
   $add, $approve, $attach, $complete, $counters, $defer, $delegate, $delete, $disapprove, $favorite, $files,
-  $get, $getaccess, $getFields, $history, $list, $pause, $renew, $result, $start,
+  $get, $getaccess, $getFields, $history, $list, $pause, $renew, $start,
   $task, $tasks, $update
 } from '../../consts/part-name-metods'
 import { HttpBXServices } from '../../services/http/HttpBX'
-import { iBXRestHttpTask } from '../../typification/rest/task/task'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
-import iBXRestParamTaskGet, {
-  iBXRestHttpTasksTaskGet, iBXRestTasksTaskGetHttp,
+import {
+  iBXRestTasksTaskGetHttp,
   iBXRestTasksTaskGetHttpDefault
 } from '../../typification/rest/tasks/task/get'
 import {
-  iBXRestHttpTasksTaskList,
-  iBXRestParamTasksList, iBXRestTasksTaskListHttp,
-  iBXRestTasksTaskListHttpDefault
+  iBXRestParamTasksList, iBXRestTasksTaskListHttp
 } from '../../typification/rest/tasks/task/list'
 import { iBXRestParamTaskGetAccess, iBXRestTaskGetAccess } from '../../typification/rest/task/access/getaccess'
 import { iBXRestTasksTaskApproveHttp } from '../../typification/rest/tasks/task/approve'
 import { iBXRestTasksTaskCompleteHttp } from '../../typification/rest/tasks/task/complete'
 import { iBXRestTasksTaskDeferHttp } from '../../typification/rest/tasks/task/defer'
 import { BXRestTasksTaskResult } from './task/result'
-import { iBXRestFilterGenerator } from '../../typification/rest/base/filterGenerator'
-import { iBXRestTaskFieldsName } from '../../typification/rest/task/base/fieldsName'
+// import { iBXRestFilterGenerator } from '../../typification/rest/base/filterGenerator'
+import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
+// import iBXRestParamTasksGet from '../../typification/rest/tasks/task/get'
+import iBXRestParamTasksTaskGet from '../../typification/rest/tasks/task/get'
 
+// interface iBXRestParamTasksListWithSelect<S extends iBXRestTaskFieldsName> extends iBXRestParamTasksList<S> {
+//   select: iBXRestFilterGenerator<iBXRestTaskFieldsName>[]
+// }
 
-interface iBXRestParamTasksListWithSelect extends iBXRestParamTasksList {
-  select: iBXRestFilterGenerator<iBXRestTaskFieldsName>[]
-}
+// interface iBXRestParamTasksGetWithSelect extends iBXRestParamTasksList {
+//   select: iBXRestFilterGenerator<iBXRestTaskFieldsName>[]
+// }
 
-interface iBXRestParamTasksGetWithSelect extends iBXRestParamTasksList {
-  select: iBXRestFilterGenerator<iBXRestTaskFieldsName>[]
-}
-
-type SelectInterfaceListType<T> = T extends iBXRestParamTasksListWithSelect ? iBXRestTasksTaskListHttpDefault : iBXRestHttpTasksTaskList
-type SelectInterfaceGetType<T> = T extends iBXRestParamTasksGetWithSelect ? iBXRestTasksTaskGetHttpDefault : iBXRestHttpTasksTaskGet
+// type SelectInterfaceListType<T> = T extends iBXRestParamTasksListWithSelect ? iBXRestTasksTaskListHttpDefault : iBXRestHttpTasksTaskList
+// type SelectInterfaceGetType<T> = T extends iBXRestParamTasksGetWithSelect ? iBXRestTasksTaskGetHttpDefault : iBXRestHttpTasksTaskGet
 
 @Injectable({
   providedIn: 'root'
@@ -81,7 +79,7 @@ export class BXRestTasksTask {
   }
 
   add(param: { fields: iBXRestParamTaskAdd }) {
-    return this.http.post<{ task: iBXRestHttpTask }>(this.url.add, param)
+    return this.http.post<{ task: iBXRestTasksTaskGetHttpDefault }>(this.url.add, param)
   }
 
   approve(id: number) {
@@ -123,13 +121,13 @@ export class BXRestTasksTask {
   }
   */
 
-  get<P extends iBXRestParamTasksGetWithSelect | iBXRestParamTaskGet>(param: P) {
-    return this.http.post<iBXRestTasksTaskGetHttp<SelectInterfaceGetType<P>>>(this.url.get, param)
+  get<S extends iBXRestTaskFieldsName[]>(param: iBXRestParamTasksTaskGet<S>) {
+    return this.http.post<iBXRestTasksTaskGetHttp<S>>(this.url.get, param)
   }
 
-  list<P extends iBXRestParamTasksListWithSelect | iBXRestParamTasksList>(param: P
+  list<S extends iBXRestTaskFieldsName[]>(param: iBXRestParamTasksList<S>
   ) {
-    return this.http.post<iBXRestTasksTaskListHttp<SelectInterfaceListType<P>>>(this.url.list, param)
+    return this.http.post<iBXRestTasksTaskListHttp<S>>(this.url.list, param)
   }
 
   /*

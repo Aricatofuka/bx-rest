@@ -1,5 +1,5 @@
 import { iBXRestOrderOption } from '../../base/OrderOptions'
-import { filterGenerator } from '../base/filterGenerator'
+import { filterGenerator } from '../../tasks/base/filterGenerator'
 
 export interface BXRestTaskCommentItemGetList {
   FILTER: iBXRestTaskCommentItemFilterList,

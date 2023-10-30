@@ -1,5 +1,4 @@
 import { iBXRestParamElapseditemGet } from '../../../typification/rest/task/elapseditem/get'
-import { BXRestNavvyElapseditem } from '../elapseditem'
 import { HttpBXServices } from '../../../services/http/HttpBX'
 import { iBXRestTaskElapsedItem, iBXRestTaskElapsedItemHttp } from '../../../typification/rest/task/elapseditem/item'
 import { $elapseditem, $getaccess, $getlist, $task, $tasks } from '../../../consts/part-name-metods'
@@ -10,12 +9,17 @@ import { iIsActionAllowedParam } from '../../../typification/rest/task/elapsedit
 import { Permission } from '../../../services/permission'
 import { BXRestNavvyUser } from '../../user'
 import { BXRestNavvyTasks } from '../../tasks'
+import { BXRestNavvyDelegateElapseditem } from '../delegate/elapseditem'
+import { Injectable } from '@angular/core'
 
+@Injectable({
+  providedIn: 'root'
+})
 export class BXRestNavvyOperationElapseditem {
 
   constructor(
     private http: HttpBXServices,
-    private BXRestNavvyElapseditem: BXRestNavvyElapseditem,
+    private delegate: BXRestNavvyDelegateElapseditem,
     private BXRestMapElapseditem: BXRestMapTaskElapseditem,
     private BXRestNavvyUser: BXRestNavvyUser,
     private BXRestNavvyTasks: BXRestNavvyTasks,
@@ -33,7 +37,7 @@ export class BXRestNavvyOperationElapseditem {
         '<=CREATED_DATE': dateEnd.toLocaleString('ru-Ru'),
       }
     }
-    return this.BXRestNavvyElapseditem.getList(param)
+    return this.delegate.getList(param)
   }
 
   getListByIDTask(ids: number[]) {

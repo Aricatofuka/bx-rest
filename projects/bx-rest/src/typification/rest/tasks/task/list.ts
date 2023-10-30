@@ -1,17 +1,26 @@
 import { iBXRestParamSort } from '../../base/sort'
 import { iBXRestYesNo } from '../../base/YesNo'
-import { iBXRestTaskFieldsName } from '../../task/base/fieldsName'
 import { iBXRestFilterGenerator } from '../../base/filterGenerator'
 import { iBXRestPagination } from '../../base/ApiPaginationBX'
-import { iBXRestHttpTask, iBXRestHttpTaskGroupHttp, iBXRestTask } from '../../task/task'
+import { iBXRestHttpTask, iBXRestHttpTaskGroupHttp, iBXRestTask } from '../task'
+import { iBXRestTaskFieldsName } from '../base/fieldsName'
+import { SnakeToCamelCase } from 'snake-camel-types'
 
-export interface iBXRestTasksTaskListHttp<T extends iBXRestHttpTasksTaskList | iBXRestTasksTaskListHttpDefault> {
-  tasks: T[] | undefined
+export interface iBXRestTasksTaskListHttp<S extends iBXRestTaskFieldsName[]> {
+  tasks: iBXRestHttpTasksTaskList<S>[] | undefined
 }
 
-export interface iBXRestHttpTasksTaskList extends iBXRestHttpTask {}
+export type iBXRestHttpTasksTaskList<S extends iBXRestTaskFieldsName[]> = {
+  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestHttpTask[K]
+};
 
-export interface iBXRestTasksTaskList extends iBXRestTask {}
+export type iBXRestTasksTaskList<S extends iBXRestTaskFieldsName[]> = {
+  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestTask[K]
+};
+
+// export interface iBXRestHttpTasksTaskList extends iBXRestHttpTask {}
+
+// export interface iBXRestTasksTaskList extends iBXRestTask {}
 
 /**
  * Если при запросе tasks.task.list не указывать выводимые поля (select) отдаст этот набор
@@ -37,7 +46,7 @@ export interface iBXRestTasksTaskListHttpDefault extends iBXRestHttpTask {
 /**
  * Если при запросе tasks.task.list не указывать выводимые поля (select) отдаст этот набор
  */
-export interface iBXRestTasksTaskListDefault extends iBXRestTask {
+export interface iBXRestTasksTaskListDefault extends Partial<iBXRestTask> {
   closedDate: Date | undefined
   createdDate: Date
   durationFact: string
@@ -55,10 +64,10 @@ export interface iBXRestTasksTaskListDefault extends iBXRestTask {
   title: string
 }
 
-export interface iBXRestParamTasksList extends iBXRestPagination{
+export interface iBXRestParamTasksList<S extends iBXRestTaskFieldsName[]> extends iBXRestPagination{
     order?: iBXRestParamTaskListOrder,
-    filter?: iBXRestParamTaskListFilter,
-    select?: iBXRestFilterGenerator<iBXRestTaskFieldsName>[], // массив выводимых полей
+    filter?: iBXRestFilterGenerator<iBXRestParamTaskListFilter>,
+    select?: S, // массив выводимых полей
 }
 
 export interface iBXRestParamTaskListOrder { // Массив для сортировки результата. Массив вида {"поле_сортировки": 'направление сортировки' [, ...]}.
