@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpBXServices } from '../../services/http/HttpBX'
-import { $add, $delete, $get, $stages, $task, $update } from '../../consts/part-name-metods'
+import { $add, $delete, $get, $stages, $task, $update } from '../../consts/part-name-methods'
 import { iBXRestParamTaskStageGet } from '../../typification/rest/task/stages/get'
 import { iBXRestTaskStage } from '../../typification/rest/task/stages/stage'
 import { iBXRestParamTaskStagesUpdate } from '../../typification/rest/task/stages/update'

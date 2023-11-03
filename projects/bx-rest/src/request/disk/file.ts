@@ -9,7 +9,7 @@ import {
   $markdeleted,
   $moveto,
   $rename, $restore
-} from '../../consts/part-name-metods'
+} from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 

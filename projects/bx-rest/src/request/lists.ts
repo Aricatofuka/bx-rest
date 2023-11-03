@@ -7,7 +7,7 @@ import {
   $lists,
   $type,
   $update
-} from '../consts/part-name-metods'
+} from '../consts/part-name-methods'
 import { Injectable } from '@angular/core'
 import { BXRestListsElement } from './lists/element'
 import { HttpBXServices } from '../services/http/HttpBX'

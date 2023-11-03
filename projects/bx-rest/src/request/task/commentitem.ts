@@ -8,7 +8,7 @@ import {
   $getmanifest, $isactionallowed,
   $task,
   $update
-} from '../../consts/part-name-metods'
+} from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamTaskCommentItemGet } from '../../typification/rest/task/commentitem/get'
 import { iBXRestTaskCommentHtml } from '../../typification/rest/task/commentitem/commentitem'

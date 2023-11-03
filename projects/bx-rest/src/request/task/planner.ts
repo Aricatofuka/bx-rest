@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { $getlist, $planner, $task } from '../../consts/part-name-metods'
+import { $getlist, $planner, $task } from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 
 @Injectable({

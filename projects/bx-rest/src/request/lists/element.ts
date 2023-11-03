@@ -1,4 +1,4 @@
-import { $add, $delete, $element, $file, $get, $lists, $update, $url } from '../../consts/part-name-metods'
+import { $add, $delete, $element, $file, $get, $lists, $update, $url } from '../../consts/part-name-methods'
 
 import { HttpBXServices } from '../../services/http/HttpBX'
 import {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { $bizproc, $instances, $start, $terminate, $workflow, $kill} from '../../consts/part-name-metods'
+import { $bizproc, $instances, $start, $terminate, $workflow, $kill} from '../../consts/part-name-methods'
 import { BXRestBizprocWorkflowInstance } from './workflow/instance'
 import { BXRestBizprocWorkflowTemplate } from './workflow/template'
 import { HttpBXServices } from '../../services/http/HttpBX'

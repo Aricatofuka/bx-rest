@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import {
   $disk, $get, $getchildren, $getFields, $getlist, $getTypes, $rename, $storage, $uploadfile
-} from '../../consts/part-name-metods'
+} from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestDiskFile, iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 import { iBXRestFolderHttp, iBXRestFolderInfo } from '../../typification/rest/disk/folder'

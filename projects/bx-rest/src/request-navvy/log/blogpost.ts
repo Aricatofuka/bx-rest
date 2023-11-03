@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { $add, $blogpost, $delete, $get, $log, $share, $update } from '../../consts/part-name-metods'
+import { $add, $blogpost, $delete, $get, $log, $share, $update } from '../../consts/part-name-methods'
 import { iBXRestParamLogBlogPostAdd } from '../../typification/rest/log/blogpost/add'
 import { BXRestLogBlogPost } from '../../request/log/blogpost'
 import { Navvy } from '../../services/navvy'

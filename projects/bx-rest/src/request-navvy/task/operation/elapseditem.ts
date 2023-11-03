@@ -1,7 +1,7 @@
 import { iBXRestParamElapseditemGet } from '../../../typification/rest/task/elapseditem/get'
 import { HttpBXServices } from '../../../services/http/HttpBX'
 import { iBXRestTaskElapsedItem, iBXRestTaskElapsedItemHttp } from '../../../typification/rest/task/elapseditem/item'
-import { $elapseditem, $getaccess, $getlist, $task, $tasks } from '../../../consts/part-name-metods'
+import { $elapseditem, $getaccess, $getlist, $task, $tasks } from '../../../consts/part-name-methods'
 import { map, take } from 'rxjs/operators'
 import { BXRestMapTaskElapseditem } from '../../../map/task/elapseditem'
 import { forkJoin, mergeMap, Observable, of, tap } from 'rxjs'

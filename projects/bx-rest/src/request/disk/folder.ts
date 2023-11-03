@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import {
   $copyto, $disk, $folder, $get, $getchildren, $getFields,
   $markdeleted, $moveto, $rename, $restore, $uploadfile
-} from '../../consts/part-name-metods'
+} from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestFolderHttp } from '../../typification/rest/disk/folder'
 import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { $bizproc, $add, $activity, $delete, $list, $update, $log } from '../../consts/part-name-metods'
+import { $bizproc, $add, $activity, $delete, $list, $update, $log } from '../../consts/part-name-methods'
 
 @Injectable({
   providedIn: 'root'

@@ -3,7 +3,7 @@ import {
   $add, $approve, $attach, $complete, $counters, $defer, $delegate, $delete, $disapprove, $favorite, $files,
   $get, $getaccess, $getFields, $history, $list, $pause, $renew, $start,
   $task, $tasks, $update
-} from '../../consts/part-name-metods'
+} from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import {

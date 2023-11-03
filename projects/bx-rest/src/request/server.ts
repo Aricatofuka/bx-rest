@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import {
   $server,
   $time
-} from '../consts/part-name-metods'
+} from '../consts/part-name-methods'
 import { HttpBXServices } from '../services/http/HttpBX'
 
 

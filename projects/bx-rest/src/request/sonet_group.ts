@@ -5,7 +5,7 @@ import {
   $get,
   $sonet_group,
   $update
-} from '../consts/part-name-metods'
+} from '../consts/part-name-methods'
 import { HttpBXServices } from '../services/http/HttpBX'
 import {
   iBXRestParamSonetGroupGet, iBXRestParamSonetHttp

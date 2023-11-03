@@ -1,4 +1,4 @@
-import { $list, $result, $task, $tasks } from '../../../consts/part-name-metods'
+import { $list, $result, $task, $tasks } from '../../../consts/part-name-methods'
 import { HttpBXServices } from '../../../services/http/HttpBX'
 import { iBXRestTasksTaskResultHttp } from '../../../typification/rest/tasks/task/result/result'
 import { Injectable } from '@angular/core'

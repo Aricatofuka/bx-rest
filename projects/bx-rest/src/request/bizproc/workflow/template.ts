@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { $bizproc, $template, $workflow, $list, $add, $delete, $update } from '../../../consts/part-name-metods'
+import { $bizproc, $template, $workflow, $list, $add, $delete, $update } from '../../../consts/part-name-methods'
 import {
   iBXRestParamBizprocWorkflowTemplateList
 } from '../../../typification/rest/bizproc/workflow/template/list'

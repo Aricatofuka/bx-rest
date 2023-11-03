@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { $add, $delete, $department, $get, $update } from '../consts/part-name-metods'
+import { $add, $delete, $department, $get, $update } from '../consts/part-name-methods'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestParamDepartmentGet } from '../typification/rest/department/get'
 import { iBXRestDepartmentHttp } from '../typification/rest/department/department'

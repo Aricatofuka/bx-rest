@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { $list } from '../../consts/part-name-metods'
+import { $list } from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestUserUserField } from '../../typification/rest/user/userfield/list'
 

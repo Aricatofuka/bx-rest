@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { $add, $delete, $field, $get, $lists, $type, $update } from '../../consts/part-name-metods'
+import { $add, $delete, $field, $get, $lists, $type, $update } from '../../consts/part-name-methods'
 import { iBXRestFieldItem, iBXRestParamListField } from '../../typification/rest/lists/field/get'
 import { HttpBXServices } from '../../services/http/HttpBX'
 

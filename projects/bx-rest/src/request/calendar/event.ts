@@ -1,5 +1,5 @@
 import { HttpBXServices } from '../../services/http/HttpBX'
-import { $add, $calendar, $delete, $event, $get, $nearest, $update } from '../../consts/part-name-metods'
+import { $add, $calendar, $delete, $event, $get, $nearest, $update } from '../../consts/part-name-methods'
 import { iBXRestCalendarEventGetParam } from '../../typification/rest/calendar/get/param'
 import { iBXRestCalendarEventGetAnswerHttp } from '../../typification/rest/calendar/get/answer'
 import { Injectable } from '@angular/core'

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { $add, $blogcomment, $log } from '../../consts/part-name-metods'
+import { $add, $blogcomment, $log } from '../../consts/part-name-methods'
 
 @Injectable({
   providedIn: 'root'
