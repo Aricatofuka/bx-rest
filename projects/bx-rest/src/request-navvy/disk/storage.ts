@@ -23,7 +23,7 @@ export class BXRestNavvyDiskStorage {
 
   getforapp() {
     // console.log('this.getforappEnd', this.getforappEnd)
-    return this.Navvy.simple(this.BXRestNavvyInterlayerDiskStorage.getforapp, 'get root app folder')
+    return this.Navvy.simple(this.BXRestNavvyInterlayerDiskStorage.getforapp)
   }
 
   /*
@@ -49,7 +49,6 @@ export class BXRestNavvyDiskStorage {
     return this.Navvy.simpleWithArg(
       this.BXRestNavvyInterlayerDiskStorage.getchildren,
       param,
-      'get root app folders and files',
       this.BXRestMapDiskStorage.getchildren
     )
   }

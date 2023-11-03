@@ -24,20 +24,19 @@ export class BXRestNavvyDepartment {
     return this.Navvy.PagNav(
       this.BXRestDepartment.get,
       param,
-      'Не удалось получить список подразделений',
       this.BXRestMapDepartment.get)
   }
 
   add(param: iBXRestParamDepartmentAdd) {
-    return this.Navvy.simpleWithArg(this.BXRestDepartment.add, param, 'Не удалось добавить подразделение')
+    return this.Navvy.simpleWithArg(this.BXRestDepartment.add, param)
   }
 
   del(id: number) {
-    return this.Navvy.simpleWithArg(this.BXRestDepartment.del, {ID: id}, 'Не удалось удалить подразделение')
+    return this.Navvy.simpleWithArg(this.BXRestDepartment.del, {ID: id})
   }
 
   update(param: iBXRestDepartmentUpdate) {
     param.NAME = param.NAME.trim()
-    return this.Navvy.simpleWithArg(this.BXRestDepartment.update, param, 'Не удалось обновить подразделение')
+    return this.Navvy.simpleWithArg(this.BXRestDepartment.update, param)
   }
 }

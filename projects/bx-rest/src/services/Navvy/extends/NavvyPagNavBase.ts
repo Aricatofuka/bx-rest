@@ -14,7 +14,6 @@ export abstract class NavvyPagNavBase<C, M, T, R, P> extends NavvySupport<C, M, 
     mapClass: M,
     protected func: (param: P) => Observable<iBXRestAnswer<T> | undefined>,
     protected param: P,
-    protected testError: string = '',
     protected map: ((param: T | undefined) => R | undefined) | undefined = undefined) {
     super(requestClass, mapClass)
     this.load$.next(0.001)

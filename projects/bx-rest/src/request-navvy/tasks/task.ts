@@ -56,7 +56,6 @@ export class BXRestNavvyTasksTask {
     return this.Navvy.simpleWithArg(
       this.BXRestTasksTask.add,
       param,
-      'Не удалось добавить задачу',
       this.BXRestMapTasksTask.add
     )
     // return this.http.post<{ task: TaskBXHttp }>(this.url.add, {fields: param}).pipe(
@@ -108,7 +107,6 @@ export class BXRestNavvyTasksTask {
     return this.Navvy.simpleWithArg(
       this.BXRestTasksTask.get,
       param,
-      'Не удалось получить задачу',
       this.BXRestMapTasksTask.get
     )
   }
@@ -121,7 +119,6 @@ export class BXRestNavvyTasksTask {
     return this.Navvy.PagNavTasks(
       this.BXRestTasksTask.list,
       param,
-      'Не удалось получить список задач',
       this.BXRestMapTasksTask.list
     )
   }
@@ -220,7 +217,6 @@ export class BXRestNavvyTasksTask {
     return this.Navvy.simpleWithArg(
       this.BXRestTasksTask.getaccess,
       param,
-      'Не удалось получить права на указанных пользователей',
       this.BXRestMapTasksTask.getaccess
     )
   }

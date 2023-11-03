@@ -33,8 +33,7 @@ export class BXRestNavvyUser {
 
   admin() {
     return this.Navvy.simple(
-      this.BXRestUser.admin,
-      'Информация о возможных принадлежности человека к администратору не получена'
+      this.BXRestUser.admin
     )
   }
 
@@ -45,7 +44,6 @@ export class BXRestNavvyUser {
     return this.Navvy.PagNav(
       this.BXRestUser.get,
       copyParams,
-      'Не удалось получить пользователей',
       this.BXRestUserMap.get
     )
   }
@@ -56,7 +54,6 @@ export class BXRestNavvyUser {
     return navvy.simpleWithArg(
       this.self,
       update,
-      '',
       this.BXRestUserMap.current
     )
   }
@@ -99,7 +96,6 @@ export class BXRestNavvyUser {
     return this.Navvy.PagNav(
       this.BXRestUser.search,
       params,
-      'Сервер не отвечает на запрос поиска',
       this.BXRestUserMap.get
     )
   }
@@ -108,12 +104,11 @@ export class BXRestNavvyUser {
     return this.Navvy.simpleWithArg(
       this.BXRestUser.access,
       params,
-      'Не удалось получить права'
     )
   }
 
   fields() {
-    return this.Navvy.simple(this.BXRestUser.fields, 'Не удалось поля')
+    return this.Navvy.simple(this.BXRestUser.fields)
   }
 
   private self(update = false) {

@@ -29,22 +29,19 @@ export class BXRestNavvyTaskCommentItem {
 
   add(param: iBXRestCommentTaskAdd) {
     return this.Navvy.simpleWithArg(
-      this.BXRestTaskCommentItem.add, param,
-      'Не удалось добавить комментарий к задаче'
+      this.BXRestTaskCommentItem.add, param
     )
   }
 
   update(param: iBXRestTaskCommentItemUpdate) {
     return this.Navvy.simpleWithArg(
-      this.BXRestTaskCommentItem.update, param,
-      'Не удалось обновить комментарий к задаче'
+      this.BXRestTaskCommentItem.update, param
     )
   }
 
   get(param: iBXRestParamTaskCommentItemGet) {
     return this.Navvy.simpleWithArg(
       this.BXRestTaskCommentItem.get, param,
-      'Не удалось получить комментарий к задаче',
       this.mapTaskCommentItem.get
     )
   }
@@ -57,7 +54,6 @@ export class BXRestNavvyTaskCommentItem {
   }) {
     return this.Navvy.simpleWithArg(
       this.BXRestTaskCommentItem.getlist, param,
-      'Не удалось получить комментарии к задаче',
       this.mapTaskCommentItem.getlist
     )
   }
@@ -69,7 +65,6 @@ export class BXRestNavvyTaskCommentItem {
           if(v) {
             return this.Navvy.simpleWithArg(
               this.BXRestTaskCommentItem.del, param,
-              'Не удалось удалить комментарий'
             ).result()
           }
           this.snackBar.warning('comment not exist')

@@ -17,8 +17,7 @@ export class BXRestNavvyBizprocWorkflow {
 
   start(param: iBXRestParamBizprocWorkflowStart)  {
     return this.Navvy.simpleWithArg(
-      this.BXRestBizprocWorkflow.start, param,
-      'Не удалось запустить бизнес процесс'
+      this.BXRestBizprocWorkflow.start, param
     )
   }
 

@@ -9,7 +9,6 @@ export class NavvySimple<C, M, T, R> extends NavvySupport<C, M, T, R> {
     requestClass: C,
     mapClass: M,
     public func: Observable<iBXRestAnswer<T> | undefined>,
-    public testError: string = '',
     public map: ((param: T) => R) | undefined = undefined
     // private snackBar: SnackBarService,
   ) {

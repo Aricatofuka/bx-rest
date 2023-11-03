@@ -21,7 +21,6 @@ export class BXRestNavvyDiskFile {
     return this.Navvy.simpleWithArg(
       this.BXRestDiskFile.get,
       id,
-      'Не удалось получить файл',
       this.BXRestMapDiskFile.get
     )
   }
@@ -30,7 +29,6 @@ export class BXRestNavvyDiskFile {
     return this.Navvy.simpleWithArg(
       this.BXRestDiskFile.markdeleted,
       id,
-      'Не удалось переместить файл в корзину',
       this.BXRestMapDiskFile.markdeleted
     )
   }

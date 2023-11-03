@@ -21,7 +21,6 @@ export class BXRestNavvySonetGroup {
   get(param: iBXRestParamSonetGroupGet = {}) {
     return this.Navvy.simpleWithArg(
       this.BXRestSonetGroup.get, param,
-      'Не удалось получить рабочую группу',
       this.mapSonetGroup.get
     )
   }

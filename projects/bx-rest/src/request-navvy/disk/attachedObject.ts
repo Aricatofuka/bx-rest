@@ -18,8 +18,8 @@ export class BXRestNavvyDiskAttachedObject {
 
   get(id: number) {
     return this.Navvy.simpleWithArg(
-      this.BXRestDiskAttachedObject.get, id,
-      'Не удалось получить прикрепленные файлы',
+      this.BXRestDiskAttachedObject.get,
+      id,
       this.mapAttachedObject.get)
   }
 }

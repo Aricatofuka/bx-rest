@@ -20,7 +20,6 @@ export class BXRestNavvyTaskPlanner {
   getList() {
     return this.Navvy.simple(
       this.BXRestTaskPlanner.getList,
-      'Не удалось получить текущий клан на день',
       this.BXRestMapTaskPlaner.getList
     )
   }

@@ -22,7 +22,6 @@ export class BXRestNavvyTasksTaskResult {
     return this.Navvy.simpleWithArg(
       this.BXRestTasksTaskResult.deleteFromComment,
       commentID,
-      'Не удалось удалить комментарий'
     )
   }
 
@@ -30,7 +29,6 @@ export class BXRestNavvyTasksTaskResult {
     return this.Navvy.simpleWithArg(
       this.BXRestTasksTaskResult.addFromComment,
       commentID,
-      'Не удалось добавить комментарий',
       this.BXRestMapTasksTaskResult.addFromComment
     )
   }
@@ -39,7 +37,6 @@ export class BXRestNavvyTasksTaskResult {
     return this.Navvy.PagNav(
       this.BXRestTasksTaskResult.list,
       param,
-      'Не удалось добавить комментарий',
       this.BXRestMapTasksTaskResult.list
     )
   }

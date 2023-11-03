@@ -16,6 +16,6 @@ export class BXRestNavvyUserUserfield {
   }
 
   list() {
-    return this.Navvy.simple(this.BXRestUserUserfield.list, 'Не удалось получить список кастомных полей')
+    return this.Navvy.simple(this.BXRestUserUserfield.list)
   }
 }

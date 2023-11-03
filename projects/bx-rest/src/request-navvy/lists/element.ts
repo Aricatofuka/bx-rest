@@ -23,12 +23,11 @@ export class BXRestNavvyListsElement {
     return this.Navvy.PagNav(
       this.BXRestListsElement.get,
       param,
-      'Не удалось получить элемент списка',
       this.BXRestMap.get
     )
   }
 
   add(param: iBXRestParamListsElementAdd) {
-    return this.Navvy.simpleWithArg(this.BXRestListsElement.add, param, 'Не удалось добавить элемент списка')
+    return this.Navvy.simpleWithArg(this.BXRestListsElement.add, param)
   }
 }

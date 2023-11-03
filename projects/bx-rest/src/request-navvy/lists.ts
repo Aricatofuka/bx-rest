@@ -23,7 +23,7 @@ export class BXRestNavvyLists {
   }
 
   get(param: iBXRestParamListGet) {
-    return this.Navvy.PagNav(this.BXRestLists.get, param,'Не удалось получить список', this.mapList.get)
+    return this.Navvy.PagNav(this.BXRestLists.get, param, this.mapList.get)
   }
 
   // getAll(pram: getListParam): Observable<ItemListsBX[] | undefined> {

@@ -37,7 +37,6 @@ export class BXRestNavvyDiskFolder {
     return this.Navvy.simpleWithArg(
       this.BXRestDiskFolder.getchildren,
       id,
-      'get folders and files',
       this.BXRestMapDiskFolder.getContent
     )
   }

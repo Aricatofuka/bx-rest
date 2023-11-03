@@ -81,7 +81,7 @@ export class BXRestNavvyElapseditem {
         } else {
           return throwError(() => new Error('Отсутствуют права на чтение задачи'))
         }
-      })), 'Не удалось обновить элемент списка', this.BXRestMapElapseditem.update)
+      })), this.BXRestMapElapseditem.update)
   }
 
   /*
@@ -223,7 +223,7 @@ export class BXRestNavvyElapseditem {
           return throwError(() => new Error('Отсутствуют права на чтение задачи'))
         }
       })
-    ), 'Не удалось удалить элемент списка', v => (v === null))
+    ), v => (v === null))
   }
 
 }

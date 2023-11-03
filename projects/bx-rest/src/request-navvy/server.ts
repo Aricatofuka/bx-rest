@@ -20,7 +20,6 @@ export class BXRestNavvyServer {
   time(){
     return this.Navvy.simple(
       this.BXRestServer.time,
-      'Не удалось получить время сервера',
       this.BXRestMapServer.time
     )
   }

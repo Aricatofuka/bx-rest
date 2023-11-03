@@ -37,7 +37,6 @@ export class BXRestNavvyDelegateElapseditem {
     return this.Navvy.alterPagNav(
       this.BXRestElapseditem.getList,
       param,
-      'Не удалось получить список затраченного на задачу(-и) времени',
       this.BXRestMapElapseditem.getList
     )
   }

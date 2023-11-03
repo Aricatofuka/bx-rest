@@ -22,7 +22,6 @@ export class BXRestNavvyTaskStages {
   get(param: iBXRestParamTaskStageGet) {
     this.Navvy.mapAndSnackBarError(
       this.BXRestTaskStages.get(param),
-      'Не удалось получить стадии задач'
     ).pipe(
       map(v => this.mapTaskStages.get(v))
     )

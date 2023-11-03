@@ -21,7 +21,6 @@ export default class BXRestNavvyListsField {
     return this.Navvy.PagNavWithUselessKey(
       this.BXRestListsField.get,
       param,
-      'Не удалось получить поля списка',
       this.BXRestMapListsField.get
     )
   }

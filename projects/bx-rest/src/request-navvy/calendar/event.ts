@@ -21,7 +21,6 @@ export class BXRestRestCalendarEvent {
     return this.Navvy.simpleWithArg(
       this.BXRestCalendarEvent.get,
       param,
-      'Не удалось получить календарь',
       this.eventMap.get
     )
   }
