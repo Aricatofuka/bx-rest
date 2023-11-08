@@ -11,6 +11,7 @@ import { BXRestSonetGroup } from './request/sonet_group'
 import { BXRestTask } from './request/task'
 import { BXRestServer } from './request/server'
 import { BXRestDepartment } from './request/departments'
+import { BXRestIm } from './request/im'
 // Navvy
 import { BXRestNavvyLists } from './request-navvy/lists'
 import { BXRestNavvyTasks } from './request-navvy/tasks'
@@ -23,6 +24,7 @@ import { BXRestNavvySonetGroup } from './request-navvy/sonet_group'
 import { BXRestNavvyTask } from './request-navvy/task'
 import { BXRestNavvyServer } from './request-navvy/server'
 import { BXRestNavvyDepartment } from './request-navvy/departments'
+import { BXRestNavvyIm } from './request-navvy/im'
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +41,8 @@ export class BXRest {
     public calendar: BXRestCalendar,
     public sonet_group: BXRestSonetGroup,
     public server: BXRestServer,
-    public department: BXRestDepartment
+    public department: BXRestDepartment,
+    public im: BXRestIm
   ) {
   }
 }
@@ -59,7 +62,8 @@ export class BXRestNavvy {
     public calendar: BXRestNavvyCalendar,
     public sonet_group: BXRestNavvySonetGroup,
     public server: BXRestNavvyServer,
-    public department: BXRestNavvyDepartment
+    public department: BXRestNavvyDepartment,
+    public im: BXRestNavvyIm
   ) {
   }
 }

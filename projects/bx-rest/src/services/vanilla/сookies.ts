@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import JSON from '../../services/vanilla/JSON'
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,7 @@ export default class CookiesServices {
   }
 
   static setObj(name: string, value: any, age: number = 0) {
-    let string = name + '=' + JSON.serialize(value) + ';'
+    let string = name + '=' + JSON.stringify(value) + ';'
     if(age) {
       string += ' max-age=' + age
     }
@@ -35,7 +34,7 @@ export default class CookiesServices {
   static getObj<T>(name: string): T | false {
     const results = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
     if (results) {
-      return JSON.deserialize(results[2])
+      return JSON.parse(results[2]) as T
     }
 
     return false

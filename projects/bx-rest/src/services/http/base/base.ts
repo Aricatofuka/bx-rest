@@ -1,6 +1,5 @@
 import { iHttpParamSettings } from '../../../typification/rest/settings'
 import { HttpClient } from '@angular/common/http'
-import SnackBarService from '../../../services/snack-bar/snack-bar.service'
 import { Observable, of, } from 'rxjs'
 import { HttpData } from '../HttpData'
 import { Injectable } from '@angular/core'
@@ -10,7 +9,7 @@ import { Injectable } from '@angular/core'
 })
 export abstract class BaseHttp extends HttpData {
 
-    protected constructor(public http: HttpClient, public snackBar: SnackBarService) {
+    protected constructor(public http: HttpClient) {
         super()
     }
 

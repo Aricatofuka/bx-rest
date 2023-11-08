@@ -10,7 +10,6 @@ import {
 } from '../../typification/rest/task/commentitem/getlist'
 import { BXRestTaskCommentItemDelete } from '../../typification/rest/task/commentitem/delete'
 import { mergeMap, of } from 'rxjs'
-import SnackBarService from '../../services/snack-bar/snack-bar.service'
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +20,7 @@ export class BXRestNavvyTaskCommentItem {
 
   constructor(
     private BXRestTaskCommentItem: BXRestTaskCommentItem,
-    private mapTaskCommentItem: BXRestMapTaskCommentItem,
-    private snackBar: SnackBarService,
+    private mapTaskCommentItem: BXRestMapTaskCommentItem
   ) {
     this.Navvy = new Navvy(this.BXRestTaskCommentItem, this.mapTaskCommentItem)
   }
@@ -67,12 +65,10 @@ export class BXRestNavvyTaskCommentItem {
               this.BXRestTaskCommentItem.del, param,
             ).result()
           }
-          this.snackBar.warning('comment not exist')
           return of(false)
         })
       )
     } else {
-      this.snackBar.warning('comment not exist')
       return of(false)
     }
   }

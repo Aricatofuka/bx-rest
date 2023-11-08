@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import JSON from '../../services/vanilla/JSON'
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +10,8 @@ export class LocalStorageServices {
   }
 
   static getObj<T>(name: string): T | null {
-    return JSON.deserialize(localStorage.getItem(name))
+    const localData = localStorage.getItem(name)
+    return (localData) ? JSON.parse(localData) as T : null
   }
 
   static set(name: string, value: string): void {
@@ -23,7 +23,7 @@ export class LocalStorageServices {
     if(get && typeof get === 'object'){
       localStorage.setItem(
         name,
-        JSON.serialize(
+        JSON.stringify(
           Object.assign(
             get,
             value
@@ -31,7 +31,7 @@ export class LocalStorageServices {
         )
       )
     } else {
-      localStorage.setItem(name, JSON.serialize(value))
+      localStorage.setItem(name, JSON.stringify(value))
     }
   }
 

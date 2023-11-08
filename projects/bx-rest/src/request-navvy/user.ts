@@ -56,6 +56,12 @@ export class BXRestNavvyUser {
       update,
       this.BXRestUserMap.current
     )
+    // TODO: разобраться зачем код выше вместо кода ниже и написать коммент
+    // return this.Navvy.simpleWithArg(
+    //   this.self,
+    //   update,
+    //   this.BXRestUserMap.current
+    // )
   }
 
   /*

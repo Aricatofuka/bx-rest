@@ -1,7 +1,6 @@
 import { Observable, throwError, mergeMap } from 'rxjs'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import SnackBarService from '../../services/snack-bar/snack-bar.service'
 import SessionKeyServices from '../../services/http/sessionKey'
 import clone from 'just-clone'
 import { iHttpParamSettings } from '../../typification/rest/settings'
@@ -12,8 +11,8 @@ import { BaseHttpServices } from './base/http'
 })
 export class HttpServices extends BaseHttpServices {
 
-  constructor(http: HttpClient, snackBar: SnackBarService, public session: SessionKeyServices) {
-    super(http, snackBar)
+  constructor(http: HttpClient, public session: SessionKeyServices) {
+    super(http)
   }
 
   override httpPost<T>(url: string,
@@ -33,7 +32,6 @@ export class HttpServices extends BaseHttpServices {
         return throwError(() => 'get base url error')
       }))
     } else {
-      this.snackBar.error('Error: Auth not get')
       return throwError(() => 'auth not get')
     }
 
@@ -64,7 +62,6 @@ export class HttpServices extends BaseHttpServices {
         })
       )
     } else {
-      this.snackBar.error('Error: Auth not get')
       return throwError(() => 'auth not get')
     }
   }

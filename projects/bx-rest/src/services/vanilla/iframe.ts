@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import SessionKeyServices from '../../services/http/sessionKey'
 import { map, mergeMap, of } from 'rxjs'
-import SnackBarService from '../../services/snack-bar/snack-bar.service'
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +9,7 @@ export default class IFrameVanillaJS {
   parent = window.parent
 
   constructor(
-    private session: SessionKeyServices,
-    private snackBar: SnackBarService
+    private session: SessionKeyServices
   ) {
   }
 

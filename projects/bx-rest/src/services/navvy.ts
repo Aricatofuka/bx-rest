@@ -12,7 +12,6 @@ export class Navvy<C, M> {
   constructor(
     protected requestClass: C,
     protected mapClass: M
-    // private snackBar: SnackBarService,
   ) {
   }
 

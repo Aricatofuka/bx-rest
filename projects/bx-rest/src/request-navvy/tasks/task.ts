@@ -32,14 +32,11 @@ export class BXRestNavvyTasksTask {
     ]
   }
 
-  // storeTask$: Observable<iStoreTask>
   private Navvy: Navvy<BXRestTasksTask, BXRestMapTasksTask>
 
   constructor(
     public result: BXRestNavvyTasksTaskResult,
     private BXRestTasksTask: BXRestTasksTask,
-    // private snackBar: SnackBarService,
-    //  private store: Store<{ tasks: IStoreTask }>,
     private BXRestMapTasksTask: BXRestMapTasksTask,
 
     // private taskResultMap: BitrixApiTaskResultMapServices
