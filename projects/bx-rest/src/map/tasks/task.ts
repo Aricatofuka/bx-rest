@@ -11,6 +11,7 @@ import {
 import { BXRestMapTasksTaskResult } from './task/result'
 import { iBXRestHttpTask, iBXRestTask } from '../../typification/rest/tasks/task'
 import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
+import { BX_REST_SETTINGS } from '../../settings'
 
 /// type SelectInterfaceTypeTasksTaskList<T> = T extends iBXRestHttpTasksTaskList ? iBXRestTasksTaskList : iBXRestTasksTaskListDefault
 
@@ -19,8 +20,11 @@ import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fields
 })
 export class BXRestMapTasksTask extends BaseMapServices {
 
-  constructor(public result: BXRestMapTasksTaskResult) {
-    super()
+  constructor(
+    BX_REST_SETTINGS: BX_REST_SETTINGS,
+    public result: BXRestMapTasksTaskResult
+  ) {
+    super(BX_REST_SETTINGS)
   }
 
   getaccess(v: iBXRestTaskGetAccess | undefined) {

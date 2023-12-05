@@ -1,7 +1,7 @@
 export interface iRestSettings {
   auth: {
-    source: string
-    key: string
+    source: 'cookies' | 'localStorage'
+    key: 'auth' | 'sessid' | string
   },
   urls: {
     home: string

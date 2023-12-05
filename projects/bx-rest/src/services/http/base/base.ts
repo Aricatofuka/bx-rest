@@ -3,14 +3,18 @@ import { HttpClient } from '@angular/common/http'
 import { Observable, of, } from 'rxjs'
 import { HttpData } from '../HttpData'
 import { Injectable } from '@angular/core'
+import { BX_REST_SETTINGS } from '../../../settings'
+
 
 @Injectable({
     providedIn: 'root'
 })
 export abstract class BaseHttp extends HttpData {
 
-    protected constructor(public http: HttpClient) {
-        super()
+    protected constructor(
+      BX_REST_SETTINGS: BX_REST_SETTINGS,
+      public http: HttpClient) {
+        super(BX_REST_SETTINGS)
     }
 
     abstract httpGet<T>(

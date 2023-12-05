@@ -5,14 +5,19 @@ import SessionKeyServices from '../../services/http/sessionKey'
 import clone from 'just-clone'
 import { iHttpParamSettings } from '../../typification/rest/settings'
 import { BaseHttpServices } from './base/http'
+import { BX_REST_SETTINGS } from '../../settings'
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpServices extends BaseHttpServices {
 
-  constructor(http: HttpClient, public session: SessionKeyServices) {
-    super(http)
+  constructor(
+    BX_REST_SETTINGS: BX_REST_SETTINGS,
+    http: HttpClient,
+    public session: SessionKeyServices
+  ) {
+    super(BX_REST_SETTINGS, http)
   }
 
   override httpPost<T>(url: string,

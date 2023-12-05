@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core'
 import clone from 'just-clone'
 import { BaseMapServices } from './base'
 import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user/user'
+import { BX_REST_SETTINGS } from '../settings'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestMapUser extends BaseMapServices {
 
-  constructor() {
-    super()
+  constructor(BX_REST_SETTINGS: BX_REST_SETTINGS) {
+    super(BX_REST_SETTINGS)
   }
 
-  get(v: iBXRestUserHttp[] | undefined): iBXRestUser[] | undefined
-  {
+  get(v: iBXRestUserHttp[] | undefined): iBXRestUser[] | undefined {
     return (v) ? v.map(i => this.userHttpToTrace(i)) : undefined
   }
 
@@ -24,11 +24,11 @@ export class BXRestMapUser extends BaseMapServices {
   private userHttpToTrace(user: iBXRestUserHttp): iBXRestUser {
     let res: iBXRestUser = Object.assign(
       clone(user), {
-      ID: this.toNum(user.ID),
-      IS_ONLINE: this.toBool(user.IS_ONLINE),
-      DATE_REGISTER: this.toDate(user.DATE_REGISTER),
-      PERSONAL_BIRTHDAY: this.toDate(user.PERSONAL_BIRTHDAY),
-    })
+        ID: this.toNum(user.ID),
+        IS_ONLINE: this.toBool(user.IS_ONLINE),
+        DATE_REGISTER: this.toDate(user.DATE_REGISTER),
+        PERSONAL_BIRTHDAY: this.toDate(user.PERSONAL_BIRTHDAY),
+      })
     if (user.LAST_LOGIN) {
       res.LAST_LOGIN = this.toDate(user.LAST_LOGIN)
     }
@@ -36,7 +36,7 @@ export class BXRestMapUser extends BaseMapServices {
     return res
   }
 
-   BXtoHttp(user: iBXRestUser): iBXRestUserHttp {
+  BXtoHttp(user: iBXRestUser): iBXRestUserHttp {
     return Object.assign(clone(user), {
       ID: this.toStr(user.ID),
       IS_ONLINE: this.toBXYorN(user.IS_ONLINE),

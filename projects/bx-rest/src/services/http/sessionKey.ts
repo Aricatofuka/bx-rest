@@ -25,9 +25,10 @@ export default class SessionKeyServices extends BaseServices {
 
   constructor(
     // private route: ActivatedRoute,
+    public override BX_REST_SETTINGS: BX_REST_SETTINGS,
     public BxApiLib: RestServices,
   ) {
-    super()
+    super(BX_REST_SETTINGS)
     let authData = SessionStorage.getItem<iBXRestAuth>(this.constructor.name)
     if ((authData && !authData.access_token.length) || !authData) {
       // получаем токен по собственным каналом (в битриксе приложение trace:apps.trace)
@@ -39,7 +40,7 @@ export default class SessionKeyServices extends BaseServices {
             }
 
             if (event.data.param.access_token) {
-              let param = event.data.param;
+              let param = event.data.param
               let save = {
                 access_token: (param.access_token) ? param.access_token : undefined,
                 client_endpoint: (param.client_endpoint) ? param.client_endpoint : undefined,
@@ -152,11 +153,11 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getAuth(): string {
-    switch (BX_REST_SETTINGS.auth.key) {
+    switch (this.BX_REST_SETTINGS.auth.key) {
       case 'auth':
         return Cookies.get('auth')
       default:
-        if ((<any>window).BX && (<any>window).BX.bitrix_sessid()) {
+        if ((<any>window).BX && (<any>window).BX.bitrix_sessid()) { // чё за хуйня?
           return (<any>window).BX.bitrix_sessid()
         } else if (this.getSessid().length) {
           let str = this.getSessid()
@@ -168,15 +169,11 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getKeyAuth(): IKeyAuth {
-    if (BX_REST_SETTINGS.auth.key.length) {
-      return BX_REST_SETTINGS.auth.key
+    console.log('BX_REST_SETTINGS', BX_REST_SETTINGS)
+    if (this.BX_REST_SETTINGS.auth.key.length) {
+      return this.BX_REST_SETTINGS.auth.key
     } else {
-      if ((<any>window).BX && (<any>window).BX.bitrix_sessid()
-        || this.getSessid().length) {
-        return 'sessid'
-      } else {
-        return 'auth'
-      }
+      return 'auth'
     }
   }
 
@@ -203,16 +200,18 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getAuthParams(): string | undefined {
-    switch (BX_REST_SETTINGS.auth.source) {
+    switch (this.BX_REST_SETTINGS.auth.source) {
       case 'cookies':
         return this.getAuth()
+      case 'localStorage':
+        return LocalStorage.get(this.BX_REST_SETTINGS.auth.key)
       default:
         return (this.authData) ? this.authData.access_token : undefined
     }
   }
 
   getBaseUrl(): Observable<string | undefined> {
-    return of(this.prepareBaseAddress(BX_REST_SETTINGS.urls.home, 'rest'))
+    return of(this.prepareBaseAddress(this.BX_REST_SETTINGS.urls.home, 'rest'))
     // return this.authData$.pipe( // TODO: разобраться позже
     //   take(1),
     //   map(v => (v && v.domain) ? this.prepareBaseAddress(v.domain) : undefined)

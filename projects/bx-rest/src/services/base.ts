@@ -10,6 +10,9 @@ import { BX_REST_SETTINGS } from '../settings'
 })
 export class BaseServices {
 
+  constructor(public BX_REST_SETTINGS: BX_REST_SETTINGS) {
+  }
+
   toStr(val: any): string {
     return (val) ? String(val) : ''
   }
@@ -115,7 +118,7 @@ export class BaseServices {
   getHomeAddress() {
     // return this.prepareBaseAddress(environment.urls.home)
 
-    return this.prepareBaseAddress(BX_REST_SETTINGS.urls.home)
+    return this.prepareBaseAddress(this.BX_REST_SETTINGS.urls.home)
   }
 
   dateDiff(a: Date, b: Date) {

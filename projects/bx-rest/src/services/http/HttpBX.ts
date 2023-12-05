@@ -110,7 +110,8 @@ export class HttpBXServices extends HttpServices {
           if (v) {
             // это более быстрый способ запроса чем отправка Form Data
             return this.http.post<T | undefined>(
-              this.prepareBaseAddress(v) + url, JSON.stringify(paramsClone),
+              this.prepareBaseAddress(v) + url,
+              JSON.stringify(paramsClone),
               {headers: new HttpHeaders().set('Content-Type', 'application/json')}
             )
           }

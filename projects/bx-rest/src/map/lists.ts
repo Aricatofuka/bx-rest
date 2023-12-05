@@ -3,6 +3,7 @@ import { BaseMapServices } from './base'
 import { iBXRestListItem, iBXRestListItemHttp } from '../typification/rest/lists/get'
 import BXRestMapListsElement from './lists/element'
 import { BXRestMapListsField } from './lists/field'
+import { BX_REST_SETTINGS } from '../settings'
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +11,11 @@ import { BXRestMapListsField } from './lists/field'
 export class BXRestMapLists extends BaseMapServices {
 
   constructor(
+    BX_REST_SETTINGS: BX_REST_SETTINGS,
     public element: BXRestMapListsElement,
     public field: BXRestMapListsField
   ) {
-    super()
+    super(BX_REST_SETTINGS)
   }
   get(value: iBXRestListItemHttp[] | undefined): iBXRestListItem[] | undefined {
     return (value) ? value.map(i => this.iBXRestListItemHttpToiBXRestListItem(i)) : undefined
