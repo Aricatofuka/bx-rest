@@ -55,18 +55,6 @@ export class BXRestNavvyTasksTask {
       param,
       this.BXRestMapTasksTask.add
     )
-    // return this.http.post<{ task: TaskBXHttp }>(this.url.add, {fields: param}).pipe(
-    //   map(v => {
-    //       if (v && v.result && v.result.task) {
-    //         return Object.assign(
-    //           v,
-    //           {
-    //             result: this.taskBXMap.TaskBXHttpToTaskBX(v.result.task)
-    //           })
-    //       }
-    //       return undefined
-    //     }
-    //   ))
   }
 
   /*
@@ -181,34 +169,13 @@ export class BXRestNavvyTasksTask {
       })
     )
   }
+  */
 
   getFields() {
-    return this.storeTask$.pipe(
-      mergeMap(v => {
-        if (v && !v.data.fields) {
-          return this.http.post<iHttpAnswerBX<{ fields: iGetFieldsDescription }>>(this.url.getFields).pipe(
-            tap(v => {
-              if (v && v.result) {
-                this.store.dispatch(saveFields(v.result))
-              }
-            }),
-            map(v => {
-              if (v && v.result && v.result.fields) {
-                return {result: v.result.fields}
-              }
-
-              return undefined
-            })
-          )
-        }
-        if (v.data.fields) {
-          return of({result: clone<iGetFieldsDescription>(v.data.fields)})
-        } else {
-          return of(undefined)
-        }
-      })
+    return this.Navvy.simple(
+      this.BXRestTasksTask.getFields
     )
-  }   */
+  }
 
   getaccess(param: iBXRestParamTaskGetAccess) {
     return this.Navvy.simpleWithArg(

@@ -26,7 +26,7 @@ export class NavvySimple<C, M, T, R> extends NavvySupport<C, M, T, R> {
   }
 
   result() {
-    return this.mapAndSnackBarError(this.func).pipe(
+    return this.mapAndError(this.func).pipe(
       map(v => (v && this.map) ? this.map.call(this.mapClass, v) : v)
     ) as ReturnTypeNavvy<Observable<T | undefined>, Observable<R | undefined>>
   }

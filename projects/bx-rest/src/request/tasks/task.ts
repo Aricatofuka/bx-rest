@@ -22,6 +22,7 @@ import { BXRestTasksTaskResult } from './task/result'
 import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
 // import iBXRestParamTasksGet from '../../typification/rest/tasks/task/get'
 import iBXRestParamTasksTaskGet from '../../typification/rest/tasks/task/get'
+import { iBXRestTasksTaskGetFields } from '../../typification/rest/tasks/task/getFields'
 
 // interface iBXRestParamTasksListWithSelect<S extends iBXRestTaskFieldsName> extends iBXRestParamTasksList<S> {
 //   select: iBXRestFilterGenerator<iBXRestTaskFieldsName>[]
@@ -125,8 +126,7 @@ export class BXRestTasksTask {
     return this.http.post<iBXRestTasksTaskGetHttp<S>>(this.url.get, param)
   }
 
-  list<S extends iBXRestTaskFieldsName[]>(param: iBXRestParamTasksList<S>
-  ) {
+  list<S extends iBXRestTaskFieldsName[]>(param: iBXRestParamTasksList<S>) {
     return this.http.post<iBXRestTasksTaskListHttp<S>>(this.url.list, param)
   }
 
@@ -191,35 +191,12 @@ export class BXRestTasksTask {
       })
     )
   }
+  */
 
   getFields() {
-    return this.storeTask$.pipe(
-      mergeMap(v => {
-        if (v && !v.data.fields) {
-          return this.http.post<iHttpAnswerBX<{ fields: iGetFieldsDescription }>>(this.url.getFields).pipe(
-            tap(v => {
-              if (v && v.result) {
-                this.store.dispatch(saveFields(v.result))
-              }
-            }),
-            map(v => {
-              if (v && v.result && v.result.fields) {
-                return {result: v.result.fields}
-              }
-
-              return undefined
-            })
-          )
-        }
-        if (v.data.fields) {
-          return of({result: clone<iGetFieldsDescription>(v.data.fields)})
-        } else {
-          return of(undefined)
-        }
-      })
-    )
+    return this.http.post<iBXRestTasksTaskGetFields>(this.url.list)
   }
-   */
+
 
   getaccess(param: iBXRestParamTaskGetAccess) {
     return this.http.post<iBXRestTaskGetAccess>(this.url.getaccess, param)
