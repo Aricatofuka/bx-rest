@@ -38,7 +38,7 @@ export abstract class NavvyPagNavBase<C, M, T, R, P> extends NavvySupport<C, M, 
   }
 
   protected resultEnd(func: (param: P) => Observable<iBXRestAnswer<T> | undefined>, param: P) {
-    return this.mapAndSnackBarError(func.call(this.requestClass, param)).pipe(
+    return this.mapAndError(func.call(this.requestClass, param)).pipe(
       map(v => (v && this.map) ? this.map.call(this.mapClass, v) : v)
     ) as ReturnTypeNavvy<Observable<T | undefined>, Observable<R | undefined>>
   }
