@@ -194,7 +194,7 @@ export class BXRestTasksTask {
   */
 
   getFields() {
-    return this.http.post<iBXRestTasksTaskGetFields>(this.url.list)
+    return this.http.post<iBXRestTasksTaskGetFields>(this.url.getFields)
   }
 
 
