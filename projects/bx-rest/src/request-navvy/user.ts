@@ -92,10 +92,7 @@ export class BXRestNavvyUser {
     )
   }
   */
-  search(params: string | iBXRestParamUserSearch) {
-    if (typeof params === 'string') {
-      params = {FIND: params}
-    }
+  search(params: iBXRestParamUserSearch) {
     if (typeof params.ACTIVE !== 'boolean') {
       params.ACTIVE = true
     }

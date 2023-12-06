@@ -169,7 +169,6 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getKeyAuth(): IKeyAuth {
-    console.log('BX_REST_SETTINGS', BX_REST_SETTINGS)
     if (this.BX_REST_SETTINGS.auth.key.length) {
       return this.BX_REST_SETTINGS.auth.key
     } else {
