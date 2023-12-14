@@ -6,6 +6,12 @@ import {
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestFolderHttp } from '../../typification/rest/disk/folder'
 import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
+import { iBXRestDiskFolderUploadFileParam } from '../../typification/rest/disk/folder/uploadFile'
+import { iBXRestDiskFolderGetFieldsHttp } from '../../typification/rest/disk/folder/getFields'
+import { iBXRestDiskFolderAddSubFolderParam } from '../../typification/rest/disk/folder/addSubFolder'
+import { iBXRestDiskFolderCopyToParam } from '../../typification/rest/disk/folder/copyTo'
+import { iBXRestDiskFolderMoveToParam } from '../../typification/rest/disk/folder/moveTo'
+import { iBXRestDiskFolderRenameParam } from '../../typification/rest/disk/folder/rename'
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +19,18 @@ import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 export class BXRestDiskFolder {
 
   protected url = {
-    getfields: [$disk, $folder, $getFields], // Возвращает описание полей папки
-    get: [$disk, $folder, $get], // Возвращает папку по идентификатору
-    getchildren: [$disk, $folder, $getchildren], // Возвращает список файлов и папок, которые находятся непосредственно в папке
-    addsubfolder: [$disk, $folder, 'addsubfolder'], // Создает дочернюю папку
-    copyto: [$disk, $folder, $copyto], // Копирует папку в указанную папку
-    moveto: [$disk, $folder, $moveto], // Перемещает папку в указанную папку
-    rename: [$disk, $folder, $rename], // Переименовывает папку
-    deletetree: [$disk, $folder, 'deletetree'], // Уничтожает папку и всё её дочерние элементы навсегда
-    markdeleted: [$disk, $folder, $markdeleted], // Перемещает папку в корзину
-    restore: [$disk, $folder, $restore], //	Восстанавливает папку из корзины
-    uploadfile: [$disk, $folder, $uploadfile], // Загружает новый файл в указанную папку
-    getExternalLink: [$disk, $folder, 'getExternalLink'] // Метод возвращает публичную ссылку
+    getFields: [$disk, $folder, $getFields],
+    get: [$disk, $folder, $get],
+    getChildren: [$disk, $folder, $getchildren],
+    addSubFolder: [$disk, $folder, 'addsubfolder'],
+    copyTo: [$disk, $folder, $copyto],
+    moveTo: [$disk, $folder, $moveto],
+    rename: [$disk, $folder, $rename],
+    deleteTree: [$disk, $folder, 'deletetree'],
+    markDeleted: [$disk, $folder, $markdeleted],
+    restore: [$disk, $folder, $restore],
+    uploadFile: [$disk, $folder, $uploadfile],
+    getExternalLink: [$disk, $folder, 'getExternalLink']
   }
 
   constructor(
@@ -32,24 +38,128 @@ export class BXRestDiskFolder {
   ) {
   }
 
-  uploadfile(id: number, fileContent: string[]) {
-    return this.http.post(
-      this.url.uploadfile,
-      {
-        id: id, // Идентификатор папки. В текущем API загружать файл по пути к папке невозможно. Необходимо обязательно вычислить ID папки
-        fileContent: fileContent, // Аналогично 'DETAIL_PICTURE' в примере Обработка файлов (['имя файла', 'содержимое в base64'])
-        data: {
-          NAME: fileContent[0]
-        } // Обязательное поле NAME - имя нового файла
-        // generateUniqueName	Необязательный, по умолчанию false. При указании true, для загружаемого файла будет уникализировано имя, добавлением суффикса (1), (2) и т.п.
-        // rights	Необязательный, по умолчанию пустой массив. Массив прав доступа на загружаемый файл.
-      }
+  /**
+   * Возвращает папку по идентификатору
+   *
+   * @param id
+   */
+  get(id: number) {
+    return this.http.post<iBXRestFolderHttp>(this.url.get, {id: id})
+  }
+
+  /**
+   * Создает дочернюю папку
+   *
+   * @param param
+   */
+  addSubFolder(param: iBXRestDiskFolderAddSubFolderParam){
+    return this.http.post<iBXRestFolderHttp>(this.url.addSubFolder, param)
+  }
+
+  /**
+   * Копирует папку в указанную папку
+   *
+   * @param param
+   */
+  copyTo(param: iBXRestDiskFolderCopyToParam){
+    return this.http.post<iBXRestFolderHttp>(this.url.copyTo, param)
+  }
+
+  /**
+   * Перемещает папку в указанную папку
+   *
+   * @param param
+   */
+  moveTo(param: iBXRestDiskFolderMoveToParam){
+    return this.http.post<iBXRestFolderHttp>(this.url.moveTo, param)
+  }
+
+  /**
+   * Переименовывает папку
+   *
+   * @param param
+   */
+  rename(param: iBXRestDiskFolderRenameParam){
+    return this.http.post<iBXRestFolderHttp>(this.url.rename, param)
+  }
+
+  /**
+   * Уничтожает папку и всё её дочерние элементы навсегда
+   * В ответе 'result': true - успешное уничтожение папки
+   *
+   * @param id
+   */
+  deleteTree(id: number){
+    return this.http.post<boolean>(
+      this.url.deleteTree,
+      {id: id}
     )
   }
 
-  getchildren(id: number) {
+  /**
+   * Перемещает папку в корзину
+   *
+   * @param id
+   */
+  markDeleted(id: number){
+    return this.http.post<iBXRestFolderHttp>(
+      this.url.markDeleted,
+      {id: id}
+    )
+  }
+
+  /**
+   * Восстанавливает папку из корзины
+   *
+   * @param id
+   */
+  restore(id: number){
+    return this.http.post<iBXRestFolderHttp>(
+      this.url.restore,
+      {id: id}
+    )
+  }
+
+  /**
+   * Метод возвращает публичную ссылку
+   *
+   * @param id
+   */
+  getExternalLink(id: number){
+    return this.http.post<string>(
+      this.url.restore,
+      {id: id}
+    )
+  }
+
+
+  /**
+   * Возвращает описание полей папки
+   */
+  getFields() {
+    return this.http.post<iBXRestDiskFolderGetFieldsHttp>(this.url.getFields)
+  }
+
+  /**
+   * Загружает новый файл в указанную папку
+   *
+   * @param param
+   */
+  uploadFile(param: iBXRestDiskFolderUploadFileParam) {
+    return this.http.post<iBXRestFolderHttp>(
+      this.url.uploadFile,
+      param
+    )
+  }
+
+  /**
+   * Возвращает список файлов и папок, которые находятся непосредственно в папке
+   *
+   * @param id
+   */
+  getChildren(id: number) {
     return this.http.post<(iBXRestFolderHttp | iBXRestDiskFileHttp)[]>(
-      this.url.getchildren,
+      this.url.getChildren,
       {id: id}
     )
   }

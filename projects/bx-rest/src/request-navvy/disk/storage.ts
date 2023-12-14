@@ -15,14 +15,11 @@ export class BXRestNavvyDiskStorage {
   constructor(
     private BXRestNavvyInterlayerDiskStorage: BXRestNavvyInterlayerDiskStorage,
     private BXRestMapDiskStorage: BXRestMapDiskStorage,
-    // private store: Store<{ BXDiskFolder: BXDiskFolderStore }>,
   ) {
     this.Navvy = new Navvy(this.BXRestNavvyInterlayerDiskStorage, this.BXRestMapDiskStorage)
-    // this.BXDiskFolder$ = this.store.select('BXDiskFolder')
   }
 
   getforapp() {
-    // console.log('this.getforappEnd', this.getforappEnd)
     return this.Navvy.simple(this.BXRestNavvyInterlayerDiskStorage.getforapp)
   }
 
@@ -53,9 +50,12 @@ export class BXRestNavvyDiskStorage {
     )
   }
 
-  // TODO: разобраться что возвращает и что вставлять
   addfolder(param: { id: number, data: { NAME: string } }) {
-    return this.Navvy.simpleWithArg(this.BXRestNavvyInterlayerDiskStorage.addfolder, param)
+    return this.Navvy.simpleWithArg(
+      this.BXRestNavvyInterlayerDiskStorage.addfolder,
+      param,
+      this.BXRestMapDiskStorage.addfolder
+    )
   }
 
   uploadfile(param: iBXRestParamUploadFile) {

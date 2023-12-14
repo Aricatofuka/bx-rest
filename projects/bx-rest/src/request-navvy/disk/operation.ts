@@ -44,7 +44,7 @@ export class BXRestNavvyDiskOperation {
     return this.getOfCreateRootFolderApp(folderName).pipe(
       mergeMap(v => {
         if (v) {
-          return this.folder.getchildren(v.ID).mapForVanilla()
+          return this.folder.getChildren(v.ID).result()
         }
         return of(undefined)
       })
@@ -87,7 +87,7 @@ export class BXRestNavvyDiskOperation {
           if (v.folder.length) {
             let find = v.folder.find(i => i.NAME === folderName)
             if (find) {
-              return of({result: find})
+              return of(find)
             }
           }
         }

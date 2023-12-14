@@ -46,9 +46,9 @@ export class BXRestDiskStorage {
     )
   }
 
-  // TODO: разобраться что возвращает и что вставлять
+  // TODO: Сделать нормальное описание параметров
   addfolder(param: {id: number, data: {NAME: string}}) {
-    return this.http.post<any>(this.url.addfolder, param)
+    return this.http.post<iBXRestFolderHttp>(this.url.addfolder, param)
   }
 
   uploadfile(param: iBXRestParamUploadFile) {

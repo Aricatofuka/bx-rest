@@ -63,4 +63,24 @@ export default class BXRestMapDiskBase extends BaseMapServices {
   instanceOfiFolder(object: any): object is iBXRestFolder {
     return object && object.TYPE && object.TYPE === 'folder'
   }
+
+
+  FolderHttpToFolder(value: iBXRestFolderHttp): iBXRestFolder {
+    return {
+      ...value,
+      ...{
+        CREATED_BY: this.toNum(value.CREATED_BY),
+        CREATE_TIME: this.toDate(value.CREATE_TIME),
+        DELETED_BY: this.toNum(value.DELETED_BY),
+        DELETED_TYPE: this.toNum(value.DELETED_TYPE),
+        DELETE_TIME: this.toDate(value.CREATE_TIME),
+        ID: this.toNum(value.ID),
+        PARENT_ID: this.toNum(value.PARENT_ID),
+        REAL_OBJECT_ID: this.toNum(value.REAL_OBJECT_ID),
+        STORAGE_ID: this.toNum(value.STORAGE_ID),
+        UPDATED_BY: this.toNum(value.UPDATED_BY),
+        UPDATE_TIME: this.toDate(value.CREATE_TIME)
+      }
+    }
+  }
 }
