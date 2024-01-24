@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { BXRestRestCalendarEvent } from './calendar/event'
+import { BXRestNavvyRestCalendarEvent } from './calendar/event'
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +43,7 @@ export class BXRestNavvyCalendar {
   */
 
   constructor(
-    public event: BXRestRestCalendarEvent,
+    public event: BXRestNavvyRestCalendarEvent,
   ) {
   }
 

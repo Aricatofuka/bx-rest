@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { BXRestTaskElapseditem } from './task/elapseditem'
+import { BXRestTaskElapsedItem } from './task/elapseditem'
 import { BXRestTaskCommentItem } from './task/commentitem'
 import { BXRestTaskPlanner } from './task/planner'
 
@@ -9,8 +9,8 @@ import { BXRestTaskPlanner } from './task/planner'
 export class BXRestTask {
 
   constructor(
-    public elapseditem: BXRestTaskElapseditem,
-    public commentitem: BXRestTaskCommentItem,
+    public elapsedItem: BXRestTaskElapsedItem,
+    public commentItem: BXRestTaskCommentItem,
     public planner: BXRestTaskPlanner
   ) {
   }

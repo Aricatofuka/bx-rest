@@ -1,31 +1,31 @@
 import { Injectable } from '@angular/core'
 import { mergeMap, of, tap, throwError } from 'rxjs'
 import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
-import { BXRestTaskElapseditem } from '../../request/task/elapseditem'
+import { BXRestTaskElapsedItem } from '../../request/task/elapseditem'
 import { iBXRestParamAddElapseditem } from '../../typification/rest/task/elapseditem/add'
 import { Permission } from '../../services/permission'
 import { iBXRestParamUpdateElapseditem } from '../../typification/rest/task/elapseditem/update'
 import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/isActionAllowedParam'
 import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapseditem/del'
 import { Navvy } from '../../services/navvy'
-import { BXRestMapTaskElapseditem } from '../../map/task/elapseditem'
-import { BXRestNavvyOperationElapseditem } from './operation/elapseditem'
-import { BXRestNavvyDelegateElapseditem } from './delegate/elapseditem'
+import { BXRestMapTaskElapsedItem } from '../../map/task/elapseditem'
+import { BXRestNavvyOperationElapsedItem } from './operation/elapseditem'
+import { BXRestNavvyDelegateElapsedItem } from './delegate/elapseditem'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestNavvyElapseditem {
 
-  private Navvy: Navvy<BXRestTaskElapseditem, BXRestMapTaskElapseditem>
+  private Navvy: Navvy<BXRestTaskElapsedItem, BXRestMapTaskElapsedItem>
 
   constructor(
-    private BXRestElapseditem: BXRestTaskElapseditem,
-    private BXRestMapElapseditem: BXRestMapTaskElapseditem,
-    private delegate: BXRestNavvyDelegateElapseditem,
-    public operation: BXRestNavvyOperationElapseditem
+    private BXRestElapsedItem: BXRestTaskElapsedItem,
+    private BXRestMapElapsedItem: BXRestMapTaskElapsedItem,
+    private delegate: BXRestNavvyDelegateElapsedItem,
+    public operation: BXRestNavvyOperationElapsedItem
   ) {
-    this.Navvy = new Navvy(this.BXRestElapseditem, this.BXRestMapElapseditem)
+    this.Navvy = new Navvy(this.BXRestElapsedItem, this.BXRestMapElapsedItem)
   }
 
   /*
@@ -47,10 +47,10 @@ export class BXRestNavvyElapseditem {
     return this.operation.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(allowedReadTask => {
         if (allowedReadTask) {
-          return this.operation.checkPermissionAddElapsedtimeToTask(param.TASKID).pipe(
+          return this.operation.checkPermissionAddElapsedTimeToTask(param.TASKID).pipe(
             mergeMap(allowed => {
               if (allowed) {
-                return this.BXRestElapseditem.add(param)
+                return this.BXRestElapsedItem.add(param)
               } else {
                 return throwError(() => new Error('Отсутствуют права добавление записи затраченного времени'))
               }
@@ -73,7 +73,7 @@ export class BXRestNavvyElapseditem {
           return this.isAllowedModify(param.TASKID, param.ITEMID).pipe(
             mergeMap(allowed => {
               if (allowed) {
-                return this.BXRestElapseditem.update(param)
+                return this.BXRestElapsedItem.update(param)
               } else {
                 return throwError(() => new Error('Отсутствуют права на изменение записи затраченного времени'))
               }
@@ -81,7 +81,7 @@ export class BXRestNavvyElapseditem {
         } else {
           return throwError(() => new Error('Отсутствуют права на чтение задачи'))
         }
-      })), this.BXRestMapElapseditem.update)
+      })), this.BXRestMapElapsedItem.update)
   }
 
   /*
@@ -200,7 +200,7 @@ export class BXRestNavvyElapseditem {
     return this.Navvy.simple(() => this.operation.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(canRead => {
         if (canRead) {
-          return this.BXRestElapseditem.isActionAllowed(param)
+          return this.BXRestElapsedItem.isActionAllowed(param)
         }
         return throwError(() => new Error('Отсутствуют права на чтение задачи'))
       })
@@ -214,7 +214,7 @@ export class BXRestNavvyElapseditem {
           return this.isAllowedRemove(param.TASKID, param.ITEMID).pipe(
             mergeMap(allowed => {
               if (allowed) {
-                return this.BXRestElapseditem.del(param)
+                return this.BXRestElapsedItem.del(param)
               } else {
                 return throwError(() => new Error('Отсутствуют права на удаление записи затраченного времени'))
               }

@@ -7,7 +7,7 @@ import { BXRestMapCalendarEvent } from '../../map/calendar/event'
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestRestCalendarEvent {
+export class BXRestNavvyRestCalendarEvent {
   private Navvy: Navvy<BXRestMapCalendarEvent, undefined>
 
   constructor(

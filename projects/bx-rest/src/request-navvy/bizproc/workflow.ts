@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core'
 import { iBXRestParamBizprocWorkflowStart } from '../../typification/rest/bizproc/workflow/start'
-import { BXRestBizprocWorkflow } from '../../request/bizproc/workflow'
+import { BXRestBizProcWorkflow } from '../../request/bizproc/workflow'
 import { Navvy } from '../../services/navvy'
 
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestNavvyBizprocWorkflow {
-  private Navvy: Navvy<BXRestBizprocWorkflow, undefined>
+export class BXRestNavvyBXRestBizProcWorkflow {
+  private Navvy: Navvy<BXRestBizProcWorkflow, undefined>
 
   constructor(
-    private BXRestBizprocWorkflow: BXRestBizprocWorkflow,
+    private BXRestBizProcWorkflow: BXRestBizProcWorkflow,
   ) {
-    this.Navvy = new Navvy(this.BXRestBizprocWorkflow, undefined)
+    this.Navvy = new Navvy(this.BXRestBizProcWorkflow, undefined)
   }
 
   start(param: iBXRestParamBizprocWorkflowStart)  {
     return this.Navvy.simpleWithArg(
-      this.BXRestBizprocWorkflow.start, param
+      this.BXRestBizProcWorkflow.start, param
     )
   }
 

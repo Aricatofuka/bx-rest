@@ -2,6 +2,7 @@ import { NavvySupport, ReturnTypeNavvy } from '../NavvySupport'
 import { Observable, ReplaySubject } from 'rxjs'
 import { iBXRestAnswer } from '../../../typification/rest/base/answer'
 import { map } from 'rxjs/operators'
+import { instanceOfiBXRestAnswerSuccess } from '../../../functions/mapResult'
 
 export abstract class NavvyPagNavBase<C, M, T, R, P> extends NavvySupport<C, M, T, R> {
 
@@ -29,7 +30,7 @@ export abstract class NavvyPagNavBase<C, M, T, R, P> extends NavvySupport<C, M, 
 
   protected mapForVanillaEnd(func: (param: P) => Observable<iBXRestAnswer<T> | undefined>, param: P) {
     return func.call(this.requestClass, param).pipe(
-      map(v => (v && v.result && this.map) ? Object.assign(v, {result: this.map.call(this.mapClass, v.result)}) : v)
+      map(v => (v && instanceOfiBXRestAnswerSuccess(v) && this.map) ? Object.assign(v, {result: this.map.call(this.mapClass, v.result)}) : v)
     ) as ReturnTypeNavvy<Observable<iBXRestAnswer<T | undefined>>, Observable<iBXRestAnswer<R | undefined>>>
   }
 

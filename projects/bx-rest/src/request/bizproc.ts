@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core'
-import { BXRestBizprocWorkflow } from './bizproc/workflow'
-import { BXRestBizprocActivity } from './bizproc/activity'
-import { BXRestBizprocTask } from './bizproc/task'
-import { BXRestBizprocRobot } from './bizproc/robot'
-import { BXRestBizprocEvent } from './bizproc/event'
+import { BXRestBizProcWorkflow } from './bizproc/workflow'
+import { BXRestBizProcActivity } from './bizproc/activity'
+import { BXRestBizProcTask } from './bizproc/task'
+import { BXRestBizProcRobot } from './bizproc/robot'
+import { BXRestBizProcEvent } from './bizproc/event'
 
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestBizproc {
+export class BXRestBizProc {
 
   constructor(
-    public workflow: BXRestBizprocWorkflow,
-    public activity: BXRestBizprocActivity,
-    public task: BXRestBizprocTask,
-    public robot: BXRestBizprocRobot,
-    public event: BXRestBizprocEvent,
+    public workflow: BXRestBizProcWorkflow,
+    public activity: BXRestBizProcActivity,
+    public task: BXRestBizProcTask,
+    public robot: BXRestBizProcRobot,
+    public event: BXRestBizProcEvent,
   ) {
   }
 

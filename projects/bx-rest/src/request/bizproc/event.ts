@@ -4,7 +4,7 @@ import { $bizproc, $event, $send } from '../../consts/part-name-methods'
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestBizprocEvent {
+export class BXRestBizProcEvent {
   protected url = {
     send: [$bizproc, $event, $send], // Возвращает действию выходные параметры, заданные в описании действия
   }

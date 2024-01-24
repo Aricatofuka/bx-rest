@@ -1,11 +1,6 @@
-import { of, shareReplay, tap } from 'rxjs'
-import { map } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { BXRestUser } from '../request/user'
 import { Navvy } from '../services/navvy'
-import { iBXRestUserHttp } from '../typification/rest/user/user'
-import { SessionStorage } from '../services/vanilla/sessionStorage'
-import { iBXRestAnswer } from '../typification/rest/base/answer'
 import { iBXRestParamUserGet } from '../typification/rest/user/get'
 import clone from 'just-clone'
 import { iBXRestParamUserSearch } from '../typification/rest/user/search'
@@ -48,20 +43,21 @@ export class BXRestNavvyUser {
     )
   }
 
-  current(update = false) {
+  current() {
+    return this.Navvy.simple(
+      this.BXRestUser.current,
+      this.BXRestUserMap.current
+    )
+    // TODO: подумать о сохранении данных (на будущее, пример код ниже)
+    /*
     const navvy = new Navvy(this, this.BXRestUserMap)
-
     return navvy.simpleWithArg(
       this.self,
       update,
       this.BXRestUserMap.current
     )
-    // TODO: разобраться зачем код выше вместо кода ниже и написать коммент
-    // return this.Navvy.simpleWithArg(
-    //   this.self,
-    //   update,
-    //   this.BXRestUserMap.current
-    // )
+     */
+
   }
 
   /*
@@ -112,32 +108,6 @@ export class BXRestNavvyUser {
 
   fields() {
     return this.Navvy.simple(this.BXRestUser.fields)
-  }
-
-  private self(update = false) {
-    if (update) {
-      return this.BXRestUser.current(update)
-    } else {
-      let self = SessionStorage.getItem(this.constructor.name + this.self.name) as iBXRestAnswer<iBXRestUserHttp>
-      if (self) {
-        return of(self)
-      }
-      return this.BXRestUser.current(update)
-        .pipe(
-          map(v => {
-            if (v) {
-              return v
-            }
-            return undefined
-          }),
-          shareReplay(1),
-          tap(v => {
-            if (v) {
-              SessionStorage.setItem(this.constructor.name + this.self.name, v)
-            }
-          }),
-        )
-    }
   }
 
   // getAll(params: iBXGetParam = {}): Observable<iBXRestUser [] | undefined> {

@@ -122,7 +122,7 @@ export class BXRestTasksTask {
   }
   */
 
-  get<S extends iBXRestTaskFieldsName[]>(param: iBXRestParamTasksTaskGet<S>) {
+  get<S extends iBXRestTaskFieldsName[]>(param: iBXRestParamTasksTaskGet<iBXRestTaskFieldsName[]>) {
     return this.http.post<iBXRestTasksTaskGetHttp<S>>(this.url.get, param)
   }
 
@@ -198,7 +198,7 @@ export class BXRestTasksTask {
   }
 
 
-  getaccess(param: iBXRestParamTaskGetAccess) {
+  getAccess(param: iBXRestParamTaskGetAccess) {
     return this.http.post<iBXRestTaskGetAccess>(this.url.getaccess, param)
   }
 

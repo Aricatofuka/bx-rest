@@ -5,6 +5,7 @@ import { iBXRestPagination } from '../../typification/rest/base/ApiPaginationBX'
 import { NavvyPagNavBase } from './extends/NavvyPagNavBase'
 import { ReturnTypeNavvy } from './NavvySupport'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
+import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 
 // TODO: реализовать загрузку всего в очереди
 export class NavvyPagNav<C, M, T, R, P extends iBXRestPagination> extends NavvyPagNavBase<C, M, T[], R[], P> {
@@ -30,7 +31,7 @@ export class NavvyPagNav<C, M, T, R, P extends iBXRestPagination> extends NavvyP
     return this.resultVanilla().pipe(
       mergeMap(
         items => {
-          if (items && items.result) {
+          if (items && instanceOfiBXRestAnswerSuccess(items)) {
             if (items.total && items.next) {
               let requests: P[] = []
               for (let i = items.next; i < items.total; i = i + this.pageSize) {
@@ -60,7 +61,7 @@ export class NavvyPagNav<C, M, T, R, P extends iBXRestPagination> extends NavvyP
   }
 
   private mapResultForGetAll(items: iBXRestAnswer<T[]> | undefined){
-    return (items?.result) ? from([items.result]).pipe(
+    return (instanceOfiBXRestAnswerSuccess(items)) ? from([items.result]).pipe(
       map(v => (v && this.map) ? this.map.call(this.mapClass, v) : v)
     ) : from([])
   }

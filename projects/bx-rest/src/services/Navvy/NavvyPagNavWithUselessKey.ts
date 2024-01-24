@@ -3,6 +3,7 @@ import { NavvyPagNavBase } from './extends/NavvyPagNavBase'
 import { catchError, map } from 'rxjs/operators'
 import { concatMap, from, last, mergeMap, throwError } from 'rxjs'
 import clone from 'just-clone'
+import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 
 export class NavvyPagNavWithUselessKey<C, M, T, R, P extends iBXRestPagination> extends NavvyPagNavBase<C, M, {[key: string]: T}, R[], P> {
   resultAll() {
@@ -24,7 +25,7 @@ export class NavvyPagNavWithUselessKey<C, M, T, R, P extends iBXRestPagination> 
     return this.mapForVanillaEnd(this.func, this.param).pipe(
       mergeMap(
         items => {
-          if (items && items.result) {
+          if (items && instanceOfiBXRestAnswerSuccess(items)) {
             if (items.total && items.next) {
               let requests: P[] = []
               for (let i = 0; i < items.total; i = i + this.pageSize) {

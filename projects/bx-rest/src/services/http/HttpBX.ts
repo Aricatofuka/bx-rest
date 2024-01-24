@@ -12,6 +12,7 @@ import {
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import { HttpHeaders } from '@angular/common/http'
 import flatten from 'just-flatten-it'
+import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 
 // type TransformFunction<T, R> = (input: T) => R;
 
@@ -62,13 +63,19 @@ export class HttpBXServices extends HttpServices {
   }
 
   mapBranchResult<T>(res: iBatchRequestAnswer<T>[]) {
-    return Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)) as {
+    return Object.assign([], ...res.map(i =>
+      (instanceOfiBXRestAnswerSuccess(i) && instanceOfiBXRestAnswerSuccess(i.result)) ? i.result.result : undefined)
+    ) as {
       [key: keyBatch]: T
     }
   }
 
   mapBranchResultWithoutKey<T>(res: iBatchRequestAnswer<T>[]): T[] {
-    return flatten<T>(Object.assign([], ...res.map(i => (i.result && i.result.result) ? i.result.result : undefined)))
+    return flatten<T>(Object.assign([], ...res.map(i =>
+      (instanceOfiBXRestAnswerSuccess(i) && instanceOfiBXRestAnswerSuccess(i.result))
+        ? i.result.result
+        : undefined))
+    )
   }
 
   /**

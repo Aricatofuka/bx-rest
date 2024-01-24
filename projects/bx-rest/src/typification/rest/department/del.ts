@@ -1,3 +1,3 @@
 export interface iBXRestParamDepartmentDel {
-  ID: number,
+  ID: number
 }

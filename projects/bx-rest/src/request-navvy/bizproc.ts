@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core'
 import { BXRestNavvyLists } from './lists'
 import { forkJoin, mergeMap, Observable, of, throwError } from 'rxjs'
-import { BXRestNavvyBizprocWorkflow } from './bizproc/workflow'
+import { BXRestNavvyBXRestBizProcWorkflow } from './bizproc/workflow'
 
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestNavvyBizproc {
+export class BXRestNavvyBizProc {
 
   constructor(
-    public workflow: BXRestNavvyBizprocWorkflow,
+    public workflow: BXRestNavvyBXRestBizProcWorkflow,
     private BXRestNavvyLists: BXRestNavvyLists
   ) {
   }
@@ -20,13 +20,13 @@ export class BXRestNavvyBizproc {
    *
    * @param id
    * @param parametersElement
-   * @param parametersBizproc
+   * @param parametersBizProc
    * @param templateIDs
    */
   startProcFormNewsFeed(
     id: number,
     parametersElement: { [key: string]: string },
-    parametersBizproc: { [key: string]: string },
+    parametersBizProc: { [key: string]: string },
     templateIDs: number[]
   ) {
     return this.BXRestNavvyLists.element.add(
@@ -45,14 +45,14 @@ export class BXRestNavvyBizproc {
       ).result().pipe(
         mergeMap(v => {
           if (v) {
-            if (Object.keys(parametersBizproc).length) {
+            if (Object.keys(parametersBizProc).length) {
               let reques: Observable<string | undefined>[] = []
               for (let templateID of templateIDs) {
                 reques.push(this.workflow.start(
                   {
                     TEMPLATE_ID: templateID,
                     DOCUMENT_ID: ['lists', 'BizprocDocument', String(v)],
-                    PARAMETERS: parametersBizproc
+                    PARAMETERS: parametersBizProc
                   }).result())
               }
               return forkJoin(reques)

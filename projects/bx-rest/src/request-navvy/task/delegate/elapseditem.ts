@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core'
 import { iBXRestParamElapseditemGet } from '../../../typification/rest/task/elapseditem/get'
-import { BXRestTaskElapseditem } from '../../../request/task/elapseditem'
+import { BXRestTaskElapsedItem } from '../../../request/task/elapseditem'
 import { Navvy } from '../../../services/navvy'
-import { BXRestMapTaskElapseditem } from '../../../map/task/elapseditem'
+import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
 
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestNavvyDelegateElapseditem {
+export class BXRestNavvyDelegateElapsedItem {
 
-  private Navvy: Navvy<BXRestTaskElapseditem, BXRestMapTaskElapseditem>
+  private Navvy: Navvy<BXRestTaskElapsedItem, BXRestMapTaskElapsedItem>
 
   constructor(
-    private BXRestElapseditem: BXRestTaskElapseditem,
-    private BXRestMapElapseditem: BXRestMapTaskElapseditem,
+    private BXRestElapsedItem: BXRestTaskElapsedItem,
+    private BXRestMapElapsedItem: BXRestMapTaskElapsedItem,
   ) {
-    this.Navvy = new Navvy(this.BXRestElapseditem, this.BXRestMapElapseditem)
+    this.Navvy = new Navvy(this.BXRestElapsedItem, this.BXRestMapElapsedItem)
   }
 
   getList(
@@ -35,9 +35,9 @@ export class BXRestNavvyDelegateElapseditem {
       }
     }
     return this.Navvy.alterPagNav(
-      this.BXRestElapseditem.getList,
+      this.BXRestElapsedItem.getList,
       param,
-      this.BXRestMapElapseditem.getList
+      this.BXRestMapElapsedItem.getList
     )
   }
 

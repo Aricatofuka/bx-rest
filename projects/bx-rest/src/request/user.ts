@@ -1,4 +1,3 @@
-import { share } from 'rxjs'
 import { iBXRestParamUserGet } from '../typification/rest/user/get'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from '../typification/rest/user/user'
@@ -44,15 +43,8 @@ export class BXRestUser {
     )
   }
 
-  current(update = false) {
-    let request = this.http.post<iBXRestUserHttp>(this.url.current, {})
-    if (update) {
-      return request
-    } else {
-      return request.pipe(
-        share()
-      )
-    }
+  current() {
+    return this.http.post<iBXRestUserHttp>(this.url.current, {})
   }
 
   update(user: Partial<iBXRestUser>) {

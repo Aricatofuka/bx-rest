@@ -11,4 +11,4 @@ export type iBatchRequestParamHttp = {[key:keyBatch]: string}
 
 export type iBatchRequestParamArr<T> = {[key:keyBatch]: iBatchRequestParam <T>}
 
-export interface iBatchRequestAnswer<T> extends iBXRestAnswer<iBXRestAnswer<{[key:keyBatch]: T}>>{}
+export type iBatchRequestAnswer<T> = iBXRestAnswer<iBXRestAnswer<{[key:keyBatch]: T}>>

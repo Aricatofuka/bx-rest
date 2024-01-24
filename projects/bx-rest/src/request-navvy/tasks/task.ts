@@ -9,28 +9,10 @@ import { BXRestMapTasksTask } from '../../map/tasks/task'
 import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
 import { BXRestNavvyTasksTaskResult } from './task/result'
 
-// export interface TimeProcess {
-//   total: number,
-//   next: number
-// }
-
-
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestNavvyTasksTask {
-
-  // pageSize = 50
-  // nowLoad$ = new ReplaySubject<TimeProcess>(1)
-
-  def: { select: iBXRestTaskFieldsName[] } = {
-    select: ['ID', 'PARENT_ID', 'TITLE', 'DESCRIPTION', 'MARK', 'PRIORITY', 'STATUS', 'MULTITASK',
-      'GROUP_ID', 'STAGE_ID', 'CREATED_BY', 'CREATED_DATE', 'RESPONSIBLE_ID', 'ACCOMPLICES', 'AUDITORS',
-      'CHANGED_BY', 'CHANGED_DATE', 'STATUS_CHANGED_DATE', 'CLOSED_BY', 'CLOSED_DATE', 'DATE_START', 'VIEWED_DATE',
-      'DEADLINE', 'START_DATE_PLAN', 'END_DATE_PLAN', 'FORKED_BY_TEMPLATE_ID', 'TIME_ESTIMATE', 'TIME_SPENT_IN_LOGS',
-      'TAGS', 'ALLOW_TIME_TRACKING'
-    ]
-  }
 
   private Navvy: Navvy<BXRestTasksTask, BXRestMapTasksTask>
 
@@ -42,11 +24,6 @@ export class BXRestNavvyTasksTask {
     // private taskResultMap: BitrixApiTaskResultMapServices
   ) {
     this.Navvy = new Navvy(this.BXRestTasksTask, this.BXRestMapTasksTask)
-    //  this.storeTask$ = this.store.select('tasks')
-    //  this.nowLoad$.next({
-    //    total: 0,
-    //    next: 0
-    //  })
   }
 
   add(param: { fields: iBXRestParamTaskAdd }) {
@@ -84,11 +61,8 @@ export class BXRestNavvyTasksTask {
   }
   */
 
-  get(param: iBXRestParamTaskGet<iBXRestTaskFieldsName[]>) {
-    if (!param.select) {
-      param.select = this.def.select
 
-    }
+  get(param: iBXRestParamTaskGet<iBXRestTaskFieldsName[]>) {
     return this.Navvy.simpleWithArg(
       this.BXRestTasksTask.get,
       param,
@@ -97,12 +71,9 @@ export class BXRestNavvyTasksTask {
   }
 
 
-  list(param: iBXRestParamTasksList<iBXRestTaskFieldsName[]> = {}) {
-    if (!param.select) {
-      param.select = this.def.select
-    }
+  list<S extends iBXRestTaskFieldsName[]>(param: iBXRestParamTasksList<S> = {}) {
     return this.Navvy.PagNavTasks(
-      this.BXRestTasksTask.list,
+      this.BXRestTasksTask.list<S>,
       param,
       this.BXRestMapTasksTask.list
     )
@@ -177,9 +148,9 @@ export class BXRestNavvyTasksTask {
     )
   }
 
-  getaccess(param: iBXRestParamTaskGetAccess) {
+  getAccess(param: iBXRestParamTaskGetAccess) {
     return this.Navvy.simpleWithArg(
-      this.BXRestTasksTask.getaccess,
+      this.BXRestTasksTask.getAccess,
       param,
       this.BXRestMapTasksTask.getaccess
     )

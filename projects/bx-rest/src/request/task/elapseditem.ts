@@ -13,7 +13,7 @@ import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestTaskElapseditem {
+export class BXRestTaskElapsedItem {
 
   protected url = {
     getmanifest: [$task, $elapseditem, $getmanifest], // Возвращает список методов и их описание

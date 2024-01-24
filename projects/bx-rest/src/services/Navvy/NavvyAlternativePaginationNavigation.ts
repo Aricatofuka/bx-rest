@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators'
 import { NavvyPagNavBase } from './extends/NavvyPagNavBase'
 import { ReturnTypeNavvy } from './NavvySupport'
 import { iBXRestAlternativePagination } from '../../typification/rest/base/ApiPaginationBX'
+import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 
 /**
  * Класс-прослойка-обработчик для методов работающих на альтернативной постраничной навигации тика как методы по
@@ -35,7 +36,7 @@ export class NavvyAlterPagNav<C, M, T, R, P extends iBXRestAlternativePagination
     return this.resultVanilla().pipe(
       mergeMap(
         items => {
-          if (items && items.result) {
+          if (items && instanceOfiBXRestAnswerSuccess(items)) {
             if (items.total && items.next) {
               let requests: P[] = []
               for (let i = items.next; i < items.total; i = i + this.pageSize) {
@@ -78,7 +79,7 @@ export class NavvyAlterPagNav<C, M, T, R, P extends iBXRestAlternativePagination
   }
 
   private mapResultForGetAll(items: iBXRestAnswer<T[]> | undefined){
-    return (items?.result) ? from([items.result]).pipe(
+    return (instanceOfiBXRestAnswerSuccess(items)) ? from([items.result]).pipe(
       map(v => (v && this.map) ? this.map.call(this.mapClass, v) : v)
     ) : from([] as ReturnTypeNavvy<T, R>[])
   }

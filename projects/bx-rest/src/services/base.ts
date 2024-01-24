@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core'
 import { time } from '../consts/time'
-// import { environment } from 'bx-rest/environments/environment'
 import { DateTime } from 'luxon'
 import { DateTimeOptions } from 'luxon/src/datetime'
 import { BX_REST_SETTINGS } from '../settings'
@@ -116,8 +115,6 @@ export class BaseServices {
   }
 
   getHomeAddress() {
-    // return this.prepareBaseAddress(environment.urls.home)
-
     return this.prepareBaseAddress(this.BX_REST_SETTINGS.urls.home)
   }
 

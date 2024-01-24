@@ -27,13 +27,15 @@ export abstract class NavvySupport<C, M, T, R> {
     )
   }
 
-  mapResult<T, R>(param: iBXRestAnswer<T> | undefined, map: (mapParam: T) => R): iBXRestAnswer<R> | undefined {
-    return (param && param.result) ? Object.assign(param, {result: map(param.result)}) : undefined
-  }
+  // TODO: del after 09.04.2024
+  // mapResult<T, R>(param: iBXRestAnswer<T> | undefined, map: (mapParam: T) => R): iBXRestAnswer<R> | undefined {
+  //   return (param && instanceOfiBXRestAnswerSuccess(param)) ? Object.assign(param, {result: map(param.result)}) : undefined
+  // }
 
   abstract resultVanilla(): Observable<iBXRestAnswer<T> | undefined>
 
-  abstract mapForVanilla(): ReturnTypeNavvy<Observable<iBXRestAnswer<T | undefined>>, Observable<iBXRestAnswer<R | undefined>>>
+  // TODO: del after 09.04.2024
+  // abstract mapForVanilla(): ReturnTypeNavvy<Observable<iBXRestAnswer<T | undefined>>, Observable<iBXRestAnswer<R | undefined>>>
 
   abstract result(): ReturnTypeNavvy<Observable<T | undefined>, Observable<R | undefined>>
 }

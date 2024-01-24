@@ -1,4 +1,6 @@
-export interface iBXRestAnswer<T> {
+export type iBXRestAnswer<T> = iBXRestAnswerSuccess<T> | iBXRestAnswerError
+
+export interface iBXRestAnswerSuccess<T> {
     result?: T | undefined
     next?: number
     total?: number
@@ -9,7 +11,10 @@ export interface iBXRestAnswer<T> {
         processing: number
         date_start: string
         date_finish: string
-    },
+    }
+}
+
+export interface iBXRestAnswerError {
     error?: string,
     error_description?: string
 }

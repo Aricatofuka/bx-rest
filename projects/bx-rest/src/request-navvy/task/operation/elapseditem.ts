@@ -3,24 +3,24 @@ import { HttpBXServices } from '../../../services/http/HttpBX'
 import { iBXRestTaskElapsedItem, iBXRestTaskElapsedItemHttp } from '../../../typification/rest/task/elapseditem/item'
 import { $elapseditem, $getaccess, $getlist, $task, $tasks } from '../../../consts/part-name-methods'
 import { map, take } from 'rxjs/operators'
-import { BXRestMapTaskElapseditem } from '../../../map/task/elapseditem'
+import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
 import { forkJoin, mergeMap, Observable, of, tap } from 'rxjs'
 import { iIsActionAllowedParam } from '../../../typification/rest/task/elapseditem/isActionAllowedParam'
 import { Permission } from '../../../services/permission'
 import { BXRestNavvyUser } from '../../user'
 import { BXRestNavvyTasks } from '../../tasks'
-import { BXRestNavvyDelegateElapseditem } from '../delegate/elapseditem'
+import { BXRestNavvyDelegateElapsedItem } from '../delegate/elapseditem'
 import { Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestNavvyOperationElapseditem {
+export class BXRestNavvyOperationElapsedItem {
 
   constructor(
     private http: HttpBXServices,
-    private delegate: BXRestNavvyDelegateElapseditem,
-    private BXRestMapElapseditem: BXRestMapTaskElapseditem,
+    private delegate: BXRestNavvyDelegateElapsedItem,
+    private BXRestMapElapsedItem: BXRestMapTaskElapsedItem,
     private BXRestNavvyUser: BXRestNavvyUser,
     private BXRestNavvyTasks: BXRestNavvyTasks,
   ) {
@@ -55,7 +55,7 @@ export class BXRestNavvyOperationElapseditem {
       map(v => {
         if (v && v.length) {
           return this.http.mapBranchResultWithoutKey(v).map(
-            i => this.BXRestMapElapseditem.getList(i)
+            i => this.BXRestMapElapsedItem.getList(i)
           ).filter((i): i is iBXRestTaskElapsedItem[] => i !== undefined).flat()
         }
         return undefined
@@ -63,9 +63,9 @@ export class BXRestNavvyOperationElapseditem {
     )
   }
 
-  checkPermissionAddElapsedtimeToTaskArr(tasks: number[]) {
+  checkPermissionAddElapsedTimeToTaskArr(tasks: number[]) {
     let request: { [key: number]: Observable<boolean> } = Object.assign({}, ...tasks.map(i => {
-      return {[i]: this.checkPermissionAddElapsedtimeToTask(i)}
+      return {[i]: this.checkPermissionAddElapsedTimeToTask(i)}
     }))
     return forkJoin(request)
       .pipe(
@@ -110,7 +110,7 @@ export class BXRestNavvyOperationElapseditem {
       )
   }
 
-  checkPermissionAddElapsedtimeToTask(idTask: number) {
+  checkPermissionAddElapsedTimeToTask(idTask: number) {
     let permission = Permission.get()
     if (permission?.tasks?.length) {
       let findTask = permission.tasks.find(i => i.id === idTask)
@@ -120,7 +120,7 @@ export class BXRestNavvyOperationElapseditem {
       return this.BXRestNavvyUser.current().result().pipe(
         mergeMap(self => {
           if (self) {
-            return this.BXRestNavvyTasks.task.getaccess(
+            return this.BXRestNavvyTasks.task.getAccess(
               {
                 id: idTask,
                 users: [self.ID]
@@ -155,7 +155,7 @@ export class BXRestNavvyOperationElapseditem {
       return this.BXRestNavvyUser.current().result().pipe(
         mergeMap(self => {
           if (self) {
-            return this.BXRestNavvyTasks.task.getaccess(
+            return this.BXRestNavvyTasks.task.getAccess(
               {
                 id: idTask,
                 users: [self.ID]

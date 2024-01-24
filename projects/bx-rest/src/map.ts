@@ -9,7 +9,6 @@ import { BXRestMapLog } from './map/log'
 import { BXRestMapTask } from './map/task'
 import { BXRestMapTasks } from './map/tasks'
 
-
 @Injectable({
   providedIn: 'root'
 })

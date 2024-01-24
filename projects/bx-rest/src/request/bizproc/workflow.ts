@@ -8,7 +8,7 @@ import { iBXRestParamBizprocWorkflowStart } from '../../typification/rest/bizpro
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestBizprocWorkflow {
+export class BXRestBizProcWorkflow {
 
   protected url = {
     instances: [$bizproc, $workflow, $instances], // Возвращает список запущенных бизнес-процессов // TODO: реализовать

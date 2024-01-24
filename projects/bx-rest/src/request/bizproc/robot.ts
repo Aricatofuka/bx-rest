@@ -4,7 +4,7 @@ import { $bizproc, $delete, $update, $list, $robot, $add } from '../../consts/pa
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestBizprocRobot {
+export class BXRestBizProcRobot {
   protected url = {
     add: [$bizproc, $robot, $add], // Регистрирует нового робота
     delete: [$bizproc, $robot, $delete], // Удаляет зарегистрированного робота

@@ -4,7 +4,7 @@ import { BXRestLists } from './request/lists'
 import { BXRestMapLists } from './map/lists'
 import { BXRestTasks } from './request/tasks'
 import { BXRestDisk } from './request/disk'
-import { BXRestBizproc } from './request/bizproc'
+import { BXRestBizProc } from './request/bizproc'
 import { BXRestLog } from './request/log'
 import { BXRestCalendar } from './request/calendar'
 import { BXRestSonetGroup } from './request/sonet_group'
@@ -18,7 +18,7 @@ import { BXRestNavvyLists } from './request-navvy/lists'
 import { BXRestNavvyTasks } from './request-navvy/tasks'
 import { BXRestNavvyUser } from './request-navvy/user'
 import { BXRestNavvyDisk } from './request-navvy/disk'
-import { BXRestNavvyBizproc } from './request-navvy/bizproc'
+import { BXRestNavvyBizProc } from './request-navvy/bizproc'
 import { BXRestNavvyLog } from './request-navvy/log'
 import { BXRestNavvyCalendar } from './request-navvy/calendar'
 import { BXRestNavvySonetGroup } from './request-navvy/sonet_group'
@@ -27,6 +27,11 @@ import { BXRestNavvyServer } from './request-navvy/server'
 import { BXRestNavvyDepartment } from './request-navvy/departments'
 import { BXRestNavvyIm } from './request-navvy/im'
 import { BXRestNavvyApp } from './request-navvy/app'
+
+import { HttpBXServices } from './services/http/HttpBX'
+import { Navvy } from './services/navvy'
+import { iBXRestProfileHttp } from "./typification/rest/profile";
+import { BXRestMaps } from "./map/rest";
 
 
 @Injectable({
@@ -39,15 +44,20 @@ export class BXRest {
     public task: BXRestTask,
     public tasks: BXRestTasks,
     public disk: BXRestDisk,
-    public bizproc: BXRestBizproc,
+    public bizProc: BXRestBizProc,
     public log: BXRestLog,
     public calendar: BXRestCalendar,
     public sonet_group: BXRestSonetGroup,
     public server: BXRestServer,
     public department: BXRestDepartment,
     public im: BXRestIm,
-    public app: BXRestApp
+    public app: BXRestApp,
+    private http: HttpBXServices,
   ) {
+  }
+
+  profile(){
+    return this.http.post<iBXRestProfileHttp>(['profile'])
   }
 }
 
@@ -55,21 +65,31 @@ export class BXRest {
   providedIn: 'root'
 })
 export class BXRestNavvy {
+
+  protected Navvy: Navvy<BXRest, BXRestMaps>
+
   constructor(
     public user: BXRestNavvyUser,
     public lists: BXRestNavvyLists,
     public task: BXRestNavvyTask,
     public tasks: BXRestNavvyTasks,
     public disk: BXRestNavvyDisk,
-    public bizproc: BXRestNavvyBizproc,
+    public bizProc: BXRestNavvyBizProc,
     public log: BXRestNavvyLog,
     public calendar: BXRestNavvyCalendar,
     public sonet_group: BXRestNavvySonetGroup,
     public server: BXRestNavvyServer,
     public department: BXRestNavvyDepartment,
     public im: BXRestNavvyIm,
-    public app: BXRestNavvyApp
+    public app: BXRestNavvyApp,
+    private BXRest: BXRest,
+    private BXRestMap: BXRestMaps,
   ) {
+    this.Navvy = new Navvy(this.BXRest, this.BXRestMap)
+  }
+
+  profile(){
+    return this.Navvy.simple(this.BXRest.profile, this.BXRestMap.profile)
   }
 }
 

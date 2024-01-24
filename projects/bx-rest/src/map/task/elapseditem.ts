@@ -5,7 +5,7 @@ import { BaseMapServices } from '../base'
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestMapTaskElapseditem extends BaseMapServices {
+export class BXRestMapTaskElapsedItem extends BaseMapServices {
   update(p: null) {
     return (p == null)
   }

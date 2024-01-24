@@ -4,7 +4,7 @@ import { $bizproc, $task, $complete, $list } from '../../consts/part-name-method
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestBizprocTask {
+export class BXRestBizProcTask {
   protected url = {
     complete: [$bizproc, $task, $complete], // Осуществляет выполнение заданий БП
     list: [$bizproc, $task, $list], // Возвращает список заданий бизнес-процессов

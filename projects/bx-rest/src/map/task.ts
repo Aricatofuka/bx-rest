@@ -1,5 +1,5 @@
 import { BXRestMapTaskCommentItem } from './task/commentitem'
-import { BXRestMapTaskElapseditem } from './task/elapseditem'
+import { BXRestMapTaskElapsedItem } from './task/elapseditem'
 import { BXRestMapTaskStage } from './task/stages'
 import { Injectable } from '@angular/core'
 
@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core'
 export class BXRestMapTask {
   constructor(
     public commentItem: BXRestMapTaskCommentItem,
-    public elapsedItem: BXRestMapTaskElapseditem,
+    public elapsedItem: BXRestMapTaskElapsedItem,
     public stages: BXRestMapTaskStage
   ) {
   }

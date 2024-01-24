@@ -18,12 +18,13 @@ export class NavvySimple<C, M, T, R> extends NavvySupport<C, M, T, R> {
   resultVanilla() {
     return this.func
   }
-
-  mapForVanilla() {
-    return this.func.pipe(
-      map(v => (v && v.result && this.map) ? Object.assign(v,{result:  this.map.call(this.mapClass, v.result)}) : v)
-    ) as ReturnTypeNavvy<Observable<iBXRestAnswer<T | undefined>>, Observable<iBXRestAnswer<R | undefined>>>
-  }
+  // TODO: del after 09.04.2024
+  // mapForVanilla() {
+  //   return this.func.pipe(
+  //     map(v => (v && instanceOfiBXRestAnswerSuccess(v) && this.map)
+  //       ? Object.assign(v,{result:  this.map.call(this.mapClass, v.result)}) : v)
+  //   ) as ReturnTypeNavvy<Observable<iBXRestAnswer<T | undefined>>, Observable<iBXRestAnswer<R | undefined>>>
+  // }
 
   result() {
     return this.mapAndError(this.func).pipe(
