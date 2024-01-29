@@ -36,7 +36,9 @@ npm install bx-rest
 document.cookie ='auth=ACCESS_TOKEN;  max-age=99999'
 ```
 ```typescript
-import { BXRest, BXMap } from 'bx-rest'
+
+// isBXRestAnswerSuccess checks the answer to see if it belongs to an answer without errors
+import { BXRest, BXMap, isBXRestAnswerSuccess } from 'bx-rest'
 
 @Component({
   selector: 'app-any',
@@ -52,14 +54,14 @@ export class AnyComponent {
       ['>' + vacancies.del]: 0
     }
   }).pipe(
-    map(v => this.BXMap.lists.element.get(v))
+    map(v => (isBXRestAnswerSuccess(v) ? this.BXMap.lists.element.get(v) : undefined)
   )
-
+    
   constructor(
     private BXRest: BXRest,
     private BXMap: BXMap,
   ) {
-
+      
   }
 }
 ```
@@ -82,11 +84,11 @@ export class AnyComponent {
       ['>' + vacancies.del]: 0
     }
   }).result() // or .resultAll() - to get all elements
-    
+
   constructor(
     private BXRestNavvy: BXRestNavvy,
   ) {
-      
+
   }
 }
 ```

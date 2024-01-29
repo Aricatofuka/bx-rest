@@ -1,11 +1,18 @@
 import { iBXRestParamSort } from '../base/sort'
 import { iBXRestSonetGroupFieldsFilter, iBXRestSonetGroupFieldsOrder, iBXRestSonetGroupFieldsSelect } from './base'
 import { Modify } from '../../base/modyfy'
+import { iBXRestFilterGenerator } from "../base/filterGenerator";
 
 
 export interface iBXRestParamSonetGroupGet {
-  FILTER?: iBXRestParamSonetFilerWorkgroup,
+  FILTER?: iBXRestParamSonetGroupGetFilterWithParam,
   ORDER?: iBXRestParamSonetOrderWorkgroup
+}
+
+export interface iBXRestParamSonetGroupGetFilterWithParam extends iBXRestFilterGenerator<iBXRestParamSonetGroupGetFilter> {}
+
+export interface iBXRestParamSonetGroupGetFilter extends iBXRestParamSonetFilerWorkgroup{
+  NAME: string
 }
 
 export type iBXRestParamSonetFilerWorkgroup = {

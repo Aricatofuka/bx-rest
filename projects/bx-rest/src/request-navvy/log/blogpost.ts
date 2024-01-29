@@ -4,6 +4,7 @@ import { iBXRestParamLogBlogPostAdd } from '../../typification/rest/log/blogpost
 import { BXRestLogBlogPost } from '../../request/log/blogpost'
 import { Navvy } from '../../services/navvy'
 import { iBXRestParamBlogPostGet } from '../../typification/rest/log/blogpost/get'
+import { BXRestMapLogBlogPost } from "../../map/log/blogpost";
 
 @Injectable({
   providedIn: 'root'
@@ -20,12 +21,13 @@ export class BXRestNavvyLogBlogPost {
     update: [$log, $blogpost, $update], // Изменяет сообщение Живой Ленты
   }
 
-  private Navvy: Navvy<BXRestLogBlogPost, undefined>
+  private Navvy: Navvy<BXRestLogBlogPost, BXRestMapLogBlogPost>
 
   constructor(
     private BXRestLogBlogPost: BXRestLogBlogPost,
+    private map: BXRestMapLogBlogPost
   ) {
-    this.Navvy = new Navvy(this.BXRestLogBlogPost, undefined)
+    this.Navvy = new Navvy(this.BXRestLogBlogPost, map)
   }
 
   add(param: iBXRestParamLogBlogPostAdd) {
@@ -33,7 +35,7 @@ export class BXRestNavvyLogBlogPost {
   }
 
   get(param: iBXRestParamBlogPostGet = {}) {
-    return this.Navvy.simpleWithArg(this.BXRestLogBlogPost.get, param)
+    return this.Navvy.PagNav(this.BXRestLogBlogPost.get, param, this.map.get)
   }
 
 }
