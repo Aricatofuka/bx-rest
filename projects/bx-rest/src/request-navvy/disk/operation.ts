@@ -22,10 +22,10 @@ export class BXRestNavvyDiskOperation {
     name: string,
     val: string
   }) {
-    return this.storage.getforapp().result().pipe(
+    return this.storage.getForApp().result().pipe(
         mergeMap(infoFolder => {
           if (infoFolder) {
-            return this.storage.uploadfile(
+            return this.storage.uploadFile(
               {
                 id: infoFolder.ID,
                 fileContent: [file.name, file.val],
@@ -62,18 +62,14 @@ export class BXRestNavvyDiskOperation {
     //       }
 
 
-    return this.storage.getforapp().result().pipe(
+    return this.storage.getForApp().result().pipe(
       mergeMap(v => {
         if (v && v.ID) {
-          return this.storage.getchildren({id: v.ID}).result()
+          return this.storage.getChildren({id: v.ID}).result()
         }
         return of(undefined)
       })
     )
-
-    //     }
-    //   )
-    // )
   }
 
   /**
@@ -91,10 +87,10 @@ export class BXRestNavvyDiskOperation {
             }
           }
         }
-        return this.storage.getforapp().result().pipe(
+        return this.storage.getForApp().result().pipe(
           mergeMap(v => {
             if (v && v.ID) {
-              return this.storage.addfolder({id: v.ID, data: {NAME: folderName}}).result()
+              return this.storage.addFolder({id: v.ID, data: {NAME: folderName}}).result()
             }
             return throwError(() => new Error('Отсутствуют права добавление записи затраченного времени'))
           })

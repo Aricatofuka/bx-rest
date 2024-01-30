@@ -17,15 +17,15 @@ export class BXRestNavvyInterlayerDiskStorage {
   ) {
   }
 
-  getforapp() {
-    let res = SessionStorage.getItem<iBXRestAnswer<iBXRestFolderInfo>>(this.constructor.name + this.getforapp.name)
+  getForApp() {
+    let res = SessionStorage.getItem<iBXRestAnswer<iBXRestFolderInfo>>(this.constructor.name + this.getForApp.name)
     if (res) {
       return of(res)
     } else {
-      return this.BXRestDiskStorage.getforapp().pipe(
+      return this.BXRestDiskStorage.getForApp().pipe(
         tap(v => {
           if (v) {
-            SessionStorage.setItem(this.constructor.name + this.getforapp.name, v)
+            SessionStorage.setItem(this.constructor.name + this.getForApp.name, v)
           }
         }),
         shareReplay(1)
@@ -52,16 +52,16 @@ export class BXRestNavvyInterlayerDiskStorage {
   }
    */
 
-  getchildren(param: iBXRestParamGetchildren) {
-    return this.BXRestDiskStorage.getchildren(param)
+  getChildren(param: iBXRestParamGetchildren) {
+    return this.BXRestDiskStorage.getChildren(param)
   }
 
   // TODO: разобраться что возвращает и что вставлять
-  addfolder(param: { id: number, data: { NAME: string } }) {
-    return this.BXRestDiskStorage.addfolder(param)
+  addFolder(param: { id: number, data: { NAME: string } }) {
+    return this.BXRestDiskStorage.addFolder(param)
   }
 
-  uploadfile(param: iBXRestParamUploadFile) {
-    return this.BXRestDiskStorage.uploadfile(param)
+  uploadFile(param: iBXRestParamUploadFile) {
+    return this.BXRestDiskStorage.uploadFile(param)
   }
 }

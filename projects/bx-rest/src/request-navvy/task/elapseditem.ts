@@ -15,7 +15,7 @@ import { BXRestNavvyDelegateElapsedItem } from './delegate/elapseditem'
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestNavvyElapseditem {
+export class BXRestNavvyElapsedItem {
 
   private Navvy: Navvy<BXRestTaskElapsedItem, BXRestMapTaskElapsedItem>
 

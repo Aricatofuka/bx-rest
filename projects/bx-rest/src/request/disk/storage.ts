@@ -14,17 +14,17 @@ import { iBXRestParamGetchildren } from '../../typification/rest/disk/storage/ge
 export class BXRestDiskStorage {
 
   protected url = {
-    getfields: [$disk, $storage, $getFields],  // Возвращает описание полей хранилища
+    getFields: [$disk, $storage, $getFields],  // Возвращает описание полей хранилища
     get: [$disk, $storage, $get], //	Возвращает хранилище по идентификатору
     rename: [$disk, $storage, $rename], // Переименовывает хранилище.
     // Допустимо переименование только хранилища приложения (см. disk.storage.getforapp)
-    getlist: [$disk, $storage, $getlist], //	Возвращает список доступных хранилищ
-    gettypes: [$disk, $storage, $getTypes], // Возвращает список типов хранилищ
-    addfolder: [$disk, $storage, 'addfolder'], // Создает папку в корне хранилища
-    getchildren: [$disk, $storage, $getchildren], //	Возвращает список файлов и папок,
+    getList: [$disk, $storage, $getlist], //	Возвращает список доступных хранилищ
+    getTypes: [$disk, $storage, $getTypes], // Возвращает список типов хранилищ
+    addFolder: [$disk, $storage, 'addfolder'], // Создает папку в корне хранилища
+    getChildren: [$disk, $storage, $getchildren], //	Возвращает список файлов и папок,
     // которые находятся непосредственно в корне хранилища
-    uploadfile: [$disk, $storage, $uploadfile], //	Загружает новый файл в корне хранилища
-    getforapp: [$disk, $storage, 'getforapp'] //	Возвращает описание хранилища,
+    uploadFile: [$disk, $storage, $uploadfile], //	Загружает новый файл в корне хранилища
+    getForApp: [$disk, $storage, 'getforapp'] //	Возвращает описание хранилища,
     // с которым может работать приложение для хранения своих данных (файлов и папок)
   }
 
@@ -33,26 +33,26 @@ export class BXRestDiskStorage {
   ) {
   }
 
-  getforapp() {
+  getForApp() {
     return this.http.post<iBXRestFolderInfo>(
-      this.url.getforapp, {}
+      this.url.getForApp, {}
     )
   }
 
-  getchildren(param: iBXRestParamGetchildren) {
+  getChildren(param: iBXRestParamGetchildren) {
     return this.http.post<(iBXRestFolderHttp | iBXRestDiskFileHttp)[]>(
-      this.url.getchildren,
+      this.url.getChildren,
       param
     )
   }
 
   // TODO: Сделать нормальное описание параметров
-  addfolder(param: {id: number, data: {NAME: string}}) {
-    return this.http.post<iBXRestFolderHttp>(this.url.addfolder, param)
+  addFolder(param: {id: number, data: {NAME: string}}) {
+    return this.http.post<iBXRestFolderHttp>(this.url.addFolder, param)
   }
 
-  uploadfile(param: iBXRestParamUploadFile) {
-    return this.http.post<iBXRestDiskFile>(this.url.uploadfile, param)
+  uploadFile(param: iBXRestParamUploadFile) {
+    return this.http.post<iBXRestDiskFile>(this.url.uploadFile, param)
   }
 
 }

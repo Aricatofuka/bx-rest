@@ -19,8 +19,8 @@ export class BXRestNavvyDiskStorage {
     this.Navvy = new Navvy(this.BXRestNavvyInterlayerDiskStorage, this.BXRestMapDiskStorage)
   }
 
-  getforapp() {
-    return this.Navvy.simple(this.BXRestNavvyInterlayerDiskStorage.getforapp)
+  getForApp() {
+    return this.Navvy.simple(this.BXRestNavvyInterlayerDiskStorage.getForApp)
   }
 
   /*
@@ -42,23 +42,23 @@ export class BXRestNavvyDiskStorage {
   }
    */
 
-  getchildren(param: iBXRestParamGetchildren) {
+  getChildren(param: iBXRestParamGetchildren) {
     return this.Navvy.simpleWithArg(
-      this.BXRestNavvyInterlayerDiskStorage.getchildren,
+      this.BXRestNavvyInterlayerDiskStorage.getChildren,
       param,
       this.BXRestMapDiskStorage.getchildren
     )
   }
 
-  addfolder(param: { id: number, data: { NAME: string } }) {
+  addFolder(param: { id: number, data: { NAME: string } }) {
     return this.Navvy.simpleWithArg(
-      this.BXRestNavvyInterlayerDiskStorage.addfolder,
+      this.BXRestNavvyInterlayerDiskStorage.addFolder,
       param,
       this.BXRestMapDiskStorage.addfolder
     )
   }
 
-  uploadfile(param: iBXRestParamUploadFile) {
-    return this.Navvy.simpleWithArg(this.BXRestNavvyInterlayerDiskStorage.uploadfile, param)
+  uploadFile(param: iBXRestParamUploadFile) {
+    return this.Navvy.simpleWithArg(this.BXRestNavvyInterlayerDiskStorage.uploadFile, param)
   }
 }

@@ -25,9 +25,9 @@ export class BXRestNavvyDiskFile {
     )
   }
 
-  markdeleted(id: number) {
+  markDeleted(id: number) {
     return this.Navvy.simpleWithArg(
-      this.BXRestDiskFile.markdeleted,
+      this.BXRestDiskFile.markDeleted,
       id,
       this.BXRestMapDiskFile.markdeleted
     )

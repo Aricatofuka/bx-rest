@@ -4,8 +4,16 @@ export interface iBXRestCommentTaskAdd {
 }
 
 export interface iBXRestAddCommentTaskFields {
-  AUTHOR_ID: number //	Идентификатор пользователя, от имени которого создается комментарий
-  POST_MESSAGE: string //	Текст сообщения.
-  UF_FORUM_MESSAGE_DOC?: string[] // Массив файлов с диска для прикрепления вида ['n123', ...]
-  SECONDS: number // Количество секунд
+  /**
+   * Идентификатор пользователя, от имени которого создается комментарий
+   */
+  AUTHOR_ID: number //
+  /**
+   *  Текст сообщения
+   */
+  POST_MESSAGE: string
+  /**
+   * Массив файлов с диска для прикрепления вида ['n123', ...]
+   */
+  UF_FORUM_MESSAGE_DOC?: string[]
 }
