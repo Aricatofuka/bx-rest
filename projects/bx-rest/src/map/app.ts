@@ -6,7 +6,9 @@ import { BaseMapServices } from './base'
   providedIn: 'root'
 })
 export class BXRestMapApp extends BaseMapServices {
-  info(value: iBXRestAppInfoHttp): iBXRestAppInfo {
-    return {... value, ... {ID: this.toNum(value.ID), PAYMENT_EXPIRED: value.PAYMENT_EXPIRED === 'Y'}}
+  info(value: iBXRestAppInfoHttp | undefined): iBXRestAppInfo | undefined {
+    return (value)
+      ? {... value, ... {ID: this.toNum(value.ID), PAYMENT_EXPIRED: value.PAYMENT_EXPIRED === 'Y'}}
+      : undefined
   }
 }

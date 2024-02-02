@@ -16,12 +16,12 @@ import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/
 export class BXRestTaskElapsedItem {
 
   protected url = {
-    getmanifest: [$task, $elapseditem, $getmanifest], // Возвращает список методов и их описание
-    getlist: [$task, $elapseditem, $getlist], // Возвращает список записей о затраченном времени по задаче
+    getManifest: [$task, $elapseditem, $getmanifest], // Возвращает список методов и их описание
+    getList: [$task, $elapseditem, $getlist], // Возвращает список записей о затраченном времени по задаче
     get: [$task, $elapseditem, $get], // Возвращает запись о затраченном времени по ее идентификатору
     add: [$task, $elapseditem, $add], // Добавляет затраченное время к задаче
     delete: [$task, $elapseditem, $delete], // Удаляет запись о затраченном времени
-    isactionallowed: [$task, $elapseditem, $isactionallowed], // Проверяет разрешено ли действие
+    isActionAllowed: [$task, $elapseditem, $isactionallowed], // Проверяет разрешено ли действие
     update: [$task, $elapseditem, $update], // Изменяет параметры записи о затраченном времени
   }
 
@@ -31,7 +31,7 @@ export class BXRestTaskElapsedItem {
   getList(
     param: iBXRestParamElapseditemGet = {}
   ) {
-    return this.http.post<iBXRestTaskElapsedItemHttp[]>(this.url.getlist, param)
+    return this.http.post<iBXRestTaskElapsedItemHttp[]>(this.url.getList, param)
   }
 
   add(param: iBXRestParamAddElapseditem) {
@@ -79,7 +79,7 @@ export class BXRestTaskElapsedItem {
    * @param param
    */
   isActionAllowed(param: iIsActionAllowedParam) {
-    return this.http.post<boolean>(this.url.isactionallowed, param)
+    return this.http.post<boolean>(this.url.isActionAllowed, param)
   }
 
 }

@@ -46,7 +46,7 @@ export class BXRestNavvyDiskStorage {
     return this.Navvy.simpleWithArg(
       this.BXRestNavvyInterlayerDiskStorage.getChildren,
       param,
-      this.BXRestMapDiskStorage.getchildren
+      this.BXRestMapDiskStorage.getChildren
     )
   }
 
@@ -54,7 +54,7 @@ export class BXRestNavvyDiskStorage {
     return this.Navvy.simpleWithArg(
       this.BXRestNavvyInterlayerDiskStorage.addFolder,
       param,
-      this.BXRestMapDiskStorage.addfolder
+      this.BXRestMapDiskStorage.addFolder
     )
   }
 

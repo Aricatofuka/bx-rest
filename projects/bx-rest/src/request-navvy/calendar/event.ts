@@ -8,13 +8,13 @@ import { BXRestMapCalendarEvent } from '../../map/calendar/event'
   providedIn: 'root'
 })
 export class BXRestNavvyRestCalendarEvent {
-  private Navvy: Navvy<BXRestMapCalendarEvent, undefined>
+  private Navvy: Navvy<BXRestCalendarEvent, BXRestMapCalendarEvent>
 
   constructor(
     private BXRestCalendarEvent: BXRestCalendarEvent,
     private eventMap: BXRestMapCalendarEvent,
   ) {
-    this.Navvy = new Navvy(this.eventMap, undefined)
+    this.Navvy = new Navvy(BXRestCalendarEvent, eventMap)
   }
 
   get(param: iBXRestCalendarEventGetParam) {

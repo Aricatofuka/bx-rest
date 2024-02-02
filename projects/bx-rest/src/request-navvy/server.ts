@@ -12,9 +12,9 @@ export class BXRestNavvyServer {
 
   constructor(
     private BXRestServer: BXRestServer,
-    public BXRestMapServer: BXRestMapServer
+    private BXRestMapServer: BXRestMapServer
   ) {
-    this.Navvy = new Navvy(this.BXRestServer, BXRestMapServer)
+    this.Navvy = new Navvy(BXRestServer, BXRestMapServer)
   }
 
   time(){

@@ -9,7 +9,7 @@ import { iBXRestDiskFileAndFolderMap } from '../../typification/rest/disk/map';
 })
 export default class BXRestMapDiskBase extends BaseMapServices {
 
-  separationFoldersAndFiles(arr: (iBXRestFolderHttp | iBXRestDiskFileHttp)[]){
+  separationFoldersAndFiles(arr: (iBXRestFolderHttp | iBXRestDiskFileHttp)[]) {
     let result: iBXRestDiskFileAndFolderMap = {file: [], folder: []}
     for (let i of arr) {
       if (this.instanceOfiFile(i)) {
@@ -65,22 +65,24 @@ export default class BXRestMapDiskBase extends BaseMapServices {
   }
 
 
-  FolderHttpToFolder(value: iBXRestFolderHttp): iBXRestFolder {
-    return {
-      ...value,
-      ...{
-        CREATED_BY: this.toNum(value.CREATED_BY),
-        CREATE_TIME: this.toDate(value.CREATE_TIME),
-        DELETED_BY: this.toNum(value.DELETED_BY),
-        DELETED_TYPE: this.toNum(value.DELETED_TYPE),
-        DELETE_TIME: this.toDate(value.CREATE_TIME),
-        ID: this.toNum(value.ID),
-        PARENT_ID: this.toNum(value.PARENT_ID),
-        REAL_OBJECT_ID: this.toNum(value.REAL_OBJECT_ID),
-        STORAGE_ID: this.toNum(value.STORAGE_ID),
-        UPDATED_BY: this.toNum(value.UPDATED_BY),
-        UPDATE_TIME: this.toDate(value.CREATE_TIME)
+  FolderHttpToFolder(value: iBXRestFolderHttp | undefined): iBXRestFolder | undefined {
+    return (value)
+      ? {
+        ...value,
+        ...{
+          CREATED_BY: this.toNum(value.CREATED_BY),
+          CREATE_TIME: this.toDate(value.CREATE_TIME),
+          DELETED_BY: this.toNum(value.DELETED_BY),
+          DELETED_TYPE: this.toNum(value.DELETED_TYPE),
+          DELETE_TIME: this.toDate(value.CREATE_TIME),
+          ID: this.toNum(value.ID),
+          PARENT_ID: this.toNum(value.PARENT_ID),
+          REAL_OBJECT_ID: this.toNum(value.REAL_OBJECT_ID),
+          STORAGE_ID: this.toNum(value.STORAGE_ID),
+          UPDATED_BY: this.toNum(value.UPDATED_BY),
+          UPDATE_TIME: this.toDate(value.CREATE_TIME)
+        }
       }
-    }
+      : undefined
   }
 }

@@ -8,12 +8,12 @@ import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 })
 export default class BXRestMapDiskStorage extends BXRestMapDiskBase {
 
-  getchildren(arr: (iBXRestFolderHttp | iBXRestDiskFileHttp)[] | undefined) {
+  getChildren(arr: (iBXRestFolderHttp | iBXRestDiskFileHttp)[] | undefined) {
     return (arr) ? this.separationFoldersAndFiles(arr) : {file: [], folder: []}
   }
 
-  addfolder(value: iBXRestFolderHttp): iBXRestFolder {
-    return this.FolderHttpToFolder(value)
+  addFolder(value: iBXRestFolderHttp | undefined): iBXRestFolder | undefined {
+    return (value) ? this.FolderHttpToFolder(value) : undefined
   }
 
 }

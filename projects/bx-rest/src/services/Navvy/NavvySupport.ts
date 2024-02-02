@@ -21,7 +21,6 @@ export abstract class NavvySupport<C, M, T, R> {
     return request.pipe(
       map(v => BXRestMapResult(v)),
       catchError(err => {
-        // this.snackBar.error(errorText)
         return throwError(() => err)
       })
     )

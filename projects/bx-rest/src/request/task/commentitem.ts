@@ -23,13 +23,13 @@ import { BXRestTaskCommentItemDelete } from '../../typification/rest/task/commen
 export class BXRestTaskCommentItem {
 
   protected url = {
-    getmanifest: [$task, $commentitem, $getmanifest], // Возвращает список методов и их описание
-    getlist: [$task, $commentitem, $getlist], // Возвращает список комментариев к задаче
+    getManifest: [$task, $commentitem, $getmanifest], // Возвращает список методов и их описание
+    getList: [$task, $commentitem, $getlist], // Возвращает список комментариев к задаче
     get: [$task, $commentitem, $get], // Возвращает комментарий к задаче
     add: [$task, $commentitem, $add], // Создает новый комментарий к задаче
     update: [$task, $commentitem, $update], // Обновляет данные комментария
     delete: [$task, $commentitem, $delete], // Удаляет комментарий
-    isactionallowed: [$task, $commentitem, $isactionallowed], // Проверяет, разрешено ли действие
+    isActionAllowed: [$task, $commentitem, $isactionallowed], // Проверяет, разрешено ли действие
   }
 
   constructor(
@@ -50,7 +50,7 @@ export class BXRestTaskCommentItem {
   }
 
   getlist(param: BXRestTaskCommentItemGetList) {
-    return this.http.post<iBXRestTaskCommentHtml[]>(this.url.getlist, param)
+    return this.http.post<iBXRestTaskCommentHtml[]>(this.url.getList, param)
   }
 
   del(param: BXRestTaskCommentItemDelete) {

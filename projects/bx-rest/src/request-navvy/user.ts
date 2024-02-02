@@ -21,7 +21,7 @@ export class BXRestNavvyUser {
   constructor(
     private BXRestUserMap: BXRestMapUser,
     private BXRestUser: BXRestUser,
-    public userfield: BXRestNavvyUserUserfield
+    public userField: BXRestNavvyUserUserfield
   ) {
     this.Navvy = new Navvy(this.BXRestUser, this.BXRestUserMap)
   }

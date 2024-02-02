@@ -17,8 +17,8 @@ export class BXRestMapUser extends BaseMapServices {
     return (v) ? v.map(i => this.userHttpToTrace(i)) : undefined
   }
 
-  current(v: iBXRestUserHttp): iBXRestUser {
-    return this.userHttpToTrace(v)
+  current(v: iBXRestUserHttp | undefined): iBXRestUser | undefined {
+    return (v) ? this.userHttpToTrace(v) : undefined
   }
 
   private userHttpToTrace(user: iBXRestUserHttp): iBXRestUser {

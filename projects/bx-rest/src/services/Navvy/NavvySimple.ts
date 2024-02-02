@@ -9,7 +9,7 @@ export class NavvySimple<C, M, T, R> extends NavvySupport<C, M, T, R> {
     requestClass: C,
     mapClass: M,
     public func: Observable<iBXRestAnswer<T> | undefined>,
-    public map: ((param: T) => R) | undefined = undefined
+    public map: ((param: T | undefined) => R) | undefined = undefined
     // private snackBar: SnackBarService,
   ) {
     super(requestClass, mapClass)
@@ -28,7 +28,7 @@ export class NavvySimple<C, M, T, R> extends NavvySupport<C, M, T, R> {
 
   result() {
     return this.mapAndError(this.func).pipe(
-      map(v => (v && this.map) ? this.map.call(this.mapClass, v) : v)
+      map(v => (this.map) ? this.map.call(this.mapClass, v) : v)
     ) as ReturnTypeNavvy<Observable<T | undefined>, Observable<R | undefined>>
   }
 }

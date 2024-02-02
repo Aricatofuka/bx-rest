@@ -17,7 +17,7 @@ export class Navvy<C, M> {
 
   simple<T, R>(
     func: () => Observable<iBXRestAnswer<T> | undefined>,
-    map: ((param: T) => R) | undefined = undefined
+    map: ((param: T | undefined) => R) | undefined = undefined
   ) {
     return new NavvySimple(this.requestClass, this.mapClass, func.call(this.requestClass), map)
   }
@@ -25,7 +25,7 @@ export class Navvy<C, M> {
   simpleWithArg<T, R, A>(
     func: (param: A) => Observable<iBXRestAnswer<T> | undefined>,
     arg: A,
-    map: ((param: T) => R) | undefined = undefined) {
+    map: ((param: T | undefined) => R) | undefined = undefined) {
     return new NavvySimple(this.requestClass, this.mapClass, func.call(this.requestClass, arg), map)
   }
 

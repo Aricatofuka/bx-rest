@@ -32,6 +32,8 @@ import { HttpBXServices } from './services/http/HttpBX'
 import { Navvy } from './services/navvy'
 import { iBXRestProfileHttp } from "./typification/rest/profile";
 import { BXRestMaps } from "./map/rest";
+import { BXRestTimeMan } from './request/timeman';
+import { BXRestNavvyTimeMan } from './request-navvy/timeman';
 
 
 @Injectable({
@@ -52,6 +54,7 @@ export class BXRest {
     public department: BXRestDepartment,
     public im: BXRestIm,
     public app: BXRestApp,
+    public timeMan: BXRestTimeMan,
     private http: HttpBXServices,
   ) {
   }
@@ -82,6 +85,7 @@ export class BXRestNavvy {
     public department: BXRestNavvyDepartment,
     public im: BXRestNavvyIm,
     public app: BXRestNavvyApp,
+    public timeMan: BXRestNavvyTimeMan,
     private BXRest: BXRest,
     private BXRestMap: BXRestMaps,
   ) {

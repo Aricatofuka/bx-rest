@@ -1,12 +1,11 @@
 import { iBXRestParamElapseditemGet } from '../../../typification/rest/task/elapseditem/get'
 import { HttpBXServices } from '../../../services/http/HttpBX'
-import { iBXRestTaskElapsedItem, iBXRestTaskElapsedItemHttp } from '../../../typification/rest/task/elapseditem/item'
-import { $elapseditem, $getaccess, $getlist, $task, $tasks } from '../../../consts/part-name-methods'
+import { iBXRestTaskElapsedItemHttp } from '../../../typification/rest/task/elapseditem/item'
+import { $elapseditem, $getlist, $isactionallowed, $task } from '../../../consts/part-name-methods'
 import { map, take } from 'rxjs/operators'
 import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
-import { forkJoin, mergeMap, Observable, of, tap } from 'rxjs'
+import { forkJoin, mergeMap, Observable, of } from 'rxjs'
 import { iIsActionAllowedParam } from '../../../typification/rest/task/elapseditem/isActionAllowedParam'
-import { Permission } from '../../../services/permission'
 import { BXRestNavvyUser } from '../../user'
 import { BXRestNavvyTasks } from '../../tasks'
 import { BXRestNavvyDelegateElapsedItem } from '../delegate/elapseditem'
@@ -41,7 +40,7 @@ export class BXRestNavvyOperationElapsedItem {
   }
 
   getListByIDTask(ids: number[]) {
-    return this.http.branch<iBXRestParamElapseditemGet, iBXRestTaskElapsedItemHttp[]>
+    return this.http.branch<iBXRestParamElapseditemGet, iBXRestTaskElapsedItemHttp>
     (
       ids.map(i => {
         return {
@@ -54,9 +53,8 @@ export class BXRestNavvyOperationElapsedItem {
     ).pipe(
       map(v => {
         if (v && v.length) {
-          return this.http.mapBranchResultWithoutKey(v).map(
-            i => this.BXRestMapElapsedItem.getList(i)
-          ).filter((i): i is iBXRestTaskElapsedItem[] => i !== undefined).flat()
+          const res = this.http.mapBranchResultWithoutKey(v)
+          return this.BXRestMapElapsedItem.getList(res)
         }
         return undefined
       })
@@ -83,7 +81,7 @@ export class BXRestNavvyOperationElapsedItem {
                 .map(i => {
                   return {
                     [i]: {
-                      name: this.http.getNameMethod([$tasks, $task, $getaccess]),
+                      name: this.http.getNameMethod([$task, $elapseditem, $isactionallowed]),
                       param: {
                         TASKID: i,
                         ITEMID: 1,
@@ -111,12 +109,12 @@ export class BXRestNavvyOperationElapsedItem {
   }
 
   checkPermissionAddElapsedTimeToTask(idTask: number) {
-    let permission = Permission.get()
-    if (permission?.tasks?.length) {
-      let findTask = permission.tasks.find(i => i.id === idTask)
-      if (findTask?.permission) {
-        return of(findTask.permission['ELAPSEDTIME.ADD'])
-      }
+    // let permission = Permission.get()
+    // if (permission?.tasks?.length) {
+    //   let findTask = permission.tasks.find(i => i.id === idTask)
+    //   if (findTask?.permission) {
+    //     return of(findTask.permission['ELAPSEDTIME.ADD'])
+    //   }
       return this.BXRestNavvyUser.current().result().pipe(
         mergeMap(self => {
           if (self) {
@@ -125,13 +123,13 @@ export class BXRestNavvyOperationElapsedItem {
                 id: idTask,
                 users: [self.ID]
               }).result().pipe(
-              tap(v => {
-                if (v && v[self.ID]) {
-                  Permission.set({
-                    tasks: [{id: idTask, permission: v[self.ID], elapsedItem: []}]
-                  })
-                }
-              }),
+              // tap(v => {
+              //   if (v && v[self.ID]) {
+              //     Permission.set({
+              //       tasks: [{id: idTask, permission: v[self.ID], elapsedItem: []}]
+              //     })
+              //   }
+              // }),
               map(v => {
                 return (v && v[self.ID]) ? v[self.ID]['ELAPSEDTIME.ADD'] : false
               }),
@@ -140,43 +138,49 @@ export class BXRestNavvyOperationElapsedItem {
           return of(undefined)
         })
       )
-    }
+    // }
 
-    return of(undefined)
+    // return of(undefined)
   }
 
+  // вообще метод похоже даже на вредный в какомто смысле
   checkPermissionReadTask(idTask: number) {
-    let permission = Permission.get()
-    if (permission?.tasks?.length) {
-      let findTask = permission.tasks.find(i => i.id === idTask)
-      if (findTask?.permission) {
-        return of(findTask.permission.ACCEPT)
-      }
+    // let permission = Permission.get()
+    // if (permission?.tasks?.length) {
+    //   let findTask = permission.tasks.find(i => i.id === idTask)
+    //   if (findTask?.permission) {
+    //     return of(findTask.permission.ACCEPT)
+    //   }
+    //   console.log('idTask', idTask)
       return this.BXRestNavvyUser.current().result().pipe(
         mergeMap(self => {
+          console.log('self', self)
           if (self) {
             return this.BXRestNavvyTasks.task.getAccess(
               {
                 id: idTask,
                 users: [self.ID]
               }).result().pipe(
-              tap(v => {
-                if (v && v[self.ID]) {
-                  Permission.set({
-                    tasks: [{id: idTask, permission: v[self.ID], elapsedItem: []}]
-                  })
-                }
-              }),
+              // tap(v => {
+              //   if (v && v[self.ID]) {
+              //     Permission.set({
+              //       tasks: [{id: idTask, permission: v[self.ID], elapsedItem: []}]
+              //     })
+              //   }
+              // }),
               map(v => {
-                return (v && v[self.ID]) ? v[self.ID].ACCEPT : false
+                console.log('v', v)
+                return (v && v[self.ID]) ? !!v[self.ID] : false // отдельного флага на чтение нет, выходит что если права отдались то и права есть
               }),
             )
           }
           return of(undefined)
         })
       )
-    }
-
-    return of(undefined)
+    // }
+    //
+    // return of(undefined)
   }
+
+
 }

@@ -84,11 +84,129 @@ export class AnyComponent {
       ['>' + vacancies.del]: 0
     }
   }).result() // or .resultAll() - to get all elements
-
+    
   constructor(
     private BXRestNavvy: BXRestNavvy,
   ) {
+      
+  }
+}
+```
+# Extension
+You can add your own methods to the rest API; you can read more about this here:
+https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=7985
 
+And after creating the methods, we can add functions to call them in the same style as in the current plugin:
+```typescript
+import { Injectable } from '@angular/core'
+import { partNameMethods as PNM } from 'bx-rest' // part name methods for saving add size
+import { BXRestRequest } from 'bx-rest'
+import {
+  iBXRestCustomBlogpostGetViewParam,
+  iBXRestCustomHttpBlogpostGetView
+} from '@/lib/typification/bitrix/api/custom/blogpost/get/view'
+import {
+  iBXRestCustomHttpBlogpostGetRating,
+  iBXRestCustomHttpBlogpostGetRatingParam
+} from '@/lib/typification/bitrix/api/custom/blogpost/get/rating'
+
+@Injectable({
+  providedIn: 'root'
+})
+export class BXRestCustomBlogpostGet {
+
+  url = {
+    view: [PNM.$log, PNM.$blogpost, PNM.$get, 'view'],
+    rating: [PNM.$log, PNM.$blogpost, PNM.$get, 'rating'],
+  }
+
+  constructor(
+    private http: BXRestRequest
+  ) {
+  }
+
+  view(param: iBXRestCustomBlogpostGetViewParam) {
+    return this.http.post<iBXRestCustomHttpBlogpostGetView[]>(this.url.view, param)
+  }
+
+  rating(param: iBXRestCustomHttpBlogpostGetRatingParam) {
+    return this.http.post<iBXRestCustomHttpBlogpostGetRating[]>(this.url.rating, param)
+  }
+}
+```
+in navvy:
+```typescript
+import { Injectable } from '@angular/core'
+import { Navvy } from 'bx-rest'
+import { BXRestCustomBlogpostGet } from '../../blogpost/get'
+import { BXRestCustomMapBlogpostGet } from '../../map/blogpost/get'
+import { iBXRestCustomBlogpostGetViewParam } from '@/lib/typification/bitrix/api/custom/blogpost/get/view'
+import {
+  iBXRestCustomHttpBlogpostGetRatingParam
+} from '@/lib/typification/bitrix/api/custom/blogpost/get/rating'
+
+@Injectable({
+  providedIn: 'root'
+})
+export class BXRestCustomNavvyBlogpostGet {
+
+  Navvy: Navvy<BXRestCustomBlogpostGet, BXRestCustomMapBlogpostGet>
+
+  constructor(
+    private BXRestCustomBlogpostGet: BXRestCustomBlogpostGet,
+    private BXRestCustomMapBlogpostGet: BXRestCustomMapBlogpostGet,
+  ) {
+    this.Navvy = new Navvy(this.BXRestCustomBlogpostGet, this.BXRestCustomMapBlogpostGet)
+  }
+
+  view(param: iBXRestCustomBlogpostGetViewParam) {
+    return this.Navvy.PagNav(this.BXRestCustomBlogpostGet.view, param, this.BXRestCustomMapBlogpostGet.view)
+  }
+
+  rating(param: iBXRestCustomHttpBlogpostGetRatingParam) {
+    return this.Navvy.PagNav(this.BXRestCustomBlogpostGet.rating, param, this.BXRestCustomMapBlogpostGet.rating)
+  }
+}
+```
+mapper:
+```typescript
+import { Injectable } from '@angular/core'
+import {
+  iBXRestCustomBlogpostGetView,
+  iBXRestCustomHttpBlogpostGetView
+} from '@/lib/typification/bitrix/api/custom/blogpost/get/view'
+import {
+  iBXRestCustomBlogpostGetRating,
+  iBXRestCustomHttpBlogpostGetRating,
+} from '@/lib/typification/bitrix/api/custom/blogpost/get/rating'
+import { BXRestMapBase } from 'bx-rest'
+
+@Injectable({
+  providedIn: 'root'
+})
+export class BXRestCustomMapBlogpostGet extends BXRestMapBase {
+
+
+  view(value: iBXRestCustomHttpBlogpostGetView[] | undefined): iBXRestCustomBlogpostGetView[] {
+    return (value) ? value.map(i => {
+        return {
+          ID: this.toNum(i.ID),
+          USER_ID: this.toNum(i.USER_ID),
+          DATE: this.toDate(i.DATE, 'dd.MM.yyyy HH:mm:ss'),
+        }
+      })
+      : []
+  }
+
+  rating(value: iBXRestCustomHttpBlogpostGetRating[] | undefined): iBXRestCustomBlogpostGetRating[] {
+    return (value) ? value.map(i => {
+        return {
+          ID: this.toNum(i.ID),
+          REACTION: i.REACTION,
+          TOTAL_VOTES: this.toNum(i.TOTAL_VOTES),
+        }
+      }) as iBXRestCustomBlogpostGetRating[]
+      : [] as iBXRestCustomBlogpostGetRating[]
   }
 }
 ```
