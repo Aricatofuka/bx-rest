@@ -210,6 +210,35 @@ export class BXRestCustomMapBlogpostGet extends BXRestMapBase {
   }
 }
 ```
+# Specific methods
+
+tasks.task.list:
+```typescript
+
+// your's select defult fields
+export type selectTaskFieldsType = Extract<
+  iBXRestTaskFieldsName,
+  'ID' | 'TITLE' | 'GROUP_ID' | 'TIME_ESTIMATE' | 'CREATED_DATE' | 'CLOSED_DATE' | 'DURATION_FACT' | 'TIME_SPENT_IN_LOGS'
+>
+
+// your's custom fields tasks
+export type customTaskField = { ufListDiscipline: string, ufUfListSubdiscipline: string, ufList1: string }
+
+return this.BXRestNavvy.tasks.task.list<selectTaskFieldsType[], customTaskField>(
+  {
+    order: {
+      ID: 'DESC'
+    },
+    filter: {
+      CREATED_BY: [v.ID],
+      // '<REAL_STATUS': 5,
+      TITLE: (this.formControl.controls.textSearch.value) ? this.formControl.controls.textSearch.value : ''
+    },
+    select: [...selectTaskFields, ...selectTaskFieldsCustom],
+    start: (this.formControl.controls.pageNumber.value) ? this.formControl.controls.pageNumber.value * 50 : 0
+  }
+)
+```
 
 # Future features
 - Auto get token

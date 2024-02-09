@@ -1,4 +1,4 @@
-import { iBXRestYesNo } from '../../base/YesNo';
+import { iBXRestYesNo } from '../../base/YesNo'
 
 export interface iBXRestParamTaskAdd {
     ID?: number, // Идентификатор задачи

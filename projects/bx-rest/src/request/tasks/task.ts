@@ -11,29 +11,16 @@ import {
   iBXRestTasksTaskGetHttpDefault
 } from '../../typification/rest/tasks/task/get'
 import {
-  iBXRestParamTasksList, iBXRestTasksTaskListHttp
-} from '../../typification/rest/tasks/task/list'
+  iBXRestParamTasksList, iBXRestTasksTaskListHttp } from '../../typification/rest/tasks/task/list'
 import { iBXRestParamTaskGetAccess, iBXRestTaskGetAccess } from '../../typification/rest/task/access/getaccess'
 import { iBXRestTasksTaskApproveHttp } from '../../typification/rest/tasks/task/approve'
 import { iBXRestTasksTaskCompleteHttp } from '../../typification/rest/tasks/task/complete'
 import { iBXRestTasksTaskDeferHttp } from '../../typification/rest/tasks/task/defer'
 import { BXRestTasksTaskResult } from './task/result'
-// import { iBXRestFilterGenerator } from '../../typification/rest/base/filterGenerator'
-import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
-// import iBXRestParamTasksGet from '../../typification/rest/tasks/task/get'
-import iBXRestParamTasksTaskGet from '../../typification/rest/tasks/task/get'
+import { iBXRestParamTasksTaskGet } from '../../typification/rest/tasks/task/get'
 import { iBXRestTasksTaskGetFields } from '../../typification/rest/tasks/task/getFields'
-
-// interface iBXRestParamTasksListWithSelect<S extends iBXRestTaskFieldsName> extends iBXRestParamTasksList<S> {
-//   select: iBXRestFilterGenerator<iBXRestTaskFieldsName>[]
-// }
-
-// interface iBXRestParamTasksGetWithSelect extends iBXRestParamTasksList {
-//   select: iBXRestFilterGenerator<iBXRestTaskFieldsName>[]
-// }
-
-// type SelectInterfaceListType<T> = T extends iBXRestParamTasksListWithSelect ? iBXRestTasksTaskListHttpDefault : iBXRestHttpTasksTaskList
-// type SelectInterfaceGetType<T> = T extends iBXRestParamTasksGetWithSelect ? iBXRestTasksTaskGetHttpDefault : iBXRestHttpTasksTaskGet
+import { iBXRestParamTasksTaskUpdate } from '../../typification/rest/tasks/task/update'
+import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
 
 @Injectable({
   providedIn: 'root'
@@ -68,7 +55,7 @@ export class BXRestTasksTask {
     pause: [$tasks, $task, $pause], // Останавливает выполнение задачи, переводя ее в статус "ждет выполнения"
     renew: [$tasks, $task, $renew], // Возобновляет задачу после ее завершения
     start: [$tasks, $task, $start], // Переводит задачу в статус «выполняется»
-    startwatch: [$tasks, $task, 'startwatch'], // Позволяет наблюдать за задачей
+    startWatch: [$tasks, $task, 'startwatch'], // Позволяет наблюдать за задачей
     stopwatch: [$tasks, $task, 'stopwatch'], // Останавливает наблюдение за задачей
     update: [$tasks, $task, $update], // Обновляет задачу
   }
@@ -95,39 +82,16 @@ export class BXRestTasksTask {
     return this.http.post<{ task: iBXRestTasksTaskDeferHttp }>(this.url.defer, {taskId: id})
   }
 
-  /*
-  update(taskId: number, updateFields: iBXRestTaskFieldsName[], task: iBXRestTask) {
-    let sendTask: Record<string, any> = {}
-    let taskTS: Record<string, any> = task
-    if (updateFields.length) {
-      for (let updateField of updateFields) {
-        if (taskTS[camelCase(updateField)]) {
-          sendTask[updateField] = taskTS[camelCase(updateField)]
-        }
-      }
-      if (Object.values(sendTask).length) {
-        return this.http.post(
-          this.url.update,
-          {taskId: taskId, fields: sendTask},
-          'error to update task')
-      } else {
-        this.snackBar.error('not valid send data task')
-        console.error('not valid send data task', sendTask, task)
-        return of(undefined)
-      }
-    }
-
-    this.snackBar.warning('not have field for update')
-    return of(undefined)
-  }
-  */
-
-  get<S extends iBXRestTaskFieldsName[]>(param: iBXRestParamTasksTaskGet<iBXRestTaskFieldsName[]>) {
-    return this.http.post<iBXRestTasksTaskGetHttp<S>>(this.url.get, param)
+  update(param: iBXRestParamTasksTaskUpdate) {
+    return this.http.post<{ task: iBXRestTasksTaskDeferHttp }>(this.url.update, param)
   }
 
-  list<S extends iBXRestTaskFieldsName[]>(param: iBXRestParamTasksList<S>) {
-    return this.http.post<iBXRestTasksTaskListHttp<S>>(this.url.list, param)
+  get<S extends iBXRestTaskFieldsName[], CustomFields extends object = {}>(param: iBXRestParamTasksTaskGet<CustomFields>) {
+    return this.http.post<iBXRestTasksTaskGetHttp<S, CustomFields>>(this.url.get, param)
+  }
+
+  list<S extends iBXRestTaskFieldsName[], CustomFields extends object = {}>(param: iBXRestParamTasksList<CustomFields>) {
+    return this.http.post<iBXRestTasksTaskListHttp<S, CustomFields>>(this.url.list, param)
   }
 
   /*

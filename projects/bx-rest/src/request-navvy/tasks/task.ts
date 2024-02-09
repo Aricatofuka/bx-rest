@@ -1,13 +1,25 @@
 import { Injectable } from '@angular/core'
 import { BXRestTasksTask } from '../../request/tasks/task'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
-import iBXRestParamTaskGet from '../../typification/rest/tasks/task/get'
+import {
+  iBXRestParamTasksTaskGet, iBXRestTasksTaskGet
+} from '../../typification/rest/tasks/task/get'
 import { Navvy } from '../../services/navvy'
 import { iBXRestParamTasksList } from '../../typification/rest/tasks/task/list'
-import { iBXRestParamTaskGetAccess } from '../../typification/rest/task/access/getaccess'
 import { BXRestMapTasksTask } from '../../map/tasks/task'
-import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
 import { BXRestNavvyTasksTaskResult } from './task/result'
+import camelCase from 'just-camel-case'
+import {
+  iBXRestParamTasksTaskUpdateFields,
+  iBXRestTasksTaskFieldsCanUpdate
+} from '../../typification/rest/tasks/task/update'
+import { NavvySimple } from '../../services/Navvy/NavvySimple'
+import { of } from 'rxjs'
+import { iBXRestParamTaskGetAccess } from '../../typification/rest/task/access/getaccess'
+import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
+import { ToUpperCaseKeys } from '../../typification/base/upper-case-keys'
+import { ObjectToSnake } from 'ts-case-convert/lib/caseConvert'
+import { AllKeyFree } from '../../typification/base/all-key-free'
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +32,6 @@ export class BXRestNavvyTasksTask {
     public result: BXRestNavvyTasksTaskResult,
     private BXRestTasksTask: BXRestTasksTask,
     private BXRestMapTasksTask: BXRestMapTasksTask,
-
-    // private taskResultMap: BitrixApiTaskResultMapServices
   ) {
     this.Navvy = new Navvy(this.BXRestTasksTask, this.BXRestMapTasksTask)
   }
@@ -34,48 +44,44 @@ export class BXRestNavvyTasksTask {
     )
   }
 
-  /*
-  update(taskId: number, updateFields: iBXRestTaskFieldsName[], task: iBXRestTask) {
-    let sendTask: Record<string, any> = {}
-    let taskTS: Record<string, any> = task
-    if (updateFields.length) {
-      for (let updateField of updateFields) {
-        if (taskTS[camelCase(updateField)]) {
-          sendTask[updateField] = taskTS[camelCase(updateField)]
+  // TODO: переписать нормально
+  update<CustomFields extends object>(task: iBXRestTasksTaskGet<iBXRestTaskFieldsName[], CustomFields>, updateFields: (iBXRestTasksTaskFieldsCanUpdate | keyof ToUpperCaseKeys<ObjectToSnake<CustomFields>>)[]) {
+    const func = () => {
+      let sendTask: iBXRestParamTasksTaskUpdateFields & AllKeyFree<CustomFields> = {}
+      let taskTS: Record<string, any> = task
+      if (updateFields.length) {
+        for (let updateField of updateFields) {
+          const key = String(updateField)
+          if (taskTS[camelCase(key)]) {
+            // @ts-ignore
+            sendTask[key] = taskTS[camelCase(key)]
+          }
+        }
+        // @ts-ignore
+        if (Object.values(sendTask).length && task && task.id) {
+          // @ts-ignore
+          return this.BXRestTasksTask.update({taskId: task.id, fields: sendTask})
         }
       }
-      if (Object.values(sendTask).length) {
-        return this.http.post(
-          this.url.update,
-          {taskId: taskId, fields: sendTask},
-          'error to update task')
-      } else {
-        this.snackBar.error('not valid send data task')
-        console.error('not valid send data task', sendTask, task)
-        return of(undefined)
-      }
+      return of(undefined)
     }
 
-    this.snackBar.warning('not have field for update')
-    return of(undefined)
+    return new NavvySimple(this, this.BXRestMapTasksTask, func.call(this))
   }
-  */
 
-
-  get(param: iBXRestParamTaskGet<iBXRestTaskFieldsName[]>) {
+  get<S extends iBXRestTaskFieldsName[], CustomFields extends object = {}>(param: iBXRestParamTasksTaskGet<CustomFields>) {
     return this.Navvy.simpleWithArg(
-      this.BXRestTasksTask.get,
+      this.BXRestTasksTask.get<S, CustomFields>,
       param,
-      this.BXRestMapTasksTask.get
+      this.BXRestMapTasksTask.get<S, CustomFields>
     )
   }
 
-
-  list<S extends iBXRestTaskFieldsName[]>(param: iBXRestParamTasksList<S> = {}) {
+  list<S extends iBXRestTaskFieldsName[], CustomFields extends object = {}>(param: iBXRestParamTasksList<CustomFields> = {}) {
     return this.Navvy.PagNavTasks(
-      this.BXRestTasksTask.list<S>,
+      this.BXRestTasksTask.list<S, CustomFields>,
       param,
-      this.BXRestMapTasksTask.list
+      this.BXRestMapTasksTask.list<S, CustomFields>
     )
   }
 
@@ -152,7 +158,7 @@ export class BXRestNavvyTasksTask {
     return this.Navvy.simpleWithArg(
       this.BXRestTasksTask.getAccess,
       param,
-      this.BXRestMapTasksTask.getaccess
+      this.BXRestMapTasksTask.getAccess
     )
   }
 

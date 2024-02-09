@@ -1,23 +1,42 @@
 import { iBXRestTaskFieldsName } from '../base/fieldsName'
-import { iBXRestHttpTask, iBXRestHttpTaskGroupHttp } from '../task'
+import { iBXRestHttpTask, iBXRestHttpTaskGroupHttp, iBXRestTask } from '../task'
 import { SnakeToCamelCase } from 'snake-camel-types'
+import { ToUpperCaseKeys } from '../../../base/upper-case-keys'
+import { ObjectToSnake } from 'ts-case-convert/lib/caseConvert'
 
-export default interface iBXRestParamTasksTaskGet<S extends iBXRestTaskFieldsName[]> {
+export interface iBXRestParamTasksTaskGet<CustomFields extends object> {
   taskId: number, // Идентификатор задачи
-  select?: S // массив выводимых полей
+  select?: (iBXRestTaskFieldsName | keyof ToUpperCaseKeys<ObjectToSnake<CustomFields>> | '*' | 'UF_*')[] // массив выводимых полей
 }
 
-export interface iBXRestTasksTaskGetHttp<S extends iBXRestTaskFieldsName[]> {
-  task: iBXRestHttpTasksTaskGet<S> | undefined
+export interface iBXRestParamTasksTaskGetBase {
+  taskId: number, // Идентификатор задачи
+  select?: (iBXRestTaskFieldsName  | '*' | 'UF_*')[] // массив выводимых полей
 }
 
-// export type iBXRestTasksTaskGet<S extends iBXRestTaskFieldsName> = {
-//   [K in SnakeToCamelCase<Lowercase<S[][number]>>]: iBXRestTask[K];
-// }
+export interface iBXRestTasksTaskGetHttpBase<S extends iBXRestTaskFieldsName[]> {
+  task: iBXRestHttpTasksTaskGetBase<S> | undefined
+}
 
-type iBXRestHttpTasksTaskGet<S extends iBXRestTaskFieldsName[]> = {
+export interface iBXRestTasksTaskGetHttp<S extends iBXRestTaskFieldsName[], CustomFields = {}> {
+  task: iBXRestHttpTasksTaskGet<S, CustomFields> | undefined
+}
+
+export type iBXRestTasksTaskGetBase<S extends iBXRestTaskFieldsName[]> = {
+  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestTask[K];
+}
+
+export type iBXRestTasksTaskGet<S extends iBXRestTaskFieldsName[], CustomFields> = {
+  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestTask[K];
+} & CustomFields
+
+export type iBXRestHttpTasksTaskGetBase<S extends iBXRestTaskFieldsName[]> = {
   [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestHttpTask[K];
-};
+}
+
+type iBXRestHttpTasksTaskGet<S extends iBXRestTaskFieldsName[], CustomFields> = {
+  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestHttpTask[K];
+} & CustomFields
 
 // export interface iBXRestHttpTasksTaskGet extends iBXRestHttpTask {}
 

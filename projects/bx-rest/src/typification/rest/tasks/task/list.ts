@@ -5,22 +5,20 @@ import { iBXRestPagination } from '../../base/ApiPaginationBX'
 import { iBXRestHttpTask, iBXRestHttpTaskGroupHttp, iBXRestTask } from '../task'
 import { iBXRestTaskFieldsName } from '../base/fieldsName'
 import { SnakeToCamelCase } from 'snake-camel-types'
+import { ToUpperCaseKeys } from '../../../base/upper-case-keys'
+import { ObjectToSnake } from 'ts-case-convert/lib/caseConvert'
 
-export interface iBXRestTasksTaskListHttp<S extends iBXRestTaskFieldsName[]> {
-  tasks: iBXRestHttpTasksTaskList<S>[] | undefined
+export interface iBXRestTasksTaskListHttp<S extends iBXRestTaskFieldsName[], CustomFields = {}> {
+  tasks: iBXRestHttpTasksTaskList<S, CustomFields>[] | undefined
 }
 
-export type iBXRestHttpTasksTaskList<S extends iBXRestTaskFieldsName[]> = {
+export type iBXRestHttpTasksTaskList<S extends iBXRestTaskFieldsName[], CustomFields> = {
   [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestHttpTask[K]
-};
+} & CustomFields
 
-export type iBXRestTasksTaskList<S extends iBXRestTaskFieldsName[]> = {
+export type iBXRestTasksTaskList<S extends iBXRestTaskFieldsName[], CustomFields> = {
   [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestTask[K]
-};
-
-// export interface iBXRestHttpTasksTaskList extends iBXRestHttpTask {}
-
-// export interface iBXRestTasksTaskList extends iBXRestTask {}
+} & CustomFields
 
 /**
  * Если при запросе tasks.task.list не указывать выводимые поля (select) отдаст этот набор
@@ -64,10 +62,16 @@ export interface iBXRestTasksTaskListDefault extends Partial<iBXRestTask> {
   title: string
 }
 
-export interface iBXRestParamTasksList<S extends iBXRestTaskFieldsName[]> extends iBXRestPagination{
+export interface iBXRestParamTasksListBase extends iBXRestPagination{
+  order?: iBXRestParamTaskListOrder,
+  filter?: iBXRestFilterGenerator<iBXRestParamTaskListFilter>,
+  select?: (iBXRestTaskFieldsName | '*' | 'UF_*')[], // массив выводимых полей
+}
+
+export interface iBXRestParamTasksList<CustomFields extends object> extends iBXRestPagination{
     order?: iBXRestParamTaskListOrder,
     filter?: iBXRestFilterGenerator<iBXRestParamTaskListFilter>,
-    select?: S, // массив выводимых полей
+    select?: (iBXRestTaskFieldsName | keyof ToUpperCaseKeys<ObjectToSnake<CustomFields>> | '*' | 'UF_*')[], // массив выводимых полей
 }
 
 export interface iBXRestParamTaskListOrder { // Массив для сортировки результата. Массив вида {"поле_сортировки": 'направление сортировки' [, ...]}.

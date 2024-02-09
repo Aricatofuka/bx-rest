@@ -13,8 +13,6 @@ import { iBXRestHttpTask, iBXRestTask } from '../../typification/rest/tasks/task
 import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
 import { BX_REST_SETTINGS } from '../../settings'
 
-/// type SelectInterfaceTypeTasksTaskList<T> = T extends iBXRestHttpTasksTaskList ? iBXRestTasksTaskList : iBXRestTasksTaskListDefault
-
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +25,7 @@ export class BXRestMapTasksTask extends BaseMapServices {
     super(BX_REST_SETTINGS)
   }
 
-  getaccess(v: iBXRestTaskGetAccess | undefined) {
+  getAccess(v: iBXRestTaskGetAccess | undefined) {
     return (v && v.allowedActions) ? v.allowedActions : undefined
   }
 
@@ -35,16 +33,19 @@ export class BXRestMapTasksTask extends BaseMapServices {
     return (item) ? this.TaskBXHttpToTaskBX(item.task) : undefined
   }
 
-  get(item: iBXRestTasksTaskGetHttp<iBXRestTaskFieldsName[]> | undefined) {
-    return (item && item.task) ? this.TaskBXHttpToTaskBX(item.task) : undefined
+  get<S extends iBXRestTaskFieldsName[], CustomFields>(item: iBXRestTasksTaskGetHttp<S, CustomFields> | undefined) {
+    return (item && item.task) ?
+      this.TaskBXHttpToTaskBX(item.task)
+      : undefined
   }
 
-  list<S extends iBXRestTaskFieldsName[]>(item: iBXRestTasksTaskListHttp<S> | undefined) {
-    // @ts-ignore
-    return (item && item.tasks) ? item.tasks.map(i => this.TaskBXHttpToTaskBX<iBXRestTasksTaskListHttp<S>, iBXRestTasksTaskList<S>>(i)) : undefined
+  list<S extends iBXRestTaskFieldsName[], CustomFields>(item: iBXRestTasksTaskListHttp<S, CustomFields> | undefined) {
+    return (item && item.tasks)
+      ? item.tasks.map(i => this.TaskBXHttpToTaskBX<CustomFields, Partial<iBXRestHttpTask> & Partial<CustomFields>, iBXRestTasksTaskList<S, CustomFields>>(i))
+      : undefined
   }
 
-  private TaskBXHttpToTaskBX<T extends Partial<iBXRestHttpTask>, R>(item: T): R {
+  private TaskBXHttpToTaskBX<CustomFields, T extends Partial<iBXRestHttpTask> & Partial<CustomFields>, R>(item: T): R {
     let result: any = {}
     if (item.id) {
       result.id = this.toNum(item.id)
