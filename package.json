@@ -3,7 +3,8 @@
   "version": "0.0.7",
   "description": "bitrix rest api",
   "keywords": [
-    "bitrxi",
+    "bitrix",
+    "bitrix24",
     "rest",
     "api"
   ],

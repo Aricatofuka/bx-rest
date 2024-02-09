@@ -45,7 +45,7 @@ export class BXRestNavvyTasksTask {
   }
 
   // TODO: переписать нормально
-  update<CustomFields extends object>(task: iBXRestTasksTaskGet<iBXRestTaskFieldsName[], CustomFields>, updateFields: (iBXRestTasksTaskFieldsCanUpdate | keyof ToUpperCaseKeys<ObjectToSnake<CustomFields>>)[]) {
+  update<CustomFields extends object>(task: AllKeyFree<iBXRestTasksTaskGet<iBXRestTaskFieldsName[], CustomFields>>, updateFields: (iBXRestTasksTaskFieldsCanUpdate | keyof ToUpperCaseKeys<ObjectToSnake<CustomFields>>)[]) {
     const func = () => {
       let sendTask: iBXRestParamTasksTaskUpdateFields & AllKeyFree<CustomFields> = {}
       let taskTS: Record<string, any> = task
@@ -77,6 +77,7 @@ export class BXRestNavvyTasksTask {
     )
   }
 
+  // Возможно можно обойтись без "S extends iBXRestTaskFieldsName[]" но это надо понять того как генерировать интейфейс на литу исходя их входящих данных
   list<S extends iBXRestTaskFieldsName[], CustomFields extends object = {}>(param: iBXRestParamTasksList<CustomFields> = {}) {
     return this.Navvy.PagNavTasks(
       this.BXRestTasksTask.list<S, CustomFields>,
