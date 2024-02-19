@@ -16,11 +16,11 @@
   "homepage": "https://github.com/Aricatofuka/bx-rest#readme",
   "peerDependencies": {
     "@angular/common": "^17.1.2",
-    "@angular/core": "^17.1.2"
-  },
-  "dependencies": {
-    "tslib": "^2.3.0",
+    "@angular/core": "^17.1.2",
     "just-clone": "^6.2.0",
     "luxon": "^3.4.4"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
   }
 }
