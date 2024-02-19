@@ -37,6 +37,7 @@
     "just-clone": "^6.2.0",
     "just-compare": "^2.3.0",
     "just-flatten-it": "^5.2.0",
+    "just-values": "^2.2.0",
     "luxon": "^3.4.0",
     "rxjs": "~7.5.0",
     "snake-camel-types": "^1.0.1",

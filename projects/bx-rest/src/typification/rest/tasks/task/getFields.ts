@@ -60,7 +60,7 @@ export interface iGetFieldsDescriptionBody {
   title: string | null,
   type: iFieldBXType,
   default?: any
-  values?: {[Property in keyof iBXRestYesNo]: string}
+  values?: {[Property in keyof iBXRestYesNo]: string} | {[Property in keyof number]: string}
 }
 
 export interface iBXRestTasksTaskGetFields {

@@ -62,14 +62,9 @@ export interface iBXRestTasksTaskListDefault extends Partial<iBXRestTask> {
   title: string
 }
 
-export interface iBXRestParamTasksListBase extends iBXRestPagination{
-  order?: iBXRestParamTaskListOrder,
-  filter?: iBXRestFilterGenerator<iBXRestParamTaskListFilter>,
-  select?: (iBXRestTaskFieldsName | '*' | 'UF_*')[], // массив выводимых полей
-}
-
-export interface iBXRestParamTasksList<CustomFields extends object> extends iBXRestPagination{
-    order?: iBXRestParamTaskListOrder,
+export interface iBXRestParamTasksList <CustomFields extends object> extends iBXRestPagination{
+    order?: iBXRestParamTaskListOrder
+      // & {[key in keyof ToUpperCaseKeys<ObjectToSnake<CustomFields>>]?: iBXRestParamSort}, // так не работает, сортируються только встроенные в битрикс ключи
     filter?: iBXRestFilterGenerator<iBXRestParamTaskListFilter>,
     select?: (iBXRestTaskFieldsName | keyof ToUpperCaseKeys<ObjectToSnake<CustomFields>> | '*' | 'UF_*')[], // массив выводимых полей
 }
@@ -106,14 +101,14 @@ export interface iBXRestParamTaskListOrder { // Массив для сортир
     MATCH_WORK_TIME?: iBXRestParamSort // пропустить выходные дни
     FAVORITE?: iBXRestParamSort //  Избранное
     SORTING?: iBXRestParamSort, // индекс сортировки
-    MESSAGE_ID?: iBXRestParamSort // идентификатор поискового индекса
+    MESSAGE_ID?: iBXRestParamSort, // идентификатор поискового индекса
 }
 
 export interface iBXRestParamTaskListFilter { // Массив вида {"фильтруемое_поле": "значение фильтра" [, ...]}. Фильтруемое поле может принимать значения:
     ID?: number | number[], // идентификатор задачи
     ACTIVITY_DATE?: string, // дата последней активност
     PARENT_ID?: number, // идентификатор родительской задачи
-    GROUP_ID?: number, // рабочая группа
+    GROUP_ID?: number | number[], // рабочая группа
     CREATED_BY?: number | number[], // постановщик
     STATUS_CHANGED_BY?: number, // пользователь, последним изменивший статус задачи
     PRIORITY?: number // приоритет

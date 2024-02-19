@@ -34,6 +34,7 @@ export interface iBXRestTask extends iBXRestBaseTask {
   responsible: iBXRestTaskPeople,
   accomplicesData: iBXRestTaskPeople[],
   allowTimeTracking: boolean
+  tags: iBXRestTaskTag[]
 }
 
 export interface iBXRestHttpTask extends iBXRestBaseTask {
@@ -69,8 +70,21 @@ export interface iBXRestHttpTask extends iBXRestBaseTask {
   additionalData: any[] // TODO: разобраться позже
   creator: iBXRestHttpTaskPeople
   responsible: iBXRestHttpTaskPeople
-  accomplicesData: {[key: number]: iBXRestHttpTaskPeople}
-  allowTimeTracking: iBXRestYesNo
+  accomplicesData: { [key: number]: iBXRestHttpTaskPeople }
+  allowTimeTracking: iBXRestYesNo,
+  tags: iBXRestTaskHttpTag
+}
+
+export interface iBXRestTaskTag {
+  id: number,
+  title: string
+}
+
+export interface iBXRestTaskHttpTag {
+  [key: string]: {
+    id: string,
+    title: string
+  }
 }
 
 export interface iBXRestHttpTaskGroupHttp {
@@ -107,8 +121,7 @@ export interface iBXRestBaseTask {
   ufTaskWebdavFiles: number[],
   ufMailMessage: string,
   auditors: number[],
-  newCommentsCount: number,
-  tags: string[]
+  newCommentsCount: number
 }
 
 

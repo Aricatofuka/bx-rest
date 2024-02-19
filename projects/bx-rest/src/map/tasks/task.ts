@@ -9,9 +9,10 @@ import {
   iBXRestTasksTaskGetHttp, iBXRestTasksTaskGetHttpDefault
 } from '../../typification/rest/tasks/task/get'
 import { BXRestMapTasksTaskResult } from './task/result'
-import { iBXRestHttpTask, iBXRestTask } from '../../typification/rest/tasks/task'
+import { iBXRestHttpTask, iBXRestTask, iBXRestTaskHttpTag } from '../../typification/rest/tasks/task'
 import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
 import { BX_REST_SETTINGS } from '../../settings'
+import values from 'just-values'
 
 @Injectable({
   providedIn: 'root'
@@ -143,6 +144,15 @@ export class BXRestMapTasksTask extends BaseMapServices {
     }
     if (item.allowTimeTracking) {
       result.allowTimeTracking = item.allowTimeTracking === 'Y'
+    }
+
+    if (item.tags) {
+      result.tags = values<iBXRestTaskHttpTag>(item.tags).map(i => {
+        return {
+          id: this.toNum(i.id),
+          title: i.title
+        }
+      })
     }
 
     return Object.assign(item, result)

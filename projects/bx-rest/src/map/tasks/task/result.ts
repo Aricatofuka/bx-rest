@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BaseMapServices } from '../../base'
 import { iBXRestTasksTaskResult, iBXRestTasksTaskResultHttp } from '../../../typification/rest/tasks/task/result/result'
-// import { iTaskResult, iTaskResultHttp } from '@/lib/typification/bitrix/api/rest/task/result/result'
-
 
 @Injectable({
   providedIn: 'root'
