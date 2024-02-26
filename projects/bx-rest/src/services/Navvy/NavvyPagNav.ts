@@ -7,8 +7,13 @@ import { ReturnTypeNavvy } from './NavvySupport'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 
-// TODO: реализовать загрузку всего в очереди
 export class NavvyPagNav<C, M, T, R, P extends iBXRestPagination> extends NavvyPagNavBase<C, M, T[], R[], P> {
+
+  // TODO: test for all methods
+  // resultAll() {
+  //   this.param.start = -1
+  //   return this.resultEnd(this.func, this.param)
+  // }
 
   resultAll() {
     let save: ReturnTypeNavvy<T, R>[] = []
@@ -53,7 +58,6 @@ export class NavvyPagNav<C, M, T, R, P extends iBXRestPagination> extends NavvyP
         }
       ),
       catchError(err => {
-        // this.snackBar.error("Проблемы с поточным получение затреканого времени")
         console.error(err)
         return throwError(() => err)
       })

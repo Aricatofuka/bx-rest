@@ -3,7 +3,6 @@ import { iBXRestSonetGroupFieldsFilter, iBXRestSonetGroupFieldsOrder, iBXRestSon
 import { Modify } from '../../base/modyfy'
 import { iBXRestFilterGenerator } from "../base/filterGenerator";
 
-
 export interface iBXRestParamSonetGroupGet {
   FILTER?: iBXRestParamSonetGroupGetFilterWithParam,
   ORDER?: iBXRestParamSonetOrderWorkgroup
@@ -23,9 +22,9 @@ export type iBXRestParamSonetOrderWorkgroup = {
   [key in iBXRestSonetGroupFieldsOrder]?: iBXRestParamSort
 }
 
-export type iBXRestParamSonetHttp = Record<iBXRestSonetGroupFieldsSelect, string>
+export type iBXRestSonetGroupGetHttp = Record<iBXRestSonetGroupFieldsSelect, string>
 
-export type iBXRestParamSonet = Modify<iBXRestParamSonetHttp , {
+export type iBXRestSonetGroupGet = Modify<iBXRestSonetGroupGetHttp , {
   ID: number
   DATE_CREATE: Date
   DATE_UPDATE: Date

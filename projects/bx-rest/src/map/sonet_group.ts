@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BaseMapServices } from './base'
-import { iBXRestParamSonet, iBXRestParamSonetHttp } from '../typification/rest/sonet_group/get'
+import { iBXRestSonetGroupGet, iBXRestSonetGroupGetHttp } from '../typification/rest/sonet_group/get'
 
 
 @Injectable({
@@ -8,11 +8,11 @@ import { iBXRestParamSonet, iBXRestParamSonetHttp } from '../typification/rest/s
 })
 export class BXRestMapSonetGroup extends BaseMapServices {
 
-  get(items: iBXRestParamSonetHttp[] | undefined): iBXRestParamSonet[] | undefined {
+  get(items: iBXRestSonetGroupGetHttp[] | undefined): iBXRestSonetGroupGet[] | undefined {
     return (items) ? items.map(i => this.iBXRestParamSonetHttpToiBXRestParamSonet(i)) : undefined
   }
 
-  private iBXRestParamSonetHttpToiBXRestParamSonet(items: iBXRestParamSonetHttp): iBXRestParamSonet {
+  private iBXRestParamSonetHttpToiBXRestParamSonet(items: iBXRestSonetGroupGetHttp): iBXRestSonetGroupGet {
     return Object.assign(items, {
       ID: this.toNum(items.ID),
       DATE_CREATE: this.toDate(items.DATE_CREATE),

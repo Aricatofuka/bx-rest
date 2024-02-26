@@ -137,11 +137,11 @@ export interface iBXRestParamTaskListFilter { // Массив вида {"фил�
     // '<TIME_SPENT_IN_LOGS'?: number,
     // '>=TIME_SPENT_IN_LOGS'?: number,
     // '<=TIME_SPENT_IN_LOGS'?: number,
-    DATE_START?: string, // дата начала выполнения
-    DEADLINE?: string,  // крайний срок
-    CREATED_DATE?: string, // дата создания
-    CLOSED_DATE?: string, // дата завершения
-    CHANGED_DATE?: string, //  дата последнего изменения
+    DATE_START?: Date | string, // дата начала выполнения
+    DEADLINE?: Date | string,  // крайний срок
+    CREATED_DATE?: Date | string, // дата создания
+    CLOSED_DATE?: Date | string, // дата завершения
+    CHANGED_DATE?: Date | string, //  дата последнего изменения
     ACCOMPLICE?: number | number[], // идентификатор соисполнителя
     AUDITOR?: number | number[], // идентификатор наблюдателя
     DEPENDS_ON?: number, // идентификатор предыдущей задачи;

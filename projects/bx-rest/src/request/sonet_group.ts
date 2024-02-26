@@ -8,9 +8,8 @@ import {
 } from '../consts/part-name-methods'
 import { HttpBXServices } from '../services/http/HttpBX'
 import {
-  iBXRestParamSonetGroupGet, iBXRestParamSonetHttp
+  iBXRestParamSonetGroupGet, iBXRestSonetGroupGetHttp
 } from '../typification/rest/sonet_group/get'
-
 
 @Injectable({
   providedIn: 'root'
@@ -59,6 +58,6 @@ export class BXRestSonetGroup {
 
   get(param: iBXRestParamSonetGroupGet = {}
   ) {
-    return this.http.post<iBXRestParamSonetHttp[]>(this.url.get, param)
+    return this.http.post<iBXRestSonetGroupGetHttp[]>(this.url.get, param)
   }
 }

@@ -7,7 +7,6 @@ import { ReturnTypeNavvy } from './NavvySupport'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 
-// TODO: реализовать загрузку всего в очереди
 export class NavvyPagNavTasks<C, M, T, R, P extends iBXRestPagination> extends NavvyPagNavBase<C, M, {tasks: T[] | undefined}, R[], P> {
 
   resultAll() {
