@@ -3,6 +3,7 @@ import { Navvy } from '../../../services/navvy'
 import { BXRestMapTasksTaskResult } from '../../../map/tasks/task/result'
 import { iBXRestParamTasksTaskResultList } from '../../../typification/rest/tasks/result/list'
 import { BXRestTasksTaskResult } from '../../../request/tasks/task/result'
+import { iBXParamRestTasksTaskResultAdd } from '../../../typification/rest/tasks/task/result/result';
 
 @Injectable({
   providedIn: 'root'
@@ -25,10 +26,10 @@ export class BXRestNavvyTasksTaskResult {
     )
   }
 
-  addFromComment(commentID: number) {
+  addFromComment(param: iBXParamRestTasksTaskResultAdd) {
     return this.Navvy.simpleWithArg(
       this.BXRestTasksTaskResult.addFromComment,
-      commentID,
+      param,
       this.BXRestMapTasksTaskResult.addFromComment
     )
   }

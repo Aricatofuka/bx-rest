@@ -7,7 +7,7 @@ export type ReturnTypeNavvy<T, R> = T extends R ? T : R;
 
 export abstract class NavvySupport<C, M, T, R> {
 
-  pageSize = 50 // больше всё равно не дас
+  pageSize = 50 // стандартный размер страницы
 
   protected constructor(
     public requestClass: C,

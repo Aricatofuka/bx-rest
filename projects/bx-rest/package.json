@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.4.11",
+  "version": "0.4.12",
   "description": "bitrix rest api",
   "keywords": [
     "bitrix",
@@ -9,6 +9,7 @@
     "api"
   ],
   "author": "Aricatofuka",
+  "main": "./src/public-api.ts",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Aricatofuka/bx-rest/issues"

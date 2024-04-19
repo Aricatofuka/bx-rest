@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core'
-import {
-  $add, $delete, $elapseditem, $get, $getlist, $getmanifest, $isactionallowed, $task, $update
-} from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
 import { iBXRestTaskElapsedItemHttp } from '../../typification/rest/task/elapseditem/item'
@@ -9,28 +6,19 @@ import { iBXRestParamAddElapseditem } from '../../typification/rest/task/elapsed
 import { iBXRestParamUpdateElapseditem } from '../../typification/rest/task/elapseditem/update'
 import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapseditem/del'
 import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/isActionAllowedParam'
+import { methods } from '../../methods'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestTaskElapsedItem {
 
-  protected url = {
-    getManifest: [$task, $elapseditem, $getmanifest], // Возвращает список методов и их описание
-    getList: [$task, $elapseditem, $getlist], // Возвращает список записей о затраченном времени по задаче
-    get: [$task, $elapseditem, $get], // Возвращает запись о затраченном времени по ее идентификатору
-    add: [$task, $elapseditem, $add], // Добавляет затраченное время к задаче
-    delete: [$task, $elapseditem, $delete], // Удаляет запись о затраченном времени
-    isActionAllowed: [$task, $elapseditem, $isactionallowed], // Проверяет разрешено ли действие
-    update: [$task, $elapseditem, $update], // Изменяет параметры записи о затраченном времени
-  }
+  protected url = methods.task.elapsedItem
 
   constructor(private http: HttpBXServices) {
   }
 
-  getList(
-    param: iBXRestParamElapseditemGet = {}
-  ) {
+  getList(param: iBXRestParamElapseditemGet = {}) {
     return this.http.post<iBXRestTaskElapsedItemHttp[]>(this.url.getList, param)
   }
 

@@ -3,22 +3,14 @@ import { $add, $blogpost, $delete, $get, $log, $share, $update } from '../../con
 import { HttpBXServices } from '../../services/http/HttpBX';
 import { iBXRestParamLogBlogPostAdd } from '../../typification/rest/log/blogpost/add'
 import { iBXRestBlogPostHttp, iBXRestParamBlogPostGet } from '../../typification/rest/log/blogpost/get'
+import { methods } from '../../methods';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestLogBlogPost {
 
-  protected url = {
-    add: [$log, $blogpost, $add], // Добавляет в Живую Ленту сообщение от имени текущего пользователя
-    // getusers: {
-    //   important: 'log.blogpost.getusers.important' // Отдает массив ID пользователей, прочитавших Важное сообщение
-    // },
-    get: [$log, $blogpost, $get], // Возвращает массив с доступными текущему пользователю сообщениями Живой ленты. Каждое из сообщений представляет собой массив значений полей (включая пользовательские поля)
-    delete: [$log, $blogpost, $delete], // Удаляет сообщение Живой Ленты
-    share: [$log, $blogpost, $share], // Добавляет получателей в сообщение Живой Ленты
-    update: [$log, $blogpost, $update], // Изменяет сообщение Живой Ленты
-  }
+  protected url = methods.log.blogpost
 
   constructor(private http: HttpBXServices) {
   }

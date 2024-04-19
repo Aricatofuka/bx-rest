@@ -1,25 +1,20 @@
 import { Injectable } from '@angular/core'
-import { $bizproc, $instances, $start, $terminate, $workflow, $kill} from '../../consts/part-name-methods'
-import { BXRestBizprocWorkflowInstance } from './workflow/instance'
-import { BXRestBizprocWorkflowTemplate } from './workflow/template'
+import { BXRestBizProcWorkflowInstance } from './workflow/instance'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamBizprocWorkflowStart } from '../../typification/rest/bizproc/workflow/start'
+import { methods } from '../../methods'
+import { BXRestBizProcWorkflowTemplate } from './workflow/template'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestBizProcWorkflow {
 
-  protected url = {
-    instances: [$bizproc, $workflow, $instances], // Возвращает список запущенных бизнес-процессов // TODO: реализовать
-    terminate: [$bizproc, $workflow, $terminate], // Останавливает активный Бизнес-процесс // TODO: реализовать
-    start: [$bizproc, $workflow, $start], // Запускает Бизнес-процесс
-    kill: [$bizproc, $workflow, $kill], // Удаляет запущенный бизнес-процесс // TODO: реализовать
-  }
+  protected url = methods.bizProc.workflow
 
   constructor(
-    public instances: BXRestBizprocWorkflowInstance,
-    public template: BXRestBizprocWorkflowTemplate,
+    public instances: BXRestBizProcWorkflowInstance,
+    public template: BXRestBizProcWorkflowTemplate,
     private http: HttpBXServices
   ) {
   }

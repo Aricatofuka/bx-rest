@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core'
 import { $bizproc, $add, $activity, $delete, $list, $update, $log } from '../../consts/part-name-methods'
+import { methods } from '../../methods';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestBizProcActivity {
-  protected url = {
-    add: [$bizproc, $activity, $add], // Добавляет новое действие в бизнес-процесс
-    delete: [$bizproc, $activity, $delete], // Удаляет действие
-    list: [$bizproc, $activity, $list], // Возвращает список установленных приложением действий
-    update: [$bizproc, $activity, $update], // Позволяет обновить поля действия
-    log: [$bizproc, $activity, $log]// Записывает информацию в лог бизнес-процесса
-  }
+  protected url = methods.bizProc.activity
 }

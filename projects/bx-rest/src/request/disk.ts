@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { BXRestDiskFile } from './disk/file'
 import { BXRestDiskFolder } from './disk/folder'
-import { BXRestDiskAttachedObject } from './disk/attachedObject';
+import { BXRestDiskAttachedObject } from './disk/attachedObject'
 
 @Injectable({
   providedIn: 'root'

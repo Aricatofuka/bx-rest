@@ -1,3 +1,27 @@
+
+export interface iBXRestParamFolderGet extends iBXRestParamFolder {
+}
+
+export interface iBXRestParamFolderDeleteTree extends iBXRestParamFolder {
+}
+
+export interface iBXRestParamFolderMarkDeleted extends iBXRestParamFolder {
+}
+
+export interface iBXRestParamFolderRestore extends iBXRestParamFolder {
+}
+
+export interface iBXRestParamFolderGetExternalLink extends iBXRestParamFolder {
+}
+
+export interface iBXRestParamFolderGetChildren extends iBXRestParamFolder {
+}
+
+
+export interface iBXRestParamFolder {
+  id: number
+}
+
 export interface iBXRestFolderInfo {
   ID: number
   NAME: string

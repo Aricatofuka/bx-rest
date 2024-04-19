@@ -9,30 +9,25 @@ npm install bx-rest
 ```
 # Usage
 ```typescript
-@NgModule({
-    declarations: [
-        AppComponent,
-        ...
-    ],
-    imports: [
-        BrowserModule
-        ...
-    ],
-    providers: [
-        NgxMaskPipe,
-        {
-            provide: REST_SETTINGS, useValue: {
-                auth: {
-                    source: 'cookies',
-                    key: 'auth'
-                },
-                urls: {
-                    home: 'your bitrix addres'
-                }
-            }
+import { BX_REST_SETTINGS } from 'bx-rest';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(),
+    {
+      provide: BX_REST_SETTINGS, useValue: {
+        auth: {
+          source: 'cookies',
+          key: 'auth'
+        },
+        urls: {
+          home: 'your bitrix addres'
         }
-    ],
-});
+      }
+    }
+  ]
+};
 document.cookie ='auth=ACCESS_TOKEN;  max-age=99999'
 ```
 ```typescript
@@ -65,10 +60,10 @@ export class AnyComponent {
   }
 }
 ```
-or if you prefer several features in one 
+or if you prefer several features in one
 
 ```typescript
-import { BXRestNavvy, BXMap } from 'bx-rest'
+import { BXRestNavvy } from 'bx-rest'
 
 @Component({
   selector: 'app-any',
@@ -84,11 +79,11 @@ export class AnyComponent {
       ['>' + vacancies.del]: 0
     }
   }).result() // or .resultAll() - to get all elements
-    
+
   constructor(
     private BXRestNavvy: BXRestNavvy,
   ) {
-      
+
   }
 }
 ```
@@ -206,7 +201,7 @@ export class BXRestCustomMapBlogpostGet extends BXRestMapBase {
           TOTAL_VOTES: this.toNum(i.TOTAL_VOTES),
         }
       }) as iBXRestCustomBlogpostGetRating[]
-        : [] as iBXRestCustomBlogpostGetRating[]
+      : [] as iBXRestCustomBlogpostGetRating[]
   }
 }
 ```

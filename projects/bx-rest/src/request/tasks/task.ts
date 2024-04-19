@@ -1,9 +1,4 @@
 import { Injectable } from '@angular/core'
-import {
-  $add, $approve, $attach, $complete, $counters, $defer, $delegate, $delete, $disapprove, $favorite, $files,
-  $get, $getaccess, $getFields, $history, $list, $pause, $renew, $start,
-  $task, $tasks, $update
-} from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import {
@@ -13,52 +8,26 @@ import {
 import {
   iBXRestParamTasksList, iBXRestTasksTaskListHttp } from '../../typification/rest/tasks/task/list'
 import { iBXRestParamTaskGetAccess, iBXRestTaskGetAccess } from '../../typification/rest/task/access/getaccess'
-import { iBXRestTasksTaskApproveHttp } from '../../typification/rest/tasks/task/approve'
-import { iBXRestTasksTaskCompleteHttp } from '../../typification/rest/tasks/task/complete'
-import { iBXRestTasksTaskDeferHttp } from '../../typification/rest/tasks/task/defer'
+import { iBXRestParamTasksTaskApprove, iBXRestTasksTaskApproveHttp } from '../../typification/rest/tasks/task/approve'
+import {
+  iBXRestParamTasksTaskComplete,
+  iBXRestTasksTaskCompleteHttp
+} from '../../typification/rest/tasks/task/complete'
+import { iBXRestParamTasksTaskDefer, iBXRestTasksTaskDeferHttp } from '../../typification/rest/tasks/task/defer'
 import { BXRestTasksTaskResult } from './task/result'
 import { iBXRestParamTasksTaskGet } from '../../typification/rest/tasks/task/get'
 import { iBXRestTasksTaskGetFields } from '../../typification/rest/tasks/task/getFields'
 import { iBXRestParamTasksTaskUpdate } from '../../typification/rest/tasks/task/update'
 import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
+import { methods } from '../../methods'
+import { iBXRestTasksTaskBaseAnswer } from '../../typification/rest/tasks/task/base';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestTasksTask {
 
-  protected url = {
-    add: [$tasks, $task, $add], // Создает задачу
-    approve: [$tasks, $task, $approve], // Позволяет принять задачу
-    complete: [$tasks, $task, $complete], // Переводит задачу в статус «завершена»
-    counters: {
-      get: [$tasks, $task, $counters, $get], //Получает счетчики пользователя
-    },
-    defer: [$tasks, $task, $defer], // Переводит задачу в статус «отложена»
-    delegate: [$tasks, $task, $delegate], // Метод для делегирования задачи
-    delete: [$tasks, $task, $delete], // Удаляет задачу
-    disapprove: [$tasks, $task, $disapprove], // Позволяет отклонить задачу
-    favorite: {
-      add: [$tasks, $task, $favorite, $add], // Добавляет задачи в "Избранное"
-      delete: [$tasks, $task, $favorite, $delete], // Удаляет задачи из "Избранного"
-    },
-    files: {
-      attach: [$tasks, $task, $files, $attach], // Прикрепляет загруженный на диск файл к задаче
-    },
-    get: [$tasks, $task, $get], // Возвращает информацию о конкретной задаче
-    getFields: [$tasks, $task, $getFields], // Возвращает все доступные поля
-    getaccess: [$tasks, $task, $getaccess], // Метод для проверки доступа к задаче
-    history: {
-      list: [$tasks, $task, $history, $list], // Получает историю задачи
-    },
-    list: [$tasks, $task, $list], // Возвращает массив задач, каждая из которых содержит массив полей
-    pause: [$tasks, $task, $pause], // Останавливает выполнение задачи, переводя ее в статус "ждет выполнения"
-    renew: [$tasks, $task, $renew], // Возобновляет задачу после ее завершения
-    start: [$tasks, $task, $start], // Переводит задачу в статус «выполняется»
-    startWatch: [$tasks, $task, 'startwatch'], // Позволяет наблюдать за задачей
-    stopwatch: [$tasks, $task, 'stopwatch'], // Останавливает наблюдение за задачей
-    update: [$tasks, $task, $update], // Обновляет задачу
-  }
+  protected url = methods.tasks.task
 
   constructor(
     public result: BXRestTasksTaskResult,
@@ -66,24 +35,24 @@ export class BXRestTasksTask {
   ) {
   }
 
-  add(param: { fields: iBXRestParamTaskAdd }) {
-    return this.http.post<{ task: iBXRestTasksTaskGetHttpDefault }>(this.url.add, param)
+  add(param: iBXRestParamTaskAdd) {
+    return this.http.post<iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskGetHttpDefault>>(this.url.add, param)
   }
 
-  approve(id: number) {
-    return this.http.post<{ task: iBXRestTasksTaskApproveHttp }>(this.url.approve, {taskId: id})
+  approve(param: iBXRestParamTasksTaskApprove) {
+    return this.http.post<iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskApproveHttp>>(this.url.approve, param)
   }
 
-  complete(id: number) {
-    return this.http.post<{ task: iBXRestTasksTaskCompleteHttp }>(this.url.complete, {taskId: id})
+  complete(param: iBXRestParamTasksTaskComplete) {
+    return this.http.post<iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskCompleteHttp>>(this.url.complete, param)
   }
 
-  defer(id: number) {
-    return this.http.post<{ task: iBXRestTasksTaskDeferHttp }>(this.url.defer, {taskId: id})
+  defer(param: iBXRestParamTasksTaskDefer) {
+    return this.http.post<iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskDeferHttp>>(this.url.defer, param)
   }
 
   update(param: iBXRestParamTasksTaskUpdate) {
-    return this.http.post<{ task: iBXRestTasksTaskDeferHttp }>(this.url.update, param)
+    return this.http.post<iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskDeferHttp>>(this.url.update, param)
   }
 
   get<S extends iBXRestTaskFieldsName[], CustomFields extends object = {}>(param: iBXRestParamTasksTaskGet<CustomFields>) {
@@ -163,7 +132,7 @@ export class BXRestTasksTask {
 
 
   getAccess(param: iBXRestParamTaskGetAccess) {
-    return this.http.post<iBXRestTaskGetAccess>(this.url.getaccess, param)
+    return this.http.post<iBXRestTaskGetAccess>(this.url.getAccess, param)
   }
 
 }

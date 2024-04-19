@@ -7,6 +7,12 @@ import { iBXRestDiskFolderCopyToParam } from '../../typification/rest/disk/folde
 import { iBXRestDiskFolderMoveToParam } from '../../typification/rest/disk/folder/moveTo'
 import { iBXRestDiskFolderRenameParam } from '../../typification/rest/disk/folder/rename'
 import { iBXRestDiskFolderUploadFileParam } from '../../typification/rest/disk/folder/uploadFile'
+import { iBXRestParamDiskFileGet, iBXRestParamDiskFileMarkDeleted } from '../../typification/rest/disk/file';
+import {
+  iBXRestParamFolderDeleteTree, iBXRestParamFolderGetChildren,
+  iBXRestParamFolderGetExternalLink,
+  iBXRestParamFolderRestore
+} from '../../typification/rest/disk/folder';
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +31,12 @@ export class BXRestNavvyDiskFolder {
   /**
    * Возвращает папку по идентификатору
    *
-   * @param id
+   * @param param
    */
-  get(id: number) {
+  get(param: iBXRestParamDiskFileGet) {
     return this.Navvy.simpleWithArg(
       this.BXRestDiskFolder.get,
-      id,
+      param,
       this.BXRestMapDiskFolder.FolderHttpToFolder
     )
   }
@@ -91,24 +97,24 @@ export class BXRestNavvyDiskFolder {
    * Уничтожает папку и всё её дочерние элементы навсегда
    * В ответе 'result': true - успешное уничтожение папки
    *
-   * @param id
+   * @param param
    */
-  deleteTree(id: number) {
+  deleteTree(param: iBXRestParamFolderDeleteTree) {
     return this.Navvy.simpleWithArg(
       this.BXRestDiskFolder.deleteTree,
-      id
+      param
     )
   }
 
   /**
    * Перемещает папку в корзину
    *
-   * @param id
+   * @param param
    */
-  markDeleted(id: number) {
+  markDeleted(param: iBXRestParamDiskFileMarkDeleted) {
     return this.Navvy.simpleWithArg(
       this.BXRestDiskFolder.markDeleted,
-      id,
+      param,
       this.BXRestMapDiskFolder.FolderHttpToFolder
     )
   }
@@ -116,12 +122,12 @@ export class BXRestNavvyDiskFolder {
   /**
    * Восстанавливает папку из корзины
    *
-   * @param id
+   * @param param
    */
-  restore(id: number) {
+  restore(param: iBXRestParamFolderRestore) {
     return this.Navvy.simpleWithArg(
       this.BXRestDiskFolder.restore,
-      id,
+      param,
       this.BXRestMapDiskFolder.FolderHttpToFolder
     )
   }
@@ -129,12 +135,12 @@ export class BXRestNavvyDiskFolder {
   /**
    * Метод возвращает публичную ссылку
    *
-   * @param id
+   * @param param
    */
-  getExternalLink(id: number) {
+  getExternalLink(param: iBXRestParamFolderGetExternalLink) {
     return this.Navvy.simpleWithArg(
       this.BXRestDiskFolder.getExternalLink,
-      id
+      param
     )
   }
 
@@ -163,12 +169,12 @@ export class BXRestNavvyDiskFolder {
   /**
    * Возвращает список файлов и папок, которые находятся непосредственно в папке
    *
-   * @param id
+   * @param param
    */
-  getChildren(id: number) {
+  getChildren(param: iBXRestParamFolderGetChildren) {
     return this.Navvy.simpleWithArg(
       this.BXRestDiskFolder.getChildren,
-      id,
+      param,
       this.BXRestMapDiskFolder.getChildren
     )
   }

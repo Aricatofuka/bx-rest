@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
-import { $getlist, $planner, $task } from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
+import { methods } from '../../methods'
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,6 @@ export class BXRestTaskPlanner {
   }
 
   getList(){
-    return this.http.post<(string | number)[]>([$task, $planner, $getlist])
+    return this.http.post<(string | number)[]>(methods.task.planner.getList)
   }
 }

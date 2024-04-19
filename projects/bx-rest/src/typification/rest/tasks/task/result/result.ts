@@ -1,3 +1,7 @@
+export interface iBXParamRestTasksTaskResultAdd {
+  commentId: number
+}
+
 export interface iBXRestTasksTaskResult extends iBXRestTasksTaskResultBase{
   createdAt: Date,
   updatedAt: Date

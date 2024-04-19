@@ -36,7 +36,7 @@ export class BXRestNavvyTasksTask {
     this.Navvy = new Navvy(this.BXRestTasksTask, this.BXRestMapTasksTask)
   }
 
-  add(param: { fields: iBXRestParamTaskAdd }) {
+  add(param: iBXRestParamTaskAdd) {
     return this.Navvy.simpleWithArg(
       this.BXRestTasksTask.add,
       param,
@@ -77,7 +77,7 @@ export class BXRestNavvyTasksTask {
     )
   }
 
-  // Возможно можно обойтись без "S extends iBXRestTaskFieldsName[]" но это надо понять того как генерировать интейфейс на литу исходя их входящих данных
+  // Возможно можно обойтись без "S extends iBXRestTaskFieldsName[]", надо что бы понять то как генерировать интейфейс на лету исходя их входящих данных
   list<S extends iBXRestTaskFieldsName[], CustomFields extends object = {}>(param: iBXRestParamTasksList<CustomFields> = {}) {
     return this.Navvy.PagNavTasks(
       this.BXRestTasksTask.list<S, CustomFields>,

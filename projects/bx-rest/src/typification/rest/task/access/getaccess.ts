@@ -1,7 +1,7 @@
 export interface iBXRestParamTaskGetAccess {
   id: number
   /**
-   * Чеи права чекать, по у молчанию чекаються того кто запрашивает
+   * Чеи права чекать, по у молчанию чекаются того кто запрашивает
    */
   users?: number[]
 }

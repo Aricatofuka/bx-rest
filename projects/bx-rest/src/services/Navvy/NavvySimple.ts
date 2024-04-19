@@ -10,7 +10,6 @@ export class NavvySimple<C, M, T, R> extends NavvySupport<C, M, T, R> {
     mapClass: M,
     public func: Observable<iBXRestAnswer<T> | undefined>,
     public map: ((param: T | undefined) => R) | undefined = undefined
-    // private snackBar: SnackBarService,
   ) {
     super(requestClass, mapClass)
   }
@@ -18,13 +17,6 @@ export class NavvySimple<C, M, T, R> extends NavvySupport<C, M, T, R> {
   resultVanilla() {
     return this.func
   }
-  // TODO: del after 09.04.2024
-  // mapForVanilla() {
-  //   return this.func.pipe(
-  //     map(v => (v && instanceOfiBXRestAnswerSuccess(v) && this.map)
-  //       ? Object.assign(v,{result:  this.map.call(this.mapClass, v.result)}) : v)
-  //   ) as ReturnTypeNavvy<Observable<iBXRestAnswer<T | undefined>>, Observable<iBXRestAnswer<R | undefined>>>
-  // }
 
   result() {
     return this.mapAndError(this.func).pipe(

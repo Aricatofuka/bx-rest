@@ -1,3 +1,7 @@
+export interface iBXRestParamRestDiskAttachedObject {
+  id: number
+}
+
 export interface iBXRestDiskAttachedObject extends iBXRestDiskAttachedObjectBase{
   ID: number,
   OBJECT_ID: number, //идентификатор файла из Диска

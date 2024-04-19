@@ -1,3 +1,7 @@
+export interface iBXRestParamTasksTaskApprove {
+  taskId: number
+}
+
 export interface iBXRestTasksTaskApproveHttp {
   id: string
   parentId: string | null
@@ -67,7 +71,6 @@ export interface iBXRestTasksTaskApproveHttp {
   checkListTree: BXRestTasksTaskApproveCheckListTree
   checkListCanAdd: boolean
 }
-
 
 interface BXRestTasksTaskApproveGroup {
   id: string

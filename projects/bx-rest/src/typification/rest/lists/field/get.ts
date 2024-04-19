@@ -37,3 +37,5 @@ export interface iBXRestFieldItem {
     [key: number]: string
   }
 }
+
+export type BXRestHttpListsFieldGet = { [key: string]: iBXRestFieldItem }

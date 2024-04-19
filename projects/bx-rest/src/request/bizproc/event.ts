@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core'
-import { $bizproc, $event, $send } from '../../consts/part-name-methods'
+import { methods } from '../../methods'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestBizProcEvent {
-  protected url = {
-    send: [$bizproc, $event, $send], // Возвращает действию выходные параметры, заданные в описании действия
-  }
+  protected url = methods.bizProc.event
 }

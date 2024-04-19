@@ -32,7 +32,6 @@ export class NavvyPagNav<C, M, T, R, P extends iBXRestPagination> extends NavvyP
   }
 
   private resultAllEnd() {
-    // return  this.mapForVanillaEnd(this.func, this.param)
     return this.resultVanilla().pipe(
       mergeMap(
         items => {

@@ -26,7 +26,6 @@ export class NavvyPagNavTasks<C, M, T, R, P extends iBXRestPagination> extends N
   }
 
   private resultAllEnd() {
-    // return  this.mapForVanillaEnd(this.func, this.param)
     return this.resultVanilla().pipe(
       mergeMap(
         items => {
@@ -52,7 +51,6 @@ export class NavvyPagNavTasks<C, M, T, R, P extends iBXRestPagination> extends N
         }
       ),
       catchError(err => {
-        // this.snackBar.error("Проблемы с поточным получение затреканого времени")
         console.error(err)
         return throwError(() => err)
       })

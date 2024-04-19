@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { BXRestDiskFile } from '../../request/disk/file'
 import { Navvy } from '../../services/navvy'
 import { BXRestMapDiskFile } from '../../map/disk/file'
+import { iBXRestParamDiskFileGet, iBXRestParamDiskFileMarkDeleted } from '../../typification/rest/disk/file'
 
 @Injectable({
   providedIn: 'root'
@@ -17,18 +18,18 @@ export class BXRestNavvyDiskFile {
     this.Navvy = new Navvy(this.BXRestDiskFile, this.BXRestMapDiskFile)
   }
 
-  get(id: number) {
+  get(param: iBXRestParamDiskFileGet) {
     return this.Navvy.simpleWithArg(
       this.BXRestDiskFile.get,
-      id,
+      param,
       this.BXRestMapDiskFile.get
     )
   }
 
-  markDeleted(id: number) {
+  markDeleted(param: iBXRestParamDiskFileMarkDeleted) {
     return this.Navvy.simpleWithArg(
       this.BXRestDiskFile.markDeleted,
-      id,
+      param,
       this.BXRestMapDiskFile.markdeleted
     )
   }

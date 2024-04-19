@@ -44,7 +44,7 @@ export class BXRestNavvyDiskOperation {
     return this.getOfCreateRootFolderApp(folderName).pipe(
       mergeMap(v => {
         if (v) {
-          return this.folder.getChildren(v.ID).result()
+          return this.folder.getChildren({id: v.ID}).result()
         }
         return of(undefined)
       })

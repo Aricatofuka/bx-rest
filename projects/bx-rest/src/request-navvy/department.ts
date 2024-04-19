@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { BXRestDepartment } from '../request/departments'
+import { BXRestDepartment } from '../request/department'
 import { iBXRestParamDepartmentGet } from '../typification/rest/department/get'
 import { Navvy } from '../services/navvy'
 import { BXRestMapDepartment } from '../map/department'

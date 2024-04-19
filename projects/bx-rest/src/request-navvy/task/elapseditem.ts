@@ -49,10 +49,8 @@ export class BXRestNavvyElapsedItem {
   }
 
   private addBase(param: iBXRestParamAddElapseditem) {
-    console.log('this.operation', this.operation)
     return this.operation.checkPermissionReadTask(param.TASKID).pipe(
       mergeMap(allowedReadTask => {
-        console.log('allowedReadTask', allowedReadTask)
         if (allowedReadTask) {
           return this.operation.checkPermissionAddElapsedTimeToTask(param.TASKID).pipe(
             mergeMap(allowed => {
@@ -87,7 +85,6 @@ export class BXRestNavvyElapsedItem {
         }
         return throwError(() => new Error('Отсутствуют права на чтение задачи'))
       }))
-    console.log('this.BXRestMapElapsedItem.update', this.BXRestMapElapsedItem.update)
     return new NavvySimple(this, this.BXRestMapElapsedItem, func.call(this), this.BXRestMapElapsedItem.update)
   }
 

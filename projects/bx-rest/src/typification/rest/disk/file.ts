@@ -1,5 +1,17 @@
 import { iBXRestFolderOrFile, iBXRestFolderOrFileBase } from './folder'
 
+export interface iBXRestParamDiskFileMarkDeleted extends iBXRestParamDiskFile{
+
+}
+
+export interface iBXRestParamDiskFileGet extends iBXRestParamDiskFile{
+
+}
+
+export interface iBXRestParamDiskFile {
+  id: number
+}
+
 export interface iBXRestDiskFile extends iBXRestFolderOrFile, iBXRestDiskFileBase {
   SIZE: number
 }

@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core'
-import {
-  $copyto, $disk, $folder, $get, $getchildren, $getFields,
-  $markdeleted, $moveto, $rename, $restore, $uploadfile
-} from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
-import { iBXRestFolderHttp } from '../../typification/rest/disk/folder'
+import {
+  iBXRestFolderHttp,
+  iBXRestParamFolderDeleteTree,
+  iBXRestParamFolderGet,
+  iBXRestParamFolderGetChildren,
+  iBXRestParamFolderGetExternalLink,
+  iBXRestParamFolderMarkDeleted,
+  iBXRestParamFolderRestore
+} from '../../typification/rest/disk/folder'
 import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 import { iBXRestDiskFolderUploadFileParam } from '../../typification/rest/disk/folder/uploadFile'
 import { iBXRestDiskFolderGetFieldsHttp } from '../../typification/rest/disk/folder/getFields'
@@ -12,26 +16,14 @@ import { iBXRestDiskFolderAddSubFolderParam } from '../../typification/rest/disk
 import { iBXRestDiskFolderCopyToParam } from '../../typification/rest/disk/folder/copyTo'
 import { iBXRestDiskFolderMoveToParam } from '../../typification/rest/disk/folder/moveTo'
 import { iBXRestDiskFolderRenameParam } from '../../typification/rest/disk/folder/rename'
+import { methods } from '../../methods'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestDiskFolder {
 
-  protected url = {
-    getFields: [$disk, $folder, $getFields],
-    get: [$disk, $folder, $get],
-    getChildren: [$disk, $folder, $getchildren],
-    addSubFolder: [$disk, $folder, 'addsubfolder'],
-    copyTo: [$disk, $folder, $copyto],
-    moveTo: [$disk, $folder, $moveto],
-    rename: [$disk, $folder, $rename],
-    deleteTree: [$disk, $folder, 'deletetree'],
-    markDeleted: [$disk, $folder, $markdeleted],
-    restore: [$disk, $folder, $restore],
-    uploadFile: [$disk, $folder, $uploadfile],
-    getExternalLink: [$disk, $folder, 'getExternalLink']
-  }
+  protected url = methods.disk.folder
 
   constructor(
     private http: HttpBXServices,
@@ -41,10 +33,10 @@ export class BXRestDiskFolder {
   /**
    * Возвращает папку по идентификатору
    *
-   * @param id
+   * @param param
    */
-  get(id: number) {
-    return this.http.post<iBXRestFolderHttp>(this.url.get, {id: id})
+  get(param: iBXRestParamFolderGet) {
+    return this.http.post<iBXRestFolderHttp>(this.url.get, param)
   }
 
   /**
@@ -87,48 +79,48 @@ export class BXRestDiskFolder {
    * Уничтожает папку и всё её дочерние элементы навсегда
    * В ответе 'result': true - успешное уничтожение папки
    *
-   * @param id
+   * @param param
    */
-  deleteTree(id: number){
+  deleteTree(param: iBXRestParamFolderDeleteTree){
     return this.http.post<boolean>(
       this.url.deleteTree,
-      {id: id}
+      param
     )
   }
 
   /**
    * Перемещает папку в корзину
    *
-   * @param id
+   * @param param
    */
-  markDeleted(id: number){
+  markDeleted(param: iBXRestParamFolderMarkDeleted){
     return this.http.post<iBXRestFolderHttp>(
       this.url.markDeleted,
-      {id: id}
+      param
     )
   }
 
   /**
    * Восстанавливает папку из корзины
    *
-   * @param id
+   * @param param
    */
-  restore(id: number){
+  restore(param: iBXRestParamFolderRestore){
     return this.http.post<iBXRestFolderHttp>(
       this.url.restore,
-      {id: id}
+      param
     )
   }
 
   /**
    * Метод возвращает публичную ссылку
    *
-   * @param id
+   * @param param
    */
-  getExternalLink(id: number){
+  getExternalLink(param: iBXRestParamFolderGetExternalLink){
     return this.http.post<string>(
       this.url.restore,
-      {id: id}
+      param
     )
   }
 
@@ -155,12 +147,12 @@ export class BXRestDiskFolder {
   /**
    * Возвращает список файлов и папок, которые находятся непосредственно в папке
    *
-   * @param id
+   * @param param
    */
-  getChildren(id: number) {
+  getChildren(param: iBXRestParamFolderGetChildren) {
     return this.http.post<(iBXRestFolderHttp | iBXRestDiskFileHttp)[]>(
       this.url.getChildren,
-      {id: id}
+      param
     )
   }
 }

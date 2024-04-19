@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core'
-import {
-  $server,
-  $time
-} from '../consts/part-name-methods'
 import { HttpBXServices } from '../services/http/HttpBX'
+import { methods } from '../methods'
 
 
 @Injectable({
@@ -11,9 +8,7 @@ import { HttpBXServices } from '../services/http/HttpBX'
 })
 export class BXRestServer {
 
-  protected url = {
-    time: [$server, $time]
-  }
+  protected url = methods.server
 
   constructor(private http: HttpBXServices) {
   }

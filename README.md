@@ -9,19 +9,14 @@ npm install bx-rest
 ```
 # Usage
 ```typescript
-@NgModule({
-  declarations: [
-    AppComponent,
-    ...
-  ],
-  imports: [
-    BrowserModule
-    ...
-  ],
+import { BX_REST_SETTINGS } from 'bx-rest';
+
+export const appConfig: ApplicationConfig = {
   providers: [
-    NgxMaskPipe,
+    provideRouter(routes),
+    provideHttpClient(),
     {
-      provide: REST_SETTINGS, useValue: {
+      provide: BX_REST_SETTINGS, useValue: {
         auth: {
           source: 'cookies',
           key: 'auth'
@@ -31,8 +26,8 @@ npm install bx-rest
         }
       }
     }
-  ],
-});
+  ]
+};
 document.cookie ='auth=ACCESS_TOKEN;  max-age=99999'
 ```
 ```typescript
@@ -68,7 +63,7 @@ export class AnyComponent {
 or if you prefer several features in one
 
 ```typescript
-import { BXRestNavvy, BXMap } from 'bx-rest'
+import { BXRestNavvy } from 'bx-rest'
 
 @Component({
   selector: 'app-any',
