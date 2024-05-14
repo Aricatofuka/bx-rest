@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestAppInfoHttp } from '../typification/rest/app/info'
-import { methods } from '../methods'
+import { methods } from '../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

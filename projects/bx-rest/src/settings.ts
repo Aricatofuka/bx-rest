@@ -7,7 +7,8 @@ export class BX_REST_SETTINGS extends InjectionToken<iRestSettings> {
     key: 'auth'
   }
   urls = {
-    home: ''
+    source: 'localStorage',
+    key: ''
   }
 }
 

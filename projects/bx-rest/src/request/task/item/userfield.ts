@@ -4,7 +4,7 @@ import {
   iBXRestTaskItemUserFieldGetlistHttp
 } from '../../../typification/rest/task/item/userfield/getlist'
 import { HttpBXServices } from '../../../services/http/HttpBX'
-import { methods } from '../../../methods'
+import { methods } from '../../../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

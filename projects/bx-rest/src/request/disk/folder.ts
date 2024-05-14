@@ -16,7 +16,7 @@ import { iBXRestDiskFolderAddSubFolderParam } from '../../typification/rest/disk
 import { iBXRestDiskFolderCopyToParam } from '../../typification/rest/disk/folder/copyTo'
 import { iBXRestDiskFolderMoveToParam } from '../../typification/rest/disk/folder/moveTo'
 import { iBXRestDiskFolderRenameParam } from '../../typification/rest/disk/folder/rename'
-import { methods } from '../../methods'
+import { methods } from '../../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

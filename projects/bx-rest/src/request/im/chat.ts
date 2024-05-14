@@ -1,17 +1,7 @@
 import { Injectable } from '@angular/core'
-import {
-  $add,
-  $chat,
-  $get,
-  $im, $mute,
-  $setOwner,
-  $updateAvatar,
-  $updateColor,
-  $updateTitle
-} from '../../consts/part-name-methods'
 import { iBXRestParamImChatAdd } from '../../typification/rest/im/chat/add'
 import { HttpBXServices } from '../../services/http/HttpBX'
-import { methods } from '../../methods';
+import { methods } from '../../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

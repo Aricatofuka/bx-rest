@@ -5,7 +5,7 @@ import {
 } from '../../../typification/rest/tasks/task/result/result'
 import { Injectable } from '@angular/core'
 import { iBXRestParamTasksTaskResultList } from '../../../typification/rest/tasks/result/list'
-import { methods } from '../../../methods'
+import { methods } from '../../../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

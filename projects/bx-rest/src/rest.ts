@@ -17,7 +17,7 @@ import { iBXRestProfileHttp } from './typification/rest/profile'
 import { BXRestMaps } from './map/rest'
 import { BXRestTimeMan } from './request/timeman'
 import { BXRestNavvyTimeMan } from './request-navvy/timeman'
-import { iBXRestBatch, iBXRestParamBatch } from './typification/rest/batch'
+import { iBXRestBatch, iBXRestNavvyParamBatch, iBXRestParamBatch } from './typification/rest/batch'
 // Navvy
 import { BXRestNavvyLists } from './request-navvy/lists'
 import { BXRestNavvyTasks } from './request-navvy/tasks'
@@ -59,12 +59,12 @@ export class BXRest {
   ) {
   }
 
-  profile() {
+  public profile() {
     return this.http.post<iBXRestProfileHttp>(['profile'])
   }
 
-  batch<T>(param: iBXRestParamBatch<T>) {
-    return this.http.post<iBXRestBatch<T>>(['batch'])
+  public batch<T>(param: iBXRestParamBatch<T>) {
+    return this.http.post<iBXRestBatch<T>>(['batch'], param)
   }
 }
 
@@ -96,24 +96,24 @@ export class BXRestNavvy {
     this.Navvy = new Navvy(this.BXRest, this.BXRestMap)
   }
 
-  profile() {
+  public profile() {
     return this.Navvy.simple(this.BXRest.profile, this.BXRestMap.profile)
   }
 
-  // batch<T, C, M>(param: iBXRestNavvyParamBatch<T, C, M>) {
-  //   const test = param.cmd
-  //   const modifiedObject = Object.fromEntries(
-  //     Object.entries(param.cmd).map(([key, value]) => {
-  //       let modifiedValue = value.resultVanilla.arguments
-  //       return [key, modifiedValue];
-  //     })
-  //   );
-  //
-  //   return this.BXRest.batch({
-  //     halt: param.halt,
-  //     cmd: modifiedObject
-  //   })
-  // }
+  public batch<T, C, M>(param: iBXRestNavvyParamBatch<T, C, M>) {
+    const test = param.cmd
+    const modifiedObject = Object.fromEntries(
+      Object.entries(param.cmd).map(([key, value]) => {
+        let modifiedValue = value.resultVanilla.arguments
+        return [key, modifiedValue];
+      })
+    );
+
+    return this.BXRest.batch({
+      halt: param.halt,
+      cmd: modifiedObject
+    })
+  }
 }
 
 

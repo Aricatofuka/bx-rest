@@ -5,7 +5,7 @@ import {
   iBXRestParamDiskFileGet,
   iBXRestParamDiskFileMarkDeleted
 } from '../../typification/rest/disk/file'
-import { methods } from '../../methods'
+import { methods } from '../../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

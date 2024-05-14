@@ -14,8 +14,6 @@ import { HttpHeaders } from '@angular/common/http'
 import flatten from 'just-flatten-it'
 import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 
-// type TransformFunction<T, R> = (input: T) => R;
-
 @Injectable({
   providedIn: 'root'
 })

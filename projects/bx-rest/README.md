@@ -22,7 +22,8 @@ export const appConfig: ApplicationConfig = {
           key: 'auth'
         },
         urls: {
-          home: 'your bitrix addres'
+          source: 'string', // or 'localStorage'
+          home: 'your bitrix addres' // or your key from localStorage
         }
       }
     }

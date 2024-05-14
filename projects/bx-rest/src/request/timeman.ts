@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { iBXRestParamTimeManStatus, iBXRestTimeManStatusHttp } from '../typification/rest/timeman/status'
 import { HttpBXServices } from '../services/http/HttpBX'
-import { methods } from '../methods'
+import { methods } from '../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

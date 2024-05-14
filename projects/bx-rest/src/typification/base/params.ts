@@ -1,51 +1,71 @@
-import { iBXRestUserHttp, iBXRestUserHttpField } from './typification/rest/user/user'
-import { iBXRestTasksTaskBaseAnswer } from './typification/rest/tasks/task/base'
-import { iBXRestTasksTaskGetHttpDefault } from './typification/rest/tasks/task/get'
-import { iBXRestTasksTaskApproveHttp } from './typification/rest/tasks/task/approve'
-import { iBXRestParamTasksTaskComplete, iBXRestTasksTaskCompleteHttp } from './typification/rest/tasks/task/complete'
-import { iBXRestTasksTaskDeferHttp } from './typification/rest/tasks/task/defer'
-import { iBXRestTaskGetAccess } from './typification/rest/task/access/getaccess'
-import { $list, $result, $task, $tasks } from './consts/part-name-methods'
-import { iBXRestTasksTaskResultHttp } from './typification/rest/tasks/task/result/result'
-import { iBXRestTaskElapsedItemHttp } from './typification/rest/task/elapseditem/item'
-import { iBXRestTaskCommentHtml } from './typification/rest/task/commentitem/commentitem'
-import { iBXRestTaskItemUserFieldGetlistHttp } from './typification/rest/task/item/userfield/getlist'
-import { iBXRestTimeManStatusHttp } from './typification/rest/timeman/status'
-import { iBXRestSonetGroupGetHttp } from './typification/rest/sonet_group/get'
-import { iBXRestParamLogBlogPostAdd } from './typification/rest/log/blogpost/add';
-import { iBXRestBlogPostHttp } from './typification/rest/log/blogpost/get';
-import { iBXRestListItemHttp } from './typification/rest/lists/get';
-import { BXRestHttpListsFieldGet, iBXRestParamListField } from './typification/rest/lists/field/get';
-import { iBXRestHttpListsElement } from './typification/rest/lists/element/get';
-import { iBXRestParamListsElementAdd } from './typification/rest/lists/element/add';
-import { iBXRestDiskFileHttp } from './typification/rest/disk/file';
-import { iBXRestFolderHttp } from './typification/rest/disk/folder';
-import { iBXRestDiskFolderGetFieldsHttp } from './typification/rest/disk/folder/getFields';
-import { iBXRestDiskAttachedObjectHttp } from './typification/rest/disk/AttachedObject';
-import { iBXRestDepartmentHttp } from './typification/rest/department/department';
-import { iBXRestCalendarEventGetAnswerHttp } from './typification/rest/calendar/get/answer';
-import { iBXRestAppInfoHttp } from './typification/rest/app/info';
+import { iBXRestUser, iBXRestUserHttp } from './typification/rest/user/user'
+import { iBXRestParamUserSearch } from './typification/rest/user/search'
+import { iBXRestParamTaskAdd } from './typification/rest/tasks/task/add'
+import { iBXRestParamTasksTaskApprove } from './typification/rest/tasks/task/approve'
+import { iBXRestParamTasksTaskComplete } from './typification/rest/tasks/task/complete'
+import { iBXRestParamTasksTaskDefer } from './typification/rest/tasks/task/defer'
+import { iBXRestParamTasksTaskUpdate } from './typification/rest/tasks/task/update'
+import { iBXRestParamTaskGetAccess } from './typification/rest/task/access/getaccess'
+import { iBXRestParamTasksTaskResultList } from './typification/rest/tasks/result/list'
+import { iBXParamRestTasksTaskResultAdd } from './typification/rest/tasks/task/result/result'
+import { iBXRestParamAddElapseditem } from './typification/rest/task/elapseditem/add'
+import { iBXRestParamUpdateElapseditem } from './typification/rest/task/elapseditem/update'
+import { iIsActionAllowedParam } from './typification/rest/task/elapseditem/isActionAllowedParam'
+import { iBXRestParamDelElapseditem } from './typification/rest/task/elapseditem/del'
+import { iBXRestCommentTaskAdd } from './typification/rest/task/commentitem/add'
+import { iBXRestTaskCommentItemUpdate } from './typification/rest/task/commentitem/update'
+import { iBXRestParamTaskCommentItemGet } from './typification/rest/task/commentitem/get'
+import { BXRestTaskCommentItemDelete } from './typification/rest/task/commentitem/delete'
+import { iBXRestParamTaskItemUserFieldGetlist } from './typification/rest/task/item/userfield/getlist'
+import { iBXRestParamTimeManStatus } from './typification/rest/timeman/status'
+import { iBXRestParamSonetGroupGet } from './typification/rest/sonet_group/get'
+import { iBXRestParamLogBlogPostAdd } from './typification/rest/log/blogpost/add'
+import { iBXRestParamBlogPostGet } from './typification/rest/log/blogpost/get'
+import { iBXRestParamListGet } from './typification/rest/lists/get'
+import { iBXRestParamListField } from './typification/rest/lists/field/get'
+import { iBXRestParamListsElementGet } from './typification/rest/lists/element/get'
+import { iBXRestParamListsElementAdd } from './typification/rest/lists/element/add'
+import { iBXRestParamImChatAdd } from './typification/rest/im/chat/add'
+import { iBXRestParamDiskFileGet, iBXRestParamDiskFileMarkDeleted } from './typification/rest/disk/file'
+import {
+  iBXRestParamFolderDeleteTree,
+  iBXRestParamFolderGet,
+  iBXRestParamFolderGetChildren,
+  iBXRestParamFolderGetExternalLink,
+  iBXRestParamFolderMarkDeleted,
+  iBXRestParamFolderRestore
+} from './typification/rest/disk/folder'
+import { iBXRestDiskFolderAddSubFolderParam } from './typification/rest/disk/folder/addSubFolder'
+import { iBXRestDiskFolderCopyToParam } from './typification/rest/disk/folder/copyTo'
+import { iBXRestDiskFolderMoveToParam } from './typification/rest/disk/folder/moveTo'
+import { iBXRestDiskFolderRenameParam } from './typification/rest/disk/folder/rename'
+import { iBXRestDiskFolderUploadFileParam } from './typification/rest/disk/folder/uploadFile'
+import { iBXRestParamDepartmentGet } from './typification/rest/department/get'
+import { iBXRestParamDepartmentAdd } from './typification/rest/department/add'
+import { iBXRestParamDepartmentDel } from './typification/rest/department/del'
+import { iBXRestDepartmentUpdate } from './typification/rest/department/update'
+import { iBXRestCalendarEventGetParam } from './typification/rest/calendar/get/param'
+import { iBXRestParamBizprocWorkflowStart } from './typification/rest/bizproc/workflow/start'
 
-export interface iBXRestAnswers {
+export type iBXRestParamEmpty = undefined | null
+
+export interface iBXRestParams {
   user: {
-    admin: boolean
     get: iBXRestUserHttp[]
-    current: iBXRestUserHttp
-    update: iBXRestUserHttp[]
-    search: iBXRestUserHttp[]
-    access: boolean
-    fields: iBXRestUserHttpField
+    update: Partial<iBXRestUser>
+    search: iBXRestParamUserSearch
+    access: string[]
   },
   tasks: {
     task: {
-      add: iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskGetHttpDefault>
-      approve: iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskApproveHttp>
-      complete: iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskCompleteHttp>
+      add: iBXRestParamTaskAdd
+      approve: iBXRestParamTasksTaskApprove
+      complete: iBXRestParamTasksTaskComplete
       // counters: {
       //   get: [$tasks, $task, $counters, $get], //Получает счетчики пользователя
       // },
-      defer: iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskDeferHttp>
-      delegate: iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskDeferHttp>
+      defer: iBXRestParamTasksTaskDefer
+      delegate: iBXRestParamTasksTaskUpdate
       // delete: [$tasks, $task, $delete], // Удаляет задачу
       // disapprove: [$tasks, $task, $disapprove], // Позволяет отклонить задачу
       // favorite: {
@@ -55,9 +75,8 @@ export interface iBXRestAnswers {
       // files: {
       //   attach: [$tasks, $task, $files, $attach], // Прикрепляет загруженный на диск файл к задаче
       // },
-      // get: [$tasks, $task, $get], // Возвращает информацию о конкретной задаче
-      // getFields: [$tasks, $task, $getFields], // Возвращает все доступные поля
-      getAccess: iBXRestTaskGetAccess
+      // get: iBXRestParamTasksTaskGet<CustomFields>
+      getAccess: iBXRestParamTaskGetAccess
       // history: {
       //   list: [$tasks, $task, $history, $list], // Получает историю задачи
       // },
@@ -67,10 +86,10 @@ export interface iBXRestAnswers {
       // start: [$tasks, $task, $start], // Переводит задачу в статус «выполняется»
       // startWatch: [$tasks, $task, 'startwatch'], // Позволяет наблюдать за задачей
       // stopwatch: [$tasks, $task, 'stopwatch'], // Останавливает наблюдение за задачей
-      // update: [$tasks, $task, $update], // Обновляет задачу,
+      // update: [$tasks, $task, $update], // Обновляет задачу
       result: {
-        list: iBXRestTasksTaskResultHttp[]
-        addFromComment: iBXRestTasksTaskResultHttp
+        list: iBXRestParamTasksTaskResultList
+        addFromComment: iBXParamRestTasksTaskResultAdd
         // deleteFromComment: [$tasks, $task, $result, 'deleteFromComment'], // Удаление результата задачи по комментарию из которого он был создан
       }
     }
@@ -78,33 +97,75 @@ export interface iBXRestAnswers {
   task: {
     elapsedItem: {
       // getManifest:
-      getList: iBXRestTaskElapsedItemHttp[]
-     // get: [$task, $elapseditem, $get],
-      add: number,
-      delete: null
-      isActionAllowed: boolean
-      update: null
+      // getList:
+      // get: [$task, $elapseditem, $get],
+      add: iBXRestParamAddElapseditem,
+      delete: iBXRestParamDelElapseditem,
+      isActionAllowed: iIsActionAllowedParam,
+      update: iBXRestParamUpdateElapseditem
     },
     commentItem: {
-      //getManifest: [$task, $commentitem, $getmanifest],
-      getList: iBXRestTaskCommentHtml[],
-      get: iBXRestTaskCommentHtml,
-      add: number,
-      update: boolean,
-      delete: boolean,
+      // /**
+      //  * Возвращает список методов и их описание
+      //  */
+      // getManifest: [$task, $commentitem, $getmanifest],
+      // /**
+      //  * Возвращает список комментариев к задаче
+      //  */
+      // getList: [$task, $commentitem, $getlist],
+      /**
+       * Возвращает комментарий к задаче
+       */
+      get: iBXRestParamTaskCommentItemGet,
+      /**
+       * Создает новый комментарий к задаче
+       */
+      add: iBXRestCommentTaskAdd,
+      /**
+       * Обновляет данные комментария
+       */
+      update: iBXRestTaskCommentItemUpdate,
+      /**
+       * Удаляет комментарий
+       */
+      delete: BXRestTaskCommentItemDelete,
+      // /**
+      //  * Проверяет, разрешено ли действие
+      //  */
       // isActionAllowed: [$task, $commentitem, $isactionallowed],
     },
     planner: {
-      getList: (string | number)[]
+      getList: null
     },
     item: {
       userField: {
-        getFields: iBXRestTaskItemUserFieldGetlistHttp[],
+        /**
+         * Получение всех доступных полей свойства
+         */
+        getFields: iBXRestParamTaskItemUserFieldGetlist,
+        // /**
+        //  * Получение всех доступных типов данных
+        //  */
         // getTypes: [$task, $item, $userfield, 'gettypes'],
+        // /**
+        //  * Создание нового свойства
+        //  */
         // add: [$task, $item, $userfield, $add],
+        // /**
+        //  * Получение свойства по идентификатору
+        //  */
         // get: [$task, $item, $userfield, $get],
-        getList: iBXRestTaskItemUserFieldGetlistHttp[],
+        // /**
+        //  * Получение списка свойств
+        //  */
+        // getList: [$task, $item, $userfield, 'getlist'],
+        // /**
+        //  * Редактирование параметров свойства
+        //  */
         // update: [$task, $item, $userfield, $update],
+        // /**
+        //  * Удаление свойства
+        //  */
         // delete: [$task, $item, $userfield, $delete]
       }
     }
@@ -117,7 +178,7 @@ export interface iBXRestAnswers {
     /**
      * Получение информации о текущем рабочем дне пользователя
      */
-    status: iBXRestTimeManStatusHttp,
+    status: iBXRestParamTimeManStatus | undefined,
     // /**
     //  * Начать новый рабочий день либо возобновить закрытый или приостановленный
     //  */
@@ -130,7 +191,7 @@ export interface iBXRestAnswers {
     //  * Приостановить рабочий день
     //  */
     // pause: [$timeMan, $pause],
-    // // networkrange: {
+    // networkrange: {
     //   check: this.baseUrl + 'networkrange.check', // Метод для проверки IP-адреса на вхождение в диапазоны сетевых адресов офисной сети
     //   get: this.baseUrl + 'networkrange.get', // Метод для получения диапазонов сетевых адресов, входящих в офисную сеть
     //   set: this.baseUrl + 'networkrange.set'	// Метод для установки диапазонов сетевых адресов, входящих в офисную сеть.	18.5.0
@@ -170,7 +231,7 @@ export interface iBXRestAnswers {
     /**
      * Возвращает массив групп соцсети, каждая из которых содержит массив полей, осуществляя вызов CSocNetGroup::GetList(), при этом возвращаются только те группы, которые доступны пользователю по правам
      */
-    get: iBXRestSonetGroupGetHttp[],
+    get: iBXRestParamSonetGroupGet,
     // /**
     //  * Изменяет владельца группы
     //  */
@@ -197,21 +258,21 @@ export interface iBXRestAnswers {
     /**
      * Получить время сервера
      */
-    time: string
+    time: iBXRestParamEmpty
   },
   log: {
     blogpost: {
       /**
        * Добавляет в Живую Ленту сообщение от имени текущего пользователя
        */
-      add: boolean, //
+      add: iBXRestParamLogBlogPostAdd,
       // getusers: {
       //   important: 'log.blogpost.getusers.important' // Отдает массив ID пользователей, прочитавших Важное сообщение
       // },
       /**
        * Возвращает массив с доступными текущему пользователю сообщениями Живой ленты. Каждое из сообщений представляет собой массив значений полей (включая пользовательские поля)
        */
-      get: iBXRestBlogPostHttp[],
+      get: iBXRestParamBlogPostGet,
       // /**
       //  * Удаляет сообщение Живой Ленты
       //  */
@@ -244,7 +305,7 @@ export interface iBXRestAnswers {
     /**
      * Метод возвращает данные по спискам
      */
-    get: iBXRestListItemHttp[],
+    get: iBXRestParamListGet,
     // /**
     //  * Метод обновляет существующий список
     //  */
@@ -257,7 +318,7 @@ export interface iBXRestAnswers {
       /**
        * Метод создаёт элемент списка
        */
-      add: number,
+      add: iBXRestParamListsElementAdd,
       // /**
       //  * Метод удаляет элемент списка TODO: Реализовать
       //  */
@@ -265,7 +326,7 @@ export interface iBXRestAnswers {
       /**
        * Метод возвращает список элементов или элемент
        */
-      get: iBXRestHttpListsElement,
+      get: iBXRestParamListsElementGet,
       // /**
       //  * Метод обновляет элемент списка TODO: Реализовать
       //  */
@@ -287,7 +348,7 @@ export interface iBXRestAnswers {
       /**
        * Метод возвращает данные поля
        */
-      get: BXRestHttpListsFieldGet,
+      get: iBXRestParamListField,
       // type: {
       //   /**
       //    * Метод возвращает доступные типа полей для указанного списка
@@ -302,7 +363,7 @@ export interface iBXRestAnswers {
   },
   im: {
     chat: {
-      add: number,
+      add: iBXRestParamImChatAdd,
       // list: [$im, $chat, $user, $list],
       // add: [$im, $chat, $user, $add],
       // delete: [$im, $chat, $user, $delete],
@@ -323,7 +384,7 @@ export interface iBXRestAnswers {
       /**
        * Возвращает файл по идентификатору
        */
-      get: iBXRestDiskFileHttp,
+      get: iBXRestParamDiskFileGet,
       // /**
       //  * Переименовывает файл
       //  */
@@ -343,7 +404,7 @@ export interface iBXRestAnswers {
       /**
        * Перемещает файл в корзину
        */
-      markDeleted: iBXRestDiskFileHttp,
+      markDeleted: iBXRestParamDiskFileMarkDeleted,
       // /**
       //  * Восстанавливает файл из корзины
       //  */
@@ -366,28 +427,28 @@ export interface iBXRestAnswers {
       // getExternalLink: [$disk, $file, 'getexternallink']
     },
     folder: {
-      getFields: iBXRestDiskFolderGetFieldsHttp
-      get: iBXRestFolderHttp
-      getChildren: (iBXRestFolderHttp | iBXRestDiskFileHttp)[]
-      addSubFolder: iBXRestFolderHttp
-      copyTo: iBXRestFolderHttp
-      moveTo: iBXRestFolderHttp
-      rename: iBXRestFolderHttp
-      deleteTree: boolean
-      markDeleted: iBXRestFolderHttp
-      restore: iBXRestFolderHttp
-      uploadFile: iBXRestFolderHttp
-      getExternalLink: string
+      getFields: iBXRestParamEmpty
+      get: iBXRestParamFolderGet
+      getChildren: iBXRestParamFolderGetChildren
+      addSubFolder: iBXRestDiskFolderAddSubFolderParam
+      copyTo: iBXRestDiskFolderCopyToParam
+      moveTo: iBXRestDiskFolderMoveToParam
+      rename: iBXRestDiskFolderRenameParam
+      deleteTree: iBXRestParamFolderDeleteTree
+      markDeleted: iBXRestParamFolderMarkDeleted
+      restore: iBXRestParamFolderRestore
+      uploadFile: iBXRestDiskFolderUploadFileParam
+      getExternalLink: iBXRestParamFolderGetExternalLink
     },
     attachedObject: {
-      get: iBXRestDiskAttachedObjectHttp
+      get: iBXRestParamRestDiskAttachedObject
     }
   },
   department: {
-    get: iBXRestDepartmentHttp[]
-    del: boolean
-    add: number
-    update: boolean
+    get: iBXRestParamDepartmentGet
+    del: iBXRestParamDepartmentDel
+    add: iBXRestParamDepartmentAdd
+    update: iBXRestDepartmentUpdate
   },
   calendar: {
     event: {
@@ -402,7 +463,7 @@ export interface iBXRestAnswers {
       /**
        * Возвращает список событий календаря
        */
-      get: iBXRestCalendarEventGetAnswerHttp[]
+      get: iBXRestCalendarEventGetParam,
       // /**
       //  * Возвращает список будущих событий для текущего пользователя
       //  */
@@ -440,7 +501,7 @@ export interface iBXRestAnswers {
       /**
        * Запускает Бизнес-процесс
        */
-      start: string
+      start: iBXRestParamBizprocWorkflowStart
       /**
        * Удаляет запущенный бизнес-процесс TODO: реализовать
        */
@@ -507,6 +568,6 @@ export interface iBXRestAnswers {
     /**
      * Показ информации о приложении. Метод поддерживает безопасный вызов
      */
-    info: iBXRestAppInfoHttp
+    info: iBXRestParamEmpty
   }
 }

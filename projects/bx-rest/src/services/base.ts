@@ -114,10 +114,6 @@ export class BaseServices {
     return url
   }
 
-  getHomeAddress() {
-    return this.prepareBaseAddress(this.BX_REST_SETTINGS.urls.home)
-  }
-
   dateDiff(a: Date, b: Date) {
     return new Date(a.valueOf() - b.valueOf())
   }

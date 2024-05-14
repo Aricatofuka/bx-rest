@@ -210,7 +210,14 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getBaseUrl(): Observable<string | undefined> {
-    return of(this.prepareBaseAddress(this.BX_REST_SETTINGS.urls.home, 'rest'))
+    if(this.BX_REST_SETTINGS.urls.source === 'string'){
+      return of(this.prepareBaseAddress(this.BX_REST_SETTINGS.urls.key, 'rest'))
+    }
+
+    const str = localStorage.getItem(this.BX_REST_SETTINGS.urls.key)
+
+    return of(this.prepareBaseAddress((str) ? str : '', 'rest'))
+
     // return this.authData$.pipe( // TODO: разобраться позже
     //   take(1),
     //   map(v => (v && v.domain) ? this.prepareBaseAddress(v.domain) : undefined)

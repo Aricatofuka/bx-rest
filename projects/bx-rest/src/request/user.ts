@@ -4,7 +4,7 @@ import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from '../typificat
 import { Injectable } from '@angular/core'
 import { iBXRestParamUserSearch } from '../typification/rest/user/search'
 import { BXRestUserUserfield } from './user/userfield'
-import { methods } from '../methods'
+import { methods } from '../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

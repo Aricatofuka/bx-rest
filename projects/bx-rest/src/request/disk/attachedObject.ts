@@ -4,7 +4,7 @@ import {
   iBXRestDiskAttachedObjectHttp,
   iBXRestParamRestDiskAttachedObject
 } from '../../typification/rest/disk/AttachedObject'
-import { methods } from '../../methods'
+import { methods } from '../../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

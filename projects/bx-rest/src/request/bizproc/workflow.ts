@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { BXRestBizProcWorkflowInstance } from './workflow/instance'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamBizprocWorkflowStart } from '../../typification/rest/bizproc/workflow/start'
-import { methods } from '../../methods'
+import { methods } from '../../typification/base/methods'
 import { BXRestBizProcWorkflowTemplate } from './workflow/template'
 
 @Injectable({

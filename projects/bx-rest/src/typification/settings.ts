@@ -4,6 +4,7 @@ export interface iRestSettings {
     key: 'auth' | 'sessid' | string
   },
   urls: {
+    source: 'string' | 'localStorage'
     home: string
   }
 }

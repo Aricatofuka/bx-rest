@@ -19,7 +19,7 @@ import { iBXRestParamTasksTaskGet } from '../../typification/rest/tasks/task/get
 import { iBXRestTasksTaskGetFields } from '../../typification/rest/tasks/task/getFields'
 import { iBXRestParamTasksTaskUpdate } from '../../typification/rest/tasks/task/update'
 import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
-import { methods } from '../../methods'
+import { methods } from '../../typification/base/methods'
 import { iBXRestTasksTaskBaseAnswer } from '../../typification/rest/tasks/task/base';
 
 @Injectable({

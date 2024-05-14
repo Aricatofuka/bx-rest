@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core'
-import { $add, $blogpost, $delete, $get, $log, $share, $update } from '../../consts/part-name-methods'
-import { HttpBXServices } from '../../services/http/HttpBX';
+import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamLogBlogPostAdd } from '../../typification/rest/log/blogpost/add'
 import { iBXRestBlogPostHttp, iBXRestParamBlogPostGet } from '../../typification/rest/log/blogpost/get'
-import { methods } from '../../methods';
+import { methods } from '../../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

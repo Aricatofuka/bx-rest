@@ -3,7 +3,7 @@ import { BXRestListsElement } from './lists/element'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestListItemHttp, iBXRestParamListGet } from '../typification/rest/lists/get'
 import BXRestListsField from './lists/field'
-import { methods } from '../methods'
+import { methods } from '../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

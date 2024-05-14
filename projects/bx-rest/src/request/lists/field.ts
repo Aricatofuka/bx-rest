@@ -4,7 +4,7 @@ import {
   iBXRestParamListField
 } from '../../typification/rest/lists/field/get'
 import { HttpBXServices } from '../../services/http/HttpBX'
-import { methods } from '../../methods'
+import { methods } from '../../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

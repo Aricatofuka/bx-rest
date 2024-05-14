@@ -6,7 +6,7 @@ import { iBXRestParamAddElapseditem } from '../../typification/rest/task/elapsed
 import { iBXRestParamUpdateElapseditem } from '../../typification/rest/task/elapseditem/update'
 import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapseditem/del'
 import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/isActionAllowedParam'
-import { methods } from '../../methods'
+import { methods } from '../../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'

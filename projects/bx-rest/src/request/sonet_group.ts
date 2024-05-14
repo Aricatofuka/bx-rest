@@ -3,7 +3,7 @@ import { HttpBXServices } from '../services/http/HttpBX'
 import {
   iBXRestParamSonetGroupGet, iBXRestSonetGroupGetHttp
 } from '../typification/rest/sonet_group/get'
-import { methods } from '../methods';
+import { methods } from '../typification/base/methods';
 
 @Injectable({
   providedIn: 'root'
