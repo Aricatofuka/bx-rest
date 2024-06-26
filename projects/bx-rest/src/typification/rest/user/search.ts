@@ -1,18 +1,40 @@
 import { iBXRestPagination } from '../base/ApiPaginationBX'
+import { iBXRestYesNo } from '../base/YesNo'
 
 export interface iBXRestParamUserSearch extends iBXRestPagination {
-  NAME?: string // имя
-  LAST_NAME?: string, // фамилия
-  SECOND_NAME?: string, // отчество
-  WORK_POSITION?: string, // должность
-  UF_DEPARTMENT_NAME?: string, //название подразделения
+  /**
+   * Имя
+   */
+  NAME?: string
+  /**
+   * Фамилия
+   */
+  LAST_NAME?: string
+  /**
+   * Отчество
+   */
+  SECOND_NAME?: string,
+  /**
+   * Должность
+   */
+  WORK_POSITION?: string,
+  /**
+   * Название подразделения
+   */
+  UF_DEPARTMENT_NAME?: string,
   USER_TYPE?: 'employee' | 'extranet' | 'email',
-  FIND?: string // поиск по всем выше перечисленным полям
-  ACTIVE?: boolean
+  /**
+   * Поиск по всем выше перечисленным полям
+   */
+  FIND?: string
+  /**
+   * Уволен или нет сотрудник
+   */
+  ACTIVE?: iBXRestYesNo
   EMAIL?: string,
   LAST_LOGIN?: string,
   DATE_REGISTER?: string,
-  IS_ONLINE?: 'Y' | 'N', // wtf BX?
+  IS_ONLINE?: iBXRestYesNo // wtf BX?
   PERSONAL_GENDER?: 'M' | 'F', // wtf BX? Where is others 48 gender?
   PERSONAL_PROFESSION?: string,
   PERSONAL_WWW?: string,

@@ -15,15 +15,33 @@ export interface iBXRestParamUserGet extends iBXRestBaseParam {
 export interface iBXRestParamUserGetFilter {
   ID?: number[] | number,
   PERSONAL_BIRTHDAY?: string | string[]
-  UF_DEPARTMENT?: number[],  // принадлежность к структуре компании
-  UF_PHONE_INNER?: string, // внутренний телефонный номер
-  IS_ONLINE?: iBXRestYesNo,  // позволяет показать только авторизованных или нет пользователей
-  NAME_SEARCH?: string, // быстрый поиск по персональным данным
-  USER_TYPE?: 'employee' | 'extranet' | 'email', // Тип пользователя. Может принимать следующие значения:
-  // employee - сотрудник,
-  // extranet - пользователь экстранета,
-  // email - почтовый пользователь
-  ACTIVE?: 2 | 1 | 0 // при значении 1 исключает из запроса уволенных пользователей. 2 - если нужны и те и те
+  /**
+   * Принадлежность к структуре компании
+   */
+  UF_DEPARTMENT?: number[],
+  /**
+   * Внутренний телефонный номер
+   */
+  UF_PHONE_INNER?: string,
+  /**
+   * Позволяет показать только авторизованных или нет пользователей
+   */
+  IS_ONLINE?: iBXRestYesNo,
+  /**
+   * Быстрый поиск по персональным данны
+   */
+  NAME_SEARCH?: string,
+  /**
+   * Тип пользователя. Может принимать следующие значения:
+   * employee - сотрудник,
+   * extranet - пользователь экстранета,
+   * email - почтовый пользователь
+   */
+  USER_TYPE?: 'employee' | 'extranet' | 'email',
+  /**
+   * При значении 1 исключает из запроса уволенных пользователей. 2 - если нужны и те и те
+   */
+  ACTIVE?: 2 | 1 | 0
   EMAIL?: string,
   NAME?: string,
   LAST_NAME?: string,

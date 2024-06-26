@@ -89,9 +89,6 @@ export class BXRestNavvyUser {
   }
   */
   search(params: iBXRestParamUserSearch) {
-    if (typeof params.ACTIVE !== 'boolean') {
-      params.ACTIVE = true
-    }
     return this.Navvy.PagNav(
       this.BXRestUser.search,
       params,
