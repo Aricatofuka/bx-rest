@@ -4,13 +4,13 @@ import { HttpClient } from '@angular/common/http'
 import SessionKeyServices from '../../services/http/sessionKey'
 import clone from 'just-clone'
 import { iHttpParamSettings } from '../../typification/rest/settings'
-import { BaseHttpServices } from './base/http'
 import { BX_REST_SETTINGS } from '../../settings'
+import { BaseHttp } from './base/base'
 
 @Injectable({
   providedIn: 'root'
 })
-export class HttpServices extends BaseHttpServices {
+export class HttpServices extends BaseHttp {
 
   constructor(
     BX_REST_SETTINGS: BX_REST_SETTINGS,

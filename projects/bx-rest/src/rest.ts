@@ -101,7 +101,6 @@ export class BXRestNavvy {
   }
 
   public batch<T, C, M>(param: iBXRestNavvyParamBatch<T, C, M>) {
-    const test = param.cmd
     const modifiedObject = Object.fromEntries(
       Object.entries(param.cmd).map(([key, value]) => {
         let modifiedValue = value.resultVanilla.arguments

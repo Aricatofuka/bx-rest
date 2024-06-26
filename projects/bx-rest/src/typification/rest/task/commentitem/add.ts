@@ -7,7 +7,7 @@ export interface iBXRestAddCommentTaskFields {
   /**
    * Идентификатор пользователя, от имени которого создается комментарий
    */
-  AUTHOR_ID: number //
+  AUTHOR_ID: number
   /**
    *  Текст сообщения
    */

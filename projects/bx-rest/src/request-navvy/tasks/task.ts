@@ -36,7 +36,7 @@ export class BXRestNavvyTasksTask {
     this.Navvy = new Navvy(this.BXRestTasksTask, this.BXRestMapTasksTask)
   }
 
-  add(param: iBXRestParamTaskAdd) {
+  add<CustomFields extends object = {}>(param: iBXRestParamTaskAdd<CustomFields>) {
     return this.Navvy.simpleWithArg(
       this.BXRestTasksTask.add,
       param,
@@ -45,7 +45,10 @@ export class BXRestNavvyTasksTask {
   }
 
   // TODO: переписать нормально
-  update<CustomFields extends object>(task: AllKeyFree<iBXRestTasksTaskGet<iBXRestTaskFieldsName[], CustomFields>>, updateFields: (iBXRestTasksTaskFieldsCanUpdate | keyof ToUpperCaseKeys<ObjectToSnake<CustomFields>>)[]) {
+  update<CustomFields extends object>(
+    task: AllKeyFree<iBXRestTasksTaskGet<iBXRestTaskFieldsName[], CustomFields>>,
+    updateFields: (iBXRestTasksTaskFieldsCanUpdate | keyof ToUpperCaseKeys<ObjectToSnake<CustomFields>>)[]
+  ) {
     const func = () => {
       let sendTask: iBXRestParamTasksTaskUpdateFields & AllKeyFree<CustomFields> = {}
       let taskTS: Record<string, any> = task
@@ -77,8 +80,11 @@ export class BXRestNavvyTasksTask {
     )
   }
 
-  // Возможно можно обойтись без "S extends iBXRestTaskFieldsName[]", надо что бы понять то как генерировать интейфейс на лету исходя их входящих данных
-  list<S extends iBXRestTaskFieldsName[], CustomFields extends object = {}>(param: iBXRestParamTasksList<CustomFields> = {}) {
+  // Возможно можно обойтись без "S extends iBXRestTaskFieldsName[]",
+  // надо что бы понять то как генерировать интейфейс на лету исходя их входящих данных
+  list<S extends iBXRestTaskFieldsName[], CustomFields extends object = {}>(
+    param: iBXRestParamTasksList<CustomFields> = {}
+  ) {
     return this.Navvy.PagNavTasks(
       this.BXRestTasksTask.list<S, CustomFields>,
       param,

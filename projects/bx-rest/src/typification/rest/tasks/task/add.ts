@@ -1,17 +1,21 @@
 import { iBXRestYesNo } from '../../base/YesNo'
+import { ObjectToSnake } from 'ts-case-convert/lib/caseConvert'
+import { ToUpperCaseKeys } from '../../../base/upper-case-keys'
 
-export interface iBXRestParamTaskAdd {
-  fields: iBXRestParamTaskAddFields
+export interface iBXRestParamTaskAdd<CustomFields extends object> {
+  fields: iBXRestParamTaskAddFields<CustomFields>
 }
 
-export interface iBXRestParamTaskAddFields {
+export type iBXRestParamTaskAddFields<CustomFields extends object>
+  = iBXRestParamTaskAddFieldsBase & ToUpperCaseKeys<ObjectToSnake<CustomFields>>
+
+export interface iBXRestParamTaskAddFieldsBase {
   /**
    * Идентификатор задачи
    */
   ID?: number
   /**
    * ID родительской задачи
-   *
    * По умолчанию - отсутствует
    */
   PARENT_ID?: number

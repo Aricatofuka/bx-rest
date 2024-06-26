@@ -25,46 +25,48 @@ import {
   iBXRestWorkpieceMethodsTasksTask,
   iBXRestWorkpieceMethodsTasksTaskResult,
   iBXRestWorkpieceMethodsTimeman,
-  iBXRestWorkpieceMethodsUser
+  iBXRestWorkpieceMethodsUser, iBXRestWorkpieceMethodsUserField, iBXRestWorkpieceMethodsUserFieldList
 } from './methods-list';
 
 
 export interface iBXRestWorkpieceMethodsFullOneArgument<T> extends iBXRestWorkpieceMethodsFull<
-  iBXRestWorkpieceMethodsUser<T,T,T,T,T,T,T>,
+  iBXRestWorkpieceMethodsUser<T, T, T, T, T, T, T,
+    iBXRestWorkpieceMethodsUserField<T, T, T, T, iBXRestWorkpieceMethodsUserFieldList<T>>
+  >,
   iBXRestWorkpieceMethodsTasks<
-  iBXRestWorkpieceMethodsTasksTask<
-      T,T,T,T,T,T,T,T,T,T,
-      iBXRestWorkpieceMethodsTasksTaskResult<T,T,T>
+    iBXRestWorkpieceMethodsTasksTask<
+      T, T, T, T, T, T, T, T, T, T,
+      iBXRestWorkpieceMethodsTasksTaskResult<T, T, T>
     >
   >,
   iBXRestWorkpieceMethodsTask<
-    iBXRestWorkpieceMethodsTaskElapsedItem<T,T,T,T,T>,
-    iBXRestWorkpieceMethodsTaskCommentItem<T,T,T,T,T>,
+    iBXRestWorkpieceMethodsTaskElapsedItem<T, T, T, T, T>,
+    iBXRestWorkpieceMethodsTaskCommentItem<T, T, T, T, T>,
     iBXRestWorkpieceMethodsTaskPlanner<T>,
     iBXRestWorkpieceMethodsTaskItem<
-      iBXRestWorkpieceMethodsTaskItemUserField<T,T>
+      iBXRestWorkpieceMethodsTaskItemUserField<T, T>
     >
   >,
   iBXRestWorkpieceMethodsTimeman<T>,
   iBXRestWorkpieceMethodsSonetGroup<T>,
   iBXRestWorkpieceMethodsServer<T>,
   iBXRestWorkpieceMethodsLog<
-    iBXRestWorkpieceMethodsLogBlogpost<T,T>
+    iBXRestWorkpieceMethodsLogBlogpost<T, T>
   >,
   iBXRestWorkpieceMethodsLists<
     T,
-    iBXRestWorkpieceMethodsListsElement<T,T>,
+    iBXRestWorkpieceMethodsListsElement<T, T>,
     iBXRestWorkpieceMethodsListsField<T>
   >,
   iBXRestWorkpieceMethodsIm<
     iBXRestWorkpieceMethodsImChat<T>
-    >,
-    iBXRestWorkpieceMethodsDisk<
-    iBXRestWorkpieceMethodsDiskFile<T,T>,
-    iBXRestWorkpieceMethodsDiskFolder<T,T,T,T,T,T,T,T,T,T,T,T>,
+  >,
+  iBXRestWorkpieceMethodsDisk<
+    iBXRestWorkpieceMethodsDiskFile<T, T>,
+    iBXRestWorkpieceMethodsDiskFolder<T, T, T, T, T, T, T, T, T, T, T, T>,
     iBXRestWorkpieceMethodsDiskAttachedObject<T>
   >,
-  iBXRestWorkpieceMethodsDepartment<T,T,T,T>,
+  iBXRestWorkpieceMethodsDepartment<T, T, T, T>,
   iBXRestWorkpieceMethodsCalendar<
     iBXRestWorkpieceMethodsCalendarEvent<T>
   >,
@@ -84,7 +86,16 @@ export interface iBXRestWorkpieceMethodsFull<
     user['update'],
     user['search'],
     user['access'],
-    user['fields']
+    user['fields'],
+    iBXRestWorkpieceMethodsUserField<
+      user['userfield']['add'],
+      user['userfield']['update'],
+      user['userfield']['delete'],
+      user['userfield']['list'],
+      iBXRestWorkpieceMethodsUserFieldList<
+        user['userfield']['file']['get']
+      >
+    >
   >,
   tasks extends iBXRestWorkpieceMethodsTasks<
     iBXRestWorkpieceMethodsTasksTask<
@@ -127,7 +138,7 @@ export interface iBXRestWorkpieceMethodsFull<
       iBXRestWorkpieceMethodsTaskItemUserField<
         task['item']['userField']['getFields'],
         task['item']['userField']['getList']
-        >
+      >
     >
   >,
   timeman extends iBXRestWorkpieceMethodsTimeman<

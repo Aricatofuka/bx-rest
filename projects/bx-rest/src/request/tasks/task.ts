@@ -35,7 +35,7 @@ export class BXRestTasksTask {
   ) {
   }
 
-  add(param: iBXRestParamTaskAdd) {
+  add<CustomFields extends object = {}>(param: iBXRestParamTaskAdd<CustomFields>) {
     return this.http.post<iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskGetHttpDefault>>(this.url.add, param)
   }
 

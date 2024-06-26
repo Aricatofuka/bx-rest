@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core'
-import { $list } from '../../consts/part-name-methods'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestUserUserField } from '../../typification/rest/user/userfield/list'
+import { methods } from '../../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestUserUserfield {
 
-  protected url = {
-    list: ['userfield', $list]
-  }
+  protected url = methods.user.userfield
 
   constructor(
     private http: HttpBXServices

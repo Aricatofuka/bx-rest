@@ -8,9 +8,9 @@ import {
   $tasks, $time, $timeMan, $update,
   $uploadfile, $user, $userfield, $workflow
 } from '../../consts/part-name-methods'
-import {  iBXRestWorkpieceMethodsFullOneArgument } from './workpiece/methods'
+import { iBXRestWorkpieceMethodsFullOneArgument } from './workpiece/methods'
 
-export const methods: iBXRestWorkpieceMethodsFullOneArgument<string[]>  = {
+export const methods: iBXRestWorkpieceMethodsFullOneArgument<string[]> = {
   user: {
     admin: [$user, 'admin'],
     get: [$user, $get],
@@ -22,6 +22,30 @@ export const methods: iBXRestWorkpieceMethodsFullOneArgument<string[]>  = {
     // D1 - подразделение с id=1
     // G1 - группа с id=1
     fields: [$user, 'fields'],
+    userfield: {
+      /**
+       * Добавляет пользовательское поле
+       */
+      add: [$user, $userfield, $add],
+      /**
+       * Обновляет пользовательское поле
+       */
+      update: [$user, $userfield, $update],
+      /**
+       * Удаляет пользовательское поле
+       */
+      delete: [$user, $userfield, $delete],
+      /**
+       *  Получает список пользовательских полей
+       */
+      list: [$user, $userfield, $list],
+      file: {
+        /**
+         *  Получает файл из пользовательского поля
+         */
+        get: [$user, $userfield, $file, $get]
+      }
+    }
   },
   tasks: {
     task: {

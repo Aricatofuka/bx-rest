@@ -1,7 +1,6 @@
 import { Observable, throwError, mergeMap, forkJoin } from 'rxjs'
 import { Injectable } from '@angular/core'
 import clone from 'just-clone'
-import { iHttpParamSettings } from '../../typification/rest/settings'
 import { HttpServices } from './http'
 import {
   iBatchRequestAnswer, iBatchRequestParam,
@@ -81,12 +80,11 @@ export class HttpBXServices extends HttpServices {
    *
    * @param name
    * @param params
-   * @param settings
    */
   post<T>(name: string[],
-          params: any = {},
-          settings: iHttpParamSettings = this.defSettings) {
-    return this.httpPost<iBXRestAnswer<T>>(this.getNameMethod(name), params, settings)
+          params: any = {}
+  ) {
+    return this.httpPost<iBXRestAnswer<T>>(this.getNameMethod(name), params)
   }
 
   /**
@@ -94,17 +92,15 @@ export class HttpBXServices extends HttpServices {
    *
    * @param name
    * @param params
-   * @param settings
    */
   get<T>(name: string[],
-         params: any = {},
-         settings: iHttpParamSettings = this.defSettings) {
-    return this.httpGet<iBXRestAnswer<T>>(this.getNameMethod(name), params, settings)
+         params: any = {}
+  ) {
+    return this.httpGet<iBXRestAnswer<T>>(this.getNameMethod(name), params)
   }
 
   override httpPost<T>(url: string,
                        params: any = {},
-                       settings: iHttpParamSettings = this.defSettings
   ): Observable<T | undefined> {
     let auth = this.session.getAuthParams()
     if (auth) {
@@ -129,8 +125,7 @@ export class HttpBXServices extends HttpServices {
 
   override httpGet<T>(
     url: string,
-    params: any = {},
-    settings: iHttpParamSettings = this.defSettings
+    params: any = {}
   ): Observable<T | undefined> {
     let auth = this.session.getAuthParams()
 

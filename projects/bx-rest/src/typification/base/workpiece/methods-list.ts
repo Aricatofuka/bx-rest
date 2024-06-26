@@ -1,4 +1,4 @@
-export interface iBXRestWorkpieceMethodsUser<admin, _get, current, update, search, access, fields> {
+export interface iBXRestWorkpieceMethodsUser<admin, _get, current, update, search, access, fields, userfield> {
   admin: admin
   get: _get
   current: current
@@ -6,6 +6,36 @@ export interface iBXRestWorkpieceMethodsUser<admin, _get, current, update, searc
   search: search
   access: access
   fields: fields
+  userfield: userfield
+}
+
+export interface iBXRestWorkpieceMethodsUserField<
+  add,
+  update,
+  _delete,
+  list,
+  file extends iBXRestWorkpieceMethodsUserFieldList<file['get']>> {
+  /**
+   * Добавляет пользовательское поле
+   */
+  add: add
+  /**
+   * Обновляет пользовательское поле
+   */
+  update: update
+  /**
+   * Удаляет пользовательское поле
+   */
+  delete: _delete
+  /**
+   *  Получает список пользовательских полей
+   */
+  list: list,
+  file: file
+}
+
+export interface iBXRestWorkpieceMethodsUserFieldList<get> {
+  get: get
 }
 
 export interface iBXRestWorkpieceMethodsTasks<

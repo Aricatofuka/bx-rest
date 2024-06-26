@@ -25,13 +25,7 @@ export class BXRestTaskElapsedItem {
   add(param: iBXRestParamAddElapseditem) {
     return this.http.post<number>(
       this.url.add,
-      param,
-      {
-        timeZone: {
-          calc: false,
-          levelOut: false
-        }
-      }
+      param
     )
   }
 
@@ -39,13 +33,7 @@ export class BXRestTaskElapsedItem {
     return this.http.post<null>
     (
       this.url.update,
-      param,
-      {
-        timeZone: {
-          calc: false,
-          levelOut: false
-        }
-      }
+      param
     )
   }
 

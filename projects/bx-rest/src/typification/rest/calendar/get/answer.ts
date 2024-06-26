@@ -82,7 +82,7 @@ export interface iBXRestCalendarEventGetAnswerBase {
         MEETING_CREATOR: number
         NOTIFY: boolean
         REINVITE: boolean
-    }
+    } | null
     NAME: string
     PRIVATE_EVENT: "" // TODO: Разобраться
     RELATIONS: {COMMENT_XML_ID: string}
@@ -92,7 +92,7 @@ export interface iBXRestCalendarEventGetAnswerBase {
     TZ_TO: TimezoneName
     UF_CRM_CAL_EVENT: boolean
     UF_WEBDAV_CAL_EVENT: boolean
-    attendeesEntityList: {entityId: iBXRestCalendarType, id: number}[]
+    attendeesEntityList?: {entityId: iBXRestCalendarType, id: number}[] | null
     '~USER_OFFSET_FROM': number
     '~USER_OFFSET_TO': number
 }

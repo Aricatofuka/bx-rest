@@ -12,11 +12,11 @@ export interface iBXRestTasksTaskListHttp<S extends iBXRestTaskFieldsName[], Cus
   tasks: iBXRestHttpTasksTaskList<S, CustomFields>[] | undefined
 }
 
-export type iBXRestHttpTasksTaskList<S extends iBXRestTaskFieldsName[], CustomFields> = {
+export type iBXRestHttpTasksTaskList<S extends iBXRestTaskFieldsName[], CustomFields = {}> = {
   [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestHttpTask[K]
 } & CustomFields
 
-export type iBXRestTasksTaskList<S extends iBXRestTaskFieldsName[], CustomFields> = {
+export type iBXRestTasksTaskList<S extends iBXRestTaskFieldsName[], CustomFields = {}> = {
   [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestTask[K]
 } & CustomFields
 
