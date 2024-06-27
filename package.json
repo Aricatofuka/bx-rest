@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.4.14",
+  "version": "0.4.17",
   "description": "bitrix rest api",
   "keywords": [
     "bitrix",
@@ -9,7 +9,6 @@
     "api"
   ],
   "author": "Aricatofuka",
-  "main": "./src/public-api.ts",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Aricatofuka/bx-rest/issues"
@@ -26,5 +25,20 @@
   },
   "dependencies": {
     "tslib": "^2.3.0"
-  }
+  },
+  "main": "dist/index.js",
+  "module": "dist/esm2022/bx-rest.mjs",
+  "typings": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "esm2022": "./dist/esm2022/bx-rest.mjs",
+      "import": "./dist/esm2022/bx-rest.mjs",
+      "default": "./dist/index.js"
+    },
+    "./package.json": {
+      "default": "./package.json"
+    }
+  },
+  "sideEffects": false
 }

@@ -115,8 +115,6 @@ export class BXRestNavvy {
   }
 }
 
-
-
 @Injectable({
   providedIn: 'root'
 })

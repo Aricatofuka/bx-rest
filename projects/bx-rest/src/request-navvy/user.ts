@@ -12,8 +12,8 @@ import { BXRestMapUser } from '../map/user'
 })
 export class BXRestNavvyUser {
 
-  def: { params: { ACTIVE: 1, start: 0 } } = {
-    params: {ACTIVE: 1, start: 0}
+  def: { params: { ACTIVE: boolean, start: 0 } } = {
+    params: {ACTIVE: true, start: 0}
   }
 
   private Navvy: Navvy<BXRestUser, BXRestMapUser>
@@ -178,12 +178,10 @@ export class BXRestNavvyUser {
       params.FILTER = {}
     }
 
-    if (!params.hasOwnProperty('ACTIVE')) {
+    if (!params.FILTER.hasOwnProperty('ACTIVE')) {
       params.FILTER.ACTIVE = this.def.params.ACTIVE
     }
-    if (params.FILTER.ACTIVE && params.FILTER.ACTIVE === 2) {
-      delete params.FILTER.ACTIVE
-    }
+
     if (!params.hasOwnProperty('start')) {
       params.start = this.def.params.start
     }

@@ -39,9 +39,11 @@ export interface iBXRestParamUserGetFilter {
    */
   USER_TYPE?: 'employee' | 'extranet' | 'email',
   /**
-   * При значении 1 исключает из запроса уволенных пользователей. 2 - если нужны и те и те
+   * При значении true исключает из запроса уволенных пользователей.
+   * False показывает только уволенных
+   * Отсутствие указателя показывает и тех и других
    */
-  ACTIVE?: 2 | 1 | 0
+  ACTIVE?: boolean
   EMAIL?: string,
   NAME?: string,
   LAST_NAME?: string,
