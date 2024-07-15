@@ -1,7 +1,8 @@
-import { Observable, throwError } from 'rxjs'
+import { Observable } from 'rxjs'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import { catchError, map } from 'rxjs/operators'
 import { BXRestMapResult } from '../../functions/mapResult'
+import { HttpErrorResponse } from '@angular/common/http'
 
 export type ReturnTypeNavvy<T, R> = T extends R ? T : R;
 
@@ -20,9 +21,9 @@ export abstract class NavvySupport<C, M, T, R> {
   ) {
     return request.pipe(
       map(v => BXRestMapResult(v)),
-      catchError(err => {
+      catchError((err: HttpErrorResponse | any) => {
         console.error(err)
-        return throwError(() => err)
+        throw new Error((err.error) ? err.error : err)
       })
     )
   }

@@ -3,7 +3,9 @@
  */
 export { BX_REST_SETTINGS } from './settings'
 export { BXRestMapResult } from './functions/mapResult'
-export { BXRest, BXRestNavvy, BXRestMap } from './rest'
+export { BXRest } from './rest/base'
+export { BXRestNavvy } from './rest/navvy'
+export { BXRestMap } from './rest/map'
 export { Navvy } from './services/navvy'
 export { Map as BXMap } from './map'
 export { HttpBXServices as BXRestRequest } from './services/http/HttpBX'
