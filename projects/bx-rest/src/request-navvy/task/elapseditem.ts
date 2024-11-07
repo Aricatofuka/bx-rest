@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { mergeMap, throwError } from 'rxjs'
 import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
 import { BXRestTaskElapsedItem } from '../../request/task/elapseditem'
@@ -17,23 +17,20 @@ import { NavvySimple } from '../../services/Navvy/NavvySimple'
 })
 export class BXRestNavvyElapsedItem {
 
-  private Navvy: Navvy<BXRestTaskElapsedItem, BXRestMapTaskElapsedItem>
+  private readonly BXRestElapsedItem = inject(BXRestTaskElapsedItem)
+  private readonly BXRestMapElapsedItem = inject(BXRestMapTaskElapsedItem)
+  private readonly delegate = inject(BXRestNavvyDelegateElapsedItem)
+  public readonly operation = inject(BXRestNavvyOperationElapsedItem)
 
-  constructor(
-    private BXRestElapsedItem: BXRestTaskElapsedItem,
-    private BXRestMapElapsedItem: BXRestMapTaskElapsedItem,
-    private delegate: BXRestNavvyDelegateElapsedItem,
-    public operation: BXRestNavvyOperationElapsedItem
-  ) {
-    this.Navvy = new Navvy(this.BXRestElapsedItem, this.BXRestMapElapsedItem)
-  }
+  private readonly Navvy = new Navvy(this.BXRestElapsedItem, this.BXRestMapElapsedItem)
+
 
   /*
   call(methodName: string, ...args: any[]){
     if (typeof this[methodName] === 'function') {
-      return this[methodName](...args);
+      return this[methodName](...args)
     }
-    return this[methodName](...args);
+    return this[methodName](...args)
   }
    */
 

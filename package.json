@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.4.17",
+  "version": "0.5.1",
   "description": "bitrix rest api",
   "keywords": [
     "bitrix",
@@ -15,15 +15,20 @@
   },
   "homepage": "https://github.com/Aricatofuka/bx-rest#readme",
   "peerDependencies": {
-    "@angular/common": "^17.1.2",
-    "@angular/core": "^17.1.2",
-    "just-clone": "^6.2.0",
+    "@angular/common": "^18.1.0",
+    "@angular/core": "^18.1.0",
     "just-camel-case": "^6.2.0",
+    "just-clone": "^6.2.0",
     "just-flatten-it": "^5.2.0",
     "just-values": "^2.2.0",
     "luxon": "^3.4.4"
   },
   "dependencies": {
+    "@angular-devkit/build-angular": "^18.2.11",
+    "countries-and-timezones": "^3.7.2",
+    "ng-packagr": "^18.2.1",
+    "snake-camel-types": "^1.0.1",
+    "ts-case-convert": "^2.1.0",
     "tslib": "^2.3.0"
   },
   "module": "esm2022/bx-rest.mjs",
@@ -40,5 +45,8 @@
       "default": "./package.json"
     }
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "devDependencies": {
+    "@types/luxon": "^3.4.2"
+  }
 }

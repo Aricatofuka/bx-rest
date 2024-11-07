@@ -4,7 +4,7 @@ import {
   $elapseditem, $element, $event, $field, $file, $folder, $get, $getaccess, $getchildren,
   $getFields, $getlist, $im, $isactionallowed, $item,
   $list, $lists, $log, $markdeleted, $moveto, $planner, $rename, $restore,
-  $result, $search, $server, $sonet_group, $start, $status, $task,
+  $result, $search, $server, $sonet_group, $stages, $start, $status, $task,
   $tasks, $time, $timeMan, $update,
   $uploadfile, $user, $userfield, $workflow
 } from '../../consts/part-name-methods'
@@ -256,6 +256,14 @@ export const methods: iBXRestWorkpieceMethodsFullOneArgument<string[]> = {
         //  */
         // delete: [$task, $item, $userfield, $delete]
       }
+    },
+    stages: {
+      add: [$task, $stages, $add], // Метод добавляет стадии Канбана / Моего плана
+      canmovetask: [$task, $stages, 'canmovetask'], // Метод определяет, может ли текущий пользователь перемещать задачи в указанной сущности
+      delete: [$task, $stages, $delete], // Метод удаляет стадии Канбана / Моего плана
+      get: [$task, $stages, $get], // Метод получает стадии Канбана / Моего плана
+      movetask: [$task, $stages, 'movetask'], // Метод перемещает задачи из одной стадии в другую
+      update: [$task, $stages, $update] // Метод обновляет стадии Канбана / Моего плана.
     }
   },
   timeman: {

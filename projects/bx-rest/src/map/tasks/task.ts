@@ -11,20 +11,13 @@ import {
 import { BXRestMapTasksTaskResult } from './task/result'
 import { iBXRestHttpTask, iBXRestTask, iBXRestTaskHttpTag } from '../../typification/rest/tasks/task'
 import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
-import { BX_REST_SETTINGS } from '../../settings'
 import values from 'just-values'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestMapTasksTask extends BaseMapServices {
-
-  constructor(
-    BX_REST_SETTINGS: BX_REST_SETTINGS,
-    public result: BXRestMapTasksTaskResult
-  ) {
-    super(BX_REST_SETTINGS)
-  }
+  public readonly result = BXRestMapTasksTaskResult
 
   getAccess(v: iBXRestTaskGetAccess | undefined) {
     return (v && v.allowedActions) ? v.allowedActions : undefined
@@ -42,7 +35,11 @@ export class BXRestMapTasksTask extends BaseMapServices {
 
   list<S extends iBXRestTaskFieldsName[], CustomFields>(item: iBXRestTasksTaskListHttp<S, CustomFields> | undefined) {
     return (item && item.tasks)
-      ? item.tasks.map(i => this.TaskBXHttpToTaskBX<CustomFields, Partial<iBXRestHttpTask> & Partial<CustomFields>, iBXRestTasksTaskList<S, CustomFields>>(i))
+      ? item.tasks.map(i => this.TaskBXHttpToTaskBX<
+        CustomFields,
+        Partial<iBXRestHttpTask> & Partial<CustomFields>,
+        iBXRestTasksTaskList<S, CustomFields>
+      >(i))
       : undefined
   }
 

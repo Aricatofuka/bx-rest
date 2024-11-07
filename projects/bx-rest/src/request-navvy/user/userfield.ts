@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { Navvy } from '../../services/navvy'
 import { BXRestUserUserfield } from '../../request/user/userfield'
 
@@ -7,13 +7,8 @@ import { BXRestUserUserfield } from '../../request/user/userfield'
 })
 export class BXRestNavvyUserUserfield {
 
-  private Navvy: Navvy<BXRestUserUserfield, undefined>
-
-  constructor(
-    private BXRestUserUserfield: BXRestUserUserfield
-  ) {
-    this.Navvy = new Navvy(this.BXRestUserUserfield, undefined)
-  }
+  private readonly BXRestUserUserfield = inject(BXRestUserUserfield)
+  private readonly Navvy = new Navvy(this.BXRestUserUserfield, undefined)
 
   list() {
     return this.Navvy.simple(this.BXRestUserUserfield.list)

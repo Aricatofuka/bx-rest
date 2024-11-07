@@ -10,5 +10,5 @@ export function BXRestMapResult<T>(v: iBXRestAnswer<T> | undefined) {
   return undefined
 }
 export function instanceOfiBXRestAnswerSuccess<T>(object: any): object is iBXRestAnswerSuccess<T> {
-  return 'result' in object;
+  return 'result' in object
 }

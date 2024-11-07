@@ -10,7 +10,7 @@ import { CamelToSnake } from 'snake-camel-types'
  * в разеделе select и после него глянуть на ответ
  */
 type UppercaseKeys<T extends CamelToSnake<iBXRestHttpTask | iBXRestTask>> = {
-  [K in keyof T as Uppercase<K & string>]: T[K];
+  [K in keyof T as Uppercase<K & string>]: T[K]
 }
 
 /**

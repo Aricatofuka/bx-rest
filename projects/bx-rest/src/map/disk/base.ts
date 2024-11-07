@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { BaseMapServices } from '../base'
 import { iBXRestDiskFile, iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 import { iBXRestFolder, iBXRestFolderHttp } from '../../typification/rest/disk/folder'
-import { iBXRestDiskFileAndFolderMap } from '../../typification/rest/disk/map';
+import { iBXRestDiskFileAndFolderMap } from '../../typification/rest/disk/map'
 
 @Injectable({
   providedIn: 'root'

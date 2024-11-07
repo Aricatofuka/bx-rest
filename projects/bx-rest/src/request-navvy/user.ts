@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestUser } from '../request/user'
 import { Navvy } from '../services/navvy'
 import { iBXRestParamUserGet } from '../typification/rest/user/get'
@@ -16,15 +16,11 @@ export class BXRestNavvyUser {
     params: {ACTIVE: true, start: 0}
   }
 
-  private Navvy: Navvy<BXRestUser, BXRestMapUser>
 
-  constructor(
-    private BXRestUserMap: BXRestMapUser,
-    private BXRestUser: BXRestUser,
-    public userField: BXRestNavvyUserUserfield
-  ) {
-    this.Navvy = new Navvy(this.BXRestUser, this.BXRestUserMap)
-  }
+  private readonly BXRestUserMap = inject(BXRestMapUser)
+  private readonly BXRestUser = inject(BXRestUser)
+  public readonly userField = inject(BXRestNavvyUserUserfield)
+  private readonly Navvy = new Navvy(this.BXRestUser, this.BXRestUserMap)
 
   admin() {
     return this.Navvy.simple(

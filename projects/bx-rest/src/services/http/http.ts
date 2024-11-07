@@ -1,24 +1,18 @@
 import { Observable, throwError, mergeMap } from 'rxjs'
-import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+import { inject, Injectable } from '@angular/core'
 import SessionKeyServices from '../../services/http/sessionKey'
 import clone from 'just-clone'
 import { iHttpParamSettings } from '../../typification/rest/settings'
-import { BX_REST_SETTINGS } from '../../settings'
 import { BaseHttp } from './base/base'
+import { HttpClient } from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpServices extends BaseHttp {
 
-  constructor(
-    BX_REST_SETTINGS: BX_REST_SETTINGS,
-    http: HttpClient,
-    public session: SessionKeyServices
-  ) {
-    super(BX_REST_SETTINGS, http)
-  }
+  public readonly http = inject(HttpClient)
+  public readonly session = inject(SessionKeyServices)
 
   override httpPost<T>(url: string,
                        params: any = {},
@@ -37,15 +31,14 @@ export class HttpServices extends BaseHttp {
         return throwError(() => 'get base url error')
       }))
     } else {
-      return throwError(() => 'auth not get')
+      return throwError(() => 'auth session not get (post)')
     }
 
   }
 
   override httpGet<T>(
     url: string,
-    params: any = {},
-    settings: iHttpParamSettings = this.defSettings
+    params: any = {}
   ): Observable<T | undefined> {
     let auth = this.session.getAuthParams()
     if (auth) {
@@ -67,7 +60,7 @@ export class HttpServices extends BaseHttp {
         })
       )
     } else {
-      return throwError(() => 'auth not get')
+      return throwError(() => 'auth session not get (get)')
     }
   }
 }

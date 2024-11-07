@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import {
   $disk, $get, $getchildren, $getFields, $getlist, $getTypes, $rename, $storage, $uploadfile
 } from '../../consts/part-name-methods'
@@ -28,10 +28,7 @@ export class BXRestDiskStorage {
     // с которым может работать приложение для хранения своих данных (файлов и папок)
   }
 
-  constructor(
-    private http: HttpBXServices,
-  ) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   getForApp() {
     return this.http.post<iBXRestFolderInfo>(

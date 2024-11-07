@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestMapUser } from './map/user'
 import { BXRestMapSonetGroup } from './map/sonet_group'
 import { BXRestMapServer } from './map/server'
@@ -13,16 +13,13 @@ import { BXRestMapTasks } from './map/tasks'
   providedIn: 'root'
 })
 export class Map {
-  constructor(
-    public user: BXRestMapUser,
-    public sonet_group: BXRestMapSonetGroup,
-    public server: BXRestMapServer,
-    public lists: BXRestMapLists,
-    public disk: BXRestDisk,
-    public calendar: BXRestMapCalendar,
-    public log: BXRestMapLog,
-    public task: BXRestMapTask,
-    public tasks: BXRestMapTasks,
-  ) {
-  }
+  public readonly user = inject(BXRestMapUser)
+  public readonly sonet_group = inject(BXRestMapSonetGroup)
+  public readonly server = inject(BXRestMapServer)
+  public readonly lists = inject(BXRestMapLists)
+  public readonly disk = inject(BXRestDisk)
+  public readonly calendar = inject(BXRestMapCalendar)
+  public readonly log = inject(BXRestMapLog)
+  public readonly task = inject(BXRestMapTask)
+  public readonly tasks = inject(BXRestMapTasks)
 }

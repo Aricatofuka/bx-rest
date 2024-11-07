@@ -23,7 +23,8 @@ export const appConfig: ApplicationConfig = {
         },
         urls: {
           source: 'string', // or 'localStorage'
-          home: 'your bitrix addres' // or your key from localStorage
+          key: 'your bitrix addres', // or your key from localStorage
+          additional_part: 'rest' // url after slash
         }
       }
     }

@@ -1,10 +1,9 @@
 import { BXRestMapCalendarEvent } from './calendar/event'
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestMapCalendar {
-  constructor(public event: BXRestMapCalendarEvent) {
-  }
+  public readonly event = inject(BXRestMapCalendarEvent)
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import BXRestMapDiskStorage from '../../map/disk/storage'
 import { iBXRestParamUploadFile } from '../../typification/rest/disk/storage/uploadfile'
 import { Navvy } from '../../services/navvy'
@@ -10,14 +10,9 @@ import { BXRestNavvyInterlayerDiskStorage } from './interlayer/storage'
 })
 export class BXRestNavvyDiskStorage {
 
-  private Navvy: Navvy<BXRestNavvyInterlayerDiskStorage, BXRestMapDiskStorage>
-
-  constructor(
-    private BXRestNavvyInterlayerDiskStorage: BXRestNavvyInterlayerDiskStorage,
-    private BXRestMapDiskStorage: BXRestMapDiskStorage,
-  ) {
-    this.Navvy = new Navvy(this.BXRestNavvyInterlayerDiskStorage, this.BXRestMapDiskStorage)
-  }
+  private readonly BXRestNavvyInterlayerDiskStorage = inject(BXRestNavvyInterlayerDiskStorage)
+  private readonly BXRestMapDiskStorage = inject(BXRestMapDiskStorage)
+  private Navvy = new Navvy(this.BXRestNavvyInterlayerDiskStorage, this.BXRestMapDiskStorage)
 
   getForApp() {
     return this.Navvy.simple(this.BXRestNavvyInterlayerDiskStorage.getForApp)

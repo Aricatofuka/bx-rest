@@ -1,13 +1,16 @@
-import { iRestSettings } from './typification/settings'
+import { iBXRestSettings } from './typification/settings'
 import { InjectionToken } from '@angular/core'
 
-export class BX_REST_SETTINGS extends InjectionToken<iRestSettings> {
-  auth = {
+export const DEFAULT_BX_REST_SETTINGS: iBXRestSettings = {
+  auth: {
     source: 'cookies',
     key: 'auth'
-  }
-  urls = {
+  },
+  urls: {
     source: 'localStorage',
-    key: ''
+    key: '',
+    additional_part: 'rest'
   }
 }
+
+export const BX_REST_SETTINGS = new InjectionToken<iBXRestSettings>('BX_REST_SETTINGS');

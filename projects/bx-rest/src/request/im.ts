@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestImChat } from './im/chat'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestIm {
-  constructor(public chat: BXRestImChat) {
-  }
+  public readonly chat = inject(BXRestImChat)
 }

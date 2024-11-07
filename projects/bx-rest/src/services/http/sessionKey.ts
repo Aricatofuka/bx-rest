@@ -1,13 +1,10 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import Cookies from '../../services/vanilla/сookies'
-import saveApplicationAuth from '../../typification/auth/save'
 import { Observable, of, Subscription } from 'rxjs'
-// import { ActivatedRoute, ParamMap } from '@angular/router'
 import { BaseServices } from '../base'
 import { LocalStorageServices as LocalStorage } from '../../services/vanilla/localStorage'
-import { RestServices } from '../../typification/rest/api-lib'
-import { BX_REST_SETTINGS } from '../../settings'
-import iBXRestAuth from '../../typification/auth/save'
+import { BX_REST_SETTINGS, DEFAULT_BX_REST_SETTINGS } from '../../settings'
+import { iBXRestAuth } from '../../typification/auth/save'
 import { SessionStorage } from '../vanilla/sessionStorage'
 
 type IKeyAuth = 'sessid' | 'auth' | string
@@ -18,17 +15,16 @@ type IKeyAuth = 'sessid' | 'auth' | string
 export default class SessionKeyServices extends BaseServices {
 
   authHave = false
-  authData: saveApplicationAuth | undefined
+  authData: iBXRestAuth | undefined
   subscribe = {
     authData: new Subscription()
   }
 
+  private readonly BX_REST_SETTINGS = inject(BX_REST_SETTINGS)
+
   constructor(
-    // private route: ActivatedRoute,
-    public override BX_REST_SETTINGS: BX_REST_SETTINGS,
-    public BxApiLib: RestServices,
   ) {
-    super(BX_REST_SETTINGS)
+    super()
     let authData = SessionStorage.getItem<iBXRestAuth>(this.constructor.name)
     if ((authData && !authData.access_token.length) || !authData) {
       // получаем токен по собственным каналом (в битриксе приложение trace:apps.trace)
@@ -64,82 +60,6 @@ export default class SessionKeyServices extends BaseServices {
           }
         }
       })
-
-      /*
-      this.subscribe.authData = this.route.queryParamMap
-        .pipe(
-          filter(param =>
-            param.has('AUTH_ID')
-            || param.has('access_token')
-            || param.has('REFRESH_ID')
-            || param.has('DOMAIN')
-          )
-        )
-        .subscribe((param: ParamMap) => {
-          if(!save) {
-            let save = {
-              access_token: undefined,
-              client_endpoint: (param.client_endpoint) ? param.client_endpoint : undefined,
-              domain: (param.domain) ? param.domain : undefined,
-              expires: (param.expires) ? param.expires : undefined,
-              expires_in: (param.expires_in) ? param.expires_in : undefined,
-              member_id: (param.member_id) ? param.member_id : undefined,
-              refresh_token: (param.refresh_token) ? param.refresh_token : undefined,
-              scope: (param.scope) ? param.scope : undefined,
-              server_endpoint: (param.server_endpoint) ? param.server_endpoint : undefined,
-              status: (param.status) ? param.status : undefined,
-              user_id: (param.user_id) ? param.user_id : undefined,
-              type: (param.type) ? param.type : undefined,
-            }
-          }
-
-          if (param.has('AUTH_ID') && !authData?.access_token.length) {
-            const get = param.get('AUTH_ID')
-            if (get) {
-              Cookies.set('auth', get) //TODO: потом убрать
-              save.access_token = get
-            }
-          }
-
-          if (param.has('access_token') && !authData.access_token.length) {
-            const get = param.get('access_token')
-            if (get) {
-              Cookies.set('auth', get) // TODO: потом убрать
-              save.access_token = get
-            }
-          }
-
-          if (param.has('REFRESH_ID') && !authData.refresh_token.length) {
-            const get = param.get('REFRESH_ID')
-            if (get) {
-              save.refresh_token = get
-            }
-          }
-
-          if (param.has('DOMAIN') && !authData.domain.length) {
-            const get = param.get('DOMAIN')
-            if (get) {
-              save.domain = get
-            }
-          }
-          if (Object.keys(save).length && save.access_token) {
-            SessionStorage.setItem(this.constructor.name, save)
-            this.subscribeAll()
-          } else {
-            // если битрикс не шлёт нужные мне параметры на прямую
-            // просим их мне отдать так как описано это в документации
-            let f = () => {
-              if (this.BxApiLib.BX24) {
-                const initDate = this.BxApiLib.BX24.getAuth()
-                SessionStorage.setItem(this.constructor.name, save)
-              }
-            }
-
-            this.BxApiLib.init(f)
-          }
-
-        })
-      */
     } else if (this.getAuth().length) {
       this.authHave = true
     }
@@ -187,18 +107,8 @@ export default class SessionKeyServices extends BaseServices {
     return ''
   }
 
-  setAuthParams<T>(params: any): boolean {
-    const keyAuth = this.getKeyAuth()
-    if (params[keyAuth]) {
-      return true
-    } else if (keyAuth) {
-      params[keyAuth] = this.getAuth()
-      return true
-    }
-    return false
-  }
-
   getAuthParams(): string | undefined {
+    // console.log('this.BX_REST_SETTINGS', this.BX_REST_SETTINGS, BX_REST_SETTINGS)
     switch (this.BX_REST_SETTINGS.auth.source) {
       case 'cookies':
         return this.getAuth()
@@ -210,21 +120,17 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getBaseUrl(): Observable<string | undefined> {
+
+    const additional_part = (this.BX_REST_SETTINGS.urls.additional_part && this.BX_REST_SETTINGS.urls.additional_part != '')
+    ? this.BX_REST_SETTINGS.urls.additional_part
+      : DEFAULT_BX_REST_SETTINGS.urls.additional_part
+
     if(this.BX_REST_SETTINGS.urls.source === 'string'){
-      return of(this.prepareBaseAddress(this.BX_REST_SETTINGS.urls.key, 'rest'))
+      return of(this.prepareBaseAddress(this.BX_REST_SETTINGS.urls.key, additional_part))
     }
 
     const str = localStorage.getItem(this.BX_REST_SETTINGS.urls.key)
 
-    return of(this.prepareBaseAddress((str) ? str : '', 'rest'))
-
-    // return this.authData$.pipe( // TODO: разобраться позже
-    //   take(1),
-    //   map(v => (v && v.domain) ? this.prepareBaseAddress(v.domain) : undefined)
-    // )
+    return of(this.prepareBaseAddress((str) ? str : '', additional_part))
   }
-
-  // getHomeUrl(): string {
-  //     return env.urls.home
-  // }
 }

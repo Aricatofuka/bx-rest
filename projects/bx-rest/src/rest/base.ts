@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestUser } from '../request/user'
 import { BXRestLists } from '../request/lists'
 import { BXRestTask } from '../request/task'
@@ -21,24 +21,21 @@ import { iBXRestBatch, iBXRestParamBatch } from '../typification/rest/batch'
   providedIn: 'root'
 })
 export class BXRest {
-  constructor(
-    public user: BXRestUser,
-    public lists: BXRestLists,
-    public task: BXRestTask,
-    public tasks: BXRestTasks,
-    public disk: BXRestDisk,
-    public bizProc: BXRestBizProc,
-    public log: BXRestLog,
-    public calendar: BXRestCalendar,
-    public sonet_group: BXRestSonetGroup,
-    public server: BXRestServer,
-    public department: BXRestDepartment,
-    public im: BXRestIm,
-    public app: BXRestApp,
-    public timeMan: BXRestTimeMan,
-    private http: HttpBXServices,
-  ) {
-  }
+  private readonly http = inject(HttpBXServices)
+  public readonly user = inject(BXRestUser)
+  public readonly lists = inject(BXRestLists)
+  public readonly task = inject(BXRestTask)
+  public readonly tasks = inject(BXRestTasks)
+  public readonly disk = inject(BXRestDisk)
+  public readonly bizProc = inject(BXRestBizProc)
+  public readonly log = inject(BXRestLog)
+  public readonly calendar = inject(BXRestCalendar)
+  public readonly sonet_group = inject(BXRestSonetGroup)
+  public readonly server = inject(BXRestServer)
+  public readonly department = inject(BXRestDepartment)
+  public readonly im = inject(BXRestIm)
+  public readonly app = inject(BXRestApp)
+  public readonly timeMan = inject(BXRestTimeMan)
 
   public profile() {
     return this.http.post<iBXRestProfileHttp>(['profile'])

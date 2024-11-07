@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import {
   BXRestHttpListsFieldGet,
   iBXRestParamListField
@@ -13,10 +13,7 @@ export default class BXRestListsField {
 
   protected url = methods.lists.field
 
-  constructor(
-    private http: HttpBXServices,
-  ) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   get(param: iBXRestParamListField) {
     return this.http.post<BXRestHttpListsFieldGet>(this.url.get, param)

@@ -1,5 +1,4 @@
-import { iBXRestYesNo } from '../base/YesNo';
-
+import { iBXRestYesNo } from '../base/YesNo'
 
 export interface FieldItemLists {
   FIELD_ID: string

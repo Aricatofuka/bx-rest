@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestTaskStages } from '../../request/task/stages'
 import { iBXRestParamTaskStageGet } from '../../typification/rest/task/stages/get'
 import { Navvy } from '../../services/navvy'
-import { map } from 'rxjs/operators'
 import { BXRestMapTaskStage } from '../../map/task/stages'
 import { iBXRestParamTaskStagesUpdate } from '../../typification/rest/task/stages/update'
 import { iBXRestParamTaskStagesCanMoveTask } from '../../typification/rest/task/stages/canMoveTask'
@@ -12,32 +11,28 @@ import { iBXRestParamTaskStagesCanMoveTask } from '../../typification/rest/task/
 })
 export class BXRestNavvyTaskStages {
 
-  constructor(
-    private BXRestTaskStages: BXRestTaskStages,
-    private Navvy: Navvy,
-    private mapTaskStages: BXRestMapTaskStage
-  ) {
-  }
+  private readonly BXRestTaskStages = inject(BXRestTaskStages)
+  private readonly mapTaskStages = inject(BXRestMapTaskStage)
+  private readonly Navvy = new Navvy(this.BXRestTaskStages, this.mapTaskStages)
 
   get(param: iBXRestParamTaskStageGet) {
-    this.Navvy.mapAndSnackBarError(
-      this.BXRestTaskStages.get(param),
-    ).pipe(
-      map(v => this.mapTaskStages.get(v))
+    this.Navvy.simpleWithArg(
+      this.BXRestTaskStages.get,
+      param
     )
   }
 
   update(param: iBXRestParamTaskStagesUpdate) {
-    this.Navvy.mapAndSnackBarError(
-      this.BXRestTaskStages.update(param),
-      'Не удалось обновить стадии задач'
+    this.Navvy.simpleWithArg(
+      this.BXRestTaskStages.update,
+      param
     )
   }
 
   canMoveTask(param: iBXRestParamTaskStagesCanMoveTask) {
-    this.Navvy.mapAndSnackBarError(
-      this.BXRestTaskStages.canMoveTask(param),
-      'Не удалось получить информацию о правах на сдвиг задачи'
+    this.Navvy.simpleWithArg(
+      this.BXRestTaskStages.canMoveTask,
+      param
     )
   }
 }

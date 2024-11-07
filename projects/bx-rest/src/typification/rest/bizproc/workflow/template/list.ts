@@ -6,5 +6,5 @@ export interface iBXRestParamBizprocWorkflowTemplateList {
 }
 
 export type iBXRestParamBizprocWorkflowTemplateListFilter = {
-  [Property in iRestBXBizprocWorkflowTemplateFieldEnum]?: any;
+  [Property in iRestBXBizprocWorkflowTemplateFieldEnum]?: any
 }

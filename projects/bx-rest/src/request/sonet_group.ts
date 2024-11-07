@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { HttpBXServices } from '../services/http/HttpBX'
 import {
   iBXRestParamSonetGroupGet, iBXRestSonetGroupGetHttp
 } from '../typification/rest/sonet_group/get'
-import { methods } from '../typification/base/methods';
+import { methods } from '../typification/base/methods'
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +12,7 @@ export class BXRestSonetGroup {
 
   protected url = methods.sonet_group
 
-  constructor(
-    private http: HttpBXServices,
-  ) {
-  }
+  private http = inject(HttpBXServices)
 
   // // TODO: filter и select позже нормально описать
   // getList(filter: any = {}, select: iWorkgroupFields[] = ['ID', 'NAME']){
@@ -28,8 +25,7 @@ export class BXRestSonetGroup {
   //   )
   // }
 
-  get(param: iBXRestParamSonetGroupGet = {}
-  ) {
+  get(param: iBXRestParamSonetGroupGet = {}) {
     return this.http.post<iBXRestSonetGroupGetHttp[]>(this.url.get, param)
   }
 }

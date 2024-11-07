@@ -2,15 +2,11 @@ import { Injectable } from '@angular/core'
 import { time } from '../consts/time'
 import { DateTime } from 'luxon'
 import { DateTimeOptions } from 'luxon/src/datetime'
-import { BX_REST_SETTINGS } from '../settings'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BaseServices {
-
-  constructor(public BX_REST_SETTINGS: BX_REST_SETTINGS) {
-  }
 
   toStr(val: any): string {
     return (val) ? String(val) : ''
@@ -55,7 +51,7 @@ export class BaseServices {
       ':' + pad(date.getSeconds()) +
       diff + pad(tzOffset / 60) +
       ':' + pad(tzOffset % 60)
-  };
+  }
 
   toBool(val: any) {
     switch (typeof val) {
@@ -81,35 +77,22 @@ export class BaseServices {
     return typeof val
   }
 
-  typeDefClass(val: object): undefined | null | 'date' {
-    if (val) {
-      if (val instanceof Date) {
-        return 'date'
-      }
-      return undefined
-    } else {
-      return null
-    }
-  }
-
-  toJSON(val: object) {
-    return JSON.stringify(val)
-  }
-
-  fromJSON<T>(val: string): T | undefined {
-    return JSON.parse(val)
-  }
-
-  prepareBaseAddress(url: string, add: string = '') {
+  prepareBaseAddress(url: string, add: string | undefined = '') {
     if (url.search('https://') !== 0 && url.search('http://')) {
       url = 'https://' + url
+    }
+
+    if(add && add.length > 0) {
+      if (url.lastIndexOf('/') !== (url.length - 1)) {
+        url = url + '/'
+      }
+
+      url = url + add
     }
 
     if (url.lastIndexOf('/') !== (url.length - 1)) {
       url = url + '/'
     }
-
-    url = url + add
 
     return url
   }
@@ -119,7 +102,7 @@ export class BaseServices {
   }
 
   dateDiffInDays(a: Date, b: Date) {
-    return Math.floor(this.dateDiff(a, b).valueOf() / time.oneDayMilliseconds);
+    return Math.floor(this.dateDiff(a, b).valueOf() / time.oneDayMilliseconds)
   }
 
   getBase64File(file: File) {
@@ -141,45 +124,5 @@ export class BaseServices {
       }
     }
     return undefined
-  }
-
-  sumArray(numbers: number[]) {
-    return numbers.reduce((a, b) => {
-      return a + b;
-    })
-  }
-
-  isItTheSameDate(date1: Date, date2: Date) {
-    return date1.getDate() === date2.getDate()
-      && date1.getMonth() === date2.getMonth()
-      && date1.getFullYear() === date2.getFullYear()
-  }
-
-  toUnix(date: Date) {
-    return Math.floor(date.valueOf() / 1000)
-  }
-
-  arrSum(x: number[]) {
-    let s = 0;
-    for (let i = 0; i < x.length; i++) {
-      s += x[i]
-    }
-    return s
-  }
-
-  getBaseUrlHttps(url: string, component = false) {
-    if (component) {
-      return encodeURI(this.cropUrl(url) + '/');
-    } else {
-      return encodeURI('https://' + this.cropUrl(url) + '/');
-    }
-  }
-
-  cropUrl(url: string) {
-    url = (url) ? url.replace('https://', '') : ''
-    url = (url) ? url.replace('http://', '') : ''
-    url = (url) ? url.replace('https:', '') : ''
-    url = (url) ? url.replace('http:', '') : ''
-    return url
   }
 }

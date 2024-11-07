@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import {
   $add,
   $commentitem,
@@ -32,10 +32,7 @@ export class BXRestTaskCommentItem {
     isActionAllowed: [$task, $commentitem, $isactionallowed], // Проверяет, разрешено ли действие
   }
 
-  constructor(
-    private http: HttpBXServices,
-  ) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   add(param: iBXRestCommentTaskAdd) {
     return this.http.post<number>(this.url.add, param)

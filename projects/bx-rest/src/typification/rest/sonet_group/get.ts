@@ -1,7 +1,7 @@
 import { iBXRestParamSort } from '../base/sort'
 import { iBXRestSonetGroupFieldsFilter, iBXRestSonetGroupFieldsOrder, iBXRestSonetGroupFieldsSelect } from './base'
 import { Modify } from '../../base/modyfy'
-import { iBXRestFilterGenerator } from "../base/filterGenerator";
+import { iBXRestFilterGenerator } from '../base/filterGenerator'
 
 export interface iBXRestParamSonetGroupGet {
   FILTER?: iBXRestParamSonetGroupGetFilterWithParam,

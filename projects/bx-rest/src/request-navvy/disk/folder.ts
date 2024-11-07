@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import BXRestMapDiskFolder from '../../map/disk/folder'
 import { BXRestDiskFolder } from '../../request/disk/folder'
 import { Navvy } from '../../services/navvy'
@@ -7,26 +7,21 @@ import { iBXRestDiskFolderCopyToParam } from '../../typification/rest/disk/folde
 import { iBXRestDiskFolderMoveToParam } from '../../typification/rest/disk/folder/moveTo'
 import { iBXRestDiskFolderRenameParam } from '../../typification/rest/disk/folder/rename'
 import { iBXRestDiskFolderUploadFileParam } from '../../typification/rest/disk/folder/uploadFile'
-import { iBXRestParamDiskFileGet, iBXRestParamDiskFileMarkDeleted } from '../../typification/rest/disk/file';
+import { iBXRestParamDiskFileGet, iBXRestParamDiskFileMarkDeleted } from '../../typification/rest/disk/file'
 import {
   iBXRestParamFolderDeleteTree, iBXRestParamFolderGetChildren,
   iBXRestParamFolderGetExternalLink,
   iBXRestParamFolderRestore
-} from '../../typification/rest/disk/folder';
+} from '../../typification/rest/disk/folder'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestNavvyDiskFolder {
 
-  private Navvy: Navvy<BXRestDiskFolder, BXRestMapDiskFolder>
-
-  constructor(
-    private BXRestDiskFolder: BXRestDiskFolder,
-    private BXRestMapDiskFolder: BXRestMapDiskFolder,
-  ) {
-    this.Navvy = new Navvy(this.BXRestDiskFolder, this.BXRestMapDiskFolder)
-  }
+  private readonly BXRestDiskFolder = inject(BXRestDiskFolder)
+  private readonly BXRestMapDiskFolder = inject(BXRestMapDiskFolder)
+  private Navvy = new Navvy(this.BXRestDiskFolder, this.BXRestMapDiskFolder)
 
   /**
    * Возвращает папку по идентификатору

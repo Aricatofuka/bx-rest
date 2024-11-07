@@ -9,7 +9,7 @@ npm install bx-rest
 ```
 # Usage
 ```typescript
-import { BX_REST_SETTINGS } from 'bx-rest';
+import { BX_REST_SETTINGS } from 'bx-rest'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,18 +23,21 @@ export const appConfig: ApplicationConfig = {
         },
         urls: {
           source: 'string', // or 'localStorage'
-          home: 'your bitrix addres' // or your key from localStorage
+          key: 'your bitrix addres', // or your key from localStorage
+          additional_part: 'rest' // url after slash
         }
       }
     }
   ]
-};
+}
 document.cookie ='auth=ACCESS_TOKEN;  max-age=99999'
 ```
+
 ```typescript
 
 // isBXRestAnswerSuccess checks the answer to see if it belongs to an answer without errors
 import { BXRest, BXMap, isBXRestAnswerSuccess } from 'bx-rest'
+import { inject } from '@angular/core'
 
 @Component({
   selector: 'app-any',
@@ -51,14 +54,9 @@ export class AnyComponent {
     }
   }).pipe(
     map(v => (isBXRestAnswerSuccess(v) ? this.BXMap.lists.element.get(v) : undefined)
-  )
-    
-  constructor(
-    private BXRest: BXRest,
-    private BXMap: BXMap,
-  ) {
-      
-  }
+    ))
+  private readonly BXRest = inject(BXRest)
+  private readonly BXMap = inject(BXMap)
 }
 ```
 or if you prefer several features in one
@@ -81,11 +79,7 @@ export class AnyComponent {
     }
   }).result() // or .resultAll() - to get all elements
 
-  constructor(
-    private BXRestNavvy: BXRestNavvy,
-  ) {
-
-  }
+  private readonly BXRestNavvy = inject(BXRestNavvy)
 }
 ```
 # Extension
@@ -116,10 +110,7 @@ export class BXRestCustomBlogpostGet {
     rating: [PNM.$log, PNM.$blogpost, PNM.$get, 'rating'],
   }
 
-  constructor(
-    private http: BXRestRequest
-  ) {
-  }
+  private readonly http = inject(BXRestRequest)
 
   view(param: iBXRestCustomBlogpostGetViewParam) {
     return this.http.post<iBXRestCustomHttpBlogpostGetView[]>(this.url.view, param)
@@ -148,12 +139,10 @@ export class BXRestCustomNavvyBlogpostGet {
 
   Navvy: Navvy<BXRestCustomBlogpostGet, BXRestCustomMapBlogpostGet>
 
-  constructor(
-    private BXRestCustomBlogpostGet: BXRestCustomBlogpostGet,
-    private BXRestCustomMapBlogpostGet: BXRestCustomMapBlogpostGet,
-  ) {
-    this.Navvy = new Navvy(this.BXRestCustomBlogpostGet, this.BXRestCustomMapBlogpostGet)
-  }
+  private readonly http = inject(BXRestRequest)
+  private readonly BXRestCustomBlogpostGet = inject(BXRestCustomBlogpostGet)
+  private readonly BXRestCustomMapBlogpostGet = inject(BXRestCustomMapBlogpostGet)
+  private readonly Navvy = new Navvy(this.BXRestCustomBlogpostGet, this.BXRestCustomMapBlogpostGet)
 
   view(param: iBXRestCustomBlogpostGetViewParam) {
     return this.Navvy.PagNav(this.BXRestCustomBlogpostGet.view, param, this.BXRestCustomMapBlogpostGet.view)

@@ -2,16 +2,11 @@ import { Injectable } from '@angular/core'
 import clone from 'just-clone'
 import { BaseMapServices } from './base'
 import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user/user'
-import { BX_REST_SETTINGS } from '../settings'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestMapUser extends BaseMapServices {
-
-  constructor(BX_REST_SETTINGS: BX_REST_SETTINGS) {
-    super(BX_REST_SETTINGS)
-  }
 
   get(v: iBXRestUserHttp[] | undefined): iBXRestUser[] | undefined {
     return (v) ? v.map(i => this.userHttpToTrace(i)) : undefined

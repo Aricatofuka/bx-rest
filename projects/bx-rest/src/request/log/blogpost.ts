@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamLogBlogPostAdd } from '../../typification/rest/log/blogpost/add'
 import { iBXRestBlogPostHttp, iBXRestParamBlogPostGet } from '../../typification/rest/log/blogpost/get'
@@ -11,8 +11,7 @@ export class BXRestLogBlogPost {
 
   protected url = methods.log.blogpost
 
-  constructor(private http: HttpBXServices) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   add(param: iBXRestParamLogBlogPostAdd) {
     return this.http.post<boolean>(this.url.add, param)

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { iBXRestParamElapseditemGet } from '../../../typification/rest/task/elapseditem/get'
 import { BXRestTaskElapsedItem } from '../../../request/task/elapseditem'
 import { Navvy } from '../../../services/navvy'
@@ -9,14 +9,9 @@ import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
 })
 export class BXRestNavvyDelegateElapsedItem {
 
-  private Navvy: Navvy<BXRestTaskElapsedItem, BXRestMapTaskElapsedItem>
-
-  constructor(
-    private BXRestElapsedItem: BXRestTaskElapsedItem,
-    private BXRestMapElapsedItem: BXRestMapTaskElapsedItem,
-  ) {
-    this.Navvy = new Navvy(this.BXRestElapsedItem, this.BXRestMapElapsedItem)
-  }
+  private readonly BXRestElapsedItem = inject(BXRestTaskElapsedItem)
+  private readonly BXRestMapElapsedItem = inject(BXRestMapTaskElapsedItem)
+  private Navvy = new Navvy(this.BXRestElapsedItem, this.BXRestMapElapsedItem)
 
   getList(
     param: iBXRestParamElapseditemGet = {}

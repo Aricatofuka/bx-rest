@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { $add, $delete, $department, $get, $update } from '../consts/part-name-methods'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestParamDepartmentGet } from '../typification/rest/department/get'
@@ -19,10 +19,7 @@ export class BXRestDepartment {
     update: [$department, $update]
   }
 
-  constructor(
-    private http: HttpBXServices,
-  ) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   get(param: iBXRestParamDepartmentGet = {}) {
     return this.http.post<iBXRestDepartmentHttp[]>(this.url.get, param)

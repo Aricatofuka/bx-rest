@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestTaskCommentItem } from '../../request/task/commentitem'
 import { Navvy } from '../../services/navvy'
 import { BXRestMapTaskCommentItem } from '../../map/task/commentitem'
@@ -16,14 +16,9 @@ import { mergeMap, of } from 'rxjs'
 })
 export class BXRestNavvyTaskCommentItem {
 
-  protected Navvy: Navvy<BXRestTaskCommentItem, BXRestMapTaskCommentItem>
-
-  constructor(
-    private BXRestTaskCommentItem: BXRestTaskCommentItem,
-    private mapTaskCommentItem: BXRestMapTaskCommentItem
-  ) {
-    this.Navvy = new Navvy(this.BXRestTaskCommentItem, this.mapTaskCommentItem)
-  }
+  private readonly BXRestTaskCommentItem = inject(BXRestTaskCommentItem)
+  private readonly mapTaskCommentItem = inject(BXRestMapTaskCommentItem)
+  private readonly Navvy = new Navvy(this.BXRestTaskCommentItem, this.mapTaskCommentItem)
 
   add(param: iBXRestCommentTaskAdd) {
     return this.Navvy.simpleWithArg(

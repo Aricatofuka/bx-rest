@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import {
   iBXRestDiskFileHttp,
@@ -14,8 +14,7 @@ export class BXRestDiskFile {
 
   protected url = methods.disk.file
 
-  constructor(private http: HttpBXServices) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   get(param: iBXRestParamDiskFileGet) {
     return this.http.post<iBXRestDiskFileHttp>(this.url.get, param)

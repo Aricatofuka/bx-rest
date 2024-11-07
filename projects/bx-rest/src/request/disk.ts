@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestDiskFile } from './disk/file'
 import { BXRestDiskFolder } from './disk/folder'
 import { BXRestDiskAttachedObject } from './disk/attachedObject'
@@ -7,10 +7,7 @@ import { BXRestDiskAttachedObject } from './disk/attachedObject'
   providedIn: 'root'
 })
 export class BXRestDisk {
-  constructor(
-    public file: BXRestDiskFile,
-    public folder: BXRestDiskFolder,
-    public attachedObject: BXRestDiskAttachedObject
-  ) {
-  }
+  public readonly file = inject(BXRestDiskFile)
+  public readonly folder = inject(BXRestDiskFolder)
+  public readonly attachedObject = inject(BXRestDiskAttachedObject)
 }

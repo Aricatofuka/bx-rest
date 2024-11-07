@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
 import { iBXRestTaskElapsedItemHttp } from '../../typification/rest/task/elapseditem/item'
@@ -14,9 +14,7 @@ import { methods } from '../../typification/base/methods'
 export class BXRestTaskElapsedItem {
 
   protected url = methods.task.elapsedItem
-
-  constructor(private http: HttpBXServices) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   getList(param: iBXRestParamElapseditemGet = {}) {
     return this.http.post<iBXRestTaskElapsedItemHttp[]>(this.url.getList, param)

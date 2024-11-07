@@ -1,26 +1,25 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestBizProcWorkflowInstance } from './workflow/instance'
-import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamBizprocWorkflowStart } from '../../typification/rest/bizproc/workflow/start'
-import { methods } from '../../typification/base/methods'
 import { BXRestBizProcWorkflowTemplate } from './workflow/template'
+import { HttpNavvyServices } from '../../services/http/httpNavvy'
+import { $bizproc, $start, $workflow } from '../../consts/part-name-methods'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestBizProcWorkflow {
 
-  protected url = methods.bizProc.workflow
+  public readonly instances = inject(BXRestBizProcWorkflowInstance)
+  public readonly template = inject(BXRestBizProcWorkflowTemplate)
 
-  constructor(
-    public instances: BXRestBizProcWorkflowInstance,
-    public template: BXRestBizProcWorkflowTemplate,
-    private http: HttpBXServices
-  ) {
-  }
+  public readonly http = inject(HttpNavvyServices)
 
+  /**
+   * Запускает Бизнес-процесс
+   */
   start(param: iBXRestParamBizprocWorkflowStart)  {
-    return this.http.post<string>(this.url.start, param)
+    return this.http.post([$bizproc, $workflow, $start], param)
   }
 
 }

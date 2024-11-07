@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import {
@@ -20,7 +20,7 @@ import { iBXRestTasksTaskGetFields } from '../../typification/rest/tasks/task/ge
 import { iBXRestParamTasksTaskUpdate } from '../../typification/rest/tasks/task/update'
 import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
 import { methods } from '../../typification/base/methods'
-import { iBXRestTasksTaskBaseAnswer } from '../../typification/rest/tasks/task/base';
+import { iBXRestTasksTaskBaseAnswer } from '../../typification/rest/tasks/task/base'
 
 @Injectable({
   providedIn: 'root'
@@ -29,11 +29,8 @@ export class BXRestTasksTask {
 
   protected url = methods.tasks.task
 
-  constructor(
-    public result: BXRestTasksTaskResult,
-    private http: HttpBXServices
-  ) {
-  }
+  public readonly result = inject(BXRestTasksTaskResult)
+  private readonly http = inject(HttpBXServices)
 
   add<CustomFields extends object = {}>(param: iBXRestParamTaskAdd<CustomFields>) {
     return this.http.post<iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskGetHttpDefault>>(this.url.add, param)

@@ -3,7 +3,7 @@ import {
   iBXParamRestTasksTaskResultAdd,
   iBXRestTasksTaskResultHttp
 } from '../../../typification/rest/tasks/task/result/result'
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { iBXRestParamTasksTaskResultList } from '../../../typification/rest/tasks/result/list'
 import { methods } from '../../../typification/base/methods'
 
@@ -14,8 +14,7 @@ export class BXRestTasksTaskResult {
 
   protected url = methods.tasks.task.result
 
-  constructor(private http: HttpBXServices) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   deleteFromComment(commentID: number) {
     return this.http.post<null>(this.url.deleteFromComment, {commentId: commentID})

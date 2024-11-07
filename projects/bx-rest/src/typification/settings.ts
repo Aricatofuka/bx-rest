@@ -1,10 +1,11 @@
-export interface iRestSettings {
+export interface iBXRestSettings {
   auth: {
     source: 'cookies' | 'localStorage'
     key: 'auth' | 'sessid' | string
   },
   urls: {
     source: 'string' | 'localStorage'
-    home: string
+    key: string
+    additional_part?: string
   }
 }

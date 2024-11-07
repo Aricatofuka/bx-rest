@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { iBXRestCalendarEventGetParam } from '../../typification/rest/calendar/get/param'
 import { BXRestCalendarEvent } from '../../request/calendar/event'
 import { Navvy } from '../../services/navvy'
@@ -8,14 +8,9 @@ import { BXRestMapCalendarEvent } from '../../map/calendar/event'
   providedIn: 'root'
 })
 export class BXRestNavvyRestCalendarEvent {
-  private Navvy: Navvy<BXRestCalendarEvent, BXRestMapCalendarEvent>
-
-  constructor(
-    private BXRestCalendarEvent: BXRestCalendarEvent,
-    private eventMap: BXRestMapCalendarEvent,
-  ) {
-    this.Navvy = new Navvy(BXRestCalendarEvent, eventMap)
-  }
+  private readonly BXRestCalendarEvent = inject(BXRestCalendarEvent)
+  private readonly eventMap = inject(BXRestMapCalendarEvent)
+  private readonly Navvy = new Navvy(this.BXRestCalendarEvent, this.eventMap)
 
   get(param: iBXRestCalendarEventGetParam) {
     return this.Navvy.simpleWithArg(

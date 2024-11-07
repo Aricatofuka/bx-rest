@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { iBXRestParamImChatAdd } from '../../typification/rest/im/chat/add'
 import { BXRestImChat } from '../../request/im/chat'
 import { Navvy } from '../../services/navvy'
@@ -8,11 +8,8 @@ import { Navvy } from '../../services/navvy'
 })
 export class BXRestNavvyImChat {
 
-  private Navvy: Navvy<BXRestImChat, null>
-
-  constructor(private BXRestImChat: BXRestImChat) {
-    this.Navvy = new Navvy(this.BXRestImChat, null)
-  }
+  private readonly BXRestImChat = inject(BXRestImChat)
+  private Navvy = new Navvy(this.BXRestImChat, null)
 
   add(param: iBXRestParamImChatAdd){
     return this.Navvy.simpleWithArg(this.BXRestImChat.add, param)

@@ -138,11 +138,19 @@ export interface iBXRestWorkpieceMethodsTask<
       item['userField']['getFields']
     >
   >,
+  stages extends iBXRestWorkpieceMethodsTaskStages<
+    stages['add'],
+    stages['canmovetask'],
+    stages['delete'],
+    stages['get'],
+    stages['movetask'],
+    stages['update']>
 > {
   elapsedItem: elapsedItem
   commentItem: commentItem
   planner: planner
   item: item
+  stages: stages
 }
 
 export interface iBXRestWorkpieceMethodsTaskElapsedItem<getList, add, _delete, isActionAllowed, update> {
@@ -176,6 +184,15 @@ export interface iBXRestWorkpieceMethodsTaskItem<
   >
 > {
   userField: item
+}
+
+export interface iBXRestWorkpieceMethodsTaskStages<add, canmovetask, _delete, _get, movetask, update> {
+  add: add
+  canmovetask: canmovetask
+  delete: _delete
+  get: _get
+  movetask: movetask
+  update: update
 }
 
 export interface iBXRestWorkpieceMethodsTaskItemUserField<getFields, getList> {
@@ -302,7 +319,8 @@ export interface iBXRestWorkpieceMethodsLogBlogpost<add, _get> {
   //   important: 'log.blogpost.getusers.important' // Отдает массив ID пользователей, прочитавших Важное сообщение
   // },
   /**
-   * Возвращает массив с доступными текущему пользователю сообщениями Живой ленты. Каждое из сообщений представляет собой массив значений полей (включая пользовательские поля)
+   * Возвращает массив с доступными текущему пользователю сообщениями Живой ленты.
+   * Каждое из сообщений представляет собой массив значений полей (включая пользовательские поля)
    */
   get: _get
   // /**

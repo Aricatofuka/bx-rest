@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestBizProcWorkflow } from './bizproc/workflow'
 import { BXRestBizProcActivity } from './bizproc/activity'
 import { BXRestBizProcTask } from './bizproc/task'
@@ -9,14 +9,9 @@ import { BXRestBizProcEvent } from './bizproc/event'
   providedIn: 'root'
 })
 export class BXRestBizProc {
-
-  constructor(
-    public workflow: BXRestBizProcWorkflow,
-    public activity: BXRestBizProcActivity,
-    public task: BXRestBizProcTask,
-    public robot: BXRestBizProcRobot,
-    public event: BXRestBizProcEvent,
-  ) {
-  }
-
+  public readonly workflow = inject(BXRestBizProcWorkflow)
+  public readonly activity = inject(BXRestBizProcActivity)
+  public readonly task = inject(BXRestBizProcTask)
+  public readonly robot = inject(BXRestBizProcRobot)
+  public readonly event = inject(BXRestBizProcEvent)
 }

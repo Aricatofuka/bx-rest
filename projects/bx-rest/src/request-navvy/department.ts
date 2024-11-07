@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestDepartment } from '../request/department'
 import { iBXRestParamDepartmentGet } from '../typification/rest/department/get'
 import { Navvy } from '../services/navvy'
@@ -11,14 +11,9 @@ import { iBXRestDepartmentUpdate } from '../typification/rest/department/update'
 })
 export class BXRestNavvyDepartment {
 
-  protected Navvy: Navvy<BXRestDepartment, BXRestMapDepartment>
-
-  constructor(
-    private BXRestDepartment: BXRestDepartment,
-    private BXRestMapDepartment: BXRestMapDepartment
-  ) {
-    this.Navvy = new Navvy(this.BXRestDepartment, this.BXRestMapDepartment)
-  }
+  private readonly BXRestDepartment = inject(BXRestDepartment)
+  private readonly BXRestMapDepartment = inject(BXRestMapDepartment)
+  protected Navvy = new Navvy(this.BXRestDepartment, this.BXRestMapDepartment)
 
   get(param: iBXRestParamDepartmentGet = {}) {
     return this.Navvy.PagNav(

@@ -3,7 +3,7 @@ import {
   iBXRestHttpListsElement,
   iBXRestParamListsElementGet
 } from '../../typification/rest/lists/element/get'
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { iBXRestParamListsElementAdd } from '../../typification/rest/lists/element/add'
 import { methods } from '../../typification/base/methods'
 
@@ -14,10 +14,7 @@ export class BXRestListsElement {
 
   protected url = methods.lists.element
 
-  constructor(
-    private http: HttpBXServices,
-  ) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   get(pram: iBXRestParamListsElementGet) {
     return this.http.post<iBXRestHttpListsElement[]>(

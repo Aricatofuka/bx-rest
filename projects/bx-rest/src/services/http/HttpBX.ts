@@ -46,11 +46,11 @@ export class HttpBXServices extends HttpServices {
   prepareBatch<T>(param: iBatchRequestParamArr<T> | iBatchRequestParam<T>[]): iBatchRequestParamHttp {
     let res: iBatchRequestParamHttp = Object.keys(param).reduce(
       (obj, key) => {
-        obj[key] = '';
-        return obj;
+        obj[key] = ''
+        return obj
       },
       {} as iBatchRequestParamHttp
-    );
+    )
     for (let key in param) {
       if (typeof key === 'string' || typeof key === 'number' && param[key].param) {
         res[key] = param[key].name + '?' + this.getHttpParamsGet(param[key].param).toString()
@@ -119,7 +119,7 @@ export class HttpBXServices extends HttpServices {
           return throwError(() => 'get base url error')
         }))
     } else {
-      return throwError(() => 'auth not get')
+      return throwError(() => 'auth not get (post)')
     }
   }
 
@@ -149,7 +149,7 @@ export class HttpBXServices extends HttpServices {
         })
       )
     } else {
-      return throwError(() => 'auth not get')
+      return throwError(() => 'auth not get (get)')
     }
 
   }

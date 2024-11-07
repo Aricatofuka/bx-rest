@@ -23,19 +23,19 @@ export interface iBXRestTasksTaskGetHttp<S extends iBXRestTaskFieldsName[], Cust
 }
 
 export type iBXRestTasksTaskGetBase<S extends iBXRestTaskFieldsName[]> = {
-  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestTask[K];
+  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestTask[K]
 }
 
 export type iBXRestTasksTaskGet<S extends iBXRestTaskFieldsName[], CustomFields> = {
-  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestTask[K];
+  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestTask[K]
 } & CustomFields
 
 export type iBXRestHttpTasksTaskGetBase<S extends iBXRestTaskFieldsName[]> = {
-  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestHttpTask[K];
+  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestHttpTask[K]
 }
 
 type iBXRestHttpTasksTaskGet<S extends iBXRestTaskFieldsName[], CustomFields> = {
-  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestHttpTask[K];
+  [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestHttpTask[K]
 } & CustomFields
 
 // export interface iBXRestHttpTasksTaskGet extends iBXRestHttpTask {}

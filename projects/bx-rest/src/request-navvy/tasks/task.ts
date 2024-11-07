@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestTasksTask } from '../../request/tasks/task'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import {
@@ -26,15 +26,11 @@ import { AllKeyFree } from '../../typification/base/all-key-free'
 })
 export class BXRestNavvyTasksTask {
 
-  private Navvy: Navvy<BXRestTasksTask, BXRestMapTasksTask>
+  public readonly result = inject(BXRestNavvyTasksTaskResult)
+  private readonly BXRestTasksTask = inject(BXRestTasksTask)
+  private readonly BXRestMapTasksTask = inject(BXRestMapTasksTask)
 
-  constructor(
-    public result: BXRestNavvyTasksTaskResult,
-    private BXRestTasksTask: BXRestTasksTask,
-    private BXRestMapTasksTask: BXRestMapTasksTask,
-  ) {
-    this.Navvy = new Navvy(this.BXRestTasksTask, this.BXRestMapTasksTask)
-  }
+  private readonly Navvy = new Navvy(this.BXRestTasksTask, this.BXRestMapTasksTask)
 
   add<CustomFields extends object = {}>(param: iBXRestParamTaskAdd<CustomFields>) {
     return this.Navvy.simpleWithArg(

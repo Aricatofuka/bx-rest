@@ -1,5 +1,5 @@
 import { iBXRestPagination } from '../base/ApiPaginationBX'
-import { iBXRestYesNo } from '../base/YesNo';
+import { iBXRestYesNo } from '../base/YesNo'
 
 export interface iBXRestParamListGet extends iBXRestPagination {
   IBLOCK_TYPE_ID: 'lists' | 'bitrix_processes' | 'lists_socnet' // id типа инфоблока:

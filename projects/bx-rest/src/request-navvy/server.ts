@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestServer } from '../request/server'
 import { Navvy } from '../services/navvy'
 import { BXRestMapServer } from '../map/server'
@@ -8,14 +8,9 @@ import { BXRestMapServer } from '../map/server'
 })
 export class BXRestNavvyServer {
 
-  protected Navvy: Navvy<BXRestServer, BXRestMapServer>
-
-  constructor(
-    private BXRestServer: BXRestServer,
-    private BXRestMapServer: BXRestMapServer
-  ) {
-    this.Navvy = new Navvy(BXRestServer, BXRestMapServer)
-  }
+  private readonly BXRestServer = inject(BXRestServer)
+  private readonly BXRestMapServer = inject(BXRestMapServer)
+  private readonly Navvy = new Navvy(this.BXRestServer, this.BXRestMapServer)
 
   time(){
     return this.Navvy.simple(

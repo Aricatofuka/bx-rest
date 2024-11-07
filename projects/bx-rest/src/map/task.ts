@@ -1,16 +1,13 @@
 import { BXRestMapTaskCommentItem } from './task/commentitem'
 import { BXRestMapTaskElapsedItem } from './task/elapseditem'
 import { BXRestMapTaskStage } from './task/stages'
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestMapTask {
-  constructor(
-    public commentItem: BXRestMapTaskCommentItem,
-    public elapsedItem: BXRestMapTaskElapsedItem,
-    public stages: BXRestMapTaskStage
-  ) {
-  }
+  public readonly commentItem = inject(BXRestMapTaskCommentItem)
+  public readonly elapsedItem = inject(BXRestMapTaskElapsedItem)
+  public readonly stages = inject(BXRestMapTaskStage)
 }

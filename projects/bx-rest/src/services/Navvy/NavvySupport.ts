@@ -4,7 +4,7 @@ import { catchError, map } from 'rxjs/operators'
 import { BXRestMapResult } from '../../functions/mapResult'
 import { HttpErrorResponse } from '@angular/common/http'
 
-export type ReturnTypeNavvy<T, R> = T extends R ? T : R;
+export type ReturnTypeNavvy<T, R> = T extends R ? T : R
 
 export abstract class NavvySupport<C, M, T, R> {
 

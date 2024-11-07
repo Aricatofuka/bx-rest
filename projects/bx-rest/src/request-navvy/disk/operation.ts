@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestNavvyDiskFolder } from './folder'
 import { mergeMap } from 'rxjs/operators'
 import { BXRestNavvyDiskFile } from './file'
@@ -10,12 +10,9 @@ import { of, throwError } from 'rxjs'
 })
 export class BXRestNavvyDiskOperation {
 
-  constructor(
-    public folder: BXRestNavvyDiskFolder,
-    public disk: BXRestNavvyDiskFile,
-    private storage: BXRestNavvyDiskStorage,
-  ) {
-  }
+  public readonly folder = inject(BXRestNavvyDiskFolder)
+  public readonly disk = inject(BXRestNavvyDiskFile)
+  private readonly storage = inject(BXRestNavvyDiskStorage)
 
   // данные файла в base64
   loadFileInAppFolder(file: {

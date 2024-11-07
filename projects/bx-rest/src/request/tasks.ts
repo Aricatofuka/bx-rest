@@ -1,15 +1,10 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestTasksTask } from './tasks/task'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestTasks {
-
-  constructor(
-    public task: BXRestTasksTask,
-  ) {
-  }
-
+  public readonly task = inject(BXRestTasksTask)
 }
 

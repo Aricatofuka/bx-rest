@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import BXRestListsField from '../../request/lists/field'
 import { iBXRestParamListField } from '../../typification/rest/lists/field/get'
 import { Navvy } from '../../services/navvy'
@@ -8,14 +8,10 @@ import { BXRestMapListsField } from '../../map/lists/field'
   providedIn: 'root'
 })
 export default class BXRestNavvyListsField {
-  private Navvy: Navvy<BXRestListsField, BXRestMapListsField>
+  private readonly BXRestListsField = inject(BXRestListsField)
+  private readonly BXRestMapListsField = inject(BXRestMapListsField)
 
-  constructor(
-    private BXRestListsField: BXRestListsField,
-    private BXRestMapListsField: BXRestMapListsField,
-  ) {
-    this.Navvy = new Navvy(this.BXRestListsField, this.BXRestMapListsField)
-  }
+  private Navvy = new Navvy(this.BXRestListsField, this.BXRestMapListsField)
 
   get(param: iBXRestParamListField) {
     return this.Navvy.PagNavWithUselessKey(

@@ -7,7 +7,6 @@ import { BaseMapServices } from '../base'
 })
 export class BXRestMapTaskElapsedItem extends BaseMapServices {
   update(p: null | undefined) {
-    console.log('update', p)
     return (p == null)
   }
 

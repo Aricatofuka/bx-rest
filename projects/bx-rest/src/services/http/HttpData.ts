@@ -16,7 +16,6 @@ export class HttpData extends BaseServices {
         sendHttpParams: HttpParams = new HttpParams(),
         thisArray = false,
         nesting: string[] = [],
-        // settings = this.defSettings
         _ = this.defSettings
     ): any {
         for (const key in obj) {
@@ -120,12 +119,12 @@ export class HttpData extends BaseServices {
     }
 
     sliceArrayIntoChunks(arr: any[], chunkSize: number) {
-        const res = [];
+        const res = []
         for (let i = 0; i < arr.length; i += chunkSize) {
-            const chunk = arr.slice(i, i + chunkSize);
-            res.push(chunk);
+            const chunk = arr.slice(i, i + chunkSize)
+            res.push(chunk)
         }
-        return res;
+        return res
     }
 
     removingMultipleSlashes(str: string) {

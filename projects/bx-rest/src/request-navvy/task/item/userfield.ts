@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestTaskItemUserField } from '../../../request/task/item/userfield'
 import { Navvy } from '../../../services/navvy'
 import { BXRestMapTaskUserField } from '../../../map/task/item/userfield'
@@ -11,14 +11,9 @@ import {
 })
 export class BXRestNavvyTaskItemUserField {
 
-  protected Navvy: Navvy<BXRestTaskItemUserField, BXRestMapTaskUserField>
-
-  constructor(
-    private userField: BXRestTaskItemUserField,
-    private map: BXRestMapTaskUserField
-  ) {
-    this.Navvy = new Navvy(userField, map)
-  }
+  private readonly userField = inject(BXRestTaskItemUserField)
+  private readonly map = inject(BXRestMapTaskUserField)
+  private readonly Navvy = new Navvy(this.userField, this.map)
 
   getList(param: iBXRestParamTaskItemUserFieldGetlist = {}){
     return this.Navvy.PagNav(

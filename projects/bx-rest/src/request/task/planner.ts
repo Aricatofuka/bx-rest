@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { methods } from '../../typification/base/methods'
 
@@ -6,11 +6,7 @@ import { methods } from '../../typification/base/methods'
   providedIn: 'root'
 })
 export class BXRestTaskPlanner {
-
-  constructor(
-    private http: HttpBXServices
-  ) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   getList(){
     return this.http.post<(string | number)[]>(methods.task.planner.getList)

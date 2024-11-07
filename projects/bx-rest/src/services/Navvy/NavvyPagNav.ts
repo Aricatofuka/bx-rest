@@ -9,12 +9,6 @@ import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 
 export class NavvyPagNav<C, M, T, R, P extends iBXRestPagination> extends NavvyPagNavBase<C, M, T[], R[], P> {
 
-  // TODO: test for all methods
-  // resultAll() {
-  //   this.param.start = -1
-  //   return this.resultEnd(this.func, this.param)
-  // }
-
   resultAll() {
     let save: ReturnTypeNavvy<T, R>[] = []
     return this.resultAllEnd()

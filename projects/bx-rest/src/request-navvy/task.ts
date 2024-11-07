@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestNavvyElapsedItem } from './task/elapseditem'
 import { BXRestNavvyTaskCommentItem } from './task/commentitem'
 import { BXRestNavvyTaskPlanner } from './task/planner'
@@ -8,13 +8,8 @@ import { BXRestNavvyTaskItem } from './task/item'
   providedIn: 'root'
 })
 export class BXRestNavvyTask {
-
-  constructor(
-    public elapsedItem: BXRestNavvyElapsedItem,
-    public commentItem: BXRestNavvyTaskCommentItem,
-    public planner: BXRestNavvyTaskPlanner,
-    public item: BXRestNavvyTaskItem
-  ) {
-  }
-
+  public readonly elapsedItem = inject(BXRestNavvyElapsedItem)
+  public readonly commentItem = inject(BXRestNavvyTaskCommentItem)
+  public readonly planner = inject(BXRestNavvyTaskPlanner)
+  public readonly item = inject(BXRestNavvyTaskItem)
 }

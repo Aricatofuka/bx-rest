@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestNavvyListsElement } from './lists/element'
 import { BXRestLists } from '../request/lists'
 import { iBXRestParamListGet } from '../typification/rest/lists/get'
@@ -11,16 +11,13 @@ import BXRestNavvyListsField from './lists/field'
 })
 export class BXRestNavvyLists {
 
-  protected Navvy: Navvy<BXRestLists, BXRestMapLists>
+  public readonly element = inject(BXRestNavvyListsElement)
+  public readonly field = inject(BXRestNavvyListsField)
+  protected readonly mapList = inject(BXRestMapLists)
+  protected readonly BXRestLists = inject(BXRestLists)
 
-  constructor(
-    public element: BXRestNavvyListsElement,
-    public field: BXRestNavvyListsField,
-    protected mapList: BXRestMapLists,
-    protected BXRestLists: BXRestLists,
-  ) {
-    this.Navvy = new Navvy(this.BXRestLists, this.mapList)
-  }
+  protected Navvy = new Navvy(this.BXRestLists, this.mapList)
+
 
   get(param: iBXRestParamListGet) {
     return this.Navvy.PagNav(this.BXRestLists.get, param, this.mapList.get)

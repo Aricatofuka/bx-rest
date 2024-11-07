@@ -32,7 +32,7 @@ export default class CookiesServices {
   }
 
   static getObj<T>(name: string): T | false {
-    const results = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    const results = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)')
     if (results) {
       return JSON.parse(results[2]) as T
     }

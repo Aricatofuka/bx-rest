@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.4.18",
+  "version": "0.5.1",
   "description": "bitrix rest api",
   "keywords": [
     "bitrix",
@@ -15,8 +15,8 @@
   },
   "homepage": "https://github.com/Aricatofuka/bx-rest#readme",
   "peerDependencies": {
-    "@angular/common": "^17.1.2",
-    "@angular/core": "^17.1.2",
+    "@angular/common": "^18.1.0",
+    "@angular/core": "^18.1.0",
     "just-clone": "^6.2.0",
     "just-camel-case": "^6.2.0",
     "just-flatten-it": "^5.2.0",

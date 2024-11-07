@@ -1,21 +1,16 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
+import { Navvy } from '../services/navvy'
 import { BXRestApp } from '../request/app'
 import { BXRestMapApp } from '../map/app'
-import { Navvy } from '../services/navvy'
 
 @Injectable({
   providedIn: 'root'
 })
 export class BXRestNavvyApp {
 
-  protected Navvy: Navvy<BXRestApp, BXRestMapApp>
-
-  constructor(
-    private BXRestApp: BXRestApp,
-    private BXRestMapApp: BXRestMapApp
-  ) {
-    this.Navvy = new Navvy(this.BXRestApp, this.BXRestMapApp)
-  }
+  private readonly BXRestApp = inject(BXRestApp)
+  private readonly BXRestMapApp = inject(BXRestMapApp)
+  private readonly Navvy = new Navvy(this.BXRestApp, this.BXRestMapApp)
 
   /**
    * Показ информации о приложении. Метод поддерживает безопасный вызов

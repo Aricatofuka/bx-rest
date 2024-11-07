@@ -22,11 +22,12 @@ import {
   iBXRestWorkpieceMethodsTaskItem, iBXRestWorkpieceMethodsTaskItemUserField,
   iBXRestWorkpieceMethodsTaskPlanner,
   iBXRestWorkpieceMethodsTasks,
+  iBXRestWorkpieceMethodsTaskStages,
   iBXRestWorkpieceMethodsTasksTask,
   iBXRestWorkpieceMethodsTasksTaskResult,
   iBXRestWorkpieceMethodsTimeman,
   iBXRestWorkpieceMethodsUser, iBXRestWorkpieceMethodsUserField, iBXRestWorkpieceMethodsUserFieldList
-} from './methods-list';
+} from './methods-list'
 
 
 export interface iBXRestWorkpieceMethodsFullOneArgument<T> extends iBXRestWorkpieceMethodsFull<
@@ -45,7 +46,8 @@ export interface iBXRestWorkpieceMethodsFullOneArgument<T> extends iBXRestWorkpi
     iBXRestWorkpieceMethodsTaskPlanner<T>,
     iBXRestWorkpieceMethodsTaskItem<
       iBXRestWorkpieceMethodsTaskItemUserField<T, T>
-    >
+    >,
+    iBXRestWorkpieceMethodsTaskStages<T, T, T, T, T, T>
   >,
   iBXRestWorkpieceMethodsTimeman<T>,
   iBXRestWorkpieceMethodsSonetGroup<T>,
@@ -139,6 +141,14 @@ export interface iBXRestWorkpieceMethodsFull<
         task['item']['userField']['getFields'],
         task['item']['userField']['getList']
       >
+    >,
+    iBXRestWorkpieceMethodsTaskStages<
+        task['stages']['add'],
+        task['stages']['canmovetask'],
+        task['stages']['delete'],
+        task['stages']['get'],
+        task['stages']['movetask'],
+        task['stages']['update']
     >
   >,
   timeman extends iBXRestWorkpieceMethodsTimeman<

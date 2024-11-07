@@ -76,5 +76,4 @@ export interface iBXRestParamUserGetFilter {
   UF_TWITTER?: string,
   UF_SKYPE?: string,
   UF_DISTRICT?: string,
-
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestLogBlogPost } from './log/blogpost'
 import { BXRestLogBlogComment } from './log/blogcomment'
 
@@ -6,11 +6,6 @@ import { BXRestLogBlogComment } from './log/blogcomment'
   providedIn: 'root'
 })
 export class BXRestLog {
-
-  constructor(
-    public blogPost: BXRestLogBlogPost,
-    public blogComment: BXRestLogBlogComment
-  ) {
-  }
-
+  public readonly blogPost = inject(BXRestLogBlogPost)
+  public readonly blogComment = inject(BXRestLogBlogComment)
 }

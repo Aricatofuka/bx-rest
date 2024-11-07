@@ -1,15 +1,15 @@
 import { iBXRestBlogPostEssence, iBXRestBlogPostEssenceHttp } from './essence'
 import { iBXRestYesNo } from '../../base/YesNo'
-import { iBXRestBaseParam } from "../../support/param";
+import { iBXRestBaseParam } from '../../support/param'
 
 export interface iBXRestParamBlogPostGet extends iBXRestBaseParam {
   POST_ID?: number, // Числовой ID сообщения для фильтрации
   LOG_RIGHTS?: string[], // Фильтрация по получателю. Значением фильтра может быть как строка (конкретное значение прав), так и массив.
   // Права на просмотр сообщения (опционально), по умолчанию - array("UA") - всем авторизованным пользователям.
   // Можно использовать значения:
-  // SG<X> - рабочая группа с ID=X;
+  // SG<X> - рабочая группа с ID=X
   // U<X> - пользователь с ID=X;
-  // DR<X> - отдел с ID=X, включая подразделы;
+  // DR<X> - отдел с ID=X, включая подразделы
   // UA - все авторизованные пользователи.
   // G - группа пользователей (например, G2).
 }

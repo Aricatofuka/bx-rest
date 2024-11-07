@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import {
   iBXRestParamTaskItemUserFieldGetlist,
   iBXRestTaskItemUserFieldGetlistHttp
@@ -13,10 +13,7 @@ export class BXRestTaskItemUserField {
 
   private url = methods.task.item.userField
 
-  constructor(
-    private http: HttpBXServices
-  ) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   getList(param: iBXRestParamTaskItemUserFieldGetlist){
     return this.http.post<iBXRestTaskItemUserFieldGetlistHttp[]>(this.url.getList, param)

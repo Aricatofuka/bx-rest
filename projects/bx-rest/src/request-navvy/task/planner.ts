@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestMapTaskPlaner } from '../../map/task/planner'
 import { Navvy } from '../../services/navvy'
 import { BXRestTaskPlanner } from '../../request/task/planner'
@@ -8,15 +8,10 @@ import { BXRestTaskPlanner } from '../../request/task/planner'
 })
 export class BXRestNavvyTaskPlanner {
 
-  private Navvy: Navvy<BXRestTaskPlanner, BXRestMapTaskPlaner>
-
-  constructor(
-    private BXRestTaskPlanner: BXRestTaskPlanner,
-    private BXRestMapTaskPlaner: BXRestMapTaskPlaner
-  ) {
-    this.Navvy = new Navvy(this.BXRestTaskPlanner, this.BXRestMapTaskPlaner)
-  }
-
+  private readonly BXRestTaskPlanner = inject(BXRestTaskPlanner)
+  private readonly BXRestMapTaskPlaner = inject(BXRestMapTaskPlaner)
+  private readonly Navvy = new Navvy(this.BXRestTaskPlanner, this.BXRestMapTaskPlaner)
+  
   getList() {
     return this.Navvy.simple(
       this.BXRestTaskPlanner.getList,

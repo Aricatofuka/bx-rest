@@ -1,7 +1,7 @@
 import { iBXRestParamUserGet } from '../typification/rest/user/get'
 import { HttpBXServices } from '../services/http/HttpBX'
-import { iBXRestUser, iBXRestUserHttp, iBXRestUserHttpField } from '../typification/rest/user/user'
-import { Injectable } from '@angular/core'
+import { iBXRestUserHttp, iBXRestUserHttpField } from '../typification/rest/user/user'
+import { inject, Injectable } from '@angular/core'
 import { iBXRestParamUserSearch } from '../typification/rest/user/search'
 import { BXRestUserUserfield } from './user/userfield'
 import { methods } from '../typification/base/methods'
@@ -11,13 +11,10 @@ import { methods } from '../typification/base/methods'
 })
 export class BXRestUser {
 
-  protected url = methods.user
+  private readonly http = inject(HttpBXServices)
+  public readonly userfield = inject(BXRestUserUserfield)
 
-  constructor(
-    private http: HttpBXServices,
-    public userfield: BXRestUserUserfield
-  ) {
-  }
+  protected url = methods.user
 
   admin() {
     return this.http.post<boolean>(this.url.admin)
@@ -35,7 +32,7 @@ export class BXRestUser {
     return this.http.post<iBXRestUserHttp>(this.url.current, {})
   }
 
-  update(user: Partial<iBXRestUser>) {
+  update(user: iBXRestParamUserGet) {
     return this.http.post<iBXRestUserHttp[]>(
       this.url.update,
       user

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestAppInfoHttp } from '../typification/rest/app/info'
 import { methods } from '../typification/base/methods'
@@ -7,11 +7,7 @@ import { methods } from '../typification/base/methods'
   providedIn: 'root'
 })
 export class BXRestApp {
-
-  constructor(
-    private http: HttpBXServices,
-  ) {
-  }
+  private readonly http = inject(HttpBXServices)
 
   /**
    * Показ информации о приложении. Метод поддерживает безопасный вызов

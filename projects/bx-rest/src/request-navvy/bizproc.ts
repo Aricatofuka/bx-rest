@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { BXRestNavvyLists } from './lists'
 import { forkJoin, mergeMap, Observable, of, throwError } from 'rxjs'
 import { BXRestNavvyBXRestBizProcWorkflow } from './bizproc/workflow'
@@ -8,16 +8,14 @@ import { BXRestNavvyBXRestBizProcWorkflow } from './bizproc/workflow'
 })
 export class BXRestNavvyBizProc {
 
-  constructor(
-    public workflow: BXRestNavvyBXRestBizProcWorkflow,
-    private BXRestNavvyLists: BXRestNavvyLists
-  ) {
-  }
+  public readonly workflow = inject(BXRestNavvyBXRestBizProcWorkflow)
+  private readonly BXRestNavvyLists = inject(BXRestNavvyLists)
 
   /**
    * Метод по запуску бизнес процессов из ленты
    * TODO: продумать работу с такими методами-исключениями
    *
+   * templateIDs - id бизнес процессов которые хотим принудительно запустить
    * @param id
    * @param parametersElement
    * @param parametersBizProc
@@ -27,7 +25,7 @@ export class BXRestNavvyBizProc {
     id: number,
     parametersElement: { [key: string]: string },
     parametersBizProc: { [key: string]: string },
-    templateIDs: number[]
+    templateIDs: number[] = []
   ) {
     return this.BXRestNavvyLists.element.add(
         {
@@ -45,7 +43,7 @@ export class BXRestNavvyBizProc {
       ).result().pipe(
         mergeMap(v => {
           if (v) {
-            if (Object.keys(parametersBizProc).length) {
+            if (Object.keys(parametersBizProc).length && templateIDs.length) {
               let reques: Observable<string | undefined>[] = []
               for (let templateID of templateIDs) {
                 reques.push(this.workflow.start(
