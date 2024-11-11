@@ -18,33 +18,9 @@ export class BXRestNavvyLists {
 
   protected Navvy = new Navvy(this.BXRestLists, this.mapList)
 
-
   get(param: iBXRestParamListGet) {
     return this.Navvy.PagNav(this.BXRestLists.get, param, this.mapList.get)
   }
-
-  // getAll(pram: getListParam): Observable<ItemListsBX[] | undefined> {
-  //     return this.getBase(pram)
-  //         .pipe(
-  //             mergeMap(items => {
-  //                 if (items && items.result) {
-  //                     if (items.next) {
-  //                         pram.start = items.next
-  //                         return this.getAll(pram).pipe(
-  //                             map(vEnd => {
-  //                                 if (vEnd && items.result) {
-  //                                     return [...items.result, ...vEnd]
-  //                                 }
-  //                                 return (items.result) ? items.result : []
-  //                             }))
-  //                     }
-  //                     return of(items.result)
-  //                 } else {
-  //                     return []
-  //                 }
-  //             })
-  //         )
-  // }
 
   // getAllWithMap(pram: getListParam): Observable<ItemLists[] | undefined> {
   //     return this.getAll(pram)

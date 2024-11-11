@@ -14,22 +14,23 @@ export interface iBXRestParamListField extends iBXRestPagination {
 
 export interface iBXRestFieldItem {
   FIELD_ID: string
-  SORT: number,
-  NAME: string,
-  IS_REQUIRED: iBXRestYesNo,
-  MULTIPLE: iBXRestYesNo,
+  SORT: number
+  NAME: string
+  IS_REQUIRED: iBXRestYesNo
+  MULTIPLE: iBXRestYesNo
   DEFAULT_VALUE: any,
-  TYPE: 'L' | 'F' | 'S:Date' | 'PREVIEW_TEXT' | string,
-  PROPERTY_TYPE: string | boolean,
-  PROPERTY_USER_TYPE: boolean | any,
+  TYPE: 'L' | 'F' | 'S:Date' | 'PREVIEW_TEXT' | string
+  PROPERTY_TYPE: string | boolean
+  PROPERTY_USER_TYPE: boolean | any
+  CODE?: string | null
   SETTINGS: {
-    SHOW_ADD_FORM: iBXRestYesNo,
-    SHOW_EDIT_FORM: iBXRestYesNo,
-    USE_EDITOR?: iBXRestYesNo,
-    WIDTH?: number,
-    HEIGHT?: number,
-    ADD_READ_ONLY_FIELD?: null | string,
-    EDIT_READ_ONLY_FIELD?: null | string,
+    SHOW_ADD_FORM: iBXRestYesNo
+    SHOW_EDIT_FORM: iBXRestYesNo
+    USE_EDITOR?: iBXRestYesNo
+    WIDTH?: number
+    HEIGHT?: number
+    ADD_READ_ONLY_FIELD?: null | string
+    EDIT_READ_ONLY_FIELD?: null | string
     SHOW_FIELD_PREVIEW: null | string
   },
   IBLOCK_ID: number,

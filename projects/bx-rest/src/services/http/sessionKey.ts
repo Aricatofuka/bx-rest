@@ -120,10 +120,12 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getBaseUrl(): Observable<string | undefined> {
-
-    const additional_part = (this.BX_REST_SETTINGS.urls.additional_part && this.BX_REST_SETTINGS.urls.additional_part != '')
+    console.log('this.BX_REST_SETTINGS.urls.additional_part', this.BX_REST_SETTINGS.urls.additional_part, !!this.BX_REST_SETTINGS.urls.additional_part)
+    const additional_part = (this.BX_REST_SETTINGS.urls.additional_part || this.BX_REST_SETTINGS.urls.additional_part === '')
     ? this.BX_REST_SETTINGS.urls.additional_part
       : DEFAULT_BX_REST_SETTINGS.urls.additional_part
+
+    console.log('additional_part', additional_part)
 
     if(this.BX_REST_SETTINGS.urls.source === 'string'){
       return of(this.prepareBaseAddress(this.BX_REST_SETTINGS.urls.key, additional_part))
