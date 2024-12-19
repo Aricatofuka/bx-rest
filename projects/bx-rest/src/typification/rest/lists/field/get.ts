@@ -32,11 +32,15 @@ export interface iBXRestFieldItem {
     ADD_READ_ONLY_FIELD?: null | string
     EDIT_READ_ONLY_FIELD?: null | string
     SHOW_FIELD_PREVIEW: null | string
-  },
-  IBLOCK_ID: number,
+  }
+  IBLOCK_ID: number
   DISPLAY_VALUES_FORM?: {
     [key: number]: string
   }
+  USER_TYPE_SETTINGS?: {
+    write: iBXRestYesNo
+    VALUE: number
+  } | null
 }
 
 export type BXRestHttpListsFieldGet = { [key: string]: iBXRestFieldItem }

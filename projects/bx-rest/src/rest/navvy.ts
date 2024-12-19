@@ -17,6 +17,7 @@ import { BXRestNavvyTimeMan } from '../request-navvy/timeman'
 import { iBXRestNavvyParamBatch } from '../typification/rest/batch'
 import { Navvy } from '../services/navvy'
 import { BXRest } from './base'
+import { BXRestNavvySocialNetWork } from '../request-navvy/socialnetwork';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,7 @@ export class BXRestNavvy {
   public readonly app = inject(BXRestNavvyApp)
   public readonly timeMan = inject(BXRestNavvyTimeMan)
   private readonly BXRest = inject(BXRest)
+  public readonly socialNetWork = inject(BXRestNavvySocialNetWork)
   private readonly BXRestMap = inject(BXRestMaps)
   private readonly Navvy = new Navvy(this.BXRest, this.BXRestMap)
 

@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "bitrix rest api",
   "keywords": [
     "bitrix",
@@ -29,16 +29,5 @@
   "module": "esm2022/bx-rest.mjs",
   "types": "index.d.ts",
   "typings": "index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "esm2022": "./esm2022/bx-rest.mjs",
-      "import": "./esm2022/bx-rest.mjs",
-      "default": "./fesm2022/bx-rest.mjs"
-    },
-    "./package.json": {
-      "default": "./package.json"
-    }
-  },
   "sideEffects": false
 }

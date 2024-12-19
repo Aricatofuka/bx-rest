@@ -1,6 +1,6 @@
 export interface iBXRestSettings {
   auth: {
-    source: 'cookies' | 'localStorage'
+    source: 'cookies' | 'localStorage' | 'off'
     key: 'auth' | 'sessid' | string
   },
   urls: {

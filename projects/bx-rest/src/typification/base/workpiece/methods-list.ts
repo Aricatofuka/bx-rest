@@ -664,3 +664,37 @@ export interface iBXRestWorkpieceMethodsApp<info> {
    */
   info: info
 }
+
+export interface iBXRestWorkpieceSocialNetWorkApiContentView<set> {
+  /**
+   * Чтобы отмечать пасты просмотренными (наверное)
+   */
+  set: set
+}
+
+export interface iBXRestWorkpieceSocialNetWorkApiLiveFeed<blogPost> {
+  blogPost: blogPost
+}
+
+export interface iBXRestWorkpieceSocialNetWorkApiLiveFeedBlogpost<important> {
+  important: important
+}
+
+export interface iBXRestWorkpieceSocialNetWorkApiLiveFeedBlogpostImportant<vote> {
+  /**
+   * Чтобы подтверждать важные посты на прочтение
+   */
+  vote: vote
+}
+
+export interface iBXRestWorkpieceSocialNetWorkApi<contentView, liveFeed> {
+  contentView: contentView
+  liveFeed: liveFeed
+}
+
+export interface iBXRestWorkpieceSocialNetWork<api> {
+  /**
+   * Пространство socialNetWork (не документировано)
+   */
+  api: api
+}

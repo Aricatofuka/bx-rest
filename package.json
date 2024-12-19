@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "bitrix rest api",
   "keywords": [
     "bitrix",
@@ -47,6 +47,18 @@
   },
   "sideEffects": false,
   "devDependencies": {
-    "@types/luxon": "^3.4.2"
+    "@angular-eslint/builder": "^19.0.2",
+    "@angular-eslint/eslint-plugin": "^19.0.2",
+    "@angular-eslint/eslint-plugin-template": "^19.0.2",
+    "@angular-eslint/schematics": "19.0.2",
+    "@angular-eslint/template-parser": "^19.0.2",
+    "@eslint/js": "^9.16.0",
+    "@types/luxon": "^3.4.2",
+    "eslint": "^9.16.0",
+    "globals": "^15.13.0",
+    "typescript-eslint": "^8.18.0"
+  },
+  "scripts": {
+    "lint": "ng lint"
   }
 }

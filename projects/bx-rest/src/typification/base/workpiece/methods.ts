@@ -1,7 +1,9 @@
 import {
   iBXRestWorkpieceMethodsApp,
-  iBXRestWorkpieceMethodsBizProc, iBXRestWorkpieceMethodsBizProcWorkflow,
-  iBXRestWorkpieceMethodsCalendar, iBXRestWorkpieceMethodsCalendarEvent,
+  iBXRestWorkpieceMethodsBizProc,
+  iBXRestWorkpieceMethodsBizProcWorkflow,
+  iBXRestWorkpieceMethodsCalendar,
+  iBXRestWorkpieceMethodsCalendarEvent,
   iBXRestWorkpieceMethodsDepartment,
   iBXRestWorkpieceMethodsDisk,
   iBXRestWorkpieceMethodsDiskAttachedObject,
@@ -19,14 +21,23 @@ import {
   iBXRestWorkpieceMethodsTask,
   iBXRestWorkpieceMethodsTaskCommentItem,
   iBXRestWorkpieceMethodsTaskElapsedItem,
-  iBXRestWorkpieceMethodsTaskItem, iBXRestWorkpieceMethodsTaskItemUserField,
+  iBXRestWorkpieceMethodsTaskItem,
+  iBXRestWorkpieceMethodsTaskItemUserField,
   iBXRestWorkpieceMethodsTaskPlanner,
   iBXRestWorkpieceMethodsTasks,
   iBXRestWorkpieceMethodsTaskStages,
   iBXRestWorkpieceMethodsTasksTask,
   iBXRestWorkpieceMethodsTasksTaskResult,
   iBXRestWorkpieceMethodsTimeman,
-  iBXRestWorkpieceMethodsUser, iBXRestWorkpieceMethodsUserField, iBXRestWorkpieceMethodsUserFieldList
+  iBXRestWorkpieceMethodsUser,
+  iBXRestWorkpieceMethodsUserField,
+  iBXRestWorkpieceMethodsUserFieldList,
+  iBXRestWorkpieceSocialNetWork,
+  iBXRestWorkpieceSocialNetWorkApi,
+  iBXRestWorkpieceSocialNetWorkApiContentView,
+  iBXRestWorkpieceSocialNetWorkApiLiveFeed,
+  iBXRestWorkpieceSocialNetWorkApiLiveFeedBlogpost,
+  iBXRestWorkpieceSocialNetWorkApiLiveFeedBlogpostImportant
 } from './methods-list'
 
 
@@ -75,7 +86,17 @@ export interface iBXRestWorkpieceMethodsFullOneArgument<T> extends iBXRestWorkpi
   iBXRestWorkpieceMethodsBizProc<
     iBXRestWorkpieceMethodsBizProcWorkflow<T>
   >,
-  iBXRestWorkpieceMethodsApp<T>
+  iBXRestWorkpieceMethodsApp<T>,
+  iBXRestWorkpieceSocialNetWork<
+    iBXRestWorkpieceSocialNetWorkApi<
+      iBXRestWorkpieceSocialNetWorkApiContentView<T>,
+      iBXRestWorkpieceSocialNetWorkApiLiveFeed<
+        iBXRestWorkpieceSocialNetWorkApiLiveFeedBlogpost<
+          iBXRestWorkpieceSocialNetWorkApiLiveFeedBlogpostImportant<T>
+        >
+      >
+    >
+  >
 > {
 
 }
@@ -211,7 +232,10 @@ export interface iBXRestWorkpieceMethodsFull<
   >,
   app extends iBXRestWorkpieceMethodsApp<
     app['info']
-  >
+  >,
+  socialNetWork extends iBXRestWorkpieceSocialNetWork<
+    iBXRestWorkpieceSocialNetWorkApi<socialNetWork['api']['contentView'], socialNetWork['api']['liveFeed']>
+  >,
 > {
   user: user
   tasks: tasks
@@ -227,4 +251,5 @@ export interface iBXRestWorkpieceMethodsFull<
   calendar: calendar
   bizProc: bizProc
   app: app
+  socialNetWork: socialNetWork
 }

@@ -108,7 +108,6 @@ export default class SessionKeyServices extends BaseServices {
   }
 
   getAuthParams(): string | undefined {
-    // console.log('this.BX_REST_SETTINGS', this.BX_REST_SETTINGS, BX_REST_SETTINGS)
     switch (this.BX_REST_SETTINGS.auth.source) {
       case 'cookies':
         return this.getAuth()
@@ -119,13 +118,14 @@ export default class SessionKeyServices extends BaseServices {
     }
   }
 
+  getCheckAuthParamsIsOn(){
+    return this.BX_REST_SETTINGS.auth.source !== 'off'
+  }
+
   getBaseUrl(): Observable<string | undefined> {
-    console.log('this.BX_REST_SETTINGS.urls.additional_part', this.BX_REST_SETTINGS.urls.additional_part, !!this.BX_REST_SETTINGS.urls.additional_part)
     const additional_part = (this.BX_REST_SETTINGS.urls.additional_part || this.BX_REST_SETTINGS.urls.additional_part === '')
     ? this.BX_REST_SETTINGS.urls.additional_part
       : DEFAULT_BX_REST_SETTINGS.urls.additional_part
-
-    console.log('additional_part', additional_part)
 
     if(this.BX_REST_SETTINGS.urls.source === 'string'){
       return of(this.prepareBaseAddress(this.BX_REST_SETTINGS.urls.key, additional_part))

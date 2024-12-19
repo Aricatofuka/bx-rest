@@ -7,12 +7,12 @@ import { iBXRestParamTasksTaskUpdate } from '../rest/tasks/task/update'
 import { iBXRestTaskGetAccess } from '../rest/task/access/getaccess'
 import { iBXRestParamTasksTaskResultList } from '../rest/tasks/result/list'
 import { iBXParamRestTasksTaskResultAdd } from '../rest/tasks/task/result/result'
-import { iBXRestParamBizprocWorkflowStart } from '../rest/bizproc/workflow/start'
 import { iBXRestParamTaskAdd } from '../rest/tasks/task/add'
 import { iBXRestWorkpieceMethodsFull } from './workpiece/methods'
 import {
-  iBXRestWorkpieceMethodsBizProc, iBXRestWorkpieceMethodsBizProcWorkflow,
-  iBXRestWorkpieceMethodsTasks, iBXRestWorkpieceMethodsTasksTask, iBXRestWorkpieceMethodsTasksTaskResult,
+  iBXRestWorkpieceMethodsTasks,
+  iBXRestWorkpieceMethodsTasksTask,
+  iBXRestWorkpieceMethodsTasksTaskResult,
   iBXRestWorkpieceMethodsUser,
   iBXRestWorkpieceMethodsUserField,
   iBXRestWorkpieceMethodsUserFieldList
@@ -21,16 +21,16 @@ import { iBXRestTasksTaskBaseAnswer } from '../rest/tasks/task/base'
 import { iBXRestParamUserGet } from '../rest/user/get'
 
 export interface iBXRestParams extends iBXRestWorkpieceMethodsFull<
-iBXRestWorkpieceMethodsUser<
-  undefined,
-  iBXRestParamUserGet,
-  undefined,
-  Partial<iBXRestUser>,
-  iBXRestParamUserSearch,
-  string[],
-  undefined,
-  iBXRestWorkpieceMethodsUserField<any, any, any, any, iBXRestWorkpieceMethodsUserFieldList<any>>
->,
+  iBXRestWorkpieceMethodsUser<
+    undefined,
+    iBXRestParamUserGet,
+    undefined,
+    Partial<iBXRestUser>,
+    iBXRestParamUserSearch,
+    string[],
+    undefined,
+    iBXRestWorkpieceMethodsUserField<any, any, any, any, iBXRestWorkpieceMethodsUserFieldList<any>>
+  >,
   iBXRestWorkpieceMethodsTasks<
     iBXRestWorkpieceMethodsTasksTask<
       iBXRestParamTaskAdd<any>,
@@ -60,9 +60,8 @@ iBXRestWorkpieceMethodsUser<
   any,
   any,
   any,
-  iBXRestWorkpieceMethodsBizProc<
-    iBXRestWorkpieceMethodsBizProcWorkflow<iBXRestParamBizprocWorkflowStart>
-  >,
+  any,
+  any,
   any
 > {}
 

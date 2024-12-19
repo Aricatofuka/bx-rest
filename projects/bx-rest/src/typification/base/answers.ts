@@ -25,8 +25,8 @@ import { iBXRestUserHttp, iBXRestUserHttpField } from '../rest/user/user'
 import { iBXRestWorkpieceMethodsFull } from './workpiece/methods'
 import {
   // iBXRestWorkpieceMethodsApp,
-  iBXRestWorkpieceMethodsBizProc,
-  iBXRestWorkpieceMethodsBizProcWorkflow,
+  // iBXRestWorkpieceMethodsBizProc,
+  // iBXRestWorkpieceMethodsBizProcWorkflow,
   // iBXRestWorkpieceMethodsCalendar,
   // iBXRestWorkpieceMethodsCalendarEvent,
   // iBXRestWorkpieceMethodsDepartment,
@@ -87,21 +87,22 @@ export interface iBXRestAnswers extends iBXRestWorkpieceMethodsFull<
       >
     >
   >,
-      any,
-      any,
-      any,
-      any,
-      any,
-      any,
-      any,
-      any,
-      any,
-      any,
-      iBXRestWorkpieceMethodsBizProc<
-        iBXRestWorkpieceMethodsBizProcWorkflow<string>
-      >,
-      any
-> {}
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any
+> {
+}
+
 //
 //   task: {
 //     elapsedItem: {

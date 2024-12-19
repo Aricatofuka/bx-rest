@@ -16,6 +16,7 @@ import { BXRestTimeMan } from '../request/timeman'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestProfileHttp } from '../typification/rest/profile'
 import { iBXRestBatch, iBXRestParamBatch } from '../typification/rest/batch'
+import { BXRestSocialNetWork } from '../request/socialnetwork'
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,7 @@ export class BXRest {
   public readonly im = inject(BXRestIm)
   public readonly app = inject(BXRestApp)
   public readonly timeMan = inject(BXRestTimeMan)
+  public readonly socialNetWork = inject(BXRestSocialNetWork)
 
   public profile() {
     return this.http.post<iBXRestProfileHttp>(['profile'])

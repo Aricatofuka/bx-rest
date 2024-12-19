@@ -1,10 +1,10 @@
 import {
-  $add, $approve, $bizproc, $blogpost, $calendar, $chat, $commentitem,
+  $add, $api, $approve, $bizproc, $blogpost, $calendar, $chat, $commentitem,
   $complete, $copyto, $defer, $delegate, $delete, $department, $disk,
   $elapseditem, $element, $event, $field, $file, $folder, $get, $getaccess, $getchildren,
   $getFields, $getlist, $im, $isactionallowed, $item,
   $list, $lists, $log, $markdeleted, $moveto, $planner, $rename, $restore,
-  $result, $search, $server, $sonet_group, $stages, $start, $status, $task,
+  $result, $search, $server, $set, $socialnetwork, $sonet_group, $stages, $start, $status, $task,
   $tasks, $time, $timeMan, $update,
   $uploadfile, $user, $userfield, $workflow
 } from '../../consts/part-name-methods'
@@ -664,6 +664,20 @@ export const methods: iBXRestWorkpieceMethodsFullOneArgument<string[]> = {
     //    */
     //   send: [$bizproc, $event, $send],
     // }
+  },
+  socialNetWork: {
+    api: {
+      contentView: {
+        set: [$socialnetwork, $api, 'contentView', $set]
+      },
+      liveFeed: {
+        blogPost: {
+          important: {
+            vote: [$socialnetwork, $api, 'liveFeed', 'blogPost', 'important', 'vote']
+          }
+        }
+      }
+    }
   },
   app: {
     /**
