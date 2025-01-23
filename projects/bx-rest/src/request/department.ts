@@ -1,25 +1,15 @@
-import { inject, Injectable } from '@angular/core'
-import { $add, $delete, $department, $get, $update } from '../consts/part-name-methods'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestParamDepartmentGet } from '../typification/rest/department/get'
 import { iBXRestDepartmentHttp } from '../typification/rest/department/department'
 import { iBXRestParamDepartmentAdd } from '../typification/rest/department/add'
 import { iBXRestParamDepartmentDel } from '../typification/rest/department/del'
 import { iBXRestDepartmentUpdate } from '../typification/rest/department/update'
+import { methods } from '../typification/base/methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestDepartment {
+  protected url = methods.department
 
-  protected url = {
-    get: [$department, $get],
-    del: [$department, $delete],
-    add: [$department, $add],
-    update: [$department, $update]
-  }
-
-  private readonly http = inject(HttpBXServices)
+  private readonly http = new HttpBXServices()
 
   get(param: iBXRestParamDepartmentGet = {}) {
     return this.http.post<iBXRestDepartmentHttp[]>(this.url.get, param)

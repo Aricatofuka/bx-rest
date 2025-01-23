@@ -1,4 +1,3 @@
-import { inject, Injectable } from '@angular/core'
 import { BXRestDiskStorage } from '../../../request/disk/storage'
 import { iBXRestParamUploadFile } from '../../../typification/rest/disk/storage/uploadfile'
 import { iBXRestParamGetchildren } from '../../../typification/rest/disk/storage/getchildren'
@@ -7,12 +6,14 @@ import { SessionStorage } from '../../../services/vanilla/sessionStorage'
 import { iBXRestFolderInfo } from '../../../typification/rest/disk/folder'
 import { iBXRestAnswer } from '../../../typification/rest/base/answer'
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BXRestNavvyInterlayerDiskStorage {
+/**
+ * В будущем будет реализовано сохранение на уровне класса navvy, пока оставим так, чтобы не дропать фичу
+ *
+ * @deprecated
+ */
+export class BXRestNavvyOperationDiskStorage {
 
-  private readonly BXRestDiskStorage = inject(BXRestDiskStorage)
+  private readonly BXRestDiskStorage = new BXRestDiskStorage()
 
   getForApp() {
     let res = SessionStorage.getItem<iBXRestAnswer<iBXRestFolderInfo>>(this.constructor.name + this.getForApp.name)

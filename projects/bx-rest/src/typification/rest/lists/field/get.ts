@@ -1,5 +1,5 @@
-import { iBXRestYesNo } from '../../base/YesNo'
-import { iBXRestPagination } from '../../base/ApiPaginationBX'
+import { iBXRestYesNo } from '../../base/yes-no'
+import { iBXRestPagination } from '../../base/api-pagination-bx'
 
 export interface iBXRestParamListField extends iBXRestPagination {
   IBLOCK_TYPE_ID: 'lists' | 'bitrix_processes' | 'lists_socnet' // id типа инфоблока:
@@ -34,13 +34,11 @@ export interface iBXRestFieldItem {
     SHOW_FIELD_PREVIEW: null | string
   }
   IBLOCK_ID: number
-  DISPLAY_VALUES_FORM?: {
-    [key: number]: string
-  }
+  DISPLAY_VALUES_FORM?: Record<number, string>
   USER_TYPE_SETTINGS?: {
     write: iBXRestYesNo
     VALUE: number
   } | null
 }
 
-export type BXRestHttpListsFieldGet = { [key: string]: iBXRestFieldItem }
+export type BXRestHttpListsFieldGet = Record<string, iBXRestFieldItem>;

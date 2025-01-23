@@ -1,12 +1,8 @@
-import { inject, Injectable } from '@angular/core'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { methods } from '../typification/base/methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestServer {
-  private readonly http = inject(HttpBXServices)
+  private readonly http = new HttpBXServices()
 
   protected url = methods.server
 

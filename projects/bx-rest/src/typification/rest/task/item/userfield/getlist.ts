@@ -1,6 +1,6 @@
-import { iBXRestYesNo } from '../../../base/YesNo'
-import { iBXRestOrderOption } from '../../../base/OrderOptions'
-import { iBXRestPagination } from '../../../base/ApiPaginationBX'
+import { iBXRestYesNo } from '../../../base/yes-no'
+import { iBXRestOrderOption } from '../../../base/order-options'
+import { iBXRestPagination } from '../../../base/api-pagination-bx'
 
 // TODO: кастомный поля в методах для пользователей и для задач весьм одинаковы, надобы обьеденить
 

@@ -1,21 +1,20 @@
-import { inject, Injectable } from '@angular/core'
-import { BXRestServer } from '../request/server'
 import { Navvy } from '../services/navvy'
 import { BXRestMapServer } from '../map/server'
+import { $server, $time } from '../consts/part-name-methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyServer {
 
-  private readonly BXRestServer = inject(BXRestServer)
-  private readonly BXRestMapServer = inject(BXRestMapServer)
-  private readonly Navvy = new Navvy(this.BXRestServer, this.BXRestMapServer)
+  url = {
+    time: [$server, $time]
+  }
 
-  time(){
-    return this.Navvy.simple(
-      this.BXRestServer.time,
-      this.BXRestMapServer.time
+  private readonly Navvy = new Navvy()
+
+  time() {
+    return this.Navvy.simple<string, Date, undefined>(
+      this.url.time,
+      undefined,
+      BXRestMapServer.time
     )
   }
 }

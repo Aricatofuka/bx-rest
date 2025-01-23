@@ -1,6 +1,6 @@
 import { iBXRestParamSort } from '../../base/sort'
-import { iBXRestFilterGenerator } from '../../base/filterGenerator'
-import { iBXRestAlternativePagination } from '../../base/ApiPaginationBX'
+import { iBXRestFilterGenerator } from '../../base/filter-generator'
+import { iBXRestAlternativePagination } from '../../base/api-pagination-bx'
 
 export interface iBXRestParamElapseditemGet extends iBXRestAlternativePagination{
   TASKID?: number | number[]

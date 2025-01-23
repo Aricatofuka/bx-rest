@@ -1,11 +1,7 @@
 import { iHttpParamSettings } from '../../../typification/rest/settings'
 import { Observable } from 'rxjs'
 import { HttpData } from '../HttpData'
-import { Injectable } from '@angular/core'
 
-@Injectable({
-    providedIn: 'root'
-})
 export abstract class BaseHttp extends HttpData {
 
     abstract httpGet<T>(

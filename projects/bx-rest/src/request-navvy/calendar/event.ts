@@ -1,22 +1,40 @@
-import { inject, Injectable } from '@angular/core'
 import { iBXRestCalendarEventGetParam } from '../../typification/rest/calendar/get/param'
-import { BXRestCalendarEvent } from '../../request/calendar/event'
 import { Navvy } from '../../services/navvy'
 import { BXRestMapCalendarEvent } from '../../map/calendar/event'
+import { $calendar, $event, $get } from '../../consts/part-name-methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyRestCalendarEvent {
-  private readonly BXRestCalendarEvent = inject(BXRestCalendarEvent)
-  private readonly eventMap = inject(BXRestMapCalendarEvent)
-  private readonly Navvy = new Navvy(this.BXRestCalendarEvent, this.eventMap)
+
+  private url = {
+    // /**
+    //  * Добавляет новое событие
+    //  */
+    // add: [$calendar, $event, $add],
+    // /**
+    //  * Удаляет событие
+    //  */
+    // delete: [$calendar, $event, $delete],
+    /**
+     * Возвращает список событий календаря
+     */
+    get: [$calendar, $event, $get],
+    // /**
+    //  * Возвращает список будущих событий для текущего пользователя
+    //  */
+    // getNearest: [$calendar, $event, $get, $nearest],
+    // /**
+    //  * Редактирует существующее событие
+    //  */
+    // update: [$calendar, $event, $get, $update],
+  }
+
+  private readonly Navvy = new Navvy()
 
   get(param: iBXRestCalendarEventGetParam) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestCalendarEvent.get,
+    return this.Navvy.simple(
+      this.url.get,
       param,
-      this.eventMap.get
+      BXRestMapCalendarEvent.get
     )
   }
 }

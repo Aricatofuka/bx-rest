@@ -1,11 +1,7 @@
-import { Injectable } from '@angular/core'
 import { iBXRestDepartmentHttp, iBXRestDepartment } from '../typification/rest/department/department'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestMapDepartment {
-  get(item: iBXRestDepartmentHttp[] | undefined): iBXRestDepartment[] | undefined {
+  static get(item: iBXRestDepartmentHttp[] | undefined): iBXRestDepartment[] | undefined {
     return (item) ? item.map(dep => {
       if (dep.PARENT) {
         return {

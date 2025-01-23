@@ -1,4 +1,4 @@
-import { iBXRestYesNo } from '../../../typification/rest/base/YesNo'
+import { iBXRestYesNo } from '../base/yes-no'
 
 export interface iBXRestUser extends iBXRestUserBase {
     ID: number,
@@ -64,5 +64,4 @@ export type MapKeyBx<Type> = {
     [Property in keyof Type]: string
 }
 
-export interface iBXRestUserHttpField extends MapKeyBx<iBXRestUserBase>{
-}
+export type iBXRestUserHttpField = MapKeyBx<iBXRestUserBase>

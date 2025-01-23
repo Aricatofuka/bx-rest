@@ -1,25 +1,21 @@
-import { inject, Injectable } from '@angular/core'
 import { BXRestNavvyDiskFolder } from './folder'
 import { mergeMap } from 'rxjs/operators'
 import { BXRestNavvyDiskFile } from './file'
 import { BXRestNavvyDiskStorage } from './storage'
 import { of, throwError } from 'rxjs'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyDiskOperation {
 
-  public readonly folder = inject(BXRestNavvyDiskFolder)
-  public readonly disk = inject(BXRestNavvyDiskFile)
-  private readonly storage = inject(BXRestNavvyDiskStorage)
+  public readonly folder = new BXRestNavvyDiskFolder()
+  public readonly disk = new BXRestNavvyDiskFile()
+  private readonly storage = new BXRestNavvyDiskStorage()
 
   // данные файла в base64
   loadFileInAppFolder(file: {
     name: string,
     val: string
   }) {
-    return this.storage.getForApp().result().pipe(
+    return this.storage.getForApp().res().pipe(
         mergeMap(infoFolder => {
           if (infoFolder) {
             return this.storage.uploadFile(
@@ -30,7 +26,7 @@ export class BXRestNavvyDiskOperation {
                   NAME: file.name
                 },
                 generateUniqueName: true
-              }).result()
+              }).res()
           }
           return throwError(() => new Error('Отсутствует общее хранилище для приложения'))
         })
@@ -41,7 +37,7 @@ export class BXRestNavvyDiskOperation {
     return this.getOfCreateRootFolderApp(folderName).pipe(
       mergeMap(v => {
         if (v) {
-          return this.folder.getChildren({id: v.ID}).result()
+          return this.folder.getChildren({id: v.ID}).res()
         }
         return of(undefined)
       })
@@ -59,10 +55,10 @@ export class BXRestNavvyDiskOperation {
     //       }
 
 
-    return this.storage.getForApp().result().pipe(
+    return this.storage.getForApp().res().pipe(
       mergeMap(v => {
         if (v && v.ID) {
-          return this.storage.getChildren({id: v.ID}).result()
+          return this.storage.getChildren({id: v.ID}).res()
         }
         return of(undefined)
       })
@@ -84,10 +80,10 @@ export class BXRestNavvyDiskOperation {
             }
           }
         }
-        return this.storage.getForApp().result().pipe(
+        return this.storage.getForApp().res().pipe(
           mergeMap(v => {
             if (v && v.ID) {
-              return this.storage.addFolder({id: v.ID, data: {NAME: folderName}}).result()
+              return this.storage.addFolder({id: v.ID, data: {NAME: folderName}}).res()
             }
             return throwError(() => new Error('Отсутствуют права добавление записи затраченного времени'))
           })

@@ -1,37 +1,58 @@
-import { inject, Injectable } from '@angular/core'
-import { BXRestTaskStages } from '../../request/task/stages'
 import { iBXRestParamTaskStageGet } from '../../typification/rest/task/stages/get'
 import { Navvy } from '../../services/navvy'
-import { BXRestMapTaskStage } from '../../map/task/stages'
 import { iBXRestParamTaskStagesUpdate } from '../../typification/rest/task/stages/update'
 import { iBXRestParamTaskStagesCanMoveTask } from '../../typification/rest/task/stages/canMoveTask'
+import { $add, $delete, $get, $stages, $task, $update } from '../../consts/part-name-methods'
+import { iBXRestTaskStage } from '../../typification/rest/task/stages/stage'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyTaskStages {
 
-  private readonly BXRestTaskStages = inject(BXRestTaskStages)
-  private readonly mapTaskStages = inject(BXRestMapTaskStage)
-  private readonly Navvy = new Navvy(this.BXRestTaskStages, this.mapTaskStages)
+  url = {
+    /**
+     * Метод добавляет стадии Канбана / Моего плана
+     */
+    add: [$task, $stages, $add],
+    /**
+     * Метод определяет, может ли текущий пользователь перемещать задачи в указанной сущности
+     */
+    canMoveTask: [$task, $stages, 'canmovetask'],
+    /**
+     * Метод удаляет стадии Канбана / Моего плана
+     */
+    delete: [$task, $stages, $delete],
+    /**
+     * Метод получает стадии Канбана / Моего плана
+     */
+    get: [$task, $stages, $get],
+    /**
+     * Метод перемещает задачи из одной стадии в другую
+     */
+    movetask: [$task, $stages, 'movetask'], //
+    /**
+     * Метод обновляет стадии Канбана / Моего плана.
+     */
+    update: [$task, $stages, $update]
+  }
+
+  private readonly Navvy = new Navvy()
 
   get(param: iBXRestParamTaskStageGet) {
-    this.Navvy.simpleWithArg(
-      this.BXRestTaskStages.get,
+    this.Navvy.simple<iBXRestTaskStage[], iBXRestTaskStage[], iBXRestParamTaskStageGet>(
+      this.url.get,
       param
     )
   }
 
   update(param: iBXRestParamTaskStagesUpdate) {
-    this.Navvy.simpleWithArg(
-      this.BXRestTaskStages.update,
+    this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesUpdate>(
+      this.url.update,
       param
     )
   }
 
   canMoveTask(param: iBXRestParamTaskStagesCanMoveTask) {
-    this.Navvy.simpleWithArg(
-      this.BXRestTaskStages.canMoveTask,
+    this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesCanMoveTask>(
+      this.url.canMoveTask,
       param
     )
   }

@@ -1,4 +1,4 @@
-import { iBXRestYesNo } from '../base/YesNo'
+import { iBXRestYesNo } from '../base/yes-no'
 import { iBXRestBaseParam } from '../support/param'
 
 export interface UserFilter extends iBXRestBaseParam{

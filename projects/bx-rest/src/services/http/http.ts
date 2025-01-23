@@ -1,66 +1,75 @@
-import { Observable, throwError, mergeMap } from 'rxjs'
-import { inject, Injectable } from '@angular/core'
+import { Observable, from, throwError } from 'rxjs'
+import { switchMap } from 'rxjs/operators'
+import axios, { AxiosInstance } from 'axios'
 import SessionKeyServices from '../../services/http/sessionKey'
 import clone from 'just-clone'
 import { iHttpParamSettings } from '../../typification/rest/settings'
 import { BaseHttp } from './base/base'
-import { HttpClient } from '@angular/common/http'
+import { prepareBaseAddress } from '../base'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class HttpServices extends BaseHttp {
 
-  public readonly http = inject(HttpClient)
-  public readonly session = inject(SessionKeyServices)
+  protected readonly axiosInstance: AxiosInstance
+  public readonly session = new SessionKeyServices()
 
-  override httpPost<T>(url: string,
-                       params: any = {},
-                       settings: iHttpParamSettings = this.defSettings
-  ): Observable<T | undefined> {
-    let auth = this.session.getAuthParams()
-    if (auth) {
-      const paramsClone = clone(params)
-      paramsClone[this.session.getKeyAuth()] = auth
-      return this.session.getBaseUrl().pipe(mergeMap(v => {
-        if (v) {
-          return this.http.post<T | undefined>(
-            this.prepareBaseAddress(v) + url,
-            this.getHttpParamsPost(paramsClone, new FormData(), false, [], settings))
-        }
-        return throwError(() => 'get base url error')
-      }))
-    } else {
-      return throwError(() => 'auth session not get (post)')
-    }
-
+  constructor() {
+    super()
+    this.axiosInstance = axios.create()
   }
 
-  override httpGet<T>(
+  override httpPost<T>(
     url: string,
-    params: any = {}
+    params: any = {},
+    settings: iHttpParamSettings = this.defSettings
   ): Observable<T | undefined> {
-    let auth = this.session.getAuthParams()
+    const auth = this.session.getAuthParams()
     if (auth) {
-      if (params === null) {
-        params = {}
-      }
       const paramsClone = clone(params)
       paramsClone[this.session.getKeyAuth()] = auth
-      let options = {
-        params: this.getHttpParamsGet(paramsClone)
-      }
 
       return this.session.getBaseUrl().pipe(
-        mergeMap(v => {
-          if (v) {
-            return this.http.get<T>(this.prepareBaseAddress(v) + url, options)
+        switchMap((baseUrl) => {
+          if (!baseUrl) {
+            return throwError(() => new Error('get base url error'))
           }
-          return throwError(() => 'get base url error')
+
+          const fullUrl = prepareBaseAddress(baseUrl) + url
+          const body = this.getHttpParamsPost(paramsClone, new FormData(), [], settings)
+
+          return from(
+            this.axiosInstance.post<T>(fullUrl, body).then((response) => response.data)
+          )
         })
       )
     } else {
-      return throwError(() => 'auth session not get (get)')
+      return throwError(() => new Error('auth session not get (post)'))
+    }
+  }
+
+  // Мб вообще не работает
+  override httpGet<T>(url: string, params: any = {}): Observable<T | undefined> {
+    const auth = this.session.getAuthParams()
+    if (auth) {
+      const paramsClone = clone(params)
+      paramsClone[this.session.getKeyAuth()] = auth
+
+      return this.session.getBaseUrl().pipe(
+        switchMap((baseUrl) => {
+          if (!baseUrl) {
+            return throwError(() => new Error('get base url error'))
+          }
+
+          const fullUrl = prepareBaseAddress(baseUrl) + url
+          const queryString = new URLSearchParams(paramsClone).toString()
+          const finalUrl = `${fullUrl}?${queryString}`
+
+          return from(
+            this.axiosInstance.get<T>(finalUrl).then((response) => response.data)
+          )
+        })
+      )
+    } else {
+      return throwError(() => new Error('auth session not get (get)'))
     }
   }
 }

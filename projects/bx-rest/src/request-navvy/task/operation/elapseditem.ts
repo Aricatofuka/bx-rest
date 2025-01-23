@@ -4,24 +4,27 @@ import { iBXRestTaskElapsedItemHttp } from '../../../typification/rest/task/elap
 import { $elapseditem, $getlist, $isactionallowed, $task } from '../../../consts/part-name-methods'
 import { map, take } from 'rxjs/operators'
 import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
-import { forkJoin, mergeMap, Observable, of } from 'rxjs'
+import { forkJoin, mergeMap, Observable, of, throwError } from 'rxjs'
 import { iIsActionAllowedParam } from '../../../typification/rest/task/elapseditem/isActionAllowedParam'
 import { BXRestNavvyUser } from '../../user'
 import { BXRestNavvyTasks } from '../../tasks'
 import { BXRestNavvyDelegateElapsedItem } from '../delegate/elapseditem'
-import { inject, Injectable } from '@angular/core'
-import { iBXRestUser } from '../../../typification/rest/user/user';
+import { iBXRestUser } from '../../../typification/rest/user/user'
+import { iBXRestParamAddElapseditem } from '../../../typification/rest/task/elapseditem/add'
+import { BXRestNavvyElapsedItem } from '../elapseditem'
+import { iBXRestParamUpdateElapseditem } from '../../../typification/rest/task/elapseditem/update'
+import { iBXRestParamDelElapseditem } from '../../../typification/rest/task/elapseditem/del'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyOperationElapsedItem {
 
-  private readonly http = inject(HttpBXServices)
-  private readonly delegate = inject(BXRestNavvyDelegateElapsedItem)
-  private readonly BXRestMapElapsedItem = inject(BXRestMapTaskElapsedItem)
-  private readonly BXRestNavvyUser = inject(BXRestNavvyUser)
-  private readonly BXRestNavvyTasks = inject(BXRestNavvyTasks)
+  private readonly http = new HttpBXServices()
+  private readonly delegate = new BXRestNavvyDelegateElapsedItem()
+  private readonly BXRestNavvyUser = new BXRestNavvyUser()
+  private readonly BXRestNavvyTasks = new BXRestNavvyTasks()
+  // private readonly BXRestNavvyElapsedItem = new BXRestNavvyElapsedItem()
+
+  constructor(private BXRestNavvyElapsedItem: BXRestNavvyElapsedItem) {
+  }
 
   getByInterval(idsUsers: number[], dateStart: Date, dateEnd: Date) {
     const param: iBXRestParamElapseditemGet = {
@@ -41,14 +44,22 @@ export class BXRestNavvyOperationElapsedItem {
     return this.delegate.getList(param)
   }
 
+  // TODO: Сделать нормально
   getListByIDTask(ids: number[]) {
+    // Работает только потому что "nPageSize: 99999"
     return this.http.branch<iBXRestParamElapseditemGet, iBXRestTaskElapsedItemHttp>
     (
       ids.map(i => {
         return {
           name: this.http.getNameMethod([$task, $elapseditem, $getlist]),
           param: {
-            TASKID: i
+            TASKID: i,
+            PARAMS: {
+              NAV_PARAMS: {
+                nPageSize: 99999,
+                iNumPage: 1
+              }
+            }
           }
         }
       })
@@ -56,7 +67,7 @@ export class BXRestNavvyOperationElapsedItem {
       map(v => {
         if (v && v.length) {
           const res = this.http.mapBranchResultWithoutKey(v)
-          return this.BXRestMapElapsedItem.getList(res)
+          return BXRestMapTaskElapsedItem.getList(res)
         }
         return undefined
       })
@@ -64,7 +75,7 @@ export class BXRestNavvyOperationElapsedItem {
   }
 
   checkPermissionAddElapsedTimeToTaskArr(tasks: number[], userCurrent: iBXRestUser | undefined = undefined) {
-    let request: { [key: number]: Observable<boolean> } = Object.assign({}, ...tasks.map(i => {
+    let request: Record<number, Observable<boolean>> = Object.assign({}, ...tasks.map(i => {
       return {[i]: this.checkPermissionAddElapsedTimeToTask(i, userCurrent)}
     }))
     return forkJoin(request)
@@ -95,7 +106,7 @@ export class BXRestNavvyOperationElapsedItem {
             ).pipe(
               map(v => {
                 if (v && v.length) {
-                  const res: { [p: number]: boolean } = this.http.mapBranchResult(v)
+                  const res: Record<number, boolean> = this.http.mapBranchResult(v)
                   forForeachNotHave = Object.entries(res).map(([key, value]) => {
                     return {id: Number(key), value: value}
                   })
@@ -123,14 +134,14 @@ export class BXRestNavvyOperationElapsedItem {
     //   if (findTask?.permission) {
     //     return of(findTask.permission['ELAPSEDTIME.ADD'])
     //   }
-    return ((userCurrent) ? of(userCurrent) : this.BXRestNavvyUser.current().result()).pipe(
+    return ((userCurrent) ? of(userCurrent) : this.BXRestNavvyUser.current().res()).pipe(
       mergeMap(self => {
         if (self) {
           return this.BXRestNavvyTasks.task.getAccess(
             {
               id: idTask,
               users: [self.ID]
-            }).result().pipe(
+            }).res().pipe(
             // tap(v => {
             //   if (v && v[self.ID]) {
             //     Permission.set({
@@ -165,14 +176,14 @@ export class BXRestNavvyOperationElapsedItem {
     //     return of(findTask.permission.ACCEPT)
     //   }
     //   console.log('idTask', idTask)
-    return ((userCurrent) ? of(userCurrent) : this.BXRestNavvyUser.current().result()).pipe(
+    return ((userCurrent) ? of(userCurrent) : this.BXRestNavvyUser.current().res()).pipe(
       mergeMap(self => {
         if (self) {
           return this.BXRestNavvyTasks.task.getAccess(
             {
               id: idTask,
               users: [self.ID]
-            }).result().pipe(
+            }).res().pipe(
             // tap(v => {
             //   if (v && v[self.ID]) {
             //     Permission.set({
@@ -193,5 +204,140 @@ export class BXRestNavvyOperationElapsedItem {
     // return of(undefined)
   }
 
+  /**
+   * Законченный метод добавления записи с предварительной проверкой прав
+   *
+   * TODO: добавить сохранение предварительно проверенных записей
+   * @param param
+   */
+  add(param: iBXRestParamAddElapseditem) {
+    return this.checkPermissionReadTask(param.TASKID).pipe(
+      mergeMap(allowedReadTask => {
+        if (allowedReadTask) {
+          return this.checkPermissionAddElapsedTimeToTask(param.TASKID).pipe(
+            mergeMap(allowed => {
+              if (allowed) {
+                return this.BXRestNavvyElapsedItem.add(param).res()
+              } else {
+                return throwError(() => new Error('Отсутствуют права добавление записи затраченного времени'))
+              }
+            }))
+        } else {
+          return throwError(() => new Error('Отсутствуют права на чтение задачи'))
+        }
+      }))
+  }
 
+  /**
+   * Законченный метод обновления записи с предварительной проверкой прав
+   *
+   * TODO: добавить сохранение предварительно проверенных записей
+   * @param param
+   */
+  update(param: iBXRestParamUpdateElapseditem) {
+    return this.checkPermissionReadTask(param.TASKID).pipe(
+      mergeMap((allowedReadTask) => {
+        if (allowedReadTask) {
+          return this.isAllowedModify(param.TASKID, param.ITEMID).pipe(
+            mergeMap(allowed => {
+              if (allowed) {
+                return this.BXRestNavvyElapsedItem.update(param).res()
+              }
+              return throwError(() => new Error('Отсутствуют права на изменение записи затраченного времени'))
+            }))
+        }
+        return throwError(() => new Error('Отсутствуют права на чтение задачи'))
+      }))
+  }
+
+  // TODO: разобраться что это за ебатня в комментах и вписать нормальной комент если она нужна
+  isAllowedModify(idTask: number, idItem: number) {
+    // let permission = Permission.get()
+    // if (permission?.tasks?.length) {
+    //   let findTask = permission.tasks.find(i => i.id === idTask)
+    //   if (findTask) {
+    //     let find = findTask.elapsedItem.find(i => i.id === idItem)
+    //     if (find && find.verified.edit) {
+    //       return of(find.edit)
+    //     }
+    //   }
+    // }
+
+    return this.BXRestNavvyElapsedItem.isActionAllowed({
+      TASKID: idTask,
+      ITEMID: idItem,
+      ACTIONID: 2
+    }).res()
+    //   .pipe(
+    //   tap(v => {
+    //     if (v !== undefined) {
+    //       Permission.setTaskElapsedItem(idTask,
+    //         {
+    //           id: idItem,
+    //           edit: v,
+    //           del: false,
+    //           verified: {
+    //             edit: true,
+    //             del: false,
+    //           }
+    //         })
+    //     }
+    //   })
+    // )
+  }
+
+  /**
+   * isActionAllowed с фиксом на проверку возможности чтения задачи записи
+   * (без проверки даёт ошибку)
+   *
+   * idAction:
+   * 1 - ACTION_ELAPSED_TIME_ADD
+   * 2 - ACTION_ELAPSED_TIME_MODIFY
+   * 3 - ACTION_ELAPSED_TIME_REMOVE
+   * @param param
+   */
+  isActionAllowed(param: iIsActionAllowedParam) {
+    return this.checkPermissionReadTask(param.TASKID).pipe(
+      mergeMap(canRead => {
+        if (canRead) {
+          return this.BXRestNavvyElapsedItem.isActionAllowed(param).res()
+        }
+        return throwError(() => new Error('Отсутствуют права на чтение задачи'))
+      })
+    )
+  }
+
+
+  /**
+   * Полноценный метод удаления
+   *
+   * @param param
+   */
+  del(param: iBXRestParamDelElapseditem) {
+    return this.checkPermissionReadTask(param.TASKID).pipe(
+      mergeMap(allowedReadTask => {
+        if (allowedReadTask) {
+          return this.isAllowedRemove(param.TASKID, param.ITEMID).pipe(
+            mergeMap(allowed => {
+              if (allowed) {
+                return this.BXRestNavvyElapsedItem.delete(param).res()
+              } else {
+                return throwError(() => new Error('Отсутствуют права на удаление записи затраченного времени'))
+              }
+            }))
+        } else {
+          return throwError(() => new Error('Отсутствуют права на чтение задачи'))
+        }
+      })
+    )
+  }
+
+  private isAllowedRemove(idTask: number, idItem: number) {
+    return this.isActionAllowed(
+      {
+        TASKID: idTask,
+        ITEMID: idItem,
+        ACTIONID: 3
+      })
+  }
 }

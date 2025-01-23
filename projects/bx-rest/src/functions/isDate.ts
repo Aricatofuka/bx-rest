@@ -5,4 +5,4 @@
  * @returns true if provided variable is Date
  * @hidden
  */
-export const isDate = (value: any): value is Date => value instanceof Date;
+export const isDate = (value: any): value is Date => value instanceof Date

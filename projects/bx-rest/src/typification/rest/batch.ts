@@ -1,7 +1,7 @@
 import { iBXRestAnswerSuccessTime } from './base/answer'
 import { Navvy } from '../../services/navvy'
 
-export interface iBXRestParamBatch<T> {
+export interface iBXRestParamBatch {
   /**
    * Определяет прерывать ли последовательность запросов в случае ошибки.
    */
@@ -9,23 +9,9 @@ export interface iBXRestParamBatch<T> {
   /**
    * Массив запросов стандартного вида
    */
-  cmd: { [K in keyof T]: string }
+  cmd: Record<number | string, string> | string[]
 }
-
-export interface iBXRestNavvyParamBatch<T, C, M> {
-  /**
-   * Определяет прерывать ли последовательность запросов в случае ошибки
-   */
-  halt: 0 | 1
-  /**
-   * Массив запросов стандартного вида
-   */
-  cmd: iBXRestNavvyParamBatchCMD<C, M>
-}
-
-export interface iBXRestNavvyParamBatchCMD<C, M> {
-  [key: string]: ReturnType<Navvy<C, M>['simpleWithArg'] | Navvy<C, M>['simple'] | Navvy<C, M>['PagNav'] | Navvy<C, M>['PagNavTasks']>
-}
+export type iBXRestNavvyParamBatchCMD = Record<string, ReturnType<Navvy['simple'] | Navvy['PagNav'] | Navvy['PagNavTasks']>>;
 
 export interface iBXRestBatch<T> {
   result: { [K in keyof T]: T[K] }

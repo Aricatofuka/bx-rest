@@ -1,13 +1,9 @@
-import { Injectable } from '@angular/core'
-import { BaseMapServices } from '../base'
+import { toNum } from '../../services/base'
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BXRestMapTaskPlaner extends BaseMapServices {
+export class BXRestMapTaskPlaner {
 
-  getList(v: (string | number)[] | undefined) {
-    return (v) ? v.map(i => this.toNum(i)) : undefined
+  static getList(v: (string | number)[] | undefined) {
+    return (v) ? v.map(i => toNum(i)) : undefined
   }
 
 }

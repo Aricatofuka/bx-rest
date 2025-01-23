@@ -1,22 +1,16 @@
-import { inject, Injectable } from '@angular/core'
-import { BXRestDiskAttachedObject } from '../../request/disk/attachedObject'
-import BXRestMapDiskAttachedObject from '../../map/disk/attachedObject'
+import { BXRestMapDiskAttachedObject } from '../../map/disk/attachedObject'
 import { Navvy } from '../../services/navvy'
 import { iBXRestParamRestDiskAttachedObject } from '../../typification/rest/disk/AttachedObject'
+import { methods } from '../../typification/base/methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyDiskAttachedObject {
 
-  private readonly BXRestDiskAttachedObject = inject(BXRestDiskAttachedObject)
-  private readonly mapAttachedObject = inject(BXRestMapDiskAttachedObject)
-  private Navvy = new Navvy(this.BXRestDiskAttachedObject, this.mapAttachedObject)
+  private Navvy = new Navvy()
 
   get(param: iBXRestParamRestDiskAttachedObject) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskAttachedObject.get,
+    return this.Navvy.simple(
+      methods.disk.attachedObject.get,
       param,
-      this.mapAttachedObject.get)
+      BXRestMapDiskAttachedObject.get)
   }
 }

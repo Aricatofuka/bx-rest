@@ -1,4 +1,4 @@
-import { iBXRestYesNo } from '../../base/YesNo'
+import { iBXRestYesNo } from '../../base/yes-no'
 
 export interface iBXRestBlogPostEssence extends iBXRestBlogPostEssenceBase {
   EDIT_IN_LIST: boolean

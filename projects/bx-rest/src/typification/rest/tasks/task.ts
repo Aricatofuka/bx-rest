@@ -1,4 +1,4 @@
-import { iBXRestYesNo } from '../base/YesNo'
+import { iBXRestYesNo } from '../base/yes-no'
 import { iBXRestHttpTaskPeople, iBXRestTaskPeople } from './base/people'
 
 export interface iBXRestTask extends iBXRestBaseTask {

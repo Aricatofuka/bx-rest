@@ -1,18 +1,14 @@
-import { Injectable } from '@angular/core'
 import { iBXRestTaskStage, iBXRestTaskStageHttp } from '../../typification/rest/task/stages/stage'
-import { BaseMapServices } from '../base'
+import { toNum } from '../../services/base'
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BXRestMapTaskStage extends BaseMapServices {
+export class BXRestMapTaskStage {
 
-  get(value: iBXRestTaskStageHttp[] | undefined) : iBXRestTaskStage[] | undefined{
+  static get(value: iBXRestTaskStageHttp[] | undefined) : iBXRestTaskStage[] | undefined{
     return (value) ? value.map(i => Object.assign(i,
         {
-          SORT: this.toNum(i.SORT),
-          ID: this.toNum(i.ID),
-          ENTITY_ID: this.toNum(i.ENTITY_ID)
+          SORT: toNum(i.SORT),
+          ID: toNum(i.ID),
+          ENTITY_ID: toNum(i.ENTITY_ID)
         }
       )
     ) as iBXRestTaskStage[] : undefined

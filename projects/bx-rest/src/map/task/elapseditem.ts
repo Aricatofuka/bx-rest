@@ -1,30 +1,26 @@
-import { Injectable } from '@angular/core'
 import { iBXRestTaskElapsedItem, iBXRestTaskElapsedItemHttp } from '../../typification/rest/task/elapseditem/item'
-import { BaseMapServices } from '../base'
+import { toDate, toNum } from '../../services/base'
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BXRestMapTaskElapsedItem extends BaseMapServices {
-  update(p: null | undefined) {
+export class BXRestMapTaskElapsedItem {
+  static update(p: null | undefined) {
     return (p == null)
   }
 
-  getList(v: iBXRestTaskElapsedItemHttp[] | undefined) {
-    return (v) ? v.map(i => this.ElapsedItemHttpToElapsedItem(i)) : undefined
+  static getList(v: iBXRestTaskElapsedItemHttp[] | undefined) {
+    return (v) ? v.map(i => BXRestMapTaskElapsedItem.ElapsedItemHttpToElapsedItem(i)) : undefined
   }
 
-  ElapsedItemHttpToElapsedItem(item: iBXRestTaskElapsedItemHttp): iBXRestTaskElapsedItem {
+  static ElapsedItemHttpToElapsedItem(item: iBXRestTaskElapsedItemHttp): iBXRestTaskElapsedItem {
     return Object.assign(item, {
-      ID: this.toNum(item.ID),
-      MINUTES: this.toNum(item.MINUTES),
-      SECONDS: this.toNum(item.SECONDS),
-      TASK_ID: this.toNum(item.TASK_ID),
-      USER_ID: this.toNum(item.USER_ID),
-      SOURCE: this.toNum(item.SOURCE),
-      CREATED_DATE: this.toDate(item.CREATED_DATE),
-      DATE_START: this.toDate(item.DATE_START),
-      DATE_STOP: this.toDate(item.DATE_STOP),
+      ID: toNum(item.ID),
+      MINUTES: toNum(item.MINUTES),
+      SECONDS: toNum(item.SECONDS),
+      TASK_ID: toNum(item.TASK_ID),
+      USER_ID: toNum(item.USER_ID),
+      SOURCE: toNum(item.SOURCE),
+      CREATED_DATE: toDate(item.CREATED_DATE),
+      DATE_START: toDate(item.DATE_START),
+      DATE_STOP: toDate(item.DATE_STOP),
     })
   }
 }

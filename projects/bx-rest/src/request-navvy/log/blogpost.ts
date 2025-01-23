@@ -1,27 +1,44 @@
-import { inject, Injectable } from '@angular/core'
 import { iBXRestParamLogBlogPostAdd } from '../../typification/rest/log/blogpost/add'
-import { BXRestLogBlogPost } from '../../request/log/blogpost'
 import { Navvy } from '../../services/navvy'
 import { iBXRestParamBlogPostGet } from '../../typification/rest/log/blogpost/get'
 import { BXRestMapLogBlogPost } from '../../map/log/blogpost'
-import { methods } from '../../typification/base/methods';
+import { $add, $blogpost, $get, $log } from '../../consts/part-name-methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyLogBlogPost {
-  url = methods.log.blogpost
+  url = {
+    /**
+     * Добавляет в Живую Ленту сообщение от имени текущего пользователя
+     */
+    add: [$log, $blogpost, $add], //
+    // getusers: {
+    //   important: 'log.blogpost.getusers.important' // Отдает массив ID пользователей, прочитавших Важное сообщение
+    // },
+    /**
+     * Возвращает массив с доступными текущему пользователю сообщениями Живой ленты. Каждое из сообщений представляет собой массив значений полей (включая пользовательские поля)
+     */
+    get: [$log, $blogpost, $get],
+    // /**
+    //  * Удаляет сообщение Живой Ленты
+    //  */
+    // delete: [$log, $blogpost, $delete],
+    // /**
+    //  * Добавляет получателей в сообщение Живой Ленты
+    //  */
+    // share: [$log, $blogpost, $share],
+    // /**
+    //  * Изменяет сообщение Живой Ленты
+    //  */
+    // update: [$log, $blogpost, $update],
+  }
 
-  private readonly BXRestLogBlogPost = inject(BXRestLogBlogPost)
-  private readonly map = inject(BXRestMapLogBlogPost)
-  private Navvy = new Navvy(this.BXRestLogBlogPost, this.map)
+  private Navvy = new Navvy()
 
   add(param: iBXRestParamLogBlogPostAdd) {
-    return this.Navvy.simpleWithArg(this.BXRestLogBlogPost.add, param)
+    return this.Navvy.simple(this.url.add, param)
   }
 
   get(param: iBXRestParamBlogPostGet = {}) {
-    return this.Navvy.PagNav(this.BXRestLogBlogPost.get, param, this.map.get)
+    return this.Navvy.PagNav(this.url.get, param, BXRestMapLogBlogPost.get)
   }
 
 }

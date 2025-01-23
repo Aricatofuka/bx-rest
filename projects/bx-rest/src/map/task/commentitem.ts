@@ -1,36 +1,32 @@
-import { Injectable } from '@angular/core'
 import { iBXRestTaskComment, iBXRestTaskCommentHtml } from '../../typification/rest/task/commentitem/commentitem'
-import { BaseMapServices } from '../base'
+import { toDate, toNum } from '../../services/base'
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BXRestMapTaskCommentItem extends BaseMapServices {
+export class BXRestMapTaskCommentItem {
 
-  getlist(value: iBXRestTaskCommentHtml[] | undefined): iBXRestTaskComment[] | undefined {
-    return value ? value.map(i => this.iCommentTaskHtmlToiCommentTask(i)) : undefined
+  static getlist(value: iBXRestTaskCommentHtml[] | undefined): iBXRestTaskComment[] | undefined {
+    return value ? value.map(i => BXRestMapTaskCommentItem.iCommentTaskHtmlToiCommentTask(i)) : undefined
   }
 
-  get(value: iBXRestTaskCommentHtml | undefined): iBXRestTaskComment | undefined {
-    return value ? this.iCommentTaskHtmlToiCommentTask(value) : undefined
+  static get(value: iBXRestTaskCommentHtml | undefined): iBXRestTaskComment | undefined {
+    return value ? BXRestMapTaskCommentItem.iCommentTaskHtmlToiCommentTask(value) : undefined
   }
 
-  private iCommentTaskHtmlToiCommentTask(item: iBXRestTaskCommentHtml): iBXRestTaskComment {
+  static iCommentTaskHtmlToiCommentTask(item: iBXRestTaskCommentHtml): iBXRestTaskComment {
     if (item.ATTACHED_OBJECTS) {
       return {
         ATTACHED_OBJECTS: Object.values(item.ATTACHED_OBJECTS).map(i => {
           return {
-            ATTACHMENT_ID: this.toNum(i.ATTACHMENT_ID),
-            FILE_ID: this.toNum(i.FILE_ID),
-            SIZE: this.toNum(i.SIZE),
+            ATTACHMENT_ID: toNum(i.ATTACHMENT_ID),
+            FILE_ID: toNum(i.FILE_ID),
+            SIZE: toNum(i.SIZE),
             DOWNLOAD_URL: i.DOWNLOAD_URL,
             NAME: i.NAME,
             VIEW_URL: i.VIEW_URL
           }
         }),
-        AUTHOR_ID: this.toNum(item.AUTHOR_ID),
-        ID: this.toNum(item.ID),
-        POST_DATE: this.toDate(item.POST_DATE),
+        AUTHOR_ID: toNum(item.AUTHOR_ID),
+        ID: toNum(item.ID),
+        POST_DATE: toDate(item.POST_DATE),
         AUTHOR_EMAIL: item.AUTHOR_EMAIL,
         AUTHOR_NAME: item.AUTHOR_NAME,
         POST_MESSAGE: item.POST_MESSAGE,
@@ -38,9 +34,9 @@ export class BXRestMapTaskCommentItem extends BaseMapServices {
       }
     } else {
       return {
-        AUTHOR_ID: this.toNum(item.AUTHOR_ID),
-        ID: this.toNum(item.ID),
-        POST_DATE: this.toDate(item.POST_DATE),
+        AUTHOR_ID: toNum(item.AUTHOR_ID),
+        ID: toNum(item.ID),
+        POST_DATE: toDate(item.POST_DATE),
         AUTHOR_EMAIL: item.AUTHOR_EMAIL,
         AUTHOR_NAME: item.AUTHOR_NAME,
         POST_MESSAGE: item.POST_MESSAGE,

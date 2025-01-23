@@ -1,9 +1,5 @@
-import { inject, Injectable } from '@angular/core'
 import { BXRestNavvyRestCalendarEvent } from './calendar/event'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyCalendar {
 
   // TODO: эту дичь расформировать потом по классам
@@ -41,6 +37,6 @@ export class BXRestNavvyCalendar {
     getbyid: getNameMethod([$calendar, $event, 'getbyid']), // Возвращает событие календаря по идентификатору
   }
   */
-  public readonly event = inject(BXRestNavvyRestCalendarEvent)
+  public readonly event = new BXRestNavvyRestCalendarEvent()
 
 }

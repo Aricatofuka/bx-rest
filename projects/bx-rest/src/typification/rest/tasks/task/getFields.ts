@@ -1,4 +1,4 @@
-import { iBXRestYesNo } from '../../base/YesNo'
+import { iBXRestYesNo } from '../../base/yes-no'
 
 export type iBXRestTasksTaskGetFieldsKey = 'ID' // идентификатор задачи
   | 'PARENT_ID' // идентификатор родительской задачи

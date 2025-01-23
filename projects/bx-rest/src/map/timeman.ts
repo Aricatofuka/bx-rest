@@ -1,11 +1,7 @@
-import { Injectable } from '@angular/core'
 import { iBXRestTimeManStatus, iBXRestTimeManStatusHttp } from '../typification/rest/timeman/status'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestMapTimeMan {
-  status(status: iBXRestTimeManStatusHttp | undefined): iBXRestTimeManStatus | undefined {
+  static status(status: iBXRestTimeManStatusHttp | undefined): iBXRestTimeManStatus | undefined {
     if (status) {
         const duration = status.DURATION.split(':')
         const time_leaks = status.TIME_LEAKS.split(':')

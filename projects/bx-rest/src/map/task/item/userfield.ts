@@ -1,18 +1,14 @@
-import { Injectable } from '@angular/core'
-import { BaseMapServices } from '../../base'
 import {
   iBXRestTaskItemUserFieldGetlist, iBXRestTaskItemUserFieldGetlistHttp,
 } from '../../../typification/rest/task/item/userfield/getlist'
+import { toNum } from '../../../services/base'
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BXRestMapTaskUserField extends BaseMapServices {
+export class BXRestMapTaskUserField {
 
-  getList(value: iBXRestTaskItemUserFieldGetlistHttp[] | undefined): iBXRestTaskItemUserFieldGetlist[] | undefined{
+  static getList(value: iBXRestTaskItemUserFieldGetlistHttp[] | undefined): iBXRestTaskItemUserFieldGetlist[] | undefined{
     if(value && value.length){
       return value.map( i => { return {
-        ID: this.toNum(i.ID),
+        ID: toNum(i.ID),
         ENTITY_ID: 'TASKS_TASK',
         FIELD_NAME: i.FIELD_NAME,
         USER_TYPE_ID: i.USER_TYPE_ID,

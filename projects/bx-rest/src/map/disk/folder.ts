@@ -1,18 +1,10 @@
-import { Injectable } from '@angular/core'
 import { iBXRestFolderHttp } from '../../typification/rest/disk/folder'
 import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
-import BXRestMapDiskBase from './base'
+import { BXRestMapDiskBase } from './base'
 
-@Injectable({
-  providedIn: 'root'
-})
-export default class BXRestMapDiskFolder extends BXRestMapDiskBase {
+export class BXRestMapDiskFolder extends BXRestMapDiskBase {
 
-  getChildren(arr: (iBXRestFolderHttp | iBXRestDiskFileHttp)[] | undefined){
-    return (arr) ? this.separationFoldersAndFiles(arr) : {file: [], folder: []}
+  static getChildren(arr: (iBXRestFolderHttp | iBXRestDiskFileHttp)[] | undefined){
+    return (arr) ? BXRestMapDiskBase.separationFoldersAndFiles(arr) : {file: [], folder: []}
   }
-
-
-
-
 }

@@ -1,4 +1,3 @@
-import { inject, Injectable } from '@angular/core'
 import {
   $disk, $get, $getchildren, $getFields, $getlist, $getTypes, $rename, $storage, $uploadfile
 } from '../../consts/part-name-methods'
@@ -8,11 +7,7 @@ import { iBXRestFolderHttp, iBXRestFolderInfo } from '../../typification/rest/di
 import { iBXRestParamUploadFile } from '../../typification/rest/disk/storage/uploadfile'
 import { iBXRestParamGetchildren } from '../../typification/rest/disk/storage/getchildren'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestDiskStorage {
-
   protected url = {
     getFields: [$disk, $storage, $getFields],  // Возвращает описание полей хранилища
     get: [$disk, $storage, $get], //	Возвращает хранилище по идентификатору
@@ -28,7 +23,7 @@ export class BXRestDiskStorage {
     // с которым может работать приложение для хранения своих данных (файлов и папок)
   }
 
-  private readonly http = inject(HttpBXServices)
+  private readonly http = new HttpBXServices()
 
   getForApp() {
     return this.http.post<iBXRestFolderInfo>(

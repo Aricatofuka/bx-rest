@@ -1,39 +1,51 @@
-import { inject, Injectable } from '@angular/core'
 import { Navvy } from '../../../services/navvy'
 import { BXRestMapTasksTaskResult } from '../../../map/tasks/task/result'
 import { iBXRestParamTasksTaskResultList } from '../../../typification/rest/tasks/result/list'
-import { BXRestTasksTaskResult } from '../../../request/tasks/task/result'
-import { iBXParamRestTasksTaskResultAdd } from '../../../typification/rest/tasks/task/result/result'
+import {
+  iBXParamRestTasksTaskResultAdd, iBXRestTasksTaskResult,
+  iBXRestTasksTaskResultHttp
+} from '../../../typification/rest/tasks/task/result/result'
+import { $list, $result, $task, $tasks } from '../../../consts/part-name-methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyTasksTaskResult {
 
-  private readonly BXRestTasksTaskResult = inject(BXRestTasksTaskResult)
-  private readonly BXRestMapTasksTaskResult = inject(BXRestMapTasksTaskResult)
-  private Navvy = new Navvy(this.BXRestTasksTaskResult, this.BXRestMapTasksTaskResult)
+  url = {
+    /**
+     *  Просмотр списка результатов к задаче
+     */
+    list: [$tasks, $task, $result, $list],
+    /**
+     * Создание результата задачи из комментария
+     */
+    addFromComment: [$tasks, $task, $result, 'addFromComment'],
+    /**
+     * Удаление результата задачи по комментарию из которого он был создан
+     */
+    deleteFromComment: [$tasks, $task, $result, 'deleteFromComment'],
+  }
 
-  deleteFromComment(commentID: number) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestTasksTaskResult.deleteFromComment,
+  private Navvy = new Navvy()
+
+  deleteFromComment(commentID: {commentId: number}) {
+    return this.Navvy.simple<null, null, {commentId: number}>(
+      this.url.deleteFromComment,
       commentID,
     )
   }
 
   addFromComment(param: iBXParamRestTasksTaskResultAdd) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestTasksTaskResult.addFromComment,
+    return this.Navvy.simple<iBXRestTasksTaskResultHttp, iBXRestTasksTaskResult, iBXParamRestTasksTaskResultAdd>(
+      this.url.addFromComment,
       param,
-      this.BXRestMapTasksTaskResult.addFromComment
+      BXRestMapTasksTaskResult.addFromComment
     )
   }
 
   list(param: iBXRestParamTasksTaskResultList) {
-    return this.Navvy.PagNav(
-      this.BXRestTasksTaskResult.list,
+    return this.Navvy.PagNav<iBXRestTasksTaskResultHttp, iBXRestTasksTaskResult, iBXRestParamTasksTaskResultList>(
+      this.url.list,
       param,
-      this.BXRestMapTasksTaskResult.list
+      BXRestMapTasksTaskResult.list
     )
   }
 }

@@ -1,22 +1,18 @@
-import { Injectable } from '@angular/core'
-import { BaseMapServices } from '../base'
 import {
   iBXRestHttpListsElement,
   iBXRestListsElement
 } from '../../typification/rest/lists/element/get'
+import { toNum } from '../../services/base'
 
-@Injectable({
-  providedIn: 'root'
-})
-export default class BXRestMapListsElement extends BaseMapServices {
+export default class BXRestMapListsElement {
 
-  get(items: iBXRestHttpListsElement[] | undefined): iBXRestListsElement[] | undefined {
+  static get(items: iBXRestHttpListsElement[] | undefined): iBXRestListsElement[] | undefined {
     return (items)
       ? items.map(item => Object.assign(item, {
         BP_PUBLISHED: item.BP_PUBLISHED === 'Y',
-        CREATED_BY: this.toNum(item.CREATED_BY),
-        IBLOCK_ID: this.toNum(item.IBLOCK_ID),
-        ID: this.toNum(item.ID)
+        CREATED_BY: toNum(item.CREATED_BY),
+        IBLOCK_ID: toNum(item.IBLOCK_ID),
+        ID: toNum(item.ID)
       }))
       : undefined
   }

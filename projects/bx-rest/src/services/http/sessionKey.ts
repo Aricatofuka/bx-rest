@@ -1,18 +1,14 @@
-import { inject, Injectable } from '@angular/core'
 import Cookies from '../../services/vanilla/сookies'
 import { Observable, of, Subscription } from 'rxjs'
-import { BaseServices } from '../base'
+import { prepareBaseAddress } from '../base'
 import { LocalStorageServices as LocalStorage } from '../../services/vanilla/localStorage'
-import { BX_REST_SETTINGS, DEFAULT_BX_REST_SETTINGS } from '../../settings'
+import { BXRestSettings, DEFAULT_BX_REST_SETTINGS } from '../../settings'
 import { iBXRestAuth } from '../../typification/auth/save'
 import { SessionStorage } from '../vanilla/sessionStorage'
 
 type IKeyAuth = 'sessid' | 'auth' | string
 
-@Injectable({
-  providedIn: 'root'
-})
-export default class SessionKeyServices extends BaseServices {
+export default class SessionKeyServices {
 
   authHave = false
   authData: iBXRestAuth | undefined
@@ -20,12 +16,11 @@ export default class SessionKeyServices extends BaseServices {
     authData: new Subscription()
   }
 
-  private readonly BX_REST_SETTINGS = inject(BX_REST_SETTINGS)
+  private readonly BX_REST_SETTINGS = BXRestSettings.date
 
   constructor(
   ) {
-    super()
-    let authData = SessionStorage.getItem<iBXRestAuth>(this.constructor.name)
+    const authData = SessionStorage.getItem<iBXRestAuth>(this.constructor.name)
     if ((authData && !authData.access_token.length) || !authData) {
       // получаем токен по собственным каналом (в битриксе приложение trace:apps.trace)
       window.addEventListener('message', (event: MessageEvent) => {
@@ -36,8 +31,8 @@ export default class SessionKeyServices extends BaseServices {
             }
 
             if (event.data.param.access_token) {
-              let param = event.data.param
-              let save = {
+              const param = event.data.param
+              const save = {
                 access_token: (param.access_token) ? param.access_token : undefined,
                 client_endpoint: (param.client_endpoint) ? param.client_endpoint : undefined,
                 domain: (param.domain) ? param.domain : undefined,
@@ -77,10 +72,10 @@ export default class SessionKeyServices extends BaseServices {
       case 'auth':
         return Cookies.get('auth')
       default:
-        if ((<any>window).BX && (<any>window).BX.bitrix_sessid()) { // чё за хуйня?
-          return (<any>window).BX.bitrix_sessid()
+        if ((window as any).BX && (window as any).BX.bitrix_sessid()) { // чё за хуйня?
+          return (window as any).BX.bitrix_sessid()
         } else if (this.getSessid().length) {
-          let str = this.getSessid()
+          const str = this.getSessid()
           return (str) ? str : ''
         } else {
           return Cookies.get('auth')
@@ -128,11 +123,11 @@ export default class SessionKeyServices extends BaseServices {
       : DEFAULT_BX_REST_SETTINGS.urls.additional_part
 
     if(this.BX_REST_SETTINGS.urls.source === 'string'){
-      return of(this.prepareBaseAddress(this.BX_REST_SETTINGS.urls.key, additional_part))
+      return of(prepareBaseAddress(this.BX_REST_SETTINGS.urls.key, additional_part))
     }
 
     const str = localStorage.getItem(this.BX_REST_SETTINGS.urls.key)
 
-    return of(this.prepareBaseAddress((str) ? str : '', additional_part))
+    return of(prepareBaseAddress((str) ? str : '', additional_part))
   }
 }

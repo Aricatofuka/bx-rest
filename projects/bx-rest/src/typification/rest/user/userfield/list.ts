@@ -1,5 +1,5 @@
 import { iBXRestUserKey } from '../user'
-import { iBXRestYesNo } from '../../base/YesNo'
+import { iBXRestYesNo } from '../../base/yes-no'
 
 export interface iBXRestUserUserField {
   ID: string,

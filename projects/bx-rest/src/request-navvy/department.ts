@@ -1,37 +1,32 @@
-import { inject, Injectable } from '@angular/core'
-import { BXRestDepartment } from '../request/department'
 import { iBXRestParamDepartmentGet } from '../typification/rest/department/get'
 import { Navvy } from '../services/navvy'
 import { BXRestMapDepartment } from '../map/department'
 import { iBXRestParamDepartmentAdd } from '../typification/rest/department/add'
 import { iBXRestDepartmentUpdate } from '../typification/rest/department/update'
+import { methods } from '../typification/base/methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyDepartment {
 
-  private readonly BXRestDepartment = inject(BXRestDepartment)
-  private readonly BXRestMapDepartment = inject(BXRestMapDepartment)
-  protected Navvy = new Navvy(this.BXRestDepartment, this.BXRestMapDepartment)
+  url = methods.department
+  protected Navvy = new Navvy()
 
   get(param: iBXRestParamDepartmentGet = {}) {
     return this.Navvy.PagNav(
-      this.BXRestDepartment.get,
+      this.url.get,
       param,
-      this.BXRestMapDepartment.get)
+      BXRestMapDepartment.get)
   }
 
   add(param: iBXRestParamDepartmentAdd) {
-    return this.Navvy.simpleWithArg(this.BXRestDepartment.add, param)
+    return this.Navvy.simple(this.url.add, param)
   }
 
   del(id: number) {
-    return this.Navvy.simpleWithArg(this.BXRestDepartment.del, {ID: id})
+    return this.Navvy.simple(this.url.del, {ID: id})
   }
 
   update(param: iBXRestDepartmentUpdate) {
     param.NAME = param.NAME.trim()
-    return this.Navvy.simpleWithArg(this.BXRestDepartment.update, param)
+    return this.Navvy.simple(this.url.update, param)
   }
 }

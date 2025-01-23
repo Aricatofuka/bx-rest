@@ -1,6 +1,4 @@
-import { inject, Injectable } from '@angular/core'
-import BXRestMapDiskFolder from '../../map/disk/folder'
-import { BXRestDiskFolder } from '../../request/disk/folder'
+import { BXRestMapDiskFolder } from '../../map/disk/folder'
 import { Navvy } from '../../services/navvy'
 import { iBXRestDiskFolderAddSubFolderParam } from '../../typification/rest/disk/folder/addSubFolder'
 import { iBXRestDiskFolderCopyToParam } from '../../typification/rest/disk/folder/copyTo'
@@ -13,15 +11,33 @@ import {
   iBXRestParamFolderGetExternalLink,
   iBXRestParamFolderRestore
 } from '../../typification/rest/disk/folder'
+import {
+  $copyto,
+  $disk,
+  $folder,
+  $get,
+  $getchildren,
+  $getFields, $markdeleted,
+  $moveto,
+  $rename, $restore, $uploadfile
+} from '../../consts/part-name-methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyDiskFolder {
-
-  private readonly BXRestDiskFolder = inject(BXRestDiskFolder)
-  private readonly BXRestMapDiskFolder = inject(BXRestMapDiskFolder)
-  private Navvy = new Navvy(this.BXRestDiskFolder, this.BXRestMapDiskFolder)
+  protected url = {
+    getFields: [$disk, $folder, $getFields],
+    get: [$disk, $folder, $get],
+    getChildren: [$disk, $folder, $getchildren],
+    addSubFolder: [$disk, $folder, 'addsubfolder'],
+    copyTo: [$disk, $folder, $copyto],
+    moveTo: [$disk, $folder, $moveto],
+    rename: [$disk, $folder, $rename],
+    deleteTree: [$disk, $folder, 'deletetree'],
+    markDeleted: [$disk, $folder, $markdeleted],
+    restore: [$disk, $folder, $restore],
+    uploadFile: [$disk, $folder, $uploadfile],
+    getExternalLink: [$disk, $folder, 'getExternalLink']
+  }
+  private Navvy = new Navvy()
 
   /**
    * Возвращает папку по идентификатору
@@ -29,10 +45,10 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   get(param: iBXRestParamDiskFileGet) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskFolder.get,
+    return this.Navvy.simple(
+      this.url.get,
       param,
-      this.BXRestMapDiskFolder.FolderHttpToFolder
+      BXRestMapDiskFolder.FolderHttpToFolder
     )
   }
 
@@ -42,10 +58,10 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   addSubFolder(param: iBXRestDiskFolderAddSubFolderParam) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskFolder.addSubFolder,
+    return this.Navvy.simple(
+      this.url.addSubFolder,
       param,
-      this.BXRestMapDiskFolder.FolderHttpToFolder
+      BXRestMapDiskFolder.FolderHttpToFolder
     )
   }
 
@@ -55,10 +71,10 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   copyTo(param: iBXRestDiskFolderCopyToParam) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskFolder.copyTo,
+    return this.Navvy.simple(
+      this.url.copyTo,
       param,
-      this.BXRestMapDiskFolder.FolderHttpToFolder
+      BXRestMapDiskFolder.FolderHttpToFolder
     )
   }
 
@@ -68,10 +84,10 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   moveTo(param: iBXRestDiskFolderMoveToParam) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskFolder.moveTo,
+    return this.Navvy.simple(
+      this.url.moveTo,
       param,
-      this.BXRestMapDiskFolder.FolderHttpToFolder
+      BXRestMapDiskFolder.FolderHttpToFolder
     )
   }
 
@@ -81,10 +97,10 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   rename(param: iBXRestDiskFolderRenameParam) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskFolder.rename,
+    return this.Navvy.simple(
+      this.url.rename,
       param,
-      this.BXRestMapDiskFolder.FolderHttpToFolder
+      BXRestMapDiskFolder.FolderHttpToFolder
     )
   }
 
@@ -95,8 +111,8 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   deleteTree(param: iBXRestParamFolderDeleteTree) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskFolder.deleteTree,
+    return this.Navvy.simple(
+      this.url.deleteTree,
       param
     )
   }
@@ -107,10 +123,10 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   markDeleted(param: iBXRestParamDiskFileMarkDeleted) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskFolder.markDeleted,
+    return this.Navvy.simple(
+      this.url.markDeleted,
       param,
-      this.BXRestMapDiskFolder.FolderHttpToFolder
+      BXRestMapDiskFolder.FolderHttpToFolder
     )
   }
 
@@ -120,10 +136,10 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   restore(param: iBXRestParamFolderRestore) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskFolder.restore,
+    return this.Navvy.simple(
+      this.url.restore,
       param,
-      this.BXRestMapDiskFolder.FolderHttpToFolder
+      BXRestMapDiskFolder.FolderHttpToFolder
     )
   }
 
@@ -133,8 +149,8 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   getExternalLink(param: iBXRestParamFolderGetExternalLink) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskFolder.getExternalLink,
+    return this.Navvy.simple(
+      this.url.getExternalLink,
       param
     )
   }
@@ -144,7 +160,7 @@ export class BXRestNavvyDiskFolder {
    */
   getFields() {
     return this.Navvy.simple(
-      this.BXRestDiskFolder.getFields
+      this.url.getFields
     )
   }
 
@@ -154,10 +170,10 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   uploadFile(param: iBXRestDiskFolderUploadFileParam) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskFolder.uploadFile,
+    return this.Navvy.simple(
+      this.url.uploadFile,
       param,
-      this.BXRestMapDiskFolder.FolderHttpToFolder
+      BXRestMapDiskFolder.FolderHttpToFolder
     )
   }
 
@@ -167,10 +183,10 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   getChildren(param: iBXRestParamFolderGetChildren) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestDiskFolder.getChildren,
+    return this.Navvy.simple(
+      this.url.getChildren,
       param,
-      this.BXRestMapDiskFolder.getChildren
+      BXRestMapDiskFolder.getChildren
     )
   }
 

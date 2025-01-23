@@ -1,26 +1,22 @@
 import { iBXRestParamSort } from '../base/sort'
 import { iBXRestSonetGroupFieldsFilter, iBXRestSonetGroupFieldsOrder, iBXRestSonetGroupFieldsSelect } from './base'
 import { Modify } from '../../base/modyfy'
-import { iBXRestFilterGenerator } from '../base/filterGenerator'
+import { iBXRestFilterGenerator } from '../base/filter-generator'
 
 export interface iBXRestParamSonetGroupGet {
   FILTER?: iBXRestParamSonetGroupGetFilterWithParam,
   ORDER?: iBXRestParamSonetOrderWorkgroup
 }
 
-export interface iBXRestParamSonetGroupGetFilterWithParam extends iBXRestFilterGenerator<iBXRestParamSonetGroupGetFilter> {}
+export type iBXRestParamSonetGroupGetFilterWithParam = iBXRestFilterGenerator<iBXRestParamSonetGroupGetFilter>
 
 export interface iBXRestParamSonetGroupGetFilter extends iBXRestParamSonetFilerWorkgroup{
   NAME: string
 }
 
-export type iBXRestParamSonetFilerWorkgroup = {
-  [key in iBXRestSonetGroupFieldsFilter]?: string | string[] | number | number[] | Date
-}
+export type iBXRestParamSonetFilerWorkgroup = Partial<Record<iBXRestSonetGroupFieldsFilter, string | string[] | number | number[] | Date>>
 
-export type iBXRestParamSonetOrderWorkgroup = {
-  [key in iBXRestSonetGroupFieldsOrder]?: iBXRestParamSort
-}
+export type iBXRestParamSonetOrderWorkgroup = Partial<Record<iBXRestSonetGroupFieldsOrder, iBXRestParamSort>>
 
 export type iBXRestSonetGroupGetHttp = Record<iBXRestSonetGroupFieldsSelect, string>
 

@@ -1,4 +1,3 @@
-import { inject, Injectable } from '@angular/core'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import {
@@ -18,21 +17,18 @@ import { BXRestTasksTaskResult } from './task/result'
 import { iBXRestParamTasksTaskGet } from '../../typification/rest/tasks/task/get'
 import { iBXRestTasksTaskGetFields } from '../../typification/rest/tasks/task/getFields'
 import { iBXRestParamTasksTaskUpdate } from '../../typification/rest/tasks/task/update'
-import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fieldsName'
+import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fields-name'
 import { methods } from '../../typification/base/methods'
 import { iBXRestTasksTaskBaseAnswer } from '../../typification/rest/tasks/task/base'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestTasksTask {
 
   protected url = methods.tasks.task
 
-  public readonly result = inject(BXRestTasksTaskResult)
-  private readonly http = inject(HttpBXServices)
+  public readonly result = new BXRestTasksTaskResult()
+  private readonly http = new HttpBXServices()
 
-  add<CustomFields extends object = {}>(param: iBXRestParamTaskAdd<CustomFields>) {
+  add<CustomFields extends object = object>(param: iBXRestParamTaskAdd<CustomFields>) {
     return this.http.post<iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskGetHttpDefault>>(this.url.add, param)
   }
 
@@ -52,11 +48,11 @@ export class BXRestTasksTask {
     return this.http.post<iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskDeferHttp>>(this.url.update, param)
   }
 
-  get<S extends iBXRestTaskFieldsName[], CustomFields extends object = {}>(param: iBXRestParamTasksTaskGet<CustomFields>) {
+  get<S extends iBXRestTaskFieldsName[], CustomFields extends object = object>(param: iBXRestParamTasksTaskGet<CustomFields>) {
     return this.http.post<iBXRestTasksTaskGetHttp<S, CustomFields>>(this.url.get, param)
   }
 
-  list<S extends iBXRestTaskFieldsName[], CustomFields extends object = {}>(param: iBXRestParamTasksList<CustomFields>) {
+  list<S extends iBXRestTaskFieldsName[], CustomFields extends object = object>(param: iBXRestParamTasksList<CustomFields>) {
     return this.http.post<iBXRestTasksTaskListHttp<S, CustomFields>>(this.url.list, param)
   }
 

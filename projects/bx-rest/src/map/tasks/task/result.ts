@@ -1,24 +1,20 @@
-import { Injectable } from '@angular/core'
-import { BaseMapServices } from '../../base'
 import { iBXRestTasksTaskResult, iBXRestTasksTaskResultHttp } from '../../../typification/rest/tasks/task/result/result'
+import { toDate } from '../../../services/base'
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BXRestMapTasksTaskResult extends BaseMapServices {
+export class BXRestMapTasksTaskResult {
 
-  list(item: iBXRestTasksTaskResultHttp[] | undefined){
-    return (item) ? item.map(i => this.iTaskResultHttpToiTaskResult(i)) : undefined
+  static list(item: iBXRestTasksTaskResultHttp[] | undefined){
+    return (item) ? item.map(i => BXRestMapTasksTaskResult.iTaskResultHttpToiTaskResult(i)) : undefined
   }
 
-  addFromComment(item: iBXRestTasksTaskResultHttp | undefined){
-    return (item) ? this.iTaskResultHttpToiTaskResult(item) : undefined
+  static addFromComment(item: iBXRestTasksTaskResultHttp | undefined){
+    return (item) ? BXRestMapTasksTaskResult.iTaskResultHttpToiTaskResult(item) : undefined
   }
 
-  protected iTaskResultHttpToiTaskResult(item: iBXRestTasksTaskResultHttp): iBXRestTasksTaskResult {
+  static iTaskResultHttpToiTaskResult(item: iBXRestTasksTaskResultHttp): iBXRestTasksTaskResult {
     return Object.assign(item, {
-      createdAt: this.toDate(item.createdAt),
-      updatedAt: this.toDate(item.updatedAt)
+      createdAt: toDate(item.createdAt),
+      updatedAt: toDate(item.updatedAt)
     })
   }
 }

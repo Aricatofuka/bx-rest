@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "description": "bitrix rest api",
   "keywords": [
     "bitrix",
@@ -15,18 +15,22 @@
   },
   "homepage": "https://github.com/Aricatofuka/bx-rest#readme",
   "peerDependencies": {
-    "@angular/common": "^18.1.0",
-    "@angular/core": "^18.1.0",
     "just-camel-case": "^6.2.0",
     "just-clone": "^6.2.0",
     "just-flatten-it": "^5.2.0",
     "just-values": "^2.2.0",
-    "luxon": "^3.4.4"
+    "luxon": "^3.4.4",
+    "axios": "^1.7.9"
   },
   "dependencies": {
     "@angular-devkit/build-angular": "^18.2.11",
+    "@typescript-eslint/eslint-plugin": "^8.20.0",
+    "@typescript-eslint/parser": "^8.20.0",
+    "angular-eslint": "^19.0.2",
+    "axios": "^1.7.9",
     "countries-and-timezones": "^3.7.2",
     "ng-packagr": "^18.2.1",
+    "qs": "^6.13.1",
     "snake-camel-types": "^1.0.1",
     "ts-case-convert": "^2.1.0",
     "tslib": "^2.3.0"
@@ -34,6 +38,7 @@
   "module": "esm2022/bx-rest.mjs",
   "types": "index.d.ts",
   "typings": "index.d.ts",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./index.d.ts",
@@ -54,7 +59,7 @@
     "@angular-eslint/template-parser": "^19.0.2",
     "@eslint/js": "^9.16.0",
     "@types/luxon": "^3.4.2",
-    "eslint": "^9.16.0",
+    "eslint": "^9.18.0",
     "globals": "^15.13.0",
     "typescript-eslint": "^8.18.0"
   },

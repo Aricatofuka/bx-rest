@@ -1,17 +1,11 @@
-import { inject, Injectable } from '@angular/core'
 import { iBXRestParamElapseditemGet } from '../../../typification/rest/task/elapseditem/get'
-import { BXRestTaskElapsedItem } from '../../../request/task/elapseditem'
 import { Navvy } from '../../../services/navvy'
 import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
+import { methods } from '../../../typification/base/methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyDelegateElapsedItem {
 
-  private readonly BXRestElapsedItem = inject(BXRestTaskElapsedItem)
-  private readonly BXRestMapElapsedItem = inject(BXRestMapTaskElapsedItem)
-  private Navvy = new Navvy(this.BXRestElapsedItem, this.BXRestMapElapsedItem)
+  private Navvy = new Navvy()
 
   getList(
     param: iBXRestParamElapseditemGet = {}
@@ -30,11 +24,10 @@ export class BXRestNavvyDelegateElapsedItem {
       }
     }
     return this.Navvy.alterPagNav(
-      this.BXRestElapsedItem.getList,
+      methods.task.elapsedItem.getList,
       param,
-      this.BXRestMapElapsedItem.getList
+      BXRestMapTaskElapsedItem.getList
     )
   }
-
 
 }

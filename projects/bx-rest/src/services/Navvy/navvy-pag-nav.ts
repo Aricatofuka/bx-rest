@@ -1,13 +1,13 @@
 import { concat, concatMap, from, last, mergeMap, shareReplay, throwError } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import clone from 'just-clone'
-import { iBXRestPagination } from '../../typification/rest/base/ApiPaginationBX'
-import { NavvyPagNavBase } from './extends/NavvyPagNavBase'
-import { ReturnTypeNavvy } from './NavvySupport'
+import { iBXRestPagination } from '../../typification/rest/base/api-pagination-bx'
+import { NavvyPagNavBase } from './extends/navvy-pag-nav-base'
+import { ReturnTypeNavvy } from './navvy-support'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 
-export class NavvyPagNav<C, M, T, R, P extends iBXRestPagination> extends NavvyPagNavBase<C, M, T[], R[], P> {
+export class NavvyPagNav<C, T, R, P extends iBXRestPagination> extends NavvyPagNavBase<C, T[], R[], P> {
 
   resultAll() {
     let save: ReturnTypeNavvy<T, R>[] = []
@@ -57,9 +57,9 @@ export class NavvyPagNav<C, M, T, R, P extends iBXRestPagination> extends NavvyP
     )
   }
 
-  private mapResultForGetAll(items: iBXRestAnswer<T[]> | undefined){
+  private mapResultForGetAll(items: iBXRestAnswer<T[]> | undefined) {
     return (instanceOfiBXRestAnswerSuccess(items)) ? from([items.result]).pipe(
-      map(v => (v && this.map) ? this.map.call(this.mapClass, v) : v)
+      map(v => (v && this.map) ? this.map(v) : v)
     ) : from([])
   }
 }

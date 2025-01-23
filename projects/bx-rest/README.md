@@ -7,59 +7,54 @@ This is an intermediary between requests sent from the browser and includes a si
 ```shell
 npm install bx-rest
 ```
-# Usage
+# Usage in Angular
 ```typescript
-import { BX_REST_SETTINGS } from 'bx-rest'
+import { BXRestSettings } from 'bx-rest'
+
+BXRestSettings.update({
+  auth: {
+    source: 'cookies',
+    key: 'auth'
+  },
+  urls: {
+    source: 'string',
+    key: environment.urls.home,
+    additional_part: 'rest'
+  }
+})
+
+export const BXRestNavvyProvider: Provider = {
+  provide: BXRestNavvy,
+  useClass: BXRestNavvy,
+};
+
+export const BXRestMapProvider: Provider = {
+  provide: BXRestMap,
+  useFactory: () => new BXRestMap(),
+}
+
+export const BXRestRequestProvider: Provider = {
+  provide: BXRestRequest,
+  useFactory: () => new BXRestRequest(),
+}
+
+export const BXRestProvider: Provider = {
+  provide: BXRest,
+  useFactory: () => new BXRest(),
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
-    {
-      provide: BX_REST_SETTINGS, useValue: {
-        auth: {
-          source: 'cookies',
-          key: 'auth'
-        },
-        urls: {
-          source: 'string', // or 'localStorage'
-          key: 'your bitrix addres', // or your key from localStorage
-          additional_part: 'rest' // url after slash
-        }
-      }
-    }
+    BXRestNavvyProvider,
+    BXRestMapProvider,
+    BXRestRequestProvider,
+    BXRestMapProvider
   ]
 }
 document.cookie ='auth=ACCESS_TOKEN;  max-age=99999'
 ```
-
-```typescript
-
-// isBXRestAnswerSuccess checks the answer to see if it belongs to an answer without errors
-import { BXRest, BXMap, isBXRestAnswerSuccess } from 'bx-rest'
-import { inject } from '@angular/core'
-
-@Component({
-  selector: 'app-any',
-  templateUrl: './any.component.html',
-  styleUrls: ['./any.component.scss']
-})
-export class AnyComponent {
-
-  listElements$ = this.BXRest.lists.element.get({
-    IBLOCK_TYPE_ID: 'lists',
-    IBLOCK_ID: 150,
-    FILTER: {
-      ['>' + vacancies.del]: 0
-    }
-  }).pipe(
-    map(v => (isBXRestAnswerSuccess(v) ? this.BXMap.lists.element.get(v) : undefined)
-    ))
-  private readonly BXRest = inject(BXRest)
-  private readonly BXMap = inject(BXMap)
-}
-```
-or if you prefer several features in one
 
 ```typescript
 import { BXRestNavvy } from 'bx-rest'
@@ -77,11 +72,55 @@ export class AnyComponent {
     FILTER: {
       ['>' + vacancies.del]: 0
     }
-  }).result() // or .resultAll() - to get all elements
+  }).res() // or .resAll() - to get all elements or .resVanilla() - to get all elements
 
   private readonly BXRestNavvy = inject(BXRestNavvy)
 }
 ```
+# Usage in Vue
+```vue
+import { BXRestSettings, BXRest, BXRestMap, BXRestNavvy, BXRestRequest } from 'bx-rest';
+
+const bxRestPlugin = {
+    install(Vue) {
+        // Настройки bx-rest
+        BXRestSettings.update({
+            auth: {
+                source: 'cookies',
+                key: 'auth',
+            },
+            urls: {
+                source: 'string',
+                key: 'b24.trace-studio.com',
+                additional_part: 'rest',
+            },
+        });
+
+        // Adding instances to global access
+        Vue.config.globalProperties.$bxRestNavvy = new BXRestNavvy();
+        Vue.config.globalProperties.$bxRestMap = new BXRestMap();
+        Vue.config.globalProperties.$bxRestRequest = new BXRestRequest();
+        Vue.config.globalProperties.$bxRest = new BXRest();
+    },
+};
+
+export default bxRestPlugin;
+```
+
+```vue
+import './assets/main.css'
+
+import { createApp } from 'vue'
+import App from './App.vue'
+import bxRestPlugin from './bxRestPlugin';
+
+const app = createApp(App);
+
+app.use(bxRestPlugin);
+
+app.mount('#app');
+```
+
 # Extension
 You can add your own methods to the rest API; you can read more about this here:
 https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=7985
@@ -139,17 +178,22 @@ export class BXRestCustomNavvyBlogpostGet {
 
   Navvy: Navvy<BXRestCustomBlogpostGet, BXRestCustomMapBlogpostGet>
 
+  url = {
+    view: [PNM.$log, PNM.$blogpost, PNM.$get, 'view'],
+    rating: [PNM.$log, PNM.$blogpost, PNM.$get, 'rating'],
+  }
+
   private readonly http = inject(BXRestRequest)
   private readonly BXRestCustomBlogpostGet = inject(BXRestCustomBlogpostGet)
   private readonly BXRestCustomMapBlogpostGet = inject(BXRestCustomMapBlogpostGet)
   private readonly Navvy = new Navvy(this.BXRestCustomBlogpostGet, this.BXRestCustomMapBlogpostGet)
 
   view(param: iBXRestCustomBlogpostGetViewParam) {
-    return this.Navvy.PagNav(this.BXRestCustomBlogpostGet.view, param, this.BXRestCustomMapBlogpostGet.view)
+    return this.Navvy.PagNav(this.url.view, param, this.BXRestCustomMapBlogpostGet.view)
   }
 
   rating(param: iBXRestCustomHttpBlogpostGetRatingParam) {
-    return this.Navvy.PagNav(this.BXRestCustomBlogpostGet.rating, param, this.BXRestCustomMapBlogpostGet.rating)
+    return this.Navvy.PagNav(this.url.rating, param, this.BXRestCustomMapBlogpostGet.rating)
   }
 }
 ```
@@ -170,14 +214,13 @@ import { BXRestMapBase } from 'bx-rest'
   providedIn: 'root'
 })
 export class BXRestCustomMapBlogpostGet extends BXRestMapBase {
-
-
+  
   view(value: iBXRestCustomHttpBlogpostGetView[] | undefined): iBXRestCustomBlogpostGetView[] {
     return (value) ? value.map(i => {
         return {
-          ID: this.toNum(i.ID),
-          USER_ID: this.toNum(i.USER_ID),
-          DATE: this.toDate(i.DATE, 'dd.MM.yyyy HH:mm:ss'),
+          ID: toNum(i.ID),
+          USER_ID: toNum(i.USER_ID),
+          DATE: toDate(i.DATE, 'dd.MM.yyyy HH:mm:ss'),
         }
       })
       : []
@@ -186,9 +229,9 @@ export class BXRestCustomMapBlogpostGet extends BXRestMapBase {
   rating(value: iBXRestCustomHttpBlogpostGetRating[] | undefined): iBXRestCustomBlogpostGetRating[] {
     return (value) ? value.map(i => {
         return {
-          ID: this.toNum(i.ID),
+          ID: toNum(i.ID),
           REACTION: i.REACTION,
-          TOTAL_VOTES: this.toNum(i.TOTAL_VOTES),
+          TOTAL_VOTES: toNum(i.TOTAL_VOTES),
         }
       }) as iBXRestCustomBlogpostGetRating[]
       : [] as iBXRestCustomBlogpostGetRating[]

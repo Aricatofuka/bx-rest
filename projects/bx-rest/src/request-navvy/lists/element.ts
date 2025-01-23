@@ -1,28 +1,45 @@
 import { iBXRestParamListsElementGet } from '../../typification/rest/lists/element/get'
-import { inject, Injectable } from '@angular/core'
-import { BXRestListsElement } from '../../request/lists/element'
 import BXRestListsElementMap from '../../map/lists/element'
 import { iBXRestParamListsElementAdd } from '../../typification/rest/lists/element/add'
 import { Navvy } from '../../services/navvy'
+import { $add, $element, $get, $lists } from '../../consts/part-name-methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyListsElement {
 
-  private readonly BXRestListsElement = inject(BXRestListsElement)
-  private readonly BXRestMap = inject(BXRestListsElementMap)
-  private Navvy = new Navvy(this.BXRestListsElement, this.BXRestMap)
+  url = {
+    /**
+     * Метод создаёт элемент списка
+     */
+    add: [$lists, $element, $add],
+    // /**
+    //  * Метод удаляет элемент списка TODO: Реализовать
+    //  */
+    // delete: [$lists, $element, $delete],
+    /**
+     * Метод возвращает список элементов или элемент
+     */
+    get: [$lists, $element, $get],
+    // /**
+    //  * Метод обновляет элемент списка TODO: Реализовать
+    //  */
+    // update: [$lists, $element, $update],
+    // /**
+    //  * Метод возвращает путь к файлу TODO: Реализовать
+    //  */
+    // getFileUrl: [$lists, $element, $get, $file, $url]
+  }
+
+  private Navvy = new Navvy()
 
   get(param: iBXRestParamListsElementGet) {
     return this.Navvy.PagNav(
-      this.BXRestListsElement.get,
+      this.url.get,
       param,
-      this.BXRestMap.get
+      BXRestListsElementMap.get
     )
   }
 
   add(param: iBXRestParamListsElementAdd) {
-    return this.Navvy.simpleWithArg(this.BXRestListsElement.add, param)
+    return this.Navvy.simple(this.url.add, param)
   }
 }

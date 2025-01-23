@@ -1,4 +1,3 @@
-import { inject, Injectable } from '@angular/core'
 import {
   $add,
   $commentitem,
@@ -17,9 +16,6 @@ import { iBXRestTaskCommentItemUpdate } from '../../typification/rest/task/comme
 import { BXRestTaskCommentItemGetList } from '../../typification/rest/task/commentitem/getlist'
 import { BXRestTaskCommentItemDelete } from '../../typification/rest/task/commentitem/delete'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestTaskCommentItem {
 
   protected url = {
@@ -32,7 +28,7 @@ export class BXRestTaskCommentItem {
     isActionAllowed: [$task, $commentitem, $isactionallowed], // Проверяет, разрешено ли действие
   }
 
-  private readonly http = inject(HttpBXServices)
+  private readonly http = new HttpBXServices()
 
   add(param: iBXRestCommentTaskAdd) {
     return this.http.post<number>(this.url.add, param)

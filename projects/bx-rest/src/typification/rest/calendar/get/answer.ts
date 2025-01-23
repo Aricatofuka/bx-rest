@@ -1,5 +1,5 @@
 import { CountryCode, TimezoneName } from 'countries-and-timezones'
-import { iBXRestYesNo } from '../../base/YesNo'
+import { iBXRestYesNo } from '../../base/yes-no'
 import { iBXRestCalendarType } from '../base/type'
 
 
@@ -107,7 +107,7 @@ interface iBXRestCalendarEventGetAnswerRule extends iBXRestCalendarEventGetAnswe
     '~UNTIL': Date
 }
 
-type iBXRestCalendarEventGetAnswerRuleBase = {
+interface iBXRestCalendarEventGetAnswerRuleBase {
     FR?: 'FR'
     MO?: 'MO'
     WE?: 'WE'

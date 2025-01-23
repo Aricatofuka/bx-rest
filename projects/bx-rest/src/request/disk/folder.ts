@@ -1,4 +1,3 @@
-import { inject, Injectable } from '@angular/core'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import {
   iBXRestFolderHttp,
@@ -18,14 +17,10 @@ import { iBXRestDiskFolderMoveToParam } from '../../typification/rest/disk/folde
 import { iBXRestDiskFolderRenameParam } from '../../typification/rest/disk/folder/rename'
 import { methods } from '../../typification/base/methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestDiskFolder {
-
   protected url = methods.disk.folder
 
-  private readonly http = inject(HttpBXServices)
+  private readonly http = new HttpBXServices()
 
   /**
    * Возвращает папку по идентификатору

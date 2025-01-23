@@ -1,4 +1,4 @@
-import { iBXRestYesNo } from '../../base/YesNo'
+import { iBXRestYesNo } from '../../base/yes-no'
 
 export interface iBXRestParamLogBlogPostAdd {
   USER_ID?: number,  // ID автора записи (опционально, по умолчанию - текущий пользователь, другое значение доступно только администратору в коробочной версии)

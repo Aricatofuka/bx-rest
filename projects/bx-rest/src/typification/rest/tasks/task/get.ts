@@ -1,4 +1,4 @@
-import { iBXRestTaskFieldsName } from '../base/fieldsName'
+import { iBXRestTaskFieldsName } from '../base/fields-name'
 import { iBXRestHttpTask, iBXRestHttpTaskGroupHttp, iBXRestTask } from '../task'
 import { SnakeToCamelCase } from 'snake-camel-types'
 import { ToUpperCaseKeys } from '../../../base/upper-case-keys'
@@ -18,7 +18,7 @@ export interface iBXRestTasksTaskGetHttpBase<S extends iBXRestTaskFieldsName[]> 
   task: iBXRestHttpTasksTaskGetBase<S> | undefined
 }
 
-export interface iBXRestTasksTaskGetHttp<S extends iBXRestTaskFieldsName[], CustomFields = {}> {
+export interface iBXRestTasksTaskGetHttp<S extends iBXRestTaskFieldsName[], CustomFields = object> {
   task: iBXRestHttpTasksTaskGet<S, CustomFields> | undefined
 }
 

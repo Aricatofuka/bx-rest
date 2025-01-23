@@ -1,19 +1,19 @@
-import { Injectable } from '@angular/core'
-import BXRestMapDiskBase from './base'
+import { BXRestMapDiskBase } from './base'
 import { iBXRestFolder, iBXRestFolderHttp } from '../../typification/rest/disk/folder'
-import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
+import { iBXRestDiskFile, iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
+import { toNum } from '../../services/base'
 
-@Injectable({
-  providedIn: 'root'
-})
-export default class BXRestMapDiskStorage extends BXRestMapDiskBase {
+export class BXRestMapDiskStorage extends BXRestMapDiskBase {
 
-  getChildren(arr: (iBXRestFolderHttp | iBXRestDiskFileHttp)[] | undefined) {
-    return (arr) ? this.separationFoldersAndFiles(arr) : {file: [], folder: []}
+  static getChildren(arr: (iBXRestFolderHttp | iBXRestDiskFileHttp)[] | undefined) {
+    return (arr) ? BXRestMapDiskBase.separationFoldersAndFiles(arr) : {file: [], folder: []}
   }
 
-  addFolder(value: iBXRestFolderHttp | undefined): iBXRestFolder | undefined {
-    return (value) ? this.FolderHttpToFolder(value) : undefined
+  static addFolder(value: iBXRestFolderHttp | undefined): iBXRestFolder | undefined {
+    return (value) ? BXRestMapDiskBase.FolderHttpToFolder(value) : undefined
   }
 
+  static uploadFile(value: iBXRestDiskFileHttp | undefined): iBXRestDiskFile | undefined {
+    return (value) ? Object.assign(value, {SIZE: toNum(value.SIZE)}) : undefined
+  }
 }

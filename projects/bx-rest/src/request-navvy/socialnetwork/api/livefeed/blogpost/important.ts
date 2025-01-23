@@ -1,7 +1,3 @@
-import { inject, Injectable } from '@angular/core'
-import {
-  BXRestSocialNetWorkApiLiveFeedBlogPostImportant
-} from '../../../../../request/socialnetwork/api/livefeed/blogpost/important'
 import { Navvy } from '../../../../../services/navvy'
 import {
   iBXRestParamSocialNetWorkApiBlogpostImportantVote
@@ -9,18 +5,19 @@ import {
 import {
   BXRestNavvyMapSocialNetWorkApiLiveFeedBlogPostImportant
 } from '../../../../../map/socialnetwork/api/livefeed/blogpost/important'
+import { $api, $socialnetwork } from '../../../../../consts/part-name-methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvySocialNetWorkApiLiveFeedBlogPostImportant {
+  public url = {
+    vote: [$socialnetwork, $api, 'liveFeed', 'blogPost', 'important', 'vote']
+  }
 
-  private readonly important = inject(BXRestSocialNetWorkApiLiveFeedBlogPostImportant)
-  private readonly map = inject(BXRestNavvyMapSocialNetWorkApiLiveFeedBlogPostImportant)
-
-  private readonly Navvy = new Navvy(this.important, this.map)
+  private readonly Navvy = new Navvy()
 
   vote(param: iBXRestParamSocialNetWorkApiBlogpostImportantVote) {
-    return this.Navvy.simpleWithArg(this.important.vote, param, this.map.vote)
+    return this.Navvy.simple(
+      this.url.vote, param,
+      BXRestNavvyMapSocialNetWorkApiLiveFeedBlogPostImportant.vote
+    )
   }
 }

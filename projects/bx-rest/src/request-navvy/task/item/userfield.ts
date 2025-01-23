@@ -1,25 +1,50 @@
-import { inject, Injectable } from '@angular/core'
-import { BXRestTaskItemUserField } from '../../../request/task/item/userfield'
 import { Navvy } from '../../../services/navvy'
 import { BXRestMapTaskUserField } from '../../../map/task/item/userfield'
 import {
-  iBXRestParamTaskItemUserFieldGetlist
+  iBXRestParamTaskItemUserFieldGetlist, iBXRestTaskItemUserFieldGetlist, iBXRestTaskItemUserFieldGetlistHttp
 } from '../../../typification/rest/task/item/userfield/getlist'
+import { $item, $task, $userfield } from '../../../consts/part-name-methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyTaskItemUserField {
 
-  private readonly userField = inject(BXRestTaskItemUserField)
-  private readonly map = inject(BXRestMapTaskUserField)
-  private readonly Navvy = new Navvy(this.userField, this.map)
+  protected url = {
+    /**
+     * Получение всех доступных полей свойства
+     */
+    getFields: [$task, $item, $userfield, 'getfields'],
+    // /**
+    //  * Получение всех доступных типов данных
+    //  */
+    // getTypes: [$task, $item, $userfield, 'gettypes'],
+    // /**
+    //  * Создание нового свойства
+    //  */
+    // add: [$task, $item, $userfield, $add],
+    // /**
+    //  * Получение свойства по идентификатору
+    //  */
+    // get: [$task, $item, $userfield, $get],
+    /**
+     * Получение списка свойств
+     */
+    getList: [$task, $item, $userfield, 'getlist'],
+    // /**
+    //  * Редактирование параметров свойства
+    //  */
+    // update: [$task, $item, $userfield, $update],
+    // /**
+    //  * Удаление свойства
+    //  */
+    // delete: [$task, $item, $userfield, $delete]
+  }
+
+  private readonly Navvy = new Navvy()
 
   getList(param: iBXRestParamTaskItemUserFieldGetlist = {}){
-    return this.Navvy.PagNav(
-      this.userField.getList,
+    return this.Navvy.PagNav<iBXRestTaskItemUserFieldGetlistHttp, iBXRestTaskItemUserFieldGetlist, iBXRestParamTaskItemUserFieldGetlist>(
+      this.url.getList,
       param,
-      this.map.getList
+      BXRestMapTaskUserField.getList
     )
   }
 }

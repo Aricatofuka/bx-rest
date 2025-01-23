@@ -1,4 +1,4 @@
-import { iBXRestYesNo } from '../base/YesNo'
+import { iBXRestYesNo } from '../base/yes-no'
 
 export interface iBXRestAppInfo extends iBXRestAppInfoBase {
   ID: number // локальный идентификатор приложения на портале

@@ -1,18 +1,13 @@
 import { iBXRestParamUserGet } from '../typification/rest/user/get'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestUserHttp, iBXRestUserHttpField } from '../typification/rest/user/user'
-import { inject, Injectable } from '@angular/core'
 import { iBXRestParamUserSearch } from '../typification/rest/user/search'
 import { BXRestUserUserfield } from './user/userfield'
 import { methods } from '../typification/base/methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestUser {
-
-  private readonly http = inject(HttpBXServices)
-  public readonly userfield = inject(BXRestUserUserfield)
+  private readonly http = new HttpBXServices()
+  public readonly userfield = new BXRestUserUserfield()
 
   protected url = methods.user
 

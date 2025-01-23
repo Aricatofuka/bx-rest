@@ -1,5 +1,5 @@
 import { iBXRestBlogPostEssence, iBXRestBlogPostEssenceHttp } from './essence'
-import { iBXRestYesNo } from '../../base/YesNo'
+import { iBXRestYesNo } from '../../base/yes-no'
 import { iBXRestBaseParam } from '../../support/param'
 
 export interface iBXRestParamBlogPostGet extends iBXRestBaseParam {

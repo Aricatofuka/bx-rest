@@ -1,19 +1,14 @@
-import { Injectable } from '@angular/core'
-
-@Injectable({
-  providedIn: 'root'
-})
 export default class CookiesServices {
 
   static get(name: string): string {
-    const results = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+    const results = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)')
     if (results)
       return results[2]
     else
       return ''
   }
 
-  static set(name: string, value: string, age: number = 0) {
+  static set(name: string, value: string, age = 0) {
     let string = name + '=' + value + ';'
     if(age) {
       string += ' max-age=' + age
@@ -22,7 +17,7 @@ export default class CookiesServices {
     document.cookie = string
   }
 
-  static setObj(name: string, value: any, age: number = 0) {
+  static setObj(name: string, value: any, age = 0) {
     let string = name + '=' + JSON.stringify(value) + ';'
     if(age) {
       string += ' max-age=' + age

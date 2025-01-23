@@ -1,20 +1,15 @@
-import { inject, Injectable } from '@angular/core'
 import {
   iBXRestParamSocialNetWorkApiContentViewSet
 } from '../../../typification/rest/socialnetwork/api/contentview/set'
 
 import { Navvy } from '../../../services/navvy'
-import { BXRestSocialNetWorkApiContentView } from '../../../request/socialnetwork/api/contentview'
+import { methods } from '../../../typification/base/methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvySocialNetWorkApiContentView {
-  private readonly ContentView = inject(BXRestSocialNetWorkApiContentView)
-  private readonly Navvy = new Navvy(this.ContentView, null)
+
+  private readonly Navvy = new Navvy()
 
   set(param: iBXRestParamSocialNetWorkApiContentViewSet){
-    return this.Navvy.simpleWithArg(this.ContentView.set, param)
+    return this.Navvy.simple(methods.socialNetWork.api.contentView.set, param)
   }
-
 }

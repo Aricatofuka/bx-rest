@@ -1,15 +1,11 @@
-import { inject, Injectable } from '@angular/core'
 import { BXRestNavvyLists } from './lists'
 import { forkJoin, mergeMap, Observable, of, throwError } from 'rxjs'
 import { BXRestNavvyBXRestBizProcWorkflow } from './bizproc/workflow'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyBizProc {
 
-  public readonly workflow = inject(BXRestNavvyBXRestBizProcWorkflow)
-  private readonly BXRestNavvyLists = inject(BXRestNavvyLists)
+  public readonly workflow = new BXRestNavvyBXRestBizProcWorkflow()
+  private readonly BXRestNavvyLists = new BXRestNavvyLists()
 
   /**
    * Метод по запуску бизнес процессов из ленты
@@ -23,8 +19,8 @@ export class BXRestNavvyBizProc {
    */
   startProcFormNewsFeed(
     id: number,
-    parametersElement: { [key: string]: string },
-    parametersBizProc: { [key: string]: string },
+    parametersElement: Record<string, string>,
+    parametersBizProc: Record<string, string>,
     templateIDs: number[] = []
   ) {
     return this.BXRestNavvyLists.element.add(
@@ -40,20 +36,20 @@ export class BXRestNavvyBizProc {
             ...parametersElement
           }
         }
-      ).result().pipe(
+      ).res().pipe(
         mergeMap(v => {
           if (v) {
             if (Object.keys(parametersBizProc).length && templateIDs.length) {
-              let reques: Observable<string | undefined>[] = []
+              let request: Observable<any | undefined>[] = []
               for (let templateID of templateIDs) {
-                reques.push(this.workflow.start(
+                request.push(this.workflow.start(
                   {
                     TEMPLATE_ID: templateID,
                     DOCUMENT_ID: ['lists', 'BizprocDocument', String(v)],
                     PARAMETERS: parametersBizProc
-                  }).result())
+                  }).res())
               }
-              return forkJoin(reques)
+              return forkJoin(request)
             } else {
               return of(true)
             }

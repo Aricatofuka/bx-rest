@@ -10,10 +10,14 @@ import {
 } from '../../consts/part-name-methods'
 import { iBXRestWorkpieceMethodsFullOneArgument } from './workpiece/methods'
 
+/**
+ * @deprecated
+ * в будущем будет удалён
+ */
 export const methods: iBXRestWorkpieceMethodsFullOneArgument<string[]> = {
   user: {
     admin: [$user, 'admin'],
-    get: [$user, $get],
+    get: [$user, $get] as const,
     current: [$user, 'current'],
     update: [$user, $update],
     search: [$user, $search],
@@ -258,12 +262,30 @@ export const methods: iBXRestWorkpieceMethodsFullOneArgument<string[]> = {
       }
     },
     stages: {
-      add: [$task, $stages, $add], // Метод добавляет стадии Канбана / Моего плана
-      canmovetask: [$task, $stages, 'canmovetask'], // Метод определяет, может ли текущий пользователь перемещать задачи в указанной сущности
-      delete: [$task, $stages, $delete], // Метод удаляет стадии Канбана / Моего плана
-      get: [$task, $stages, $get], // Метод получает стадии Канбана / Моего плана
-      movetask: [$task, $stages, 'movetask'], // Метод перемещает задачи из одной стадии в другую
-      update: [$task, $stages, $update] // Метод обновляет стадии Канбана / Моего плана.
+      /**
+       * Метод добавляет стадии Канбана / Моего плана
+       */
+      add: [$task, $stages, $add],
+      /**
+       * Метод определяет, может ли текущий пользователь перемещать задачи в указанной сущности
+       */
+      canmovetask: [$task, $stages, 'canmovetask'],
+      /**
+       * Метод удаляет стадии Канбана / Моего плана
+       */
+      delete: [$task, $stages, $delete],
+      /**
+       * Метод получает стадии Канбана / Моего плана
+       */
+      get: [$task, $stages, $get],
+      /**
+       * Метод перемещает задачи из одной стадии в другую
+       */
+      movetask: [$task, $stages, 'movetask'], //
+      /**
+       * Метод обновляет стадии Канбана / Моего плана.
+       */
+      update: [$task, $stages, $update]
     }
   },
   timeman: {

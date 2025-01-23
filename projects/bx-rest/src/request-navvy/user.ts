@@ -1,30 +1,35 @@
-import { inject, Injectable } from '@angular/core'
-import { BXRestUser } from '../request/user'
 import { Navvy } from '../services/navvy'
 import { iBXRestParamUserGet } from '../typification/rest/user/get'
 import clone from 'just-clone'
 import { iBXRestParamUserSearch } from '../typification/rest/user/search'
 import { BXRestNavvyUserUserfield } from './user/userfield'
 import { BXRestMapUser } from '../map/user'
+import { $get, $search, $update, $user } from '../consts/part-name-methods'
+import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user/user'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyUser {
-
   def: { params: { ACTIVE: boolean, start: 0 } } = {
     params: {ACTIVE: true, start: 0}
   }
+  url = {
+    admin: [$user, 'admin'],
+    get: [$user, $get],
+    current: [$user, 'current'],
+    update: [$user, $update],
+    search: [$user, $search],
+    access: [$user, 'access'], // U1 - пользователь с id =1
+    // AU - все авторизованные пользователи
+    // D1 - подразделение с id=1
+    // G1 - группа с id=1
+    fields: [$user, 'fields'],
+  }
 
-
-  private readonly BXRestUserMap = inject(BXRestMapUser)
-  private readonly BXRestUser = inject(BXRestUser)
-  public readonly userField = inject(BXRestNavvyUserUserfield)
-  private readonly Navvy = new Navvy(this.BXRestUser, this.BXRestUserMap)
+  public readonly userField = new BXRestNavvyUserUserfield()
+  private readonly Navvy = new Navvy()
 
   admin() {
-    return this.Navvy.simple(
-      this.BXRestUser.admin
+    return this.Navvy.simple<boolean>(
+      this.url.admin
     )
   }
 
@@ -33,27 +38,17 @@ export class BXRestNavvyUser {
     this.setDefParam(copyParams)
 
     return this.Navvy.PagNav(
-      this.BXRestUser.get,
+      this.url.get,
       copyParams,
-      this.BXRestUserMap.get
-    )
+      BXRestMapUser.get)
   }
 
   current() {
-    return this.Navvy.simple(
-      this.BXRestUser.current,
-      this.BXRestUserMap.current
+    return this.Navvy.simple<iBXRestUserHttp, iBXRestUser>(
+      this.url.current,
+      undefined,
+      BXRestMapUser.current
     )
-    // TODO: подумать о сохранении данных (на будущее, пример код ниже)
-    /*
-    const navvy = new Navvy(this, this.BXRestUserMap)
-    return navvy.simpleWithArg(
-      this.self,
-      update,
-      this.BXRestUserMap.current
-    )
-     */
-
   }
 
   /*
@@ -86,21 +81,21 @@ export class BXRestNavvyUser {
   */
   search(params: iBXRestParamUserSearch) {
     return this.Navvy.PagNav(
-      this.BXRestUser.search,
+      this.url.search,
       params,
-      this.BXRestUserMap.get
+      BXRestMapUser.get
     )
   }
 
   access(params: string[]) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestUser.access,
+    return this.Navvy.simple(
+      this.url.access,
       params,
     )
   }
 
   fields() {
-    return this.Navvy.simple(this.BXRestUser.fields)
+    return this.Navvy.simple(this.url.fields)
   }
 
   // getAll(params: iBXGetParam = {}): Observable<iBXRestUser [] | undefined> {
@@ -174,11 +169,11 @@ export class BXRestNavvyUser {
       params.FILTER = {}
     }
 
-    if (!params.FILTER.hasOwnProperty('ACTIVE')) {
+    if (!Object.prototype.hasOwnProperty.call(params.FILTER, 'ACTIVE')) {
       params.FILTER.ACTIVE = this.def.params.ACTIVE
     }
 
-    if (!params.hasOwnProperty('start')) {
+    if (!Object.prototype.hasOwnProperty.call(params, 'start')) {
       params.start = this.def.params.start
     }
 

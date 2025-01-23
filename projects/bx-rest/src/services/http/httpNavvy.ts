@@ -1,15 +1,11 @@
-import { inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { iBXRestParams } from '../../typification/base/params'
 import { iBXRestAnswers } from '../../typification/base/answers'
 import { HttpBXServices } from './HttpBX'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class HttpNavvyServices {
-  private readonly httpServices = inject(HttpBXServices)
+  private readonly httpServices = new HttpBXServices()
 
   post<T extends keyof iBXRestParams>(
     url: [T],

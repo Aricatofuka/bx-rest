@@ -1,22 +1,22 @@
 import { iBXRestParamSort } from '../../base/sort'
-import { iBXRestYesNo } from '../../base/YesNo'
-import { iBXRestFilterGenerator } from '../../base/filterGenerator'
-import { iBXRestPagination } from '../../base/ApiPaginationBX'
+import { iBXRestYesNo } from '../../base/yes-no'
+import { iBXRestFilterGenerator } from '../../base/filter-generator'
+import { iBXRestPagination } from '../../base/api-pagination-bx'
 import { iBXRestHttpTask, iBXRestHttpTaskGroupHttp, iBXRestTask } from '../task'
-import { iBXRestTaskFieldsName } from '../base/fieldsName'
+import { iBXRestTaskFieldsName } from '../base/fields-name'
 import { SnakeToCamelCase } from 'snake-camel-types'
 import { ToUpperCaseKeys } from '../../../base/upper-case-keys'
 import { ObjectToSnake } from 'ts-case-convert/lib/caseConvert'
 
-export interface iBXRestTasksTaskListHttp<S extends iBXRestTaskFieldsName[], CustomFields = {}> {
+export interface iBXRestTasksTaskListHttp<S extends iBXRestTaskFieldsName[], CustomFields = object> {
   tasks: iBXRestHttpTasksTaskList<S, CustomFields>[] | undefined
 }
 
-export type iBXRestHttpTasksTaskList<S extends iBXRestTaskFieldsName[], CustomFields = {}> = {
+export type iBXRestHttpTasksTaskList<S extends iBXRestTaskFieldsName[], CustomFields = object> = {
   [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestHttpTask[K]
 } & CustomFields
 
-export type iBXRestTasksTaskList<S extends iBXRestTaskFieldsName[], CustomFields = {}> = {
+export type iBXRestTasksTaskList<S extends iBXRestTaskFieldsName[], CustomFields = object> = {
   [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestTask[K]
 } & CustomFields
 

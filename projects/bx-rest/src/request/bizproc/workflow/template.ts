@@ -1,9 +1,3 @@
-import { Injectable } from '@angular/core'
-// import { HttpBXServices } from '../../../services/http/HttpBX'
-
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestBizProcWorkflowTemplate {
 
   // protected url = methods.bizProc.workflow.terminate

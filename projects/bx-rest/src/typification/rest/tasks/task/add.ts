@@ -1,4 +1,4 @@
-import { iBXRestYesNo } from '../../base/YesNo'
+import { iBXRestYesNo } from '../../base/yes-no'
 import { ObjectToSnake } from 'ts-case-convert/lib/caseConvert'
 import { ToUpperCaseKeys } from '../../../base/upper-case-keys'
 

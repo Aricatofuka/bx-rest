@@ -1,21 +1,44 @@
-import { inject, Injectable } from '@angular/core'
-import BXRestMapDiskStorage from '../../map/disk/storage'
+import { BXRestMapDiskStorage } from '../../map/disk/storage'
 import { iBXRestParamUploadFile } from '../../typification/rest/disk/storage/uploadfile'
 import { Navvy } from '../../services/navvy'
 import { iBXRestParamGetchildren } from '../../typification/rest/disk/storage/getchildren'
-import { BXRestNavvyInterlayerDiskStorage } from './interlayer/storage'
+import { BXRestNavvyOperationDiskStorage } from './operation/storage'
+import {
+  $disk,
+  $get,
+  $getchildren,
+  $getFields,
+  $getlist,
+  $getTypes,
+  $rename,
+  $storage, $uploadfile
+} from '../../consts/part-name-methods'
+import { iBXRestFolder, iBXRestFolderHttp, iBXRestFolderInfo } from '../../typification/rest/disk/folder'
+import { iBXRestDiskFile, iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
+import { iBXRestDiskFileAndFolderMap } from '../../typification/rest/disk/map'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvyDiskStorage {
 
-  private readonly BXRestNavvyInterlayerDiskStorage = inject(BXRestNavvyInterlayerDiskStorage)
-  private readonly BXRestMapDiskStorage = inject(BXRestMapDiskStorage)
-  private Navvy = new Navvy(this.BXRestNavvyInterlayerDiskStorage, this.BXRestMapDiskStorage)
+  protected url = {
+    getFields: [$disk, $storage, $getFields],  // Возвращает описание полей хранилища
+    get: [$disk, $storage, $get], //	Возвращает хранилище по идентификатору
+    rename: [$disk, $storage, $rename], // Переименовывает хранилище.
+    // Допустимо переименование только хранилища приложения (см. disk.storage.getforapp)
+    getList: [$disk, $storage, $getlist], //	Возвращает список доступных хранилищ
+    getTypes: [$disk, $storage, $getTypes], // Возвращает список типов хранилищ
+    addFolder: [$disk, $storage, 'addfolder'], // Создает папку в корне хранилища
+    getChildren: [$disk, $storage, $getchildren], //	Возвращает список файлов и папок,
+    // которые находятся непосредственно в корне хранилища
+    uploadFile: [$disk, $storage, $uploadfile], //	Загружает новый файл в корне хранилища
+    getForApp: [$disk, $storage, 'getforapp'] //	Возвращает описание хранилища,
+    // с которым может работать приложение для хранения своих данных (файлов и папок)
+  }
+
+  public operation = new BXRestNavvyOperationDiskStorage()
+  private Navvy = new Navvy()
 
   getForApp() {
-    return this.Navvy.simple(this.BXRestNavvyInterlayerDiskStorage.getForApp)
+    return this.Navvy.simple<iBXRestFolderInfo>(this.url.getForApp)
   }
 
   /*
@@ -38,22 +61,26 @@ export class BXRestNavvyDiskStorage {
    */
 
   getChildren(param: iBXRestParamGetchildren) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestNavvyInterlayerDiskStorage.getChildren,
+    return this.Navvy.simple<(iBXRestFolderHttp | iBXRestDiskFileHttp)[], iBXRestDiskFileAndFolderMap, iBXRestParamGetchildren>(
+      this.url.getChildren,
       param,
-      this.BXRestMapDiskStorage.getChildren
+      BXRestMapDiskStorage.getChildren
     )
   }
 
   addFolder(param: { id: number, data: { NAME: string } }) {
-    return this.Navvy.simpleWithArg(
-      this.BXRestNavvyInterlayerDiskStorage.addFolder,
+    return this.Navvy.simple<iBXRestFolderHttp, iBXRestFolder, { id: number, data: { NAME: string } }>(
+      this.url.addFolder,
       param,
-      this.BXRestMapDiskStorage.addFolder
+      BXRestMapDiskStorage.addFolder
     )
   }
 
   uploadFile(param: iBXRestParamUploadFile) {
-    return this.Navvy.simpleWithArg(this.BXRestNavvyInterlayerDiskStorage.uploadFile, param)
+    return this.Navvy.simple<iBXRestDiskFileHttp, iBXRestDiskFile, iBXRestParamUploadFile>(
+      this.url.uploadFile,
+      param,
+      BXRestMapDiskStorage.uploadFile
+    )
   }
 }

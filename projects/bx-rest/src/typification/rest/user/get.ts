@@ -1,6 +1,6 @@
-import { iBXRestYesNo } from '../base/YesNo'
+import { iBXRestYesNo } from '../base/yes-no'
 import { iBXRestBaseParam } from '../support/param'
-import { iBXRestOrderOption } from '../base/OrderOptions'
+import { iBXRestOrderOption } from '../base/order-options'
 import { iAllBXGender } from './user'
 
 

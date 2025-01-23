@@ -1,4 +1,3 @@
-import { inject, Injectable } from '@angular/core'
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamTaskStageGet } from '../../typification/rest/task/stages/get'
 import { iBXRestTaskStage } from '../../typification/rest/task/stages/stage'
@@ -6,13 +5,8 @@ import { iBXRestParamTaskStagesUpdate } from '../../typification/rest/task/stage
 import { iBXRestParamTaskStagesCanMoveTask } from '../../typification/rest/task/stages/canMoveTask'
 import { methods } from '../../typification/base/methods'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestTaskStages {
-
-  private readonly http = inject(HttpBXServices)
-
+  private readonly http = new HttpBXServices()
   protected url = methods.task.stages
 
   get(param: iBXRestParamTaskStageGet) {

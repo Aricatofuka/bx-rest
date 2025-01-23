@@ -1,5 +1,5 @@
-import { iBXRestPagination } from '../base/ApiPaginationBX'
-import { iBXRestYesNo } from '../base/YesNo'
+import { iBXRestPagination } from '../base/api-pagination-bx'
+import { iBXRestYesNo } from '../base/yes-no'
 
 export interface iBXRestParamUserSearch extends iBXRestPagination {
   /**

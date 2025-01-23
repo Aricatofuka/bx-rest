@@ -1,11 +1,7 @@
-import { Injectable } from '@angular/core'
-import { BaseMapServices } from './base'
+import { toDate } from '../services/base'
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BXRestMapServer extends BaseMapServices {
-  time(v: string | undefined) {
-    return (v) ? this.toDate(v) : undefined
+export class BXRestMapServer {
+  static time(v: string | undefined) {
+    return (v) ? toDate(v) : undefined
   }
 }

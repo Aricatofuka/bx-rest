@@ -1,12 +1,8 @@
-import { Injectable } from '@angular/core'
-import { BaseMapServices } from './base'
 import { iBXRestProfile, iBXRestProfileHttp } from '../typification/rest/profile'
+import { toNum } from '../services/base'
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BXRestMaps extends BaseMapServices {
-  profile(user: iBXRestProfileHttp | undefined): iBXRestProfile | undefined {
-    return (user) ? { ...user, ...{ID: this.toNum(user.ID)}} as iBXRestProfile : undefined
+export class BXRestMap {
+  static profile(user: iBXRestProfileHttp | undefined): iBXRestProfile | undefined {
+    return (user) ? { ...user, ...{ID: toNum(user.ID)}} as iBXRestProfile : undefined
   }
 }

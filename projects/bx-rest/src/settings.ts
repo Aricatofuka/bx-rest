@@ -1,5 +1,4 @@
 import { iBXRestSettings } from './typification/settings'
-import { InjectionToken } from '@angular/core'
 
 export const DEFAULT_BX_REST_SETTINGS: iBXRestSettings = {
   auth: {
@@ -13,4 +12,20 @@ export const DEFAULT_BX_REST_SETTINGS: iBXRestSettings = {
   }
 }
 
-export const BX_REST_SETTINGS = new InjectionToken<iBXRestSettings>('BX_REST_SETTINGS');
+export const BXRestSettings = {
+  date: {
+    auth: {
+      source: 'cookies',
+      key: 'auth',
+    },
+    urls: {
+      source: 'localStorage',
+      key: '',
+      additional_part: 'rest',
+    },
+  } as iBXRestSettings,
+
+  update(newSettings: Partial<iBXRestSettings>): void {
+    this.date = { ...this.date, ...newSettings }
+  },
+}

@@ -1,4 +1,3 @@
-import { inject, Injectable } from '@angular/core'
 import { BXRestUser } from '../request/user'
 import { BXRestLists } from '../request/lists'
 import { BXRestTask } from '../request/task'
@@ -18,32 +17,29 @@ import { iBXRestProfileHttp } from '../typification/rest/profile'
 import { iBXRestBatch, iBXRestParamBatch } from '../typification/rest/batch'
 import { BXRestSocialNetWork } from '../request/socialnetwork'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRest {
-  private readonly http = inject(HttpBXServices)
-  public readonly user = inject(BXRestUser)
-  public readonly lists = inject(BXRestLists)
-  public readonly task = inject(BXRestTask)
-  public readonly tasks = inject(BXRestTasks)
-  public readonly disk = inject(BXRestDisk)
-  public readonly bizProc = inject(BXRestBizProc)
-  public readonly log = inject(BXRestLog)
-  public readonly calendar = inject(BXRestCalendar)
-  public readonly sonet_group = inject(BXRestSonetGroup)
-  public readonly server = inject(BXRestServer)
-  public readonly department = inject(BXRestDepartment)
-  public readonly im = inject(BXRestIm)
-  public readonly app = inject(BXRestApp)
-  public readonly timeMan = inject(BXRestTimeMan)
-  public readonly socialNetWork = inject(BXRestSocialNetWork)
+  private readonly http = new HttpBXServices()
+  public readonly user = new BXRestUser()
+  public readonly lists = new BXRestLists()
+  public readonly task = new BXRestTask()
+  public readonly tasks = new BXRestTasks()
+  public readonly disk = new BXRestDisk()
+  public readonly bizProc = new BXRestBizProc()
+  public readonly log = new BXRestLog()
+  public readonly calendar = new BXRestCalendar()
+  public readonly sonet_group = new BXRestSonetGroup()
+  public readonly server = new BXRestServer()
+  public readonly department = new BXRestDepartment()
+  public readonly im = new BXRestIm()
+  public readonly app = new BXRestApp()
+  public readonly timeMan = new BXRestTimeMan()
+  public readonly socialNetWork = new BXRestSocialNetWork()
 
   public profile() {
     return this.http.post<iBXRestProfileHttp>(['profile'])
   }
 
-  public batch<T>(param: iBXRestParamBatch<T>) {
+  public batch<T>(param: iBXRestParamBatch) {
     return this.http.post<iBXRestBatch<T>>(['batch'], param)
   }
 }

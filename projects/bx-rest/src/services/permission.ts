@@ -1,10 +1,6 @@
-import { Injectable } from '@angular/core'
 import { SessionStorage } from './vanilla/sessionStorage'
 import { iBXRestPermission, iBXRestPermissionAddictionItem } from '../typification/permission'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class Permission {
 
   static get(){

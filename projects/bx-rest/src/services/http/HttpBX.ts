@@ -1,21 +1,17 @@
-import { Observable, throwError, mergeMap, forkJoin } from 'rxjs'
-import { Injectable } from '@angular/core'
+import { Observable, throwError, forkJoin, from } from 'rxjs'
 import clone from 'just-clone'
 import { HttpServices } from './http'
 import {
-  iBatchRequestAnswer, iBatchRequestParam,
-  iBatchRequestParamArr,
-  iBatchRequestParamHttp,
-  keyBatch,
+  iBatchRequestAnswer, iBatchRequestParam, iBatchRequestParamArr, iBatchRequestParamHttp, keyBatch,
 } from '../../typification/rest/batch/batchRequestParam'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
-import { HttpHeaders } from '@angular/common/http'
 import flatten from 'just-flatten-it'
 import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
+import { switchMap } from 'rxjs/operators'
+import * as qs from 'qs'
+import { prepareBaseAddress } from '../base'
+import { BXRestSettings } from '../../settings'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class HttpBXServices extends HttpServices {
 
   /**
@@ -23,7 +19,8 @@ export class HttpBXServices extends HttpServices {
    * TODO: Удалить данный метод после реализации его в разделе Navvy
    * @param param
    */
-  branch<T, A>(param: iBatchRequestParamArr<T> | iBatchRequestParam<T>[]): Observable<iBatchRequestAnswer<A>[] | undefined> {
+  branch<T, A>(param: iBatchRequestParamArr<T> | iBatchRequestParam<T>[])
+    : Observable<iBatchRequestAnswer<A>[] | undefined> {
     let prepareParam = Object.entries<string>(this.prepareBatch<T>(param))
     const size = 50 // больше не отдаст
     let subarray = [] //массив в который будет выведен результат.
@@ -53,7 +50,7 @@ export class HttpBXServices extends HttpServices {
     )
     for (let key in param) {
       if (typeof key === 'string' || typeof key === 'number' && param[key].param) {
-        res[key] = param[key].name + '?' + this.getHttpParamsGet(param[key].param).toString()
+        res[key] = param[key].name + '?' + qs.stringify(param[key].param, {arrayFormat: 'brackets'})
       }
     }
     return res
@@ -62,9 +59,7 @@ export class HttpBXServices extends HttpServices {
   mapBranchResult<T>(res: iBatchRequestAnswer<T>[]) {
     return Object.assign([], ...res.map(i =>
       (instanceOfiBXRestAnswerSuccess(i) && instanceOfiBXRestAnswerSuccess(i.result)) ? i.result.result : undefined)
-    ) as {
-      [key: keyBatch]: T
-    }
+    ) as Record<keyBatch, T>
   }
 
   mapBranchResultWithoutKey<T>(res: iBatchRequestAnswer<T>[]): T[] {
@@ -81,9 +76,7 @@ export class HttpBXServices extends HttpServices {
    * @param name
    * @param params
    */
-  post<T>(name: string[],
-          params: any = {}
-  ) {
+  post<T>(name: string[], params: any = {}) {
     return this.httpPost<iBXRestAnswer<T>>(this.getNameMethod(name), params)
   }
 
@@ -93,42 +86,45 @@ export class HttpBXServices extends HttpServices {
    * @param name
    * @param params
    */
-  get<T>(name: string[],
-         params: any = {}
-  ) {
+  get<T>(name: string[], params: any = {}) {
     return this.httpGet<iBXRestAnswer<T>>(this.getNameMethod(name), params)
   }
 
-  override httpPost<T>(url: string,
-                       params: any = {},
-  ): Observable<T | undefined> {
+  override httpPost<T>(url: string, params: any = {}): Observable<T | undefined> {
     const paramsClone = clone(params)
     let auth = this.session.getAuthParams()
     const checkIsOn = this.session.getCheckAuthParamsIsOn()
     if (checkIsOn) {
-      if (!auth) {
+      if (!auth && BXRestSettings.date.auth.source !== 'off') {
         throw new Error('Authorization required (post)')
       }
       paramsClone[this.session.getKeyAuth()] = auth
     }
+
     return this.session.getBaseUrl().pipe(
-      mergeMap(v => {
-        if (v) {
-          // это более быстрый способ запроса чем отправка Form Data
-          return this.http.post<T | undefined>(
-            this.prepareBaseAddress(v) + url,
-            JSON.stringify(paramsClone),
-            {headers: new HttpHeaders().set('Content-Type', 'application/json')}
-          )
+      switchMap((baseUrl) => {
+        if (!baseUrl) {
+          return throwError(() => new Error('get base url error'))
         }
-        return throwError(() => 'get base url error')
-      }))
+
+        const fullUrl = prepareBaseAddress(baseUrl) + url
+        // const body = this.getHttpParamsPost(paramsClone, new FormData(), false, [])
+
+        return from(
+          this.axiosInstance.post<T>(fullUrl, paramsClone,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            }
+          ).then((response) => response.data)
+        )
+      })
+    )
   }
 
-  override httpGet<T>(
-    url: string,
-    params: any = {}
-  ): Observable<T | undefined> {
+  // Мб не работает
+  override httpGet<T>(url: string, params: any = {}): Observable<T | undefined> {
     if (params === null) {
       params = {}
     }
@@ -139,16 +135,25 @@ export class HttpBXServices extends HttpServices {
     }
 
     let options = {
-      params: this.getHttpParamsGet(paramsClone)
+      params: paramsClone
       // params: JSON.stringify(paramsClone)
     }
 
     return this.session.getBaseUrl().pipe(
-      mergeMap(v => {
-        if (v) {
-          return this.http.get<T>(this.prepareBaseAddress(v) + url, options)
+      switchMap((baseUrl) => {
+        if (!baseUrl) {
+          return throwError(() => new Error('get base url error'))
         }
-        return throwError(() => 'get base url error')
+
+        return from(
+          this.axiosInstance.post<T>(prepareBaseAddress(baseUrl) + url, options,
+            {
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            }
+          ).then((response) => response.data)
+        )
       })
     )
   }

@@ -1,5 +1,6 @@
-import { inject, Injectable } from '@angular/core'
-import { BXRestMaps } from '../map/rest'
+import { BXRestMap } from '../map/rest'
+import { Navvy } from '../services/navvy'
+
 import { BXRestNavvyUser } from '../request-navvy/user'
 import { BXRestNavvyLists } from '../request-navvy/lists'
 import { BXRestNavvyTask } from '../request-navvy/task'
@@ -14,49 +15,41 @@ import { BXRestNavvyDepartment } from '../request-navvy/department'
 import { BXRestNavvyIm } from '../request-navvy/im'
 import { BXRestNavvyApp } from '../request-navvy/app'
 import { BXRestNavvyTimeMan } from '../request-navvy/timeman'
-import { iBXRestNavvyParamBatch } from '../typification/rest/batch'
-import { Navvy } from '../services/navvy'
-import { BXRest } from './base'
-import { BXRestNavvySocialNetWork } from '../request-navvy/socialnetwork';
+import { BXRestNavvySocialNetWork } from '../request-navvy/socialnetwork'
 
-@Injectable({
-  providedIn: 'root'
-})
 export class BXRestNavvy {
-  public readonly user = inject(BXRestNavvyUser)
-  public readonly lists = inject(BXRestNavvyLists)
-  public readonly task = inject(BXRestNavvyTask)
-  public readonly tasks = inject(BXRestNavvyTasks)
-  public readonly disk = inject(BXRestNavvyDisk)
-  public readonly bizProc = inject(BXRestNavvyBizProc)
-  public readonly log = inject(BXRestNavvyLog)
-  public readonly calendar = inject(BXRestNavvyCalendar)
-  public readonly sonet_group = inject(BXRestNavvySonetGroup)
-  public readonly server = inject(BXRestNavvyServer)
-  public readonly department = inject(BXRestNavvyDepartment)
-  public readonly im = inject(BXRestNavvyIm)
-  public readonly app = inject(BXRestNavvyApp)
-  public readonly timeMan = inject(BXRestNavvyTimeMan)
-  private readonly BXRest = inject(BXRest)
-  public readonly socialNetWork = inject(BXRestNavvySocialNetWork)
-  private readonly BXRestMap = inject(BXRestMaps)
-  private readonly Navvy = new Navvy(this.BXRest, this.BXRestMap)
+  public readonly user = new BXRestNavvyUser()
+  public readonly lists = new BXRestNavvyLists()
+  public readonly task = new BXRestNavvyTask()
+  public readonly tasks = new BXRestNavvyTasks()
+  public readonly disk = new BXRestNavvyDisk()
+  public readonly bizProc = new BXRestNavvyBizProc()
+  public readonly log = new BXRestNavvyLog()
+  public readonly calendar = new BXRestNavvyCalendar()
+  public readonly sonet_group = new BXRestNavvySonetGroup()
+  public readonly server = new BXRestNavvyServer()
+  public readonly department = new BXRestNavvyDepartment()
+  public readonly im = new BXRestNavvyIm()
+  public readonly app = new BXRestNavvyApp()
+  public readonly timeMan = new BXRestNavvyTimeMan()
+  public readonly socialNetWork = new BXRestNavvySocialNetWork()
+  private readonly Navvy = new Navvy()
 
   public profile() {
-    return this.Navvy.simple(this.BXRest.profile, this.BXRestMap.profile)
+    return this.Navvy.simple(['profile'], BXRestMap.profile)
   }
 
-  public batch<T, C, M>(param: iBXRestNavvyParamBatch<T, C, M>) {
-    const modifiedObject = Object.fromEntries(
-      Object.entries(param.cmd).map(([key, value]) => {
-        let modifiedValue = value.resultVanilla.arguments
-        return [key, modifiedValue]
-      })
-    )
-
-    return this.BXRest.batch({
-      halt: param.halt,
-      cmd: modifiedObject
-    })
-  }
+  // public batch<T, C, M>(param: iBXRestNavvyParamBatch<T, C, M>) {
+  //   const modifiedObject = Object.fromEntries(
+  //     Object.entries(param.cmd).map(([key, value]) => {
+  //       let modifiedValue = value.resultVanilla.arguments
+  //       return [key, modifiedValue]
+  //     })
+  //   )
+  //
+  //   return this.BXRest.batch({
+  //     halt: param.halt,
+  //     cmd: modifiedObject
+  //   })
+  // }
 }
