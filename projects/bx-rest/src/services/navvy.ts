@@ -27,7 +27,7 @@ export class Navvy {
    * @param map
    * @constructor
    */
-  PagNav<T, R, A extends iBXRestPagination>(
+  pagNav<T, R, A extends iBXRestPagination>(
     url: string[],
     arg: A,
     map?: (param: T[] | undefined) => R[] | undefined
@@ -50,7 +50,7 @@ export class Navvy {
   //   return new NavvyBatch(this.requestClass, this.mapClass, func, arg, map)
   // }
 
-  PagNavTasks<T, R, A extends iBXRestPagination>(
+  pagNavTasks<T, R, A extends iBXRestPagination>(
     url: string[],
     // func: (param: A) => Observable<iBXRestAnswer<{tasks: T[] | undefined}> | undefined>,
     arg: A,
@@ -59,7 +59,7 @@ export class Navvy {
     return new NavvyPagNavTasks(url, arg, map)
   }
 
-  PagNavWithUselessKey<T, R, A extends iBXRestPagination>(
+  pagNavWithUselessKey<T, R, A extends iBXRestPagination>(
     url: string[],
     // func: (param: A) => Observable<iBXRestAnswer<{ [key: string]: T }> | undefined>,
     arg: A,

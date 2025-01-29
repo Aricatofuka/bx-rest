@@ -32,7 +32,7 @@ export class BXRestNavvyListsElement {
   private Navvy = new Navvy()
 
   get(param: iBXRestParamListsElementGet) {
-    return this.Navvy.PagNav(
+    return this.Navvy.pagNav(
       this.url.get,
       param,
       BXRestListsElementMap.get

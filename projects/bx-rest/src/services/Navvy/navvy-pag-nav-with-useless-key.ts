@@ -1,6 +1,6 @@
 import { iBXRestPagination } from '../../typification/rest/base/api-pagination-bx'
 import { catchError, map } from 'rxjs/operators'
-import { forkJoin, mergeMap, of, throwError } from 'rxjs'
+import { concatMap, from, mergeMap, of, throwError, toArray } from 'rxjs'
 import clone from 'just-clone'
 import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 import { NavvyPagBase } from './extends/navvy-pag-base'
@@ -20,7 +20,6 @@ export class NavvyPagNavWithUselessKey<T, R, P extends iBXRestPagination> extend
           if (items && instanceOfiBXRestAnswerSuccess(items)) {
             if (items.total && items.next) {
               const count = [...Array(Math.floor(items.total / this.pageSize)).keys()]
-              const param = clone(this.param)
 
               // Разделяем массив на блоки
               const chunks = []
@@ -33,6 +32,7 @@ export class NavvyPagNavWithUselessKey<T, R, P extends iBXRestPagination> extend
                 return BXRestClass.batch<Record<string, T>[]>({
                   halt: 1,
                   cmd: chunk.map(i => {
+                    const param = clone(this.param)
                     // Устанавливаем start в зависимости от индекса
                     param.start = (i + 1) * this.pageSize
 
@@ -51,7 +51,9 @@ export class NavvyPagNavWithUselessKey<T, R, P extends iBXRestPagination> extend
                 )
               })
 
-              return forkJoin(batchRequests)
+              return from(batchRequests).pipe(
+                concatMap(request => request), // Выполняет запросы по очереди
+                toArray()) // Собирает все результаты в массив
               /*
               return this.getAllTaskElapsedItem(func, param).pipe(
                 map(vEnd => {

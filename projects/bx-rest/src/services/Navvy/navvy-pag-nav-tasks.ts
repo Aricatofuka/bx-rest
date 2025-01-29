@@ -1,4 +1,4 @@
-import { forkJoin, from, last, mergeMap, shareReplay, throwError } from 'rxjs'
+import { concatMap, from, last, mergeMap, shareReplay, throwError, toArray } from 'rxjs'
 import { catchError, map } from 'rxjs/operators'
 import clone from 'just-clone'
 import { iBXRestPagination } from '../../typification/rest/base/api-pagination-bx'
@@ -38,7 +38,6 @@ export class NavvyPagNavTasks<T, R, P extends iBXRestPagination> extends NavvyPa
             // TODO: проверить будет ли быстрее работать метод в случаях когда total < 100 (то есть можно обойтись двумя прямыми запросами)
             if (items.total && items.total > 50) {
               const count = [...Array(Math.floor(items.total / this.pageSize)).keys()]
-              const param = clone(this.param)
 
               // Разделяем массив на блоки
               const chunks = []
@@ -51,6 +50,7 @@ export class NavvyPagNavTasks<T, R, P extends iBXRestPagination> extends NavvyPa
                 return BXRestClass.batch<{tasks: T[] | undefined}[]>({
                   halt: 1,
                   cmd: chunk.map(i => {
+                    const param = clone(this.param)
                     // Устанавливаем start в зависимости от индекса
                     param.start = (i + 1) * this.pageSize
 
@@ -58,24 +58,28 @@ export class NavvyPagNavTasks<T, R, P extends iBXRestPagination> extends NavvyPa
                     return this.http.getNameMethod(this.url)
                       + '?' + qs.stringify(param, { arrayFormat: 'brackets' })
                   })
-                }).pipe(
-                  map(v => {
-                    if (v && instanceOfiBXRestAnswerSuccess(v) && v.result && v.result.result && items.result && items.result.tasks) {
-                      const res = items.result.tasks as T[]
-                      res.push(...v.result.result.filter(i => i).map(i => i.tasks).flat() as T[])
-                      return (this.map) ?
-                        this.map({tasks: res})
-                        : res
-                    }
-
-                    throw new Error('wrong batch')
-                  })
-                )
+                })
               })
 
-              return forkJoin(batchRequests).pipe(
+              return from(batchRequests).pipe(
+                concatMap(request => request), // Выполняет запросы по очереди
+                toArray(), // Собирает все результаты в массив
                 map(results => {
-                  return results.flat()
+                  if(items.result && items.result.tasks) {
+                    const res = items.result.tasks as T[]
+
+                    for (let result of results) {
+                      if (result && instanceOfiBXRestAnswerSuccess(result) && result.result && result.result.result) {
+                        res.push(...result.result.result.filter(i => i).map(i => i.tasks).flat() as T[])
+                      }
+                    }
+
+                    return (this.map) ?
+                      this.map({tasks: res})
+                      : res
+                  }
+
+                  throw new Error('wrong batch')
                 })
               )
             }

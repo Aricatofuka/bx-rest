@@ -209,7 +209,7 @@ export class BXRestNavvyTasksTask {
   list<S extends iBXRestTaskFieldsName[], CustomFields extends object = object>(
     param: iBXRestParamTasksList<CustomFields> = {}
   ) {
-    return this.Navvy.PagNavTasks(
+    return this.Navvy.pagNavTasks(
       this.url.list,
       param,
       BXRestMapTasksTask.list<S, CustomFields>

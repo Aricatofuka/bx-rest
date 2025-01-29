@@ -11,7 +11,7 @@ export interface iBXRestParamBatch {
    */
   cmd: Record<number | string, string> | string[]
 }
-export type iBXRestNavvyParamBatchCMD = Record<string, ReturnType<Navvy['simple'] | Navvy['PagNav'] | Navvy['PagNavTasks']>>;
+export type iBXRestNavvyParamBatchCMD = Record<string, ReturnType<Navvy['simple'] | Navvy['pagNav'] | Navvy['pagNavTasks']>>;
 
 export interface iBXRestBatch<T> {
   result: { [K in keyof T]: T[K] }

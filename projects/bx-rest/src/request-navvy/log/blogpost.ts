@@ -38,7 +38,7 @@ export class BXRestNavvyLogBlogPost {
   }
 
   get(param: iBXRestParamBlogPostGet = {}) {
-    return this.Navvy.PagNav(this.url.get, param, BXRestMapLogBlogPost.get)
+    return this.Navvy.pagNav(this.url.get, param, BXRestMapLogBlogPost.get)
   }
 
 }

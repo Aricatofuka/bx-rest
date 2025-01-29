@@ -23,13 +23,13 @@ export class BXRestMapCalendarEvent {
       TZ_OFFSET_FROM: toNum(item.TZ_OFFSET_FROM),
       TZ_OFFSET_TO: toNum(item.TZ_OFFSET_TO),
       VERSION: toNum(item.VERSION),
-      DATE_CREATE: toDate(item.DATE_CREATE, 'dd.MM.yyyy HH:mm:ss', {zone: item.TZ_FROM}), // Возможно тут ненужно преобразование по часовому поясу (пометить есть нужно)
-      DATE_FROM: toDate(item.DATE_FROM, 'dd.MM.yyyy HH:mm:ss', {zone: item.TZ_FROM}),
+      DATE_CREATE: toDate(item.DATE_CREATE, 'dd.MM.yyyy HH:mm:ss'),
+      DATE_FROM: toDate(item.DATE_FROM, 'dd.MM.yyyy HH:mm:ss'),
       ORIGINAL_DATE_FROM: (item.ORIGINAL_DATE_FROM)
         ? toDate(item.ORIGINAL_DATE_FROM, 'dd.MM.yyyy HH:mm:ss')
         : null,
-      DATE_TO: toDate(item.DATE_TO, 'dd.MM.yyyy HH:mm:ss', {zone: item.TZ_TO}),
-      TIMESTAMP_X: toDate(item.TIMESTAMP_X, 'dd.MM.yyyy HH:mm:ss', {zone: item.TZ_FROM}),  // Возможно тут ненужно преобразование по часовому поясу (пометить есть нужно)
+      DATE_TO: toDate(item.DATE_TO, 'dd.MM.yyyy HH:mm:ss'),
+      TIMESTAMP_X: toDate(item.TIMESTAMP_X, 'dd.MM.yyyy HH:mm:ss'),
       DATE_FROM_TS_UTC: toNum(item.DATE_FROM_TS_UTC),
       DATE_TO_TS_UTC: toNum(item.DATE_TO_TS_UTC),
       DELETED: item.DELETED === 'Y',

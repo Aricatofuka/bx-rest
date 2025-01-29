@@ -189,11 +189,11 @@ export class BXRestCustomNavvyBlogpostGet {
   private readonly Navvy = new Navvy(this.BXRestCustomBlogpostGet, this.BXRestCustomMapBlogpostGet)
 
   view(param: iBXRestCustomBlogpostGetViewParam) {
-    return this.Navvy.PagNav(this.url.view, param, this.BXRestCustomMapBlogpostGet.view)
+    return this.Navvy.pagNav(this.url.view, param, this.BXRestCustomMapBlogpostGet.view)
   }
 
   rating(param: iBXRestCustomHttpBlogpostGetRatingParam) {
-    return this.Navvy.PagNav(this.url.rating, param, this.BXRestCustomMapBlogpostGet.rating)
+    return this.Navvy.pagNav(this.url.rating, param, this.BXRestCustomMapBlogpostGet.rating)
   }
 }
 ```

@@ -32,7 +32,7 @@ export default class BXRestNavvyListsField {
   private Navvy = new Navvy()
 
   get(param: iBXRestParamListField) {
-    return this.Navvy.PagNavWithUselessKey<iBXRestFieldItem,iBXRestFieldItem,iBXRestParamListField>(
+    return this.Navvy.pagNavWithUselessKey<iBXRestFieldItem,iBXRestFieldItem,iBXRestParamListField>(
       this.url.get,
       param,
       BXRestMapListsField.get

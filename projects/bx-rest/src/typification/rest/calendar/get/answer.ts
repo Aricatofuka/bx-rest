@@ -2,7 +2,6 @@ import { CountryCode, TimezoneName } from 'countries-and-timezones'
 import { iBXRestYesNo } from '../../base/yes-no'
 import { iBXRestCalendarType } from '../base/type'
 
-
 export interface iBXRestCalendarEventGetAnswer extends iBXRestCalendarEventGetAnswerBase{
     ATTENDEE_LIST: {id: number, entryId: number, status: 'Y' | 'N' | 'H'}[]
     CREATED_BY: string
@@ -50,7 +49,7 @@ export interface iBXRestCalendarEventGetAnswerHttp extends iBXRestCalendarEventG
     OWNER_ID: string
     PARENT_ID: string
     RECURRENCE_ID: string
-    RRULE: "" | iBXRestCalendarEventGetAnswerRuleHttp
+    RRULE: string | iBXRestCalendarEventGetAnswerRuleHttp
     SECTION_ID: string
     SECT_ID: string
     TIMESTAMP_X: string

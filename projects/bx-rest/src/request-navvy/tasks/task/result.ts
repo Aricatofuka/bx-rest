@@ -42,7 +42,7 @@ export class BXRestNavvyTasksTaskResult {
   }
 
   list(param: iBXRestParamTasksTaskResultList) {
-    return this.Navvy.PagNav<iBXRestTasksTaskResultHttp, iBXRestTasksTaskResult, iBXRestParamTasksTaskResultList>(
+    return this.Navvy.pagNav<iBXRestTasksTaskResultHttp, iBXRestTasksTaskResult, iBXRestParamTasksTaskResultList>(
       this.url.list,
       param,
       BXRestMapTasksTaskResult.list

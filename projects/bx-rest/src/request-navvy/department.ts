@@ -11,7 +11,7 @@ export class BXRestNavvyDepartment {
   protected Navvy = new Navvy()
 
   get(param: iBXRestParamDepartmentGet = {}) {
-    return this.Navvy.PagNav(
+    return this.Navvy.pagNav(
       this.url.get,
       param,
       BXRestMapDepartment.get)

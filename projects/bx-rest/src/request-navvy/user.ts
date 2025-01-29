@@ -37,7 +37,7 @@ export class BXRestNavvyUser {
     let copyParams = clone(params)
     this.setDefParam(copyParams)
 
-    return this.Navvy.PagNav(
+    return this.Navvy.pagNav(
       this.url.get,
       copyParams,
       BXRestMapUser.get)
@@ -80,7 +80,7 @@ export class BXRestNavvyUser {
   }
   */
   search(params: iBXRestParamUserSearch) {
-    return this.Navvy.PagNav(
+    return this.Navvy.pagNav(
       this.url.search,
       params,
       BXRestMapUser.get

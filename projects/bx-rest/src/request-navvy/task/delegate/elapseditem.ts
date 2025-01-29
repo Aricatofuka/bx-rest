@@ -1,7 +1,7 @@
 import { iBXRestParamElapseditemGet } from '../../../typification/rest/task/elapseditem/get'
 import { Navvy } from '../../../services/navvy'
 import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
-import { methods } from '../../../typification/base/methods'
+import { $elapseditem, $getlist, $task } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyDelegateElapsedItem {
 
@@ -24,7 +24,7 @@ export class BXRestNavvyDelegateElapsedItem {
       }
     }
     return this.Navvy.alterPagNav(
-      methods.task.elapsedItem.getList,
+      [$task, $elapseditem, $getlist],
       param,
       BXRestMapTaskElapsedItem.getList
     )

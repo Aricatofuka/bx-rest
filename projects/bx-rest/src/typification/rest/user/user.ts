@@ -64,4 +64,5 @@ export type MapKeyBx<Type> = {
     [Property in keyof Type]: string
 }
 
-export type iBXRestUserHttpField = MapKeyBx<iBXRestUserBase>
+export interface iBXRestUserHttpField extends MapKeyBx<iBXRestUserBase>{
+}

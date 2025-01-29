@@ -26,7 +26,7 @@ export abstract class NavvySupport<C, T, R> {
     )
   }
 
-  abstract resultVanilla(): Observable<iBXRestAnswer<T> | undefined>
+  abstract resVanilla(): Observable<iBXRestAnswer<T> | undefined>
 
-  abstract result(): ReturnTypeNavvy<Observable<T | undefined>, Observable<R | undefined>>
+  abstract res(): ReturnTypeNavvy<Observable<T | undefined>, Observable<R | undefined>>
 }

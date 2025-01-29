@@ -41,7 +41,7 @@ export class BXRestNavvyTaskItemUserField {
   private readonly Navvy = new Navvy()
 
   getList(param: iBXRestParamTaskItemUserFieldGetlist = {}){
-    return this.Navvy.PagNav<iBXRestTaskItemUserFieldGetlistHttp, iBXRestTaskItemUserFieldGetlist, iBXRestParamTaskItemUserFieldGetlist>(
+    return this.Navvy.pagNav<iBXRestTaskItemUserFieldGetlistHttp, iBXRestTaskItemUserFieldGetlist, iBXRestParamTaskItemUserFieldGetlist>(
       this.url.getList,
       param,
       BXRestMapTaskUserField.getList

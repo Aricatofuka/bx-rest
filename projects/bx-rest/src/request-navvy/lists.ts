@@ -81,7 +81,7 @@ export class BXRestNavvyLists {
   protected Navvy = new Navvy()
 
   get(param: iBXRestParamListGet) {
-    return this.Navvy.PagNav(this.url.get, param, BXRestMapLists.get)
+    return this.Navvy.pagNav(this.url.get, param, BXRestMapLists.get)
   }
 
   // getAllWithMap(pram: getListParam): Observable<ItemLists[] | undefined> {

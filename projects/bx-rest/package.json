@@ -1,7 +1,7 @@
 {
   "name": "bx-rest",
-  "version": "0.6.0",
-  "description": "bitrix rest api",
+  "version": "0.6.1",
+  "description": "bitrix rest api on angular, vue or typescript",
   "keywords": [
     "bitrix",
     "bitrix24",
