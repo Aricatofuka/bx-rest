@@ -5,7 +5,6 @@ import { BXRestTasks } from '../request/tasks'
 import { BXRestDisk } from '../request/disk'
 import { BXRestBizProc } from '../request/bizproc'
 import { BXRestLog } from '../request/log'
-import { BXRestCalendar } from '../request/calendar'
 import { BXRestSonetGroup } from '../request/sonet_group'
 import { BXRestServer } from '../request/server'
 import { BXRestDepartment } from '../request/department'
@@ -26,7 +25,6 @@ export class BXRest {
   public readonly disk = new BXRestDisk()
   public readonly bizProc = new BXRestBizProc()
   public readonly log = new BXRestLog()
-  public readonly calendar = new BXRestCalendar()
   public readonly sonet_group = new BXRestSonetGroup()
   public readonly server = new BXRestServer()
   public readonly department = new BXRestDepartment()

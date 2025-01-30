@@ -1,12 +1,16 @@
+import { toDate, toNum } from '../../services/base'
 import {
   iBXRestCalendarEventGetAnswer,
   iBXRestCalendarEventGetAnswerHttp
-} from '../../typification/rest/calendar/get/answer'
-import { toDate, toNum } from '../../services/base'
+} from '../../typification/rest/calendar/event/get'
 
 export class BXRestMapCalendarEvent {
 
-  static get(item: iBXRestCalendarEventGetAnswerHttp[] | undefined): iBXRestCalendarEventGetAnswer[] | undefined{
+  static getById(item: iBXRestCalendarEventGetAnswerHttp | undefined | null): iBXRestCalendarEventGetAnswer | undefined {
+    return (item) ? BXRestMapCalendarEvent.CalendarEventGetAnswerHttpToCalendarEventGetAnswer(item) : undefined
+  }
+
+  static get(item: iBXRestCalendarEventGetAnswerHttp[] | undefined): iBXRestCalendarEventGetAnswer[] | undefined {
     return (item) ? item.map(i => BXRestMapCalendarEvent.CalendarEventGetAnswerHttpToCalendarEventGetAnswer(i)) : undefined
   }
 

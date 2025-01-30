@@ -9,29 +9,22 @@ import { iBXRestCalendarSectionUpdateParam } from '../../typification/rest/calen
 export class BXRestNavvyRestCalendarSection {
 
   private url = {
-    /**
-     * Добавляет новый раздел
-     */
+
+    /** Добавляет новый раздел */
     add: [$calendar, $section, $add],
-    /**
-     * Удаляет раздел
-     */
+    /** Удаляет раздел */
     delete: [$calendar, $section, $delete],
-    /**
-     * Возвращает описание разделов
-     */
+
+    /** Возвращает описание разделов */
     get: [$calendar, $section, $get],
-    /**
-     * Редактирует существующее разделы
-     */
+
+    /** Редактирует существующее разделы */
     update: [$calendar, $section, $update],
   }
 
   private readonly Navvy = new Navvy()
 
-  /**
-   * Возвращает описание разделов, всегда весь список, паганации в методе нет да и не нужна
-   */
+  /** Возвращает описание разделов, всегда весь список, паганации в методе нет да и не нужна */
   get(param: iBXRestCalendarSectionGetParam) {
     return this.Navvy.simple(
       this.url.get,
@@ -40,9 +33,7 @@ export class BXRestNavvyRestCalendarSection {
     )
   }
 
-  /**
-   * Добавляет новый раздел
-   */
+  /** Добавляет новый раздел */
   add(param: iBXRestCalendarSectionAddParam) {
     return this.Navvy.simple<number, number, iBXRestCalendarSectionAddParam>(
       this.url.add,
@@ -50,9 +41,7 @@ export class BXRestNavvyRestCalendarSection {
     )
   }
 
-  /**
-   * Удаляет раздел
-   */
+  /** Удаляет раздел */
   delete(param: iBXRestCalendarSectionDeleteParam) {
     return this.Navvy.simple<boolean|string, boolean|string, iBXRestCalendarSectionDeleteParam>(
       this.url.delete,
@@ -60,14 +49,11 @@ export class BXRestNavvyRestCalendarSection {
     )
   }
 
-  /**
-   * Редактирует существующее разделы
-   */
+  /** Редактирует существующее разделы */
   update(param: iBXRestCalendarSectionUpdateParam) {
     return this.Navvy.simple<number, number, iBXRestCalendarSectionUpdateParam>(
       this.url.update,
       param
     )
   }
-
 }
