@@ -3,11 +3,16 @@ import { Navvy } from '../services/navvy'
 import { BXRestMapDepartment } from '../map/department'
 import { iBXRestParamDepartmentAdd } from '../typification/rest/department/add'
 import { iBXRestDepartmentUpdate } from '../typification/rest/department/update'
-import { methods } from '../typification/base/methods'
+import { $add, $delete, $department, $get, $update } from '../consts/part-name-methods'
 
 export class BXRestNavvyDepartment {
 
-  url = methods.department
+  url = {
+    get: [$department, $get],
+    del: [$department, $delete],
+    add: [$department, $add],
+    update: [$department, $update]
+  }
   protected Navvy = new Navvy()
 
   get(param: iBXRestParamDepartmentGet = {}) {

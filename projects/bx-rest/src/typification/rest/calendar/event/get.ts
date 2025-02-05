@@ -1,5 +1,5 @@
 import { CountryCode, TimezoneName } from 'countries-and-timezones'
-import { iBXRestCalendarType } from '../base/type'
+import { iBXRestCalendarTypeEvent } from '../base/type'
 import { iBXRestYesNo } from '../../base/yes-no'
 
 
@@ -64,7 +64,7 @@ export interface iBXRestCalendarEventGetAnswerBase {
   ACCESSIBILITY: 'busy' // TODO: Разобраться
   ATTENDEES_CODES: string[] // TODO: тут разобраться корректно ли будет преобразовывать в число так как формат выбран как U1091 где u - user 1091 - id
   CAL_DAV_LABEL: null
-  CAL_TYPE: iBXRestCalendarType
+  CAL_TYPE: iBXRestCalendarTypeEvent
   COLOR: string // код формата #685gdf возможно можно затайпить, но сейчас это будет тумач (сейчас нет таких задач)
   DAV_EXCH_LABEL: null // TODO: Разобраться
   DAV_XML_ID: string
@@ -93,7 +93,7 @@ export interface iBXRestCalendarEventGetAnswerBase {
   TZ_TO: TimezoneName
   UF_CRM_CAL_EVENT: boolean
   UF_WEBDAV_CAL_EVENT: boolean
-  attendeesEntityList?: {entityId: iBXRestCalendarType, id: number}[] | null
+  attendeesEntityList?: {entityId: iBXRestCalendarTypeEvent, id: number}[] | null
   '~USER_OFFSET_FROM': number
   '~USER_OFFSET_TO': number
 }
@@ -117,7 +117,7 @@ interface iBXRestCalendarEventGetAnswerRuleBase {
 }
 
 export interface iBXRestCalendarEventGetParam {
-  type: iBXRestCalendarType
+  type: iBXRestCalendarTypeEvent
   ownerId?: number,
   from?: Date
   to?: Date
