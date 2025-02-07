@@ -1,5 +1,6 @@
 import { BXRestNavvyRestCalendarEvent } from './calendar/event'
 import { BXRestNavvyRestCalendarSection } from './calendar/section'
+import { BXRestNavvyRestCalendarUser } from './calendar/user'
 
 export class BXRestNavvyCalendar {
 
@@ -25,13 +26,11 @@ export class BXRestNavvyCalendar {
         list: getNameMethod([$calendar, $resource, $booking, $list]), // Предоставляет возможность выбрать бронирования ресурсов
       }
     },
-    settings: {
-      get: getNameMethod([$calendar, $settings, $get]), // Возвращает основные настройки календаря
-      set: getNameMethod([$calendar, $user, $settings, $set]), // Сохраняет пользовательские настройки календаря
-    },
     getbyid: getNameMethod([$calendar, $event, 'getbyid']), // Возвращает событие календаря по идентификатору
   }
   */
   public readonly event = new BXRestNavvyRestCalendarEvent()
   public readonly section = new BXRestNavvyRestCalendarSection()
+  public readonly user = new BXRestNavvyRestCalendarUser()
+
 }

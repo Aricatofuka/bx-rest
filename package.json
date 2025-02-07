@@ -1,12 +1,19 @@
 {
   "name": "bx-rest",
   "version": "0.6.3",
-  "description": "bitrix rest api on angular, vue or typescript",
+  "description": "Bitrix24 REST API client angular, vue or typescript",
   "keywords": [
     "bitrix",
     "bitrix24",
     "rest",
-    "api"
+    "api",
+    "client",
+    "rest-client",
+    "api-client",
+    "bx24",
+    "typescript",
+    "angular",
+    "vue"
   ],
   "author": "Aricatofuka",
   "license": "MIT",
