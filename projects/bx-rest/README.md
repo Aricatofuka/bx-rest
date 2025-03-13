@@ -1,6 +1,6 @@
 # BX rest
 
-This is an intermediary between requests sent from the browser and includes a site on crm bitrix
+This is an intermediary that generates requests from your application to Bitrix24
 
 ### Install
 
@@ -78,12 +78,12 @@ export class AnyComponent {
 }
 ```
 # Usage in Vue
-```vue
+```typescript
 import { BXRestSettings, BXRest, BXRestMap, BXRestNavvy, BXRestRequest } from 'bx-rest';
 
 const bxRestPlugin = {
     install(Vue) {
-        // Настройки bx-rest
+        // Settings bx-rest
         BXRestSettings.update({
             auth: {
                 source: 'cookies',
@@ -189,11 +189,11 @@ export class BXRestCustomNavvyBlogpostGet {
   private readonly Navvy = new Navvy(this.BXRestCustomBlogpostGet, this.BXRestCustomMapBlogpostGet)
 
   view(param: iBXRestCustomBlogpostGetViewParam) {
-    return this.Navvy.pagNav(this.url.view, param, this.BXRestCustomMapBlogpostGet.view)
+    return this.Navvy.PagNav(this.url.view, param, this.BXRestCustomMapBlogpostGet.view)
   }
 
   rating(param: iBXRestCustomHttpBlogpostGetRatingParam) {
-    return this.Navvy.pagNav(this.url.rating, param, this.BXRestCustomMapBlogpostGet.rating)
+    return this.Navvy.PagNav(this.url.rating, param, this.BXRestCustomMapBlogpostGet.rating)
   }
 }
 ```
@@ -214,7 +214,7 @@ import { BXRestMapBase } from 'bx-rest'
   providedIn: 'root'
 })
 export class BXRestCustomMapBlogpostGet extends BXRestMapBase {
-  
+
   view(value: iBXRestCustomHttpBlogpostGetView[] | undefined): iBXRestCustomBlogpostGetView[] {
     return (value) ? value.map(i => {
         return {

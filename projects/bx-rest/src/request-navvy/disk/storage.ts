@@ -16,6 +16,7 @@ import {
 import { iBXRestFolder, iBXRestFolderHttp, iBXRestFolderInfo } from '../../typification/rest/disk/folder'
 import { iBXRestDiskFile, iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 import { iBXRestDiskFileAndFolderMap } from '../../typification/rest/disk/map'
+import { BXRestMapDiskFile } from '../../map/disk/file'
 
 export class BXRestNavvyDiskStorage {
 
@@ -80,7 +81,7 @@ export class BXRestNavvyDiskStorage {
     return this.Navvy.simple<iBXRestDiskFileHttp, iBXRestDiskFile, iBXRestParamUploadFile>(
       this.url.uploadFile,
       param,
-      BXRestMapDiskStorage.uploadFile
+      BXRestMapDiskFile.get
     )
   }
 }

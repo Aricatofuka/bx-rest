@@ -1,7 +1,6 @@
 import { BXRestMapDiskBase } from './base'
 import { iBXRestFolder, iBXRestFolderHttp } from '../../typification/rest/disk/folder'
-import { iBXRestDiskFile, iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
-import { toNum } from '../../services/base'
+import { iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
 
 export class BXRestMapDiskStorage extends BXRestMapDiskBase {
 
@@ -11,9 +10,5 @@ export class BXRestMapDiskStorage extends BXRestMapDiskBase {
 
   static addFolder(value: iBXRestFolderHttp | undefined): iBXRestFolder | undefined {
     return (value) ? BXRestMapDiskBase.FolderHttpToFolder(value) : undefined
-  }
-
-  static uploadFile(value: iBXRestDiskFileHttp | undefined): iBXRestDiskFile | undefined {
-    return (value) ? Object.assign(value, {SIZE: toNum(value.SIZE)}) : undefined
   }
 }

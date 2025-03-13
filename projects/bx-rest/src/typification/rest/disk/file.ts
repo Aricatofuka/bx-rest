@@ -1,12 +1,8 @@
 import { iBXRestFolderOrFile, iBXRestFolderOrFileBase } from './folder'
 
-export interface iBXRestParamDiskFileMarkDeleted extends iBXRestParamDiskFile{
+export type iBXRestParamDiskFileMarkDeleted = iBXRestParamDiskFile
 
-}
-
-export interface iBXRestParamDiskFileGet extends iBXRestParamDiskFile{
-
-}
+export type iBXRestParamDiskFileGet = iBXRestParamDiskFile
 
 export interface iBXRestParamDiskFile {
   id: number
@@ -14,15 +10,16 @@ export interface iBXRestParamDiskFile {
 
 export interface iBXRestDiskFile extends iBXRestFolderOrFile, iBXRestDiskFileBase {
   SIZE: number
+  FILE_ID: number
 }
 
 export interface iBXRestDiskFileHttp extends iBXRestFolderOrFile, iBXRestDiskFileBase {
   SIZE: string
+  FILE_ID: string
 }
 
 export interface iBXRestDiskFileBase extends iBXRestFolderOrFileBase{
   DOWNLOAD_URL: string
-  FILE_ID: number,
   GLOBAL_CONTENT_VERSION: number
   TYPE: 'file'
 }

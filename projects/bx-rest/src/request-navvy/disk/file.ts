@@ -55,14 +55,13 @@ export class BXRestNavvyDiskFile {
     // getExternalLink: [$disk, $file, 'getexternallink']
   }
 
-  private readonly BXRestMapDiskFile = new BXRestMapDiskFile()
   private Navvy = new Navvy()
 
   get(param: iBXRestParamDiskFileGet) {
     return this.Navvy.simple(
       this.url.get,
       param,
-      this.BXRestMapDiskFile.get
+      BXRestMapDiskFile.get
     )
   }
 
@@ -70,7 +69,7 @@ export class BXRestNavvyDiskFile {
     return this.Navvy.simple(
       this.url.markDeleted,
       param,
-      this.BXRestMapDiskFile.markdeleted
+      BXRestMapDiskFile.get
     )
   }
 }
