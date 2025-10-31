@@ -171,6 +171,8 @@ export class BXRestNavvyUser {
 
     if (!Object.prototype.hasOwnProperty.call(params.FILTER, 'ACTIVE')) {
       params.FILTER.ACTIVE = this.def.params.ACTIVE
+    } else if(typeof params.FILTER.ACTIVE !== 'boolean') {
+      delete params.FILTER.ACTIVE
     }
 
     if (!Object.prototype.hasOwnProperty.call(params, 'start')) {
