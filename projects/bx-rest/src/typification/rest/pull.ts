@@ -1,0 +1,1 @@
+export { iBXRestPullConfigGet, iBXRestPullConfigGetHttp } from './pull/config/get'

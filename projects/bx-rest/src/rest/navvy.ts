@@ -16,6 +16,7 @@ import { BXRestNavvyIm } from '../request-navvy/im'
 import { BXRestNavvyApp } from '../request-navvy/app'
 import { BXRestNavvyTimeMan } from '../request-navvy/timeman'
 import { BXRestNavvySocialNetWork } from '../request-navvy/socialnetwork'
+import { BXRestNavvyPull } from '../request-navvy/pull'
 
 export class BXRestNavvy {
   public readonly user = new BXRestNavvyUser()
@@ -33,7 +34,8 @@ export class BXRestNavvy {
   public readonly app = new BXRestNavvyApp()
   public readonly timeMan = new BXRestNavvyTimeMan()
   public readonly socialNetWork = new BXRestNavvySocialNetWork()
-  private readonly Navvy = new Navvy()
+  public readonly pull = new BXRestNavvyPull()
+  public readonly Navvy = new Navvy()
 
   public profile() {
     return this.Navvy.simple(['profile'], BXRestMap.profile)

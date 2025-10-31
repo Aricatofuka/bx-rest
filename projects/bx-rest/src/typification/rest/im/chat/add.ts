@@ -1,4 +1,4 @@
-export interface iBXRestParamImChatAdd {
+export interface iBXRestImChatAddParam {
   TYPE?: 'OPEN' | 'CHAT' // по умолчанию CHAT
   TITLE?: string
   DESCRIPTION?: string

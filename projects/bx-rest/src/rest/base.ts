@@ -8,13 +8,13 @@ import { BXRestLog } from '../request/log'
 import { BXRestSonetGroup } from '../request/sonet_group'
 import { BXRestServer } from '../request/server'
 import { BXRestDepartment } from '../request/department'
-import { BXRestIm } from '../request/im'
 import { BXRestApp } from '../request/app'
 import { BXRestTimeMan } from '../request/timeman'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestProfileHttp } from '../typification/rest/profile'
 import { iBXRestBatch, iBXRestParamBatch } from '../typification/rest/batch'
 import { BXRestSocialNetWork } from '../request/socialnetwork'
+import { BXRestPull } from '../request/pull'
 
 export class BXRest {
   private readonly http = new HttpBXServices()
@@ -28,10 +28,10 @@ export class BXRest {
   public readonly sonet_group = new BXRestSonetGroup()
   public readonly server = new BXRestServer()
   public readonly department = new BXRestDepartment()
-  public readonly im = new BXRestIm()
   public readonly app = new BXRestApp()
   public readonly timeMan = new BXRestTimeMan()
   public readonly socialNetWork = new BXRestSocialNetWork()
+  public readonly pull = new BXRestPull()
 
   public profile() {
     return this.http.post<iBXRestProfileHttp>(['profile'])
