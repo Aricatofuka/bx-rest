@@ -107,21 +107,28 @@ export interface iBXRestImDialogRecentGetUserDataBase {
   idle: string | false
 }
 
-export interface iBXRestImDialogRecentGetChatData extends iBXRestImDialogRecentGetChatDataBase{
+export interface iBXRestImDialogRecentGetChatChatData extends iBXRestImDialogRecentGetChatChatDataBase{
   /** Идентификатор чата */
   id: number
   /** Дата создания чата */
   date_create: Date
 }
 
-export interface iBXRestImDialogRecentGetChatDataHttp extends iBXRestImDialogRecentGetChatDataBase{
+export interface iBXRestImDialogRecentGetChatChatDataHttp extends iBXRestImDialogRecentGetChatChatDataBase{
   /** Идентификатор чата */
   id: string
   /** Дата создания чата */
   date_create: string
 }
 
-export interface iBXRestImDialogRecentGetChatDataBase {
+export type iBXRestImDialogRecentGetChatDataBase = iBXRestImDialogRecentGetChatChatDataBase | iBXRestImDialogRecentGetChatUserDataBase
+
+export interface iBXRestImDialogRecentGetChatChatDataBase {
+  background_id: null // TODO: найти что тут может кроме null стоять
+  text_field_enabled: true
+}
+
+export interface iBXRestImDialogRecentGetChatUserDataBase {
   /** Название чата */
   title: string
   /** Идентификатор владельца чата */
@@ -154,7 +161,7 @@ export interface iBXRestImDialogRecentGet extends iBXRestImDialogRecentGetBase{
   /** Объект пользователя, если type === 'user' */
   user?: iBXRestImDialogRecentGetUserData
   /** Объект чата, если type === 'chat' */
-  chat?: iBXRestImDialogRecentGetChatData
+  chat?: iBXRestImDialogRecentGetChatChatData | iBXRestImDialogRecentGetChatUserDataBase
 }
 
 export interface iBXRestImDialogRecentGetHttp extends iBXRestImDialogRecentGetBase{
@@ -162,12 +169,11 @@ export interface iBXRestImDialogRecentGetHttp extends iBXRestImDialogRecentGetBa
   date_update: string
   /**
    * Объект пользователя, если type === 'user'
-   * Посмотреть бы в глаза тому человеку что эту хуету сделала, ну тип {id: 0} это ахуй
-   *
+   * Посмотреть бы в глаза тому человеку, что эту хуету сделала, ну тип {id: 0} это ахуй
    */
   user?: iBXRestImDialogRecentGetUserDataHttp | {id: 0}
   /** Объект чата, если type === 'chat' */
-  chat?: iBXRestImDialogRecentGetChatDataHttp
+  chat?: iBXRestImDialogRecentGetChatChatDataHttp | iBXRestImDialogRecentGetChatUserDataBase
 }
 
 // Универсальная запись в списке (пользователь или чат)
