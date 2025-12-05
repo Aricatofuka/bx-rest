@@ -35,6 +35,33 @@ export class HttpServices extends BaseHttp {
 
           const fullUrl = prepareBaseAddress(baseUrl) + url
           const body = this.getHttpParamsPost(paramsClone, new FormData(), [], settings)
+          if (this.session.getKeyAuth() === 'sessid') {
+            // Преобразуем параметры в формат x-www-form-urlencoded
+            const urlEncodedBody = new URLSearchParams();
+            Object.keys(body).forEach((key) => {
+              const value = paramsClone[key];
+
+              // если value — объект или массив, Bitrix ожидает fields[key] или array[] формат
+              if (typeof value === 'object' && value !== null) {
+                for (const subKey in value) {
+
+                  if (Object.prototype.hasOwnProperty.call(value, subKey)) {
+                    urlEncodedBody.append(`${key}[${subKey}]`, value[subKey]);
+                  }
+                }
+              } else {
+                urlEncodedBody.append(key, value);
+              }
+            });
+
+            return from(
+              this.axiosInstance.post<T>(fullUrl, urlEncodedBody.toString(), {
+                headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded',
+                },
+              }).then((response) => response.data)
+            )
+          }
 
           return from(
             this.axiosInstance.post<T>(fullUrl, body).then((response) => response.data)

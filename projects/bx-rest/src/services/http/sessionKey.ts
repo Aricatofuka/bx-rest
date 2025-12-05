@@ -103,7 +103,13 @@ export default class SessionKeyServices {
   }
 
   getAuthParams(): string | undefined {
-    switch (this.BX_REST_SETTINGS.auth.source) {
+    const source = this.BX_REST_SETTINGS.auth.source
+
+    if (typeof source === 'function') {
+      return source()
+    }
+
+    switch (source) {
       case 'cookies':
         return this.getAuth()
       case 'localStorage':

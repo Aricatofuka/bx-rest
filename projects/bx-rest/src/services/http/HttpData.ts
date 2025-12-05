@@ -65,7 +65,7 @@ export class HttpData {
           case 'function':
           case 'undefined':
           default:
-            console.error('Ты отправил что-то не то', obj[key], typeof obj[key], typeof obj)
+            console.error('You sent something wrong', obj[key], typeof obj[key], typeof obj)
         }
       }
     }

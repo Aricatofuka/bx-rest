@@ -15,6 +15,10 @@ export class BXRestNavvyPullConfig {
   private Navvy = new Navvy()
   public static public = new BXRestMapPullChannelPublic()
 
+  /**
+   * @experimental
+   * Этот метод находится в процессе тестирования и может измениться.
+   */
   get() {
     return this.Navvy.simple<iBXRestPullConfigGetHttp, iBXRestPullConfigGet>(
       this.url.get,

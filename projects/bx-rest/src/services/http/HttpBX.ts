@@ -108,7 +108,18 @@ export class HttpBXServices extends HttpServices {
         }
 
         const fullUrl = prepareBaseAddress(baseUrl) + url
-        // const body = this.getHttpParamsPost(paramsClone, new FormData(), false, [])
+
+        if (this.session.getKeyAuth() === 'sessid') {
+          // Преобразуем параметры в формат x-www-form-urlencoded
+
+          const bodyString = this.serializeBitrixParams(paramsClone)
+          return from(
+            this.axiosInstance.post<T>(fullUrl, bodyString, {
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            }).then((response) => response.data)
+          )
+        }
+
 
         return from(
           this.axiosInstance.post<T>(fullUrl, paramsClone,
@@ -121,6 +132,33 @@ export class HttpBXServices extends HttpServices {
         )
       })
     )
+  }
+
+  serializeBitrixParams(obj: any, prefix = ''): string {
+    const pairs: string[] = []
+
+    for (const key in obj) {
+      if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
+
+      const value = obj[key]
+      const prefixedKey = prefix ? `${prefix}[${key}]` : key
+
+      if (Array.isArray(value)) {
+        value.forEach((item) => {
+          if (typeof item === 'object') {
+            pairs.push(this.serializeBitrixParams(item, `${prefixedKey}[]`))
+          } else {
+            pairs.push(`${encodeURIComponent(prefixedKey)}[]=${encodeURIComponent(item)}`)
+          }
+        })
+      } else if (typeof value === 'object' && value !== null) {
+        pairs.push(this.serializeBitrixParams(value, prefixedKey))
+      } else {
+        pairs.push(`${encodeURIComponent(prefixedKey)}=${encodeURIComponent(value)}`)
+      }
+    }
+
+    return pairs.join('&')
   }
 
   // Мб не работает
