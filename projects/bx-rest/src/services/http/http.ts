@@ -34,8 +34,8 @@ export class HttpServices extends BaseHttp {
           }
 
           const fullUrl = prepareBaseAddress(baseUrl) + url
-          const body = this.getHttpParamsPost(paramsClone, new FormData(), [], settings)
           if (this.session.getKeyAuth() === 'sessid') {
+            const body = this.getHttpParamsPost(paramsClone, new FormData(), [], settings)
             // Преобразуем параметры в формат x-www-form-urlencoded
             const urlEncodedBody = new URLSearchParams();
             Object.keys(body).forEach((key) => {
@@ -63,6 +63,7 @@ export class HttpServices extends BaseHttp {
             )
           }
 
+          const body = this.getHttpParamsPost(paramsClone, new FormData(), [], settings)
           return from(
             this.axiosInstance.post<T>(fullUrl, body).then((response) => response.data)
           )

@@ -204,9 +204,9 @@ export async function getBase64FileLikeStr(file: File): Promise<{
 }
 
 export function prepareBaseAddress(url: string, add: string | undefined = '') {
-  if (url.search('https://') !== 0 && url.search('http://')) {
-    url = 'https://' + url
-  }
+  // if (url.search('https://') !== 0 && url.search('http://')) {
+  //   url = 'https://' + url
+  // }
 
   if (add && add.length > 0) {
     if (url.lastIndexOf('/') !== (url.length - 1)) {

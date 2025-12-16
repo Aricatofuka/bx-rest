@@ -92,13 +92,15 @@ export class HttpBXServices extends HttpServices {
 
   override httpPost<T>(url: string, params: any = {}): Observable<T | undefined> {
     const paramsClone = clone(params)
+    const key = this.session.getKeyAuth()
+
     let auth = this.session.getAuthParams()
     const checkIsOn = this.session.getCheckAuthParamsIsOn()
-    if (checkIsOn) {
+    if (checkIsOn && key === 'OAuth2') {
       if (!auth && BXRestSettings.date.auth.source !== 'off') {
         throw new Error('Authorization required (post)')
       }
-      paramsClone[this.session.getKeyAuth()] = auth
+      paramsClone[key] = auth
     }
 
     return this.session.getBaseUrl().pipe(
@@ -109,7 +111,7 @@ export class HttpBXServices extends HttpServices {
 
         const fullUrl = prepareBaseAddress(baseUrl) + url
 
-        if (this.session.getKeyAuth() === 'sessid') {
+        if (auth === 'sessid') {
           // Преобразуем параметры в формат x-www-form-urlencoded
 
           const bodyString = this.serializeBitrixParams(paramsClone)
@@ -124,6 +126,7 @@ export class HttpBXServices extends HttpServices {
         return from(
           this.axiosInstance.post<T>(fullUrl, paramsClone,
             {
+              withCredentials: key === 'OAuth2',
               headers: {
                 'Content-Type': 'application/json',
               }

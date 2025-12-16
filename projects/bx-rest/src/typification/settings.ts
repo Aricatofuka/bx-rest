@@ -5,7 +5,7 @@ export interface iBXRestSettings {
   },
   urls: {
     source: 'string' | 'localStorage'
-    key: string
+    key: string | 'OAuth2'
     additional_part?: string
   }
 }
