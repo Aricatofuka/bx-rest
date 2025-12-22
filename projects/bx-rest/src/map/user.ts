@@ -1,5 +1,5 @@
 import clone from 'just-clone'
-import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user/user'
+import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user'
 import { toBool, toBXYorN, toDate, toISOStringWithTimezone, toNum, toStr } from '../services/base'
 
 export class BXRestMapUser {

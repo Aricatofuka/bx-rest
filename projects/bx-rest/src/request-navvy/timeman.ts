@@ -1,30 +1,39 @@
-import { iBXRestParamTimeManStatus } from '../typification/rest/timeman/status'
+import {
+  iBXRestParamTimeManClose,
+  iBXRestParamTimeManOpen,
+  iBXRestParamTimeManPause,
+  iBXRestParamTimeManSettings,
+  iBXRestParamTimeManStatus,
+  iBXRestTimeManSettings,
+  iBXRestTimeManStatus,
+  iBXRestTimeManStatusHttp
+} from '../typification/rest/timeman/status'
 import { Navvy } from '../services/navvy'
 import { BXRestMapTimeMan } from '../map/timeman'
-import { $status, $timeMan } from '../consts/part-name-methods'
+import { $pause, $settings, $status, $timeMan } from '../consts/part-name-methods'
 
 export class BXRestNavvyTimeMan {
   protected readonly url = {
-    // /**
-    //  * Получение настроек рабочего времени пользователя
-    //  */
-    // settings: [$timeMan, $settings],
+    /**
+     * Получение настроек рабочего времени пользователя
+     */
+    settings: [$timeMan, $settings],
     /**
      * Получение информации о текущем рабочем дне пользователя
      */
     status: [$timeMan, $status],
-    // /**
-    //  * Начать новый рабочий день либо возобновить закрытый или приостановленный
-    //  */
-    // open: [$timeMan, 'open'],
-    // /**
-    //  * Закрыть рабочий день
-    //  */
-    // close: [$timeMan, 'close'],
-    // /**
-    //  * Приостановить рабочий день
-    //  */
-    // pause: [$timeMan, $pause],
+    /**
+     * Начать новый рабочий день либо возобновить закрытый или приостановленный
+     */
+    open: [$timeMan, 'open'],
+    /**
+     * Закрыть рабочий день
+     */
+    close: [$timeMan, 'close'],
+    /**
+     * Приостановить рабочий день
+     */
+    pause: [$timeMan, $pause],
     // networkrange: {
     //   check: this.baseUrl + 'networkrange.check', // Метод для проверки IP-адреса на вхождение в диапазоны сетевых адресов офисной сети
     //   get: this.baseUrl + 'networkrange.get', // Метод для получения диапазонов сетевых адресов, входящих в офисную сеть
@@ -58,6 +67,37 @@ export class BXRestNavvyTimeMan {
       this.url.status,
       param,
       BXRestMapTimeMan.status
+    )
+  }
+
+  open(param: iBXRestParamTimeManOpen = {}) {
+    return this.Navvy.simple<iBXRestTimeManStatusHttp, iBXRestTimeManStatus, iBXRestParamTimeManOpen>(
+      this.url.open,
+      param,
+      BXRestMapTimeMan.status
+    )
+  }
+
+  pause(param: iBXRestParamTimeManPause = {}) {
+    return this.Navvy.simple<iBXRestTimeManStatusHttp, iBXRestTimeManStatus, iBXRestParamTimeManPause>(
+      this.url.pause,
+      param,
+      BXRestMapTimeMan.status
+    )
+  }
+
+  close(param: iBXRestParamTimeManClose = {}) {
+    return this.Navvy.simple<iBXRestTimeManStatusHttp, iBXRestTimeManStatus, iBXRestParamTimeManClose>(
+      this.url.close,
+      param,
+      BXRestMapTimeMan.status
+    )
+  }
+
+  settings(param: iBXRestParamTimeManSettings = {}) {
+    return this.Navvy.simple<iBXRestTimeManSettings, iBXRestTimeManSettings, iBXRestParamTimeManSettings>(
+      this.url.settings,
+      param
     )
   }
 }

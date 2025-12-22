@@ -5,7 +5,7 @@ export { BXRestSettings } from './settings'
 export { BXRestMapResult } from './functions/mapResult'
 /**
  * @deprecated
- * Используйте BXRestNavvy
+ * use BXRestNavvy
  */
 export { BXRest } from './rest/base'
 export { BXRestNavvy } from './rest/navvy'

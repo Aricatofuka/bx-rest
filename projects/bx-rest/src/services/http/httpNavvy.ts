@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs'
 import { iBXRestParams } from '../../typification/base/params'
-import { iBXRestAnswers } from '../../typification/base/answers'
 import { HttpBXServices } from './HttpBX'
-import { iBXRestAnswer } from '../../typification/rest/base/answer'
+import { iBXRestAnswer } from '../../typification/rest/base'
+import { iBXRestAnswers } from '../../typification/base/answers'
 
 export class HttpNavvyServices {
   private readonly httpServices = new HttpBXServices()

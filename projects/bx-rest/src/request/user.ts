@@ -1,7 +1,7 @@
-import { iBXRestParamUserGet } from '../typification/rest/user/get'
+import { iBXRestParamUserGet } from '../typification/rest/user'
 import { HttpBXServices } from '../services/http/HttpBX'
-import { iBXRestUserHttp, iBXRestUserHttpField } from '../typification/rest/user/user'
-import { iBXRestParamUserSearch } from '../typification/rest/user/search'
+import { iBXRestUserHttp, iBXRestUserHttpField } from '../typification/rest/user'
+import { iBXRestParamUserSearch } from '../typification/rest/user'
 import { BXRestUserUserfield } from './user/userfield'
 import { methods } from '../typification/base/methods'
 

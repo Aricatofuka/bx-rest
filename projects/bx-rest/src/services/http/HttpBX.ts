@@ -113,7 +113,6 @@ export class HttpBXServices extends HttpServices {
 
         if (auth === 'sessid') {
           // Преобразуем параметры в формат x-www-form-urlencoded
-
           const bodyString = this.serializeBitrixParams(paramsClone)
           return from(
             this.axiosInstance.post<T>(fullUrl, bodyString, {

@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.8.0",
+  "version": "0.8.2",
   "description": "Bitrix24 REST API client angular, vue or typescript",
   "keywords": [
     "bitrix",
@@ -31,6 +31,18 @@
   },
   "dependencies": {
     "tslib": "^2.3.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./typification/base": {
+      "types": "./typification/rest/base.d.ts"
+    },
+    "./typification/user": {
+      "types": "./typification/rest/user.d.ts"
+    }
   },
   "module": "esm2022/bx-rest.mjs",
   "types": "index.d.ts",

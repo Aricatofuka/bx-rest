@@ -9,7 +9,7 @@ import { iIsActionAllowedParam } from '../../../typification/rest/task/elapsedit
 import { BXRestNavvyUser } from '../../user'
 import { BXRestNavvyTasks } from '../../tasks'
 import { BXRestNavvyDelegateElapsedItem } from '../delegate/elapseditem'
-import { iBXRestUser } from '../../../typification/rest/user/user'
+import { iBXRestUser } from '../../../typification/rest/user'
 import { iBXRestParamAddElapseditem } from '../../../typification/rest/task/elapseditem/add'
 import { BXRestNavvyElapsedItem } from '../elapseditem'
 import { iBXRestParamUpdateElapseditem } from '../../../typification/rest/task/elapseditem/update'

@@ -8,17 +8,6 @@ export interface iBXRestPermission {
   }[]
 }
 
-export interface iBXRestPermissionItem {
-  edit: boolean
-  add: boolean
-  del: boolean
-  verified: {
-    edit: boolean
-    add: boolean
-    del: boolean
-  }
-}
-
 export interface iBXRestPermissionAddictionItem{
   id: number
   edit: boolean

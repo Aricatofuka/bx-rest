@@ -1,11 +1,11 @@
 import { Navvy } from '../services/navvy'
-import { iBXRestParamUserGet } from '../typification/rest/user/get'
+import { iBXRestParamUserGet } from '../typification/rest/user'
 import clone from 'just-clone'
-import { iBXRestParamUserSearch } from '../typification/rest/user/search'
+import { iBXRestParamUserSearch } from '../typification/rest/user'
 import { BXRestNavvyUserUserfield } from './user/userfield'
 import { BXRestMapUser } from '../map/user'
 import { $get, $search, $update, $user } from '../consts/part-name-methods'
-import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user/user'
+import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user'
 
 export class BXRestNavvyUser {
   def: { params: { ACTIVE: boolean, start: 0 } } = {
