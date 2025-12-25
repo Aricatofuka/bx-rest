@@ -1,18 +1,14 @@
 import { Navvy } from '../../services/navvy'
 import { $get, $hide, $im, $list, $pin, $recent, $unread } from '../../consts/part-name-methods'
 import {
-  iBXRestImDialogRecentUnreadParam
-} from '../../typification/rest/im/dialog/recent/unread'
-import {
   iBXRestImDialogRecentGet,
   iBXRestImDialogRecentGetHttp,
-  iBXRestImDialogRecentGetParam
-} from '../../typification/rest/im/dialog/recent/get'
-import { BXRestMapImRecent } from '../../map/im/recent'
-import {
+  iBXRestImDialogRecentGetParam,
+  iBXRestImDialogRecentUnreadParam,
   iBXRestImDialogRecentList, iBXRestImDialogRecentListHttp,
   iBXRestImDialogRecentListParam
-} from '../../typification/rest/im/dialog/recent/list'
+} from '../../typification/rest/im'
+import { BXRestMapImRecent } from '../../map/im/recent'
 
 export class BXRestNavvyImRecent {
 

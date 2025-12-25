@@ -1,4 +1,4 @@
-import { iBXRestParamElapseditemGet } from '../../../typification/rest/task/elapseditem/get'
+import { iBXRestParamElapseditemGet } from '../../../typification/rest/task'
 import { Navvy } from '../../../services/navvy'
 import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
 import { $elapseditem, $getlist, $task } from '../../../consts/part-name-methods'

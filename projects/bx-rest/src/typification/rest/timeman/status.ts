@@ -1,4 +1,4 @@
-type BXRestTimeManStatusDay = 'OPENED' | 'CLOSE' | 'PAUSED' | 'EXPIRED' // Статусы рабочего дня
+type BXRestTimeManStatusDay = 'OPENED' | 'CLOSED' | 'PAUSED' | 'EXPIRED' // Статусы рабочего дня
 
 /** Параметры для timeman.status */
 export interface iBXRestParamTimeManStatus {
@@ -11,7 +11,7 @@ export interface iBXRestParamTimeManOpen {
   /** Идентификатор пользователя (по умолчанию текущий) */
   USER_ID?: number
   /** Время начала дня в формате ISO-8601 */
-  TIME?: string
+  TIME?: Date | string
   /** Причина изменения рабочего дня */
   REPORT?: string
   /** Широта точки начала дня */
@@ -25,7 +25,7 @@ export interface iBXRestParamTimeManClose {
   /** Идентификатор пользователя (по умолчанию текущий) */
   USER_ID?: number
   /** Время окончания дня в формате ISO-8601 */
-  TIME?: string
+  TIME?: Date | string
   /** Причина изменения рабочего дня */
   REPORT?: string
   /** Широта точки окончания дня */
@@ -49,25 +49,29 @@ export interface iBXRestParamTimeManSettings {
 /** Ответ timeman.status после маппинга в Date/числа */
 export interface iBXRestTimeManStatus extends iBXRestTimeManStatusBase {
   /** Дата начала рабочего дня */
-  TIME_START: Date | undefined,
+  TIME_START: Date | undefined
   /** Дата завершения рабочего дня */
-  TIME_FINISH: Date | undefined,
+  TIME_FINISH: Date | undefined
   /** Длительность рабочего дня в секундах */
-  DURATION: number,
+  DURATION: number
   /** Суммарная длительность перерывов в секундах */
-  TIME_LEAKS: number,
+  TIME_LEAKS: number
+  /** Дефолтное значение закрытого дня */
+  TIME_FINISH_DEFAULT?: Date
 }
 
 /** Ответ timeman.status в сыром виде от API */
 export interface iBXRestTimeManStatusHttp extends iBXRestTimeManStatusBase {
   /** Дата начала рабочего дня в ISO-8601 */
-  TIME_START: string | null,
+  TIME_START: string | null
   /** Дата завершения рабочего дня в ISO-8601 */
-  TIME_FINISH: string | null,
+  TIME_FINISH: string | null
   /** Длительность рабочего дня в HH:MM:SS */
-  DURATION: string,
+  DURATION: string
   /** Суммарная длительность перерывов в HH:MM:SS */
-  TIME_LEAKS: string,
+  TIME_LEAKS: string
+  /** Дефолтное значение закрытого дня */
+  TIME_FINISH_DEFAULT?: string
 }
 
 /** Базовые поля статуса рабочего дня */
@@ -75,19 +79,19 @@ interface iBXRestTimeManStatusBase {
   /** Статус текущего рабочего дня */
   STATUS: BXRestTimeManStatusDay,
   /** Требуется подтверждение руководителем (false если ждет) */
-  ACTIVE: boolean,
+  ACTIVE: boolean
   /** IP при открытии дня */
-  IP_OPEN: string,
+  IP_OPEN: string
   /** IP при закрытии дня */
-  IP_CLOSE: string,
+  IP_CLOSE: string
   /** Широта точки начала дня */
-  LAT_OPEN: number,
+  LAT_OPEN: number
   /** Долгота точки начала дня */
-  LON_OPEN: number,
+  LON_OPEN: number
   /** Широта точки окончания дня */
-  LAT_CLOSE: number,
+  LAT_CLOSE: number
   /** Долгота точки окончания дня */
-  LON_CLOSE: number,
+  LON_CLOSE: number
   /** Смещение часового пояса начала дня */
   TZ_OFFSET: number
 }
@@ -95,17 +99,17 @@ interface iBXRestTimeManStatusBase {
 /** Настройки учета рабочего времени пользователя */
 export interface iBXRestTimeManSettings {
   /** Учет рабочего времени включен */
-  UF_TIMEMAN: boolean,
+  UF_TIMEMAN: boolean
   /** Свободный график включен */
-  UF_TM_FREE: boolean,
+  UF_TM_FREE: boolean
   /** Максимальное время начала дня HH:MM:SS */
-  UF_TM_MAX_START: string,
+  UF_TM_MAX_START: string
   /** Минимальное время завершения HH:MM:SS */
-  UF_TM_MIN_FINISH: string,
+  UF_TM_MIN_FINISH: string
   /** Минимальная длительность дня HH:MM:SS */
-  UF_TM_MIN_DURATION: string,
+  UF_TM_MIN_DURATION: string
   /** Допустимая дельта изменений HH:MM:SS */
-  UF_TM_ALLOWED_DELTA: string,
+  UF_TM_ALLOWED_DELTA: string
   /** Может управлять днями других сотрудников (только для текущего пользователя) */
   ADMIN?: boolean
 }

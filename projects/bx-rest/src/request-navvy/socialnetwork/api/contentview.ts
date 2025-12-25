@@ -1,6 +1,6 @@
 import {
   iBXRestParamSocialNetWorkApiContentViewSet
-} from '../../../typification/rest/socialnetwork/api/contentview/set'
+} from '../../../typification/rest/socialnetwork'
 
 import { Navvy } from '../../../services/navvy'
 import { methods } from '../../../typification/base/methods'

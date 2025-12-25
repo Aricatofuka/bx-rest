@@ -1,16 +1,19 @@
 import { BXRestMapDiskFolder } from '../../map/disk/folder'
 import { Navvy } from '../../services/navvy'
-import { iBXRestDiskFolderAddSubFolderParam } from '../../typification/rest/disk/folder/addSubFolder'
-import { iBXRestDiskFolderCopyToParam } from '../../typification/rest/disk/folder/copyTo'
-import { iBXRestDiskFolderMoveToParam } from '../../typification/rest/disk/folder/moveTo'
-import { iBXRestDiskFolderRenameParam } from '../../typification/rest/disk/folder/rename'
-import { iBXRestDiskFolderUploadFileParam } from '../../typification/rest/disk/folder/uploadFile'
-import { iBXRestParamDiskFileGet, iBXRestParamDiskFileMarkDeleted } from '../../typification/rest/disk/file'
 import {
-  iBXRestParamFolderDeleteTree, iBXRestParamFolderGetChildren,
+  iBXRestDiskFolderAddSubFolderParam,
+  iBXRestDiskFolderCopyToParam,
+  iBXRestDiskFolderMoveToParam,
+  iBXRestDiskFolderRenameParam,
+  iBXRestDiskFolderUploadFileParam,
+  iBXRestParamDiskFileGet,
+  iBXRestParamDiskFileMarkDeleted,
+  iBXRestParamFolderDeleteTree,
+  iBXRestParamFolderGetChildren,
   iBXRestParamFolderGetExternalLink,
   iBXRestParamFolderRestore
-} from '../../typification/rest/disk/folder'
+} from '../../typification/rest/disk'
+
 import {
   $copyto,
   $disk,

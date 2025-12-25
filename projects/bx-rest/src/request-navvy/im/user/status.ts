@@ -1,7 +1,6 @@
 import { Navvy } from '../../../services/navvy'
-import { iBXRestImUserStatusGet } from '../../../typification/rest/im/user/status/get'
+import { iBXRestImUserStatusGet, iBXRestImUserStatusSet } from '../../../typification/rest/im'
 import { $get, $im, $set, $status, $user } from '../../../consts/part-name-methods'
-import { iBXRestImUserStatusSet } from '../../../typification/rest/im/user/status/set'
 import { BXRestNavvyImUserStatusIdle } from './status/idle'
 
 export class BXRestNavvyImUserStatus {

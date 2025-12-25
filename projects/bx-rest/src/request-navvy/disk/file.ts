@@ -1,6 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { BXRestMapDiskFile } from '../../map/disk/file'
-import { iBXRestParamDiskFileGet, iBXRestParamDiskFileMarkDeleted } from '../../typification/rest/disk/file'
+import { iBXRestParamDiskFileGet, iBXRestParamDiskFileMarkDeleted } from '../../typification/rest/disk'
 import { $disk, $file, $get, $markdeleted } from '../../consts/part-name-methods'
 
 export class BXRestNavvyDiskFile {

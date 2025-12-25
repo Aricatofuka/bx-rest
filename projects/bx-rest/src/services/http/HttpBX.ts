@@ -93,16 +93,15 @@ export class HttpBXServices extends HttpServices {
   override httpPost<T>(url: string, params: any = {}): Observable<T | undefined> {
     const paramsClone = clone(params)
     const key = this.session.getKeyAuth()
-
     let auth = this.session.getAuthParams()
     const checkIsOn = this.session.getCheckAuthParamsIsOn()
     if (checkIsOn && key === 'OAuth2') {
       if (!auth && BXRestSettings.date.auth.source !== 'off') {
         throw new Error('Authorization required (post)')
       }
+    } else {
       paramsClone[key] = auth
     }
-
     return this.session.getBaseUrl().pipe(
       switchMap((baseUrl) => {
         if (!baseUrl) {
@@ -111,7 +110,7 @@ export class HttpBXServices extends HttpServices {
 
         const fullUrl = prepareBaseAddress(baseUrl) + url
 
-        if (auth === 'sessid') {
+        if (key === 'sessid') {
           // Преобразуем параметры в формат x-www-form-urlencoded
           const bodyString = this.serializeBitrixParams(paramsClone)
           return from(
@@ -120,7 +119,6 @@ export class HttpBXServices extends HttpServices {
             }).then((response) => response.data)
           )
         }
-
 
         return from(
           this.axiosInstance.post<T>(fullUrl, paramsClone,
@@ -145,15 +143,26 @@ export class HttpBXServices extends HttpServices {
       const value = obj[key]
       const prefixedKey = prefix ? `${prefix}[${key}]` : key
 
-      if (Array.isArray(value)) {
+      if (value === undefined) {
+        continue
+      } else if (value === null) {
+        pairs.push(`${encodeURIComponent(prefixedKey)}=`)
+      } else if (value instanceof Date) {
+        pairs.push(`${encodeURIComponent(prefixedKey)}=${encodeURIComponent(value.toISOString())}`)
+      } else if (Array.isArray(value)) {
         value.forEach((item) => {
-          if (typeof item === 'object') {
+          if (item === undefined) return
+          if (item === null) {
+            pairs.push(`${encodeURIComponent(prefixedKey)}[]=`)
+          } else if (item instanceof Date) {
+            pairs.push(`${encodeURIComponent(prefixedKey)}[]=${encodeURIComponent(item.toISOString())}`)
+          } else if (typeof item === 'object') {
             pairs.push(this.serializeBitrixParams(item, `${prefixedKey}[]`))
           } else {
             pairs.push(`${encodeURIComponent(prefixedKey)}[]=${encodeURIComponent(item)}`)
           }
         })
-      } else if (typeof value === 'object' && value !== null) {
+      } else if (typeof value === 'object') {
         pairs.push(this.serializeBitrixParams(value, prefixedKey))
       } else {
         pairs.push(`${encodeURIComponent(prefixedKey)}=${encodeURIComponent(value)}`)

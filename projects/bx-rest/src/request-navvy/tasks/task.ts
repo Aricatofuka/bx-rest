@@ -1,22 +1,22 @@
-import { iBXRestParamTaskAdd } from '../../typification/rest/tasks/task/add'
 import {
-  iBXRestParamTasksTaskGet, iBXRestTasksTaskGet, iBXRestTasksTaskGetHttpDefault
-} from '../../typification/rest/tasks/task/get'
+  iBXRestParamTaskAdd,
+  iBXRestParamTasksList,
+  iBXRestTaskFieldsName,
+  iBXRestTasksTaskBaseAnswer,
+  iBXRestTask, iBXRestTasksTaskGetFields, iBXRestTasksTaskDeferHttp,
+  iBXRestParamTasksTaskGet, iBXRestTasksTaskGet, iBXRestTasksTaskGetHttpDefault,
+  iBXRestParamTasksTaskUpdateFields,
+  iBXRestTasksTaskFieldsCanUpdate
+} from '../../typification/rest/tasks'
 import { Navvy } from '../../services/navvy'
-import { iBXRestParamTasksList } from '../../typification/rest/tasks/task/list'
 import { BXRestMapTasksTask } from '../../map/tasks/task'
 import { BXRestNavvyTasksTaskResult } from './task/result'
 import camelCase from 'just-camel-case'
 import {
-  iBXRestParamTasksTaskUpdateFields,
-  iBXRestTasksTaskFieldsCanUpdate
-} from '../../typification/rest/tasks/task/update'
-import {
   iBXRestParamTaskGetAccess,
   iBXRestTaskGetAccess,
   iBXRestTaskGetAccessItem
-} from '../../typification/rest/task/access/getaccess'
-import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fields-name'
+} from '../../typification/rest/task'
 import { ToUpperCaseKeys } from '../../typification/base/upper-case-keys'
 import { ObjectToSnake } from 'ts-case-convert/lib/caseConvert'
 import { AllKeyFree } from '../../typification/base/all-key-free'
@@ -31,10 +31,6 @@ import {
   $task,
   $tasks, $update
 } from '../../consts/part-name-methods'
-import { iBXRestTasksTaskBaseAnswer } from '../../typification/rest/tasks/task/base'
-import { iBXRestTask } from '../../typification/rest/tasks/task'
-import { iBXRestTasksTaskGetFields } from '../../typification/rest/tasks/task/getFields'
-import { iBXRestTasksTaskDeferHttp } from '../../typification/rest/tasks/task/defer'
 
 export class BXRestNavvyTasksTask {
 

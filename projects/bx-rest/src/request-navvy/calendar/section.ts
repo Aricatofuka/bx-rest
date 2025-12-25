@@ -1,10 +1,12 @@
 import { Navvy } from '../../services/navvy'
 import { $add, $calendar, $delete, $get, $section, $update } from '../../consts/part-name-methods'
-import { iBXRestCalendarSectionGetParam } from '../../typification/rest/calendar/section/get'
+import {
+  iBXRestCalendarSectionGetParam,
+  iBXRestCalendarSectionAddParam,
+  iBXRestCalendarSectionDeleteParam,
+  iBXRestCalendarSectionUpdateParam
+} from '../../typification/rest/calendar'
 import { BXRestMapCalendarSection } from '../../map/calendar/section'
-import { iBXRestCalendarSectionAddParam } from '../../typification/rest/calendar/section/add'
-import { iBXRestCalendarSectionDeleteParam } from '../../typification/rest/calendar/section/delete'
-import { iBXRestCalendarSectionUpdateParam } from '../../typification/rest/calendar/section/update'
 
 export class BXRestNavvyRestCalendarSection {
 

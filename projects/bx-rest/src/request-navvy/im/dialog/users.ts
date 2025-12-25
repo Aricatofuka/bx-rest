@@ -4,7 +4,7 @@ import {
   iBXRestImDialogUserGet,
   iBXRestImDialogUserGetHttp,
   iBXRestImDialogUserGetParam
-} from '../../../typification/rest/im/dialog/user/get'
+} from '../../../typification/rest/im'
 import { BXRestMapImDialogUsers } from '../../../map/im/gialog/users'
 
 export class BXRestNavvyImDialogUsers {

@@ -3,7 +3,7 @@ import { Navvy } from '../../../services/navvy'
 import {
   iBXRestPullChannelPublicGet,
   iBXRestPullChannelPublicGetHttp
-} from '../../../typification/rest/pull/channel/get'
+} from '../../../typification/rest/pull'
 import { BXRestMapPullChannelPublic } from '../../../map/channel/public'
 
 export class BXRestNavvyPullChannelPublic {

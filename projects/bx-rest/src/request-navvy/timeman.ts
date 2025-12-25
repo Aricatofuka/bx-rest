@@ -7,10 +7,11 @@ import {
   iBXRestTimeManSettings,
   iBXRestTimeManStatus,
   iBXRestTimeManStatusHttp
-} from '../typification/rest/timeman/status'
+} from '../typification/rest/timeman'
 import { Navvy } from '../services/navvy'
 import { BXRestMapTimeMan } from '../map/timeman'
 import { $pause, $settings, $status, $timeMan } from '../consts/part-name-methods'
+import { toLocalAtom } from '../functions/toLocalAtom'
 
 export class BXRestNavvyTimeMan {
   protected readonly url = {
@@ -71,6 +72,9 @@ export class BXRestNavvyTimeMan {
   }
 
   open(param: iBXRestParamTimeManOpen = {}) {
+    if(param && param.TIME instanceof Date){
+      param.TIME = toLocalAtom(param.TIME)
+    }
     return this.Navvy.simple<iBXRestTimeManStatusHttp, iBXRestTimeManStatus, iBXRestParamTimeManOpen>(
       this.url.open,
       param,
@@ -87,6 +91,9 @@ export class BXRestNavvyTimeMan {
   }
 
   close(param: iBXRestParamTimeManClose = {}) {
+    if(param && param.TIME instanceof Date){
+      param.TIME = toLocalAtom(param.TIME)
+    }
     return this.Navvy.simple<iBXRestTimeManStatusHttp, iBXRestTimeManStatus, iBXRestParamTimeManClose>(
       this.url.close,
       param,

@@ -1,11 +1,9 @@
 import { Navvy } from '../services/navvy'
-import { iBXRestParamUserGet } from '../typification/rest/user'
+import { iBXRestParamUserGet, iBXRestParamUserSearch, iBXRestUser, iBXRestUserHttp } from '../typification/rest/user'
 import clone from 'just-clone'
-import { iBXRestParamUserSearch } from '../typification/rest/user'
 import { BXRestNavvyUserUserfield } from './user/userfield'
 import { BXRestMapUser } from '../map/user'
 import { $get, $search, $update, $user } from '../consts/part-name-methods'
-import { iBXRestUser, iBXRestUserHttp } from '../typification/rest/user'
 
 export class BXRestNavvyUser {
   def: { params: { ACTIVE: boolean, start: 0 } } = {
@@ -33,7 +31,7 @@ export class BXRestNavvyUser {
     )
   }
 
-  get(params: iBXRestParamUserGet = {}){
+  get(params: iBXRestParamUserGet = {}) {
     let copyParams = clone(params)
     this.setDefParam(copyParams)
 
@@ -165,13 +163,13 @@ export class BXRestNavvyUser {
   // }
 
   private setDefParam(params: iBXRestParamUserGet) {
-    if(!params.FILTER) {
+    if (!params.FILTER) {
       params.FILTER = {}
     }
 
     if (!Object.prototype.hasOwnProperty.call(params.FILTER, 'ACTIVE')) {
       params.FILTER.ACTIVE = this.def.params.ACTIVE
-    } else if(typeof params.FILTER.ACTIVE !== 'boolean') {
+    } else if (typeof params.FILTER.ACTIVE !== 'boolean') {
       delete params.FILTER.ACTIVE
     }
 

@@ -1,8 +1,6 @@
-import { iBXRestParamDepartmentGet } from '../typification/rest/department/get'
+import { iBXRestParamDepartmentGet, iBXRestParamDepartmentAdd, iBXRestDepartmentUpdate } from '../typification/rest/department'
 import { Navvy } from '../services/navvy'
 import { BXRestMapDepartment } from '../map/department'
-import { iBXRestParamDepartmentAdd } from '../typification/rest/department/add'
-import { iBXRestDepartmentUpdate } from '../typification/rest/department/update'
 import { $add, $delete, $department, $get, $update } from '../consts/part-name-methods'
 
 export class BXRestNavvyDepartment {

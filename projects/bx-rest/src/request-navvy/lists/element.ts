@@ -1,6 +1,5 @@
-import { iBXRestParamListsElementGet } from '../../typification/rest/lists/element/get'
+import { iBXRestParamListsElementGet, iBXRestParamListsElementAdd } from '../../typification/rest/lists'
 import BXRestListsElementMap from '../../map/lists/element'
-import { iBXRestParamListsElementAdd } from '../../typification/rest/lists/element/add'
 import { Navvy } from '../../services/navvy'
 import { $add, $element, $get, $lists } from '../../consts/part-name-methods'
 

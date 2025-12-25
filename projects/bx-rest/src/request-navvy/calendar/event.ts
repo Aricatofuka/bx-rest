@@ -4,12 +4,12 @@ import { BXRestMapCalendarEvent } from '../../map/calendar/event'
 import { $add, $calendar, $delete, $event, $get, $nearest, $update } from '../../consts/part-name-methods'
 import {
   iBXRestCalendarEventGetByIdParam,
-  iBXRestCalendarEventGetParam
-} from '../../typification/rest/calendar/event/get'
-import { iBXRestCalendarEventAddParam } from '../../typification/rest/calendar/event/add'
-import { iBXRestCalendarEventUpdateParam } from '../../typification/rest/calendar/event/update'
-import { iBXRestCalendarEventDeleteParam } from '../../typification/rest/calendar/event/delete'
-import { iBXRestCalendarEventGetNearestParam } from '../../typification/rest/calendar/event/get/nearest'
+  iBXRestCalendarEventGetParam,
+  iBXRestCalendarEventAddParam,
+  iBXRestCalendarEventUpdateParam,
+  iBXRestCalendarEventDeleteParam,
+  iBXRestCalendarEventGetNearestParam
+} from '../../typification/rest/calendar'
 
 export class BXRestNavvyRestCalendarEvent {
 

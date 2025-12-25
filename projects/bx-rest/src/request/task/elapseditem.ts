@@ -1,10 +1,12 @@
 import { HttpBXServices } from '../../services/http/HttpBX'
-import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
-import { iBXRestTaskElapsedItemHttp } from '../../typification/rest/task/elapseditem/item'
-import { iBXRestParamAddElapseditem } from '../../typification/rest/task/elapseditem/add'
-import { iBXRestParamUpdateElapseditem } from '../../typification/rest/task/elapseditem/update'
-import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapseditem/del'
-import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/isActionAllowedParam'
+import {
+  iBXRestParamElapseditemGet,
+  iBXRestTaskElapsedItemHttp,
+  iBXRestParamAddElapseditem,
+  iBXRestParamUpdateElapseditem,
+  iBXRestParamDelElapseditem,
+  iIsActionAllowedParam
+} from '../../typification/rest/task'
 import { methods } from '../../typification/base/methods'
 
 

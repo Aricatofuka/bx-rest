@@ -1,6 +1,6 @@
 import { $all, $dialog, $im, $read } from '../../../consts/part-name-methods'
 import { Navvy } from '../../../services/navvy'
-import { iBXRestImDialogRead, iBXRestImDialogReadParam } from '../../../typification/rest/im/dialog/read'
+import { iBXRestImDialogRead, iBXRestImDialogReadParam } from '../../../typification/rest/im'
 
 
 export function BXRestNavvyImDialogRead(navvy: Navvy) {

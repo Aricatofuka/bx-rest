@@ -1,19 +1,21 @@
-import { iBXRestParamElapseditemGet } from '../../../typification/rest/task/elapseditem/get'
+import {
+  iBXRestParamElapseditemGet,
+  iBXRestTaskElapsedItemHttp,
+  iIsActionAllowedParam,
+  iBXRestParamAddElapseditem,
+  iBXRestParamUpdateElapseditem,
+  iBXRestParamDelElapseditem
+} from '../../../typification/rest/task'
 import { HttpBXServices } from '../../../services/http/HttpBX'
-import { iBXRestTaskElapsedItemHttp } from '../../../typification/rest/task/elapseditem/item'
 import { $elapseditem, $getlist, $isactionallowed, $task } from '../../../consts/part-name-methods'
 import { map, take } from 'rxjs/operators'
 import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
 import { forkJoin, mergeMap, Observable, of, throwError } from 'rxjs'
-import { iIsActionAllowedParam } from '../../../typification/rest/task/elapseditem/isActionAllowedParam'
 import { BXRestNavvyUser } from '../../user'
 import { BXRestNavvyTasks } from '../../tasks'
 import { BXRestNavvyDelegateElapsedItem } from '../delegate/elapseditem'
 import { iBXRestUser } from '../../../typification/rest/user'
-import { iBXRestParamAddElapseditem } from '../../../typification/rest/task/elapseditem/add'
 import { BXRestNavvyElapsedItem } from '../elapseditem'
-import { iBXRestParamUpdateElapseditem } from '../../../typification/rest/task/elapseditem/update'
-import { iBXRestParamDelElapseditem } from '../../../typification/rest/task/elapseditem/del'
 
 export class BXRestNavvyOperationElapsedItem {
 
@@ -21,6 +23,7 @@ export class BXRestNavvyOperationElapsedItem {
   private readonly delegate = new BXRestNavvyDelegateElapsedItem()
   private readonly BXRestNavvyUser = new BXRestNavvyUser()
   private readonly BXRestNavvyTasks = new BXRestNavvyTasks()
+
   // private readonly BXRestNavvyElapsedItem = new BXRestNavvyElapsedItem()
 
   constructor(private BXRestNavvyElapsedItem: BXRestNavvyElapsedItem) {

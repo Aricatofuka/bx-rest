@@ -1,10 +1,8 @@
 import { BXRestDiskStorage } from '../../../request/disk/storage'
-import { iBXRestParamUploadFile } from '../../../typification/rest/disk/storage/uploadfile'
-import { iBXRestParamGetchildren } from '../../../typification/rest/disk/storage/getchildren'
+import { iBXRestParamUploadFile, iBXRestParamGetchildren, iBXRestFolderInfo } from '../../../typification/rest/disk'
 import { of, shareReplay, tap } from 'rxjs'
 import { SessionStorage } from '../../../services/vanilla/sessionStorage'
-import { iBXRestFolderInfo } from '../../../typification/rest/disk/folder'
-import { iBXRestAnswer } from '../../../typification/rest/base/answer'
+import { iBXRestAnswer } from '../../../typification/rest/base'
 
 /**
  * В будущем будет реализовано сохранение на уровне класса navvy, пока оставим так, чтобы не дропать фичу

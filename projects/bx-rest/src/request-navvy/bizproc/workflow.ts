@@ -1,4 +1,4 @@
-import { iBXRestParamBizprocWorkflowStart } from '../../typification/rest/bizproc/workflow/start'
+import { iBXRestParamBizprocWorkflowStart } from '../../typification/rest/bizproc'
 import { Navvy } from '../../services/navvy'
 import { $bizproc, $start, $workflow } from '../../consts/part-name-methods'
 

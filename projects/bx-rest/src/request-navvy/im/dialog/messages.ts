@@ -3,7 +3,7 @@ import { Navvy } from '../../../services/navvy'
 import {
   iBXRestImDialogMessagesGet, iBXRestImDialogMessagesGetHttp,
   iBXRestImDialogMessagesGetParam
-} from '../../../typification/rest/im/dialog/messages/get'
+} from '../../../typification/rest/im'
 import { BXRestMapImDialogMessages } from '../../../map/im/gialog/messages'
 
 export class BXRestNavvyImDialogMessages {

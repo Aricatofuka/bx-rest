@@ -1,5 +1,5 @@
 import { BXRestNavvyListsElement } from './lists/element'
-import { iBXRestParamListGet } from '../typification/rest/lists/get'
+import { iBXRestParamListGet } from '../typification/rest/lists'
 import { Navvy } from '../services/navvy'
 import { BXRestMapLists } from '../map/lists'
 import BXRestNavvyListsField from './lists/field'

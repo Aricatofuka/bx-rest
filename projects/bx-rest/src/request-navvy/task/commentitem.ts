@@ -1,15 +1,16 @@
 import { Navvy } from '../../services/navvy'
 import { BXRestMapTaskCommentItem } from '../../map/task/commentitem'
-import { iBXRestParamTaskCommentItemGet } from '../../typification/rest/task/commentitem/get'
-import { iBXRestTaskCommentItemUpdate } from '../../typification/rest/task/commentitem/update'
-import { iBXRestCommentTaskAdd } from '../../typification/rest/task/commentitem/add'
 import {
+  iBXRestParamTaskCommentItemGet,
+  iBXRestTaskCommentItemUpdate,
+  iBXRestCommentTaskAdd,
   BXRestTaskCommentItemGetList,
-} from '../../typification/rest/task/commentitem/getlist'
-import { BXRestTaskCommentItemDelete } from '../../typification/rest/task/commentitem/delete'
+  BXRestTaskCommentItemDelete,
+  iBXRestTaskComment,
+  iBXRestTaskCommentHtml
+} from '../../typification/rest/task'
 import { mergeMap, of } from 'rxjs'
 import { methods } from '../../typification/base/methods'
-import { iBXRestTaskComment, iBXRestTaskCommentHtml } from '../../typification/rest/task/commentitem/commentitem'
 
 export class BXRestNavvyTaskCommentItem {
   protected url = methods.task.commentItem
@@ -51,7 +52,7 @@ export class BXRestNavvyTaskCommentItem {
     if (param.ITEMID > 0) {
       return this.get(param).res().pipe(
         mergeMap(v => {
-          if(v) {
+          if (v) {
             return this.Navvy.simple<boolean, boolean, BXRestTaskCommentItemDelete>(
               this.url.delete, param
             ).res()

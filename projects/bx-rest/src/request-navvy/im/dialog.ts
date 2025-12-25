@@ -4,12 +4,12 @@ import { BXRestNavvyImDialogUsers } from './dialog/users'
 import {
   iBXRestImDialogGet,
   iBXRestImDialogGetHttp,
-  iBXRestImDialogGetParam
-} from '../../typification/rest/im/dialog/get'
+  iBXRestImDialogGetParam,
+  iBXRestImDialogUnReadParam,
+  iBXRestImDialogWritingParam
+} from '../../typification/rest/im'
 import { BXRestMapImDialog } from '../../map/im/dialog'
 import { BXRestNavvyImDialogMessages } from './dialog/messages'
-import { iBXRestImDialogUnReadParam } from '../../typification/rest/im/dialog/unread'
-import { iBXRestImDialogWritingParam } from '../../typification/rest/im/dialog/writing'
 import { BXRestNavvyImDialogRead } from './dialog/read'
 
 export class BXRestNavvyImDialog {

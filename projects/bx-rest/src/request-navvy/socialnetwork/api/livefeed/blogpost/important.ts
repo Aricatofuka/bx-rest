@@ -1,7 +1,7 @@
 import { Navvy } from '../../../../../services/navvy'
 import {
   iBXRestParamSocialNetWorkApiBlogpostImportantVote
-} from '../../../../../typification/rest/socialnetwork/api/livefeed/blogpost/important/vote'
+} from '../../../../../typification/rest/socialnetwork'
 import {
   BXRestNavvyMapSocialNetWorkApiLiveFeedBlogPostImportant
 } from '../../../../../map/socialnetwork/api/livefeed/blogpost/important'

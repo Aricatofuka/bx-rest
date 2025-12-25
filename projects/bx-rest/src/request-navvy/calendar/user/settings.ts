@@ -1,7 +1,7 @@
 import { Navvy } from '../../../services/navvy'
 import { $calendar, $get, $set, $settings, $user } from '../../../consts/part-name-methods'
 import { BXRestMapCalendarUserSettings } from '../../../map/calendar/user/settings'
-import { iBXRestCalendarUserSettingsSetParam } from '../../../typification/rest/calendar/user/settings/set'
+import { iBXRestCalendarUserSettingsSetParam } from '../../../typification/rest/calendar'
 
 export class BXRestNavvyRestCalendarUserSettings {
 

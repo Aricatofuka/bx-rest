@@ -1,6 +1,5 @@
-import { iBXRestParamLogBlogPostAdd } from '../../typification/rest/log/blogpost/add'
+import { iBXRestParamLogBlogPostAdd, iBXRestParamBlogPostGet } from '../../typification/rest/log'
 import { Navvy } from '../../services/navvy'
-import { iBXRestParamBlogPostGet } from '../../typification/rest/log/blogpost/get'
 import { BXRestMapLogBlogPost } from '../../map/log/blogpost'
 import { $add, $blogpost, $get, $log } from '../../consts/part-name-methods'
 

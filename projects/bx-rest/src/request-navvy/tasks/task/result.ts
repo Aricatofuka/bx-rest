@@ -1,10 +1,9 @@
 import { Navvy } from '../../../services/navvy'
 import { BXRestMapTasksTaskResult } from '../../../map/tasks/task/result'
-import { iBXRestParamTasksTaskResultList } from '../../../typification/rest/tasks/result/list'
 import {
-  iBXParamRestTasksTaskResultAdd, iBXRestTasksTaskResult,
+  iBXRestParamTasksTaskResultList, iBXParamRestTasksTaskResultAdd, iBXRestTasksTaskResult,
   iBXRestTasksTaskResultHttp
-} from '../../../typification/rest/tasks/task/result/result'
+} from '../../../typification/rest/tasks'
 import { $list, $result, $task, $tasks } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyTasksTaskResult {
@@ -26,8 +25,8 @@ export class BXRestNavvyTasksTaskResult {
 
   private Navvy = new Navvy()
 
-  deleteFromComment(commentID: {commentId: number}) {
-    return this.Navvy.simple<null, null, {commentId: number}>(
+  deleteFromComment(commentID: { commentId: number }) {
+    return this.Navvy.simple<null, null, { commentId: number }>(
       this.url.deleteFromComment,
       commentID,
     )

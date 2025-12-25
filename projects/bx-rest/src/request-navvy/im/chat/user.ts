@@ -1,8 +1,9 @@
 import { Navvy } from '../../../services/navvy'
 import { $add, $chat, $delete, $im, $list, $user } from '../../../consts/part-name-methods'
-import { iBXRestImChatUserListParam } from '../../../typification/rest/im/chat/user/list'
-import { iBXRestImChatUserDeleteParam } from '../../../typification/rest/im/chat/user/delete'
-import { iBXRestImChatUserAddParam } from '../../../typification/rest/im/chat/user/add'
+import {
+  iBXRestImChatUserListParam,
+  iBXRestImChatUserDeleteParam, iBXRestImChatUserAddParam
+} from '../../../typification/rest/im'
 
 export class BXRestNavvyImChatUser {
   private Navvy = new Navvy()

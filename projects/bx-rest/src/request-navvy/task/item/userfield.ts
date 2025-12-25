@@ -2,7 +2,7 @@ import { Navvy } from '../../../services/navvy'
 import { BXRestMapTaskUserField } from '../../../map/task/item/userfield'
 import {
   iBXRestParamTaskItemUserFieldGetlist, iBXRestTaskItemUserFieldGetlist, iBXRestTaskItemUserFieldGetlistHttp
-} from '../../../typification/rest/task/item/userfield/getlist'
+} from '../../../typification/rest/task'
 import { $item, $task, $userfield } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyTaskItemUserField {

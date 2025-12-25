@@ -1,6 +1,6 @@
 import { BXRestMapDiskAttachedObject } from '../../map/disk/attachedObject'
 import { Navvy } from '../../services/navvy'
-import { iBXRestParamRestDiskAttachedObject } from '../../typification/rest/disk/AttachedObject'
+import { iBXRestParamRestDiskAttachedObject } from '../../typification/rest/disk'
 import { methods } from '../../typification/base/methods'
 
 export class BXRestNavvyDiskAttachedObject {

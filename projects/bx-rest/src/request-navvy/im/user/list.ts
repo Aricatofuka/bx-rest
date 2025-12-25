@@ -1,6 +1,5 @@
 import { Navvy } from '../../../services/navvy'
-import { iBXRestImUserListGetParam } from '../../../typification/rest/im/user/list/get'
-import { iBXRestImUserGet, iBXRestImUserGetHttp } from '../../../typification/rest/im/user/get'
+import { iBXRestImUserListGetParam, iBXRestImUserGet, iBXRestImUserGetHttp  } from '../../../typification/rest/im'
 import { $get, $im, $list, $user } from '../../../consts/part-name-methods'
 import { BXRestMapImUserList } from '../../../map/im/user/list'
 

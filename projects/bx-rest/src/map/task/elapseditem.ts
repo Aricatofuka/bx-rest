@@ -1,4 +1,4 @@
-import { iBXRestTaskElapsedItem, iBXRestTaskElapsedItemHttp } from '../../typification/rest/task/elapseditem/item'
+import { iBXRestTaskElapsedItem, iBXRestTaskElapsedItemHttp } from '../../typification/rest/task'
 import { toDate, toNum } from '../../services/base'
 
 export class BXRestMapTaskElapsedItem {

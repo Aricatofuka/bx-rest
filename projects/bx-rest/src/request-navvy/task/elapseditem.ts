@@ -1,8 +1,10 @@
-import { iBXRestParamElapseditemGet } from '../../typification/rest/task/elapseditem/get'
-import { iBXRestParamAddElapseditem } from '../../typification/rest/task/elapseditem/add'
-import { iBXRestParamUpdateElapseditem } from '../../typification/rest/task/elapseditem/update'
-import { iIsActionAllowedParam } from '../../typification/rest/task/elapseditem/isActionAllowedParam'
-import { iBXRestParamDelElapseditem } from '../../typification/rest/task/elapseditem/del'
+import {
+  iBXRestParamElapseditemGet,
+  iBXRestParamAddElapseditem,
+  iBXRestParamUpdateElapseditem,
+  iBXRestParamDelElapseditem,
+  iIsActionAllowedParam
+} from '../../typification/rest/task'
 import { Navvy } from '../../services/navvy'
 import { BXRestNavvyOperationElapsedItem } from './operation/elapseditem'
 import { BXRestNavvyDelegateElapsedItem } from './delegate/elapseditem'

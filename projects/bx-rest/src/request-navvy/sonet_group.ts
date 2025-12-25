@@ -1,4 +1,4 @@
-import { iBXRestParamSonetGroupGet } from '../typification/rest/sonet_group/get'
+import { iBXRestParamSonetGroupGet } from '../typification/rest/sonet_group'
 import { BXRestMapSonetGroup } from '../map/sonet_group'
 import { Navvy } from '../services/navvy'
 import { $get, $sonet_group } from '../consts/part-name-methods'

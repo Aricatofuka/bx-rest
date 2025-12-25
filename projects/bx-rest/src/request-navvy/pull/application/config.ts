@@ -2,7 +2,7 @@ import { $application, $config, $get, $pull } from '../../../consts/part-name-me
 import {
   iBXRestPullApplicationConfigGet,
   iBXRestPullApplicationConfigGetHttp
-} from '../../../typification/rest/pull/application/config/get'
+} from '../../../typification/rest/pull'
 import { Navvy } from '../../../services/navvy'
 import { BXRestMapPullApplicationConfig } from '../../../map/pull/application/config'
 

@@ -1,7 +1,13 @@
 import { BXRestMapDiskStorage } from '../../map/disk/storage'
-import { iBXRestParamUploadFile } from '../../typification/rest/disk/storage/uploadfile'
+import {
+  iBXRestParamUploadFile, iBXRestParamGetchildren,
+  iBXRestFolderInfo, iBXRestFolder,
+  iBXRestFolderHttp,
+  iBXRestDiskFile,
+  iBXRestDiskFileHttp,
+  iBXRestDiskFileAndFolderMap
+} from '../../typification/rest/disk'
 import { Navvy } from '../../services/navvy'
-import { iBXRestParamGetchildren } from '../../typification/rest/disk/storage/getchildren'
 import { BXRestNavvyOperationDiskStorage } from './operation/storage'
 import {
   $disk,
@@ -13,9 +19,6 @@ import {
   $rename,
   $storage, $uploadfile
 } from '../../consts/part-name-methods'
-import { iBXRestFolder, iBXRestFolderHttp, iBXRestFolderInfo } from '../../typification/rest/disk/folder'
-import { iBXRestDiskFile, iBXRestDiskFileHttp } from '../../typification/rest/disk/file'
-import { iBXRestDiskFileAndFolderMap } from '../../typification/rest/disk/map'
 import { BXRestMapDiskFile } from '../../map/disk/file'
 
 export class BXRestNavvyDiskStorage {

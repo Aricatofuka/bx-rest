@@ -1,4 +1,3 @@
-import { iBXRestImChatAddParam } from '../../typification/rest/im/chat/add'
 import { Navvy } from '../../services/navvy'
 import {
   $add,
@@ -11,16 +10,16 @@ import {
   $updateAvatar, $updateColor,
   $updateTitle
 } from '../../consts/part-name-methods'
-import { iBXRestImChatGetParam } from '../../typification/rest/im/chat/get'
-import { iBXRestImChatSetOwnerParam } from '../../typification/rest/im/chat/setOwner'
-import { iBXRestImChatUpdateAvatarParam } from '../../typification/rest/im/chat/updateAvatar'
-import {
-  iBXRestImChatUpdateTitleParam
-} from '../../typification/rest/im/chat/updateTitle'
-import { iBXRestImChatLeaveParam } from '../../typification/rest/im/chat/leave'
-import { iBXRestImChatMuteParam } from '../../typification/rest/im/chat/mute'
+import { iBXRestImChatGetParam,
+  iBXRestImChatSetOwnerParam,
+  iBXRestImChatUpdateAvatarParam,
+  iBXRestImChatUpdateTitleParam,
+  iBXRestImChatLeaveParam,
+  iBXRestImChatMuteParam,
+  iBXRestImChatUpdateColor,
+  iBXRestImChatAddParam
+} from '../../typification/rest/im'
 import { BXRestNavvyImChatUser } from './chat/user'
-import { iBXRestImChatUpdateColor } from '../../typification/rest/im/chat/updateColor'
 
 export class BXRestNavvyImChat {
 

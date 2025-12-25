@@ -1,4 +1,4 @@
-import { iBXRestFieldItem, iBXRestParamListField } from '../../typification/rest/lists/field/get'
+import { iBXRestFieldItem, iBXRestParamListField } from '../../typification/rest/lists'
 import { Navvy } from '../../services/navvy'
 import { BXRestMapListsField } from '../../map/lists/field'
 import { $field, $get, $lists } from '../../consts/part-name-methods'

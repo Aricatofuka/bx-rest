@@ -1,9 +1,11 @@
-import { iBXRestParamTaskStageGet } from '../../typification/rest/task/stages/get'
+import {
+  iBXRestParamTaskStageGet,
+  iBXRestParamTaskStagesUpdate,
+  iBXRestParamTaskStagesCanMoveTask,
+  iBXRestTaskStage
+} from '../../typification/rest/task'
 import { Navvy } from '../../services/navvy'
-import { iBXRestParamTaskStagesUpdate } from '../../typification/rest/task/stages/update'
-import { iBXRestParamTaskStagesCanMoveTask } from '../../typification/rest/task/stages/canMoveTask'
 import { $add, $delete, $get, $stages, $task, $update } from '../../consts/part-name-methods'
-import { iBXRestTaskStage } from '../../typification/rest/task/stages/stage'
 
 export class BXRestNavvyTaskStages {
 

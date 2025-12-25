@@ -40,6 +40,57 @@
     "./typification/base": {
       "types": "./typification/rest/base.d.ts"
     },
+    "./typification/app": {
+      "types": "./typification/rest/app.d.ts"
+    },
+    "./typification/bizproc": {
+      "types": "./typification/rest/bizproc.d.ts"
+    },
+    "./typification/calendar": {
+      "types": "./typification/rest/calendar.d.ts"
+    },
+    "./typification/department": {
+      "types": "./typification/rest/department.d.ts"
+    },
+    "./typification/disk": {
+      "types": "./typification/rest/disk.d.ts"
+    },
+    "./typification/im": {
+      "types": "./typification/rest/im.d.ts"
+    },
+    "./typification/lists": {
+      "types": "./typification/rest/lists.d.ts"
+    },
+    "./typification/log": {
+      "types": "./typification/rest/log.d.ts"
+    },
+    "./typification/profile": {
+      "types": "./typification/rest/profile.d.ts"
+    },
+    "./typification/pull": {
+      "types": "./typification/rest/pull.d.ts"
+    },
+    "./typification/settings": {
+      "types": "./typification/rest/settings.d.ts"
+    },
+    "./typification/socialnetwork": {
+      "types": "./typification/rest/socialnetwork.d.ts"
+    },
+    "./typification/sonet_group": {
+      "types": "./typification/rest/sonet_group.d.ts"
+    },
+    "./typification/support": {
+      "types": "./typification/rest/support.d.ts"
+    },
+    "./typification/task": {
+      "types": "./typification/rest/task.d.ts"
+    },
+    "./typification/tasks": {
+      "types": "./typification/rest/tasks.d.ts"
+    },
+    "./typification/timeman": {
+      "types": "./typification/rest/timeman.d.ts"
+    },
     "./typification/user": {
       "types": "./typification/rest/user.d.ts"
     }
