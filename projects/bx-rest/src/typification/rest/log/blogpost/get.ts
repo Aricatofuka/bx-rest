@@ -1,6 +1,6 @@
 import { iBXRestBlogPostEssence, iBXRestBlogPostEssenceHttp } from './essence'
 import { iBXRestYesNo } from '../../base/yes-no'
-import { iBXRestBaseParam } from '../../support/param'
+import { iBXRestBaseParam } from '../../support'
 
 export interface iBXRestParamBlogPostGet extends iBXRestBaseParam {
   POST_ID?: number, // Числовой ID сообщения для фильтрации

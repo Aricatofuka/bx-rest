@@ -1,5 +1,5 @@
 import { iBXRestYesNo } from '../base/yes-no'
-import { iBXRestBaseParam } from '../support/param'
+import { iBXRestBaseParam } from '../support'
 
 export interface UserFilter extends iBXRestBaseParam{
     ID?: number[] | number, // по ID
