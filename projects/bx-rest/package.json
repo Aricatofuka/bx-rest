@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Bitrix24 REST API client angular, vue or typescript",
   "keywords": [
     "bitrix",
@@ -27,7 +27,7 @@
     "just-flatten-it": "^5.2.0",
     "just-values": "^2.2.0",
     "luxon": "^3.4.4",
-    "axios": "^1.7.9"
+    "axios": "^1.13.2"
   },
   "dependencies": {
     "tslib": "^2.3.0"
@@ -93,6 +93,9 @@
     },
     "./typification/user": {
       "types": "./typification/rest/user.d.ts"
+    },
+    "./services/navvy": {
+      "types": "./services/navvy.d.ts"
     }
   },
   "module": "esm2022/bx-rest.mjs",

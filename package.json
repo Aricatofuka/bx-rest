@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Bitrix24 REST API client angular, vue or typescript",
   "keywords": [
     "bitrix",
@@ -27,14 +27,14 @@
     "just-flatten-it": "^5.2.0",
     "just-values": "^2.2.0",
     "luxon": "^3.4.4",
-    "axios": "^1.7.9"
+    "axios": "^1.13.2"
   },
   "dependencies": {
     "@angular-devkit/build-angular": "^18.2.11",
     "@typescript-eslint/eslint-plugin": "^8.20.0",
     "@typescript-eslint/parser": "^8.20.0",
     "angular-eslint": "^19.0.2",
-    "axios": "^1.7.9",
+    "axios": "^1.13.2",
     "countries-and-timezones": "^3.7.2",
     "ng-packagr": "^18.2.1",
     "qs": "^6.13.1",
