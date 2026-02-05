@@ -19,10 +19,19 @@ export class BXRestNavvyBizProc {
    */
   startProcFormNewsFeed(
     id: number,
-    parametersElement: Record<string, string>,
+    parametersElement: Record<string, string | Date>,
     parametersBizProc: Record<string, string>,
     templateIDs: number[] = []
   ) {
+
+    // Не понимаю почему DATE_CREATE указывается не на сервере
+    // но если пользователь не указал, надо указать
+    const value: any = parametersElement['DATE_CREATE']
+    if (value === null || value === undefined || (typeof value === 'string' || value.trim() === '')) {
+      parametersElement['DATE_CREATE'] = new Date()
+    }
+
+
     return this.BXRestNavvyLists.element.add(
         {
           IBLOCK_TYPE_ID: 'bitrix_processes',
@@ -32,7 +41,7 @@ export class BXRestNavvyBizProc {
           // как ещё уникальнее сделать я просто не знаю
           // это поле обязательно без него не работает
           FIELDS: {
-            NAME: parametersElement['NAME'],
+            NAME: String(parametersElement['NAME']),
             ...parametersElement
           }
         }

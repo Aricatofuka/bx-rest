@@ -1,5 +1,4 @@
-import { DateTime } from 'luxon'
-import { DateTimeOptions } from 'luxon/src/datetime'
+import { DateTime, DateTimeOptions } from 'luxon'
 
 /**
  * Преобразует значение в строку
