@@ -19,5 +19,5 @@ type UppercaseKeys<T extends CamelToSnake<iBXRestHttpTask | iBXRestTask>> = {
  *
  * в разеделе select и после него глянуть на ответ
  */
-export type iBXRestTaskFieldsName = keyof UppercaseKeys<CamelToSnake<iBXRestHttpTask | iBXRestTask>>
+export type iBXRestTaskFieldsName = keyof UppercaseKeys<CamelToSnake<iBXRestTask>>
 
