@@ -5,9 +5,12 @@ import { BXRestMapResult, instanceOfiBXRestAnswerSuccess } from '../../../functi
 import { HttpBXServices } from '../../http/HttpBX'
 import { ReturnTypeNavvy } from '../navvy-support'
 
-/**
- * Грядущая повсеместная замена для NavvyPagNavBase
- */
+// TODO: посмотреть как будет себя вести, если все в порядке то оставить
+interface Mapper<T, R> {
+  (param: T): R
+  (param: undefined): undefined
+}
+
 export abstract class NavvyPagBase<T, R, P> {
 
   protected readonly http: HttpBXServices
@@ -16,7 +19,8 @@ export abstract class NavvyPagBase<T, R, P> {
   public constructor(
     protected url: string[],
     protected param: P,
-    protected map: ((param: T | undefined) => R | undefined) | undefined
+    /// protected map: Mapper<T, R> | undefined = undefined
+    protected map: ((param: T| undefined) => R | undefined) | undefined = undefined
   ) {
     this.http = new HttpBXServices()
   }

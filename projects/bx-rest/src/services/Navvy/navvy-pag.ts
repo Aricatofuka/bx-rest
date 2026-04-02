@@ -23,7 +23,10 @@ export class NavvyPag<T, R, P extends iBXRestPagination> extends NavvyPagBase<T[
             this.save = []
             // TODO: проверить будет ли быстрее работать метод в случаях когда total < 100 (то есть можно обойтись двумя прямыми запросами)
             if (items.total && items.total > 50) {
-              const count = [...Array(Math.floor(items.total / this.pageSize)).keys()]
+              const mathFloor = Math.floor(items.total / this.pageSize)
+              const count = (mathFloor === items.total / this.pageSize) // если mathFloor равен обычному делению, значит один запрос будет лишним, так как результат первой страницы уже есть, а последняя в данном случаи будет пустая (или с мусорными аднными)
+                ? [...Array(mathFloor - 1).keys()]
+                : [...Array(mathFloor).keys()]
 
               // Разделяем массив на блоки
               const chunks = []
