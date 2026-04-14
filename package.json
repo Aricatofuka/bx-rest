@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Bitrix24 REST API client angular, vue or typescript",
   "keywords": [
     "bitrix",
@@ -21,16 +21,13 @@
     "url": "https://github.com/Aricatofuka/bx-rest/issues"
   },
   "homepage": "https://github.com/Aricatofuka/bx-rest#readme",
-  "peerDependencies": {
+  "dependencies": {
     "just-camel-case": "^6.2.0",
     "just-clone": "^6.2.0",
     "just-flatten-it": "^5.2.0",
     "just-values": "^2.2.0",
     "snake-camel-types": "^1.0.1",
     "luxon": "^3.4.4",
-    "axios": "^1.13.2"
-  },
-  "dependencies": {
     "@angular-devkit/build-angular": "^18.2.11",
     "@typescript-eslint/eslint-plugin": "^8.20.0",
     "@typescript-eslint/parser": "^8.20.0",
