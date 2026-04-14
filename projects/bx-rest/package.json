@@ -22,20 +22,34 @@
   },
   "homepage": "https://github.com/Aricatofuka/bx-rest#readme",
   "dependencies": {
-    "tslib": "^2.3.0",
-    "just-clone": "^6.2.0",
+    "axios": "^1.13.2",
+    "countries-and-timezones": "^3.7.2",
     "just-camel-case": "^6.2.0",
+    "just-clone": "^6.2.0",
     "just-flatten-it": "^5.2.0",
     "just-values": "^2.2.0",
-    "snake-camel-types": "^1.0.1",
     "luxon": "^3.4.4",
-    "axios": "^1.13.2"
+    "qs": "^6.13.1",
+    "rxjs": "^7.8.1",
+    "snake-camel-types": "^1.0.1",
+    "ts-case-convert": "^2.1.0",
+    "tslib": "^2.3.0"
   },
+  "files": [
+    "README.md",
+    "*.d.ts",
+    "consts",
+    "esm2022",
+    "fesm2022",
+    "functions",
+    "map",
+    "request",
+    "request-navvy",
+    "rest",
+    "services",
+    "typification"
+  ],
   "exports": {
-    ".": {
-      "types": "./index.d.ts",
-      "default": "./index.js"
-    },
     "./typification/base": {
       "types": "./typification/rest/base.d.ts"
     },
