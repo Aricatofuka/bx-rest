@@ -1,16 +1,18 @@
 import {
   iBXRestParamElapseditemGet,
   iBXRestTaskElapsedItemHttp,
+  iBXRestParamTaskGetAccess,
+  iBXRestTaskGetAccess,
   iIsActionAllowedParam,
   iBXRestParamAddElapseditem,
   iBXRestParamUpdateElapseditem,
   iBXRestParamDelElapseditem
 } from '../../../typification/rest/task'
 import { HttpBXServices } from '../../../services/http/HttpBX'
-import { $elapseditem, $getlist, $isactionallowed, $task } from '../../../consts/part-name-methods'
+import { $elapseditem, $getaccess, $getlist, $isactionallowed, $task, $tasks } from '../../../consts/part-name-methods'
 import { map, take } from 'rxjs/operators'
 import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
-import { forkJoin, mergeMap, Observable, of, throwError } from 'rxjs'
+import { mergeMap, of, throwError } from 'rxjs'
 import { BXRestNavvyUser } from '../../user'
 import { BXRestNavvyTasks } from '../../tasks'
 import { BXRestNavvyDelegateElapsedItem } from '../delegate/elapseditem'
@@ -78,52 +80,96 @@ export class BXRestNavvyOperationElapsedItem {
   }
 
   checkPermissionAddElapsedTimeToTaskArr(tasks: number[], userCurrent: iBXRestUser | undefined = undefined) {
-    let request: Record<number, Observable<boolean>> = Object.assign({}, ...tasks.map(i => {
-      return {[i]: this.checkPermissionAddElapsedTimeToTask(i, userCurrent)}
-    }))
-    return forkJoin(request)
-      .pipe(
-        take(1),
-        mergeMap(v => {
-          let forForeach = Object.entries(v).map(([key, value]) => {
-            return {id: Number(key), value: value}
-          })
-          if (forForeach.find(i => i.value === undefined) !== undefined) {
-            let forForeachHave = forForeach.filter(i => i.value !== undefined)
-            let forForeachNotHave = forForeach.filter(i => i.value === undefined) // тут получаем все id не сохраненных у нас прав
-            return this.http.branch<iIsActionAllowedParam, boolean>(
-              Object.assign({}, ...forForeachNotHave
-                .map(i => i.id)
-                .map(i => {
-                  return {
-                    [i]: {
-                      name: this.http.getNameMethod([$task, $elapseditem, $isactionallowed]),
-                      param: {
-                        TASKID: i,
-                        ITEMID: 1,
-                        ACTIONID: 1
-                      }
-                    }
-                  }
-                }))
-            ).pipe(
-              map(v => {
-                if (v && v.length) {
-                  const res: Record<number, boolean> = this.http.mapBranchResult(v)
-                  forForeachNotHave = Object.entries(res).map(([key, value]) => {
-                    return {id: Number(key), value: value}
-                  })
-                  return Object.assign(forForeachHave, forForeachNotHave)
-                }
-                return undefined
-              })
-            )
+    // Убираем дубли, чтобы не проверять права по одной задаче несколько раз.
+    const ids = [...new Set(tasks.filter(i => !!i))]
+    // Если текущий пользователь не передан снаружи, запрашиваем его один раз на весь набор задач.
+    const user$ = userCurrent ? of(userCurrent) : this.BXRestNavvyUser.current().res()
+
+    // Старый batch через task.elapseditem.isactionallowed.
+    // Вызываем его ниже только для задач, по которым getaccess не вернул ELAPSEDTIME.ADD.
+    const loadMissingByActionAllowed = (missingIds: number[], resolved: { id: number, value: boolean }[]) => {
+      return this.http.branch<iIsActionAllowedParam, boolean>(
+        Object.assign({}, ...missingIds.map(i => {
+          return {
+            [i]: {
+              name: this.http.getNameMethod([$task, $elapseditem, $isactionallowed]),
+              param: {
+                TASKID: i,
+                ITEMID: 1,
+                ACTIONID: 1
+              }
+            }
           }
-          return of(forForeach)
+        }))
+      ).pipe(
+        map(v => {
+          if (v && v.length) {
+            const res: Record<number, boolean> = this.http.mapBranchResult(v)
+            const loaded = Object.entries(res).map(([key, value]) => {
+              return {id: Number(key), value}
+            })
+
+            return [...resolved, ...loaded]
+          }
+
+          return undefined
         })
       )
-  }
+    }
 
+    if (!ids.length) {
+      return of([])
+    }
+
+    return user$.pipe(
+      take(1),
+      mergeMap(self => {
+        if (!self) {
+          // Страховочная ветка: если user.current не вернулся, getaccess вызвать нельзя.
+          return loadMissingByActionAllowed(ids, [])
+        }
+
+        // Основной путь: одним batch-запросом получаем права ELAPSEDTIME.ADD по всем задачам.
+        return this.http.branch<iBXRestParamTaskGetAccess, iBXRestTaskGetAccess>(
+          Object.assign({}, ...ids.map(id => {
+            return {
+              [id]: {
+                name: this.http.getNameMethod([$tasks, $task, $getaccess]),
+                param: {
+                  id,
+                  users: [self.ID]
+                }
+              }
+            }
+          }))
+        ).pipe(
+          mergeMap(v => {
+            if (v && v.length) {
+              const res = this.http.mapBranchResult<iBXRestTaskGetAccess>(v)
+              const permissions = ids.map(id => ({
+                id,
+                value: res[id]?.allowedActions?.[self.ID]?.['ELAPSEDTIME.ADD']
+              }))
+
+              // getaccess может вернуть true или false - оба значения считаем готовым ответом.
+              // В старый isactionallowed отправляем только задачи без явного ELAPSEDTIME.ADD.
+              const resolved = permissions.filter(i => i.value !== undefined) as { id: number, value: boolean }[]
+              const missingIds = permissions.filter(i => i.value === undefined).map(i => i.id)
+
+              if (missingIds.length) {
+                return loadMissingByActionAllowed(missingIds, resolved)
+              }
+
+              return of(permissions)
+            }
+
+            // Если batch getaccess не вернулся, сохраняем поведение старого fallback.
+            return loadMissingByActionAllowed(ids, [])
+          })
+        )
+      })
+    )
+  }
   /**
    * Проверка на возможность добавление записи трека в таску
    *
