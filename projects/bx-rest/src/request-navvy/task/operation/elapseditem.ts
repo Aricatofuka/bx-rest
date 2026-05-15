@@ -26,8 +26,6 @@ export class BXRestNavvyOperationElapsedItem {
   private readonly BXRestNavvyUser = new BXRestNavvyUser()
   private readonly BXRestNavvyTasks = new BXRestNavvyTasks()
 
-  // private readonly BXRestNavvyElapsedItem = new BXRestNavvyElapsedItem()
-
   constructor(private BXRestNavvyElapsedItem: BXRestNavvyElapsedItem) {
   }
 
