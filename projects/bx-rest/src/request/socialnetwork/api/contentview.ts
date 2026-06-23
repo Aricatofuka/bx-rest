@@ -2,10 +2,12 @@ import {
   iBXRestParamSocialNetWorkApiContentViewSet, iBXRestSocialNetWorkApiContentViewSet
 } from '../../../typification/rest/socialnetwork/api/contentview/set'
 import { HttpBXServices } from '../../../services/http/HttpBX'
-import { methods } from '../../../typification/base/methods'
+import { $api, $set, $socialnetwork } from '../../../consts/part-name-methods'
 
 export class BXRestSocialNetWorkApiContentView {
-  private url = methods.socialNetWork.api.contentView
+  private url = {
+    set: [$socialnetwork, $api, 'contentView', $set],
+  }
 
   private http = new HttpBXServices()
 

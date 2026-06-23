@@ -15,10 +15,35 @@ import { iBXRestDiskFolderAddSubFolderParam } from '../../typification/rest/disk
 import { iBXRestDiskFolderCopyToParam } from '../../typification/rest/disk/folder/copyTo'
 import { iBXRestDiskFolderMoveToParam } from '../../typification/rest/disk/folder/moveTo'
 import { iBXRestDiskFolderRenameParam } from '../../typification/rest/disk/folder/rename'
-import { methods } from '../../typification/base/methods'
+import {
+  $copyto,
+  $disk,
+  $folder,
+  $get,
+  $getchildren,
+  $getFields,
+  $markdeleted,
+  $moveto,
+  $rename,
+  $restore,
+  $uploadfile
+} from '../../consts/part-name-methods'
 
 export class BXRestDiskFolder {
-  protected url = methods.disk.folder
+  protected url = {
+    getFields: [$disk, $folder, $getFields],
+    get: [$disk, $folder, $get],
+    getChildren: [$disk, $folder, $getchildren],
+    addSubFolder: [$disk, $folder, 'addsubfolder'],
+    copyTo: [$disk, $folder, $copyto],
+    moveTo: [$disk, $folder, $moveto],
+    rename: [$disk, $folder, $rename],
+    deleteTree: [$disk, $folder, 'deletetree'],
+    markDeleted: [$disk, $folder, $markdeleted],
+    restore: [$disk, $folder, $restore],
+    uploadFile: [$disk, $folder, $uploadfile],
+    getExternalLink: [$disk, $folder, 'getExternalLink'],
+  }
 
   private readonly http = new HttpBXServices()
 

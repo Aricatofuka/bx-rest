@@ -7,11 +7,25 @@ import {
   iBXRestParamDelElapseditem,
   iIsActionAllowedParam
 } from '../../typification/rest/task'
-import { methods } from '../../typification/base/methods'
+import {
+  $add,
+  $delete,
+  $elapseditem,
+  $getlist,
+  $isactionallowed,
+  $task,
+  $update
+} from '../../consts/part-name-methods'
 
 
 export class BXRestTaskElapsedItem {
-  protected url = methods.task.elapsedItem
+  protected url = {
+    getList: [$task, $elapseditem, $getlist],
+    add: [$task, $elapseditem, $add],
+    delete: [$task, $elapseditem, $delete],
+    isActionAllowed: [$task, $elapseditem, $isactionallowed],
+    update: [$task, $elapseditem, $update],
+  }
   private readonly http = new HttpBXServices()
 
   getList(param: iBXRestParamElapseditemGet = {}) {

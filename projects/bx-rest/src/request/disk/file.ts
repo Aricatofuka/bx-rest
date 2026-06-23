@@ -4,10 +4,13 @@ import {
   iBXRestParamDiskFileGet,
   iBXRestParamDiskFileMarkDeleted
 } from '../../typification/rest/disk/file'
-import { methods } from '../../typification/base/methods'
+import { $disk, $file, $get, $markdeleted } from '../../consts/part-name-methods'
 
 export class BXRestDiskFile {
-  protected url = methods.disk.file
+  protected url = {
+    get: [$disk, $file, $get],
+    markDeleted: [$disk, $file, $markdeleted],
+  }
 
   private readonly http = new HttpBXServices()
 

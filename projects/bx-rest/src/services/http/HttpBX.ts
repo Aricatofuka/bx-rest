@@ -10,7 +10,6 @@ import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 import { switchMap } from 'rxjs/operators'
 import * as qs from 'qs'
 import { prepareBaseAddress } from '../base'
-import { BXRestSettings } from '../../settings'
 
 export class HttpBXServices extends HttpServices {
 
@@ -93,19 +92,23 @@ export class HttpBXServices extends HttpServices {
   override httpPost<T>(url: string, params: any = {}): Observable<T | undefined> {
     const paramsClone = clone(params)
     const key = this.session.getKeyAuth()
-    let auth = this.session.getAuthParams()
+    const auth = this.session.getAuthParams()
     const checkIsOn = this.session.getCheckAuthParamsIsOn()
-    if (checkIsOn && key === 'OAuth2') {
-      if (!auth && BXRestSettings.date.auth.source !== 'off') {
-        throw new Error('Authorization required (post)')
+
+    if (checkIsOn) {
+      if (!auth) {
+        return throwError(() => this.session.getAuthError('post'))
       }
-    } else {
-      paramsClone[key] = auth
+
+      if (key !== 'OAuth2') {
+        paramsClone[key] = auth
+      }
     }
+
     return this.session.getBaseUrl().pipe(
       switchMap((baseUrl) => {
         if (!baseUrl) {
-          return throwError(() => new Error('get base url error'))
+          return throwError(() => this.session.getBaseUrlError('post'))
         }
 
         const fullUrl = prepareBaseAddress(baseUrl) + url
@@ -177,10 +180,19 @@ export class HttpBXServices extends HttpServices {
     if (params === null) {
       params = {}
     }
-    let auth = this.session.getAuthParams()
+    const auth = this.session.getAuthParams()
     const paramsClone = clone(params)
-    if (auth) {
-      paramsClone[this.session.getKeyAuth()] = auth
+    const checkIsOn = this.session.getCheckAuthParamsIsOn()
+    const key = this.session.getKeyAuth()
+
+    if (checkIsOn) {
+      if (!auth) {
+        return throwError(() => this.session.getAuthError('get'))
+      }
+
+      if (key !== 'OAuth2') {
+        paramsClone[key] = auth
+      }
     }
 
     let options = {
@@ -191,12 +203,13 @@ export class HttpBXServices extends HttpServices {
     return this.session.getBaseUrl().pipe(
       switchMap((baseUrl) => {
         if (!baseUrl) {
-          return throwError(() => new Error('get base url error'))
+          return throwError(() => this.session.getBaseUrlError('get'))
         }
 
         return from(
           this.axiosInstance.post<T>(prepareBaseAddress(baseUrl) + url, options,
             {
+              withCredentials: key === 'OAuth2',
               headers: {
                 'Content-Type': 'application/json',
               }

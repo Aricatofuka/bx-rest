@@ -4,10 +4,14 @@ import {
   iBXRestTasksTaskResultHttp
 } from '../../../typification/rest/tasks/task/result/result'
 import { iBXRestParamTasksTaskResultList } from '../../../typification/rest/tasks/result/list'
-import { methods } from '../../../typification/base/methods'
+import { $list, $result, $task, $tasks } from '../../../consts/part-name-methods'
 
 export class BXRestTasksTaskResult {
-  protected url = methods.tasks.task.result
+  protected url = {
+    list: [$tasks, $task, $result, $list],
+    addFromComment: [$tasks, $task, $result, 'addFromComment'],
+    deleteFromComment: [$tasks, $task, $result, 'deleteFromComment'],
+  }
   private readonly http = new HttpBXServices()
 
   deleteFromComment(commentID: number) {

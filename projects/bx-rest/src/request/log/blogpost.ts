@@ -1,11 +1,14 @@
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestParamLogBlogPostAdd } from '../../typification/rest/log/blogpost/add'
 import { iBXRestBlogPostHttp, iBXRestParamBlogPostGet } from '../../typification/rest/log/blogpost/get'
-import { methods } from '../../typification/base/methods'
+import { $add, $blogpost, $get, $log } from '../../consts/part-name-methods'
 
 export class BXRestLogBlogPost {
 
-  protected url = methods.log.blogpost
+  protected url = {
+    add: [$log, $blogpost, $add],
+    get: [$log, $blogpost, $get],
+  }
 
   private readonly http = new HttpBXServices()
 

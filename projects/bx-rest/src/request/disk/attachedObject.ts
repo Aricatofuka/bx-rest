@@ -3,10 +3,12 @@ import {
   iBXRestDiskAttachedObjectHttp,
   iBXRestParamRestDiskAttachedObject
 } from '../../typification/rest/disk/AttachedObject'
-import { methods } from '../../typification/base/methods'
+import { $disk, $get } from '../../consts/part-name-methods'
 
 export class BXRestDiskAttachedObject {
-  protected url = methods.disk.attachedObject
+  protected url = {
+    get: [$disk, 'attachedObject', $get],
+  }
   private readonly http = new HttpBXServices()
 
   get(param: iBXRestParamRestDiskAttachedObject) {

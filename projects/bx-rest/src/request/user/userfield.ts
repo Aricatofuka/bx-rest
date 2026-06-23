@@ -1,9 +1,11 @@
 import { HttpBXServices } from '../../services/http/HttpBX'
 import { iBXRestUserUserField } from '../../typification/rest/user/userfield/list'
-import { methods } from '../../typification/base/methods'
+import { $list, $user, $userfield } from '../../consts/part-name-methods'
 
 export class BXRestUserUserfield {
-  protected url = methods.user.userfield
+  protected url = {
+    list: [$user, $userfield, $list],
+  }
   private readonly http = new HttpBXServices()
 
   list() {

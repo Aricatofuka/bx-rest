@@ -4,10 +4,13 @@ import {
   iBXRestParamListsElementGet
 } from '../../typification/rest/lists/element/get'
 import { iBXRestParamListsElementAdd } from '../../typification/rest/lists/element/add'
-import { methods } from '../../typification/base/methods'
+import { $add, $element, $get, $lists } from '../../consts/part-name-methods'
 
 export class BXRestListsElement {
-  protected readonly url = methods.lists.element
+  protected readonly url = {
+    add: [$lists, $element, $add],
+    get: [$lists, $element, $get],
+  }
   private readonly http = new HttpBXServices()
 
   get(pram: iBXRestParamListsElementGet) {

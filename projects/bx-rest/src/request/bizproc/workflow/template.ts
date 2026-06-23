@@ -1,7 +1,4 @@
 export class BXRestBizProcWorkflowTemplate {
-
-  // protected url = methods.bizProc.workflow.terminate
-
   // constructor(private http: HttpBXServices) {
   // }
 

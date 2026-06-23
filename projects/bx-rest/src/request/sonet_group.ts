@@ -2,10 +2,12 @@ import { HttpBXServices } from '../services/http/HttpBX'
 import {
   iBXRestParamSonetGroupGet, iBXRestSonetGroupGetHttp
 } from '../typification/rest/sonet_group/get'
-import { methods } from '../typification/base/methods'
+import { $get, $sonet_group } from '../consts/part-name-methods'
 
 export class BXRestSonetGroup {
-  protected url = methods.sonet_group
+  protected url = {
+    get: [$sonet_group, $get],
+  }
   private http = new HttpBXServices()
 
   // // TODO: filter и select позже нормально описать

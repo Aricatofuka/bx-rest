@@ -18,12 +18,34 @@ import { iBXRestParamTasksTaskGet } from '../../typification/rest/tasks/task/get
 import { iBXRestTasksTaskGetFields } from '../../typification/rest/tasks/task/getFields'
 import { iBXRestParamTasksTaskUpdate } from '../../typification/rest/tasks/task/update'
 import { iBXRestTaskFieldsName } from '../../typification/rest/tasks/base/fields-name'
-import { methods } from '../../typification/base/methods'
 import { iBXRestTasksTaskBaseAnswer } from '../../typification/rest/tasks/task/base'
+import {
+  $add,
+  $approve,
+  $complete,
+  $defer,
+  $get,
+  $getaccess,
+  $getFields,
+  $list,
+  $task,
+  $tasks,
+  $update
+} from '../../consts/part-name-methods'
 
 export class BXRestTasksTask {
 
-  protected url = methods.tasks.task
+  protected url = {
+    add: [$tasks, $task, $add],
+    approve: [$tasks, $task, $approve],
+    complete: [$tasks, $task, $complete],
+    defer: [$tasks, $task, $defer],
+    get: [$tasks, $task, $get],
+    getFields: [$tasks, $task, $getFields],
+    getAccess: [$tasks, $task, $getaccess],
+    list: [$tasks, $task, $list],
+    update: [$tasks, $task, $update],
+  }
 
   public readonly result = new BXRestTasksTaskResult()
   private readonly http = new HttpBXServices()

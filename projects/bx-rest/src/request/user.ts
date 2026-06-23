@@ -3,13 +3,21 @@ import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestUserHttp, iBXRestUserHttpField } from '../typification/rest/user'
 import { iBXRestParamUserSearch } from '../typification/rest/user'
 import { BXRestUserUserfield } from './user/userfield'
-import { methods } from '../typification/base/methods'
+import { $get, $search, $update, $user } from '../consts/part-name-methods'
 
 export class BXRestUser {
   private readonly http = new HttpBXServices()
   public readonly userfield = new BXRestUserUserfield()
 
-  protected url = methods.user
+  protected url = {
+    admin: [$user, 'admin'],
+    get: [$user, $get],
+    current: [$user, 'current'],
+    update: [$user, $update],
+    search: [$user, $search],
+    access: [$user, 'access'],
+    fields: [$user, 'fields'],
+  }
 
   admin() {
     return this.http.post<boolean>(this.url.admin)

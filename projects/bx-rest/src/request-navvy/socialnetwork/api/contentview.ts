@@ -3,13 +3,13 @@ import {
 } from '../../../typification/rest/socialnetwork'
 
 import { Navvy } from '../../../services/navvy'
-import { methods } from '../../../typification/base/methods'
+import { $api, $set, $socialnetwork } from '../../../consts/part-name-methods'
 
 export class BXRestNavvySocialNetWorkApiContentView {
 
   private readonly Navvy = new Navvy()
 
   set(param: iBXRestParamSocialNetWorkApiContentViewSet){
-    return this.Navvy.simple(methods.socialNetWork.api.contentView.set, param)
+    return this.Navvy.simple([$socialnetwork, $api, 'contentView', $set], param)
   }
 }

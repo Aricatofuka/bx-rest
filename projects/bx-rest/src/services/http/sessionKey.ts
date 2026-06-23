@@ -7,8 +7,16 @@ import { iBXRestAuth } from '../../typification/auth/save'
 import { SessionStorage } from '../vanilla/sessionStorage'
 
 type IKeyAuth = 'sessid' | 'auth' | string
+type StorageKind = 'localStorage' | 'sessionStorage'
 
-export default class SessionKeyServices {
+export class SessionKeyError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'SessionKeyError'
+  }
+}
+
+export class SessionKeyServices {
 
   authHave = false
   authData: iBXRestAuth | undefined
@@ -20,42 +28,8 @@ export default class SessionKeyServices {
 
   constructor(
   ) {
-    const authData = SessionStorage.getItem<iBXRestAuth>(this.constructor.name)
-    if ((authData && !authData.access_token.length) || !authData) {
-      // получаем токен по собственным каналом (в битриксе приложение trace:apps.trace)
-      window.addEventListener('message', (event: MessageEvent) => {
-        if (event.origin !== window.origin) { // проверяем что это не наше сообщение (с текущего приложения)
-          if (event.data && event.data.param) {
-            if (typeof event.data.param === 'string') {
-              event.data.param = JSON.parse(event.data.param)
-            }
-
-            if (event.data.param.access_token) {
-              const param = event.data.param
-              const save = {
-                access_token: (param.access_token) ? param.access_token : undefined,
-                client_endpoint: (param.client_endpoint) ? param.client_endpoint : undefined,
-                domain: (param.domain) ? param.domain : undefined,
-                expires: (param.expires) ? param.expires : undefined,
-                expires_in: (param.expires_in) ? param.expires_in : undefined,
-                member_id: (param.member_id) ? param.member_id : undefined,
-                refresh_token: (param.refresh_token) ? param.refresh_token : undefined,
-                scope: (param.scope) ? param.scope : undefined,
-                server_endpoint: (param.server_endpoint) ? param.server_endpoint : undefined,
-                status: (param.status) ? param.status : undefined,
-                user_id: (param.user_id) ? param.user_id : undefined,
-                type: (param.type) ? param.type : undefined,
-              }
-
-              if (Object.keys(save).length && save.access_token) {
-                SessionStorage.setItem(this.constructor.name, save)
-                this.subscribeAll()
-              }
-            }
-          }
-        }
-      })
-    } else if (this.getAuth().length) {
+    const authData = this.getSessionItem<iBXRestAuth>(this.constructor.name)
+    if (this.getAuth().length > 0) {
       this.authHave = true
     }
 
@@ -70,16 +44,18 @@ export default class SessionKeyServices {
   getAuth(): string {
     switch (this.BX_REST_SETTINGS.auth.key) {
       case 'auth':
-        return Cookies.get('auth')
-      default:
-        if ((window as any).BX && (window as any).BX.bitrix_sessid()) { // чё за хуйня?
-          return (window as any).BX.bitrix_sessid()
-        } else if (this.getSessid().length) {
+        return this.getCookie('auth')
+      default: {
+        const bxSessid = this.getBxSessid()
+        if (bxSessid) {
+          return bxSessid
+        } else if (this.getSessid().length > 0) {
           const str = this.getSessid()
           return (str) ? str : ''
         } else {
-          return Cookies.get('auth')
+          return this.getCookie('auth')
         }
+      }
     }
   }
 
@@ -92,12 +68,12 @@ export default class SessionKeyServices {
   }
 
   getSessid() {
-    const check = new URLSearchParams(document.location.search).get('sessid')
+    const check = this.getSearchParam('sessid')
     if (check) {
-      LocalStorage.set('sessid', check)
+      this.setLocalStorage('sessid', check)
       return check
-    } else if (LocalStorage.get('sessid')) {
-      return LocalStorage.get('sessid')
+    } else if (this.getLocalStorage('sessid')) {
+      return this.getLocalStorage('sessid') || ''
     }
     return ''
   }
@@ -106,21 +82,49 @@ export default class SessionKeyServices {
     const source = this.BX_REST_SETTINGS.auth.source
 
     if (typeof source === 'function') {
-      return source()
+      try {
+        return this.normalizeValue(source())
+      } catch {
+        return undefined
+      }
     }
 
     switch (source) {
       case 'cookies':
-        return this.getAuth()
+        return this.normalizeValue(this.getAuth())
       case 'localStorage':
-        return LocalStorage.get(this.BX_REST_SETTINGS.auth.key)
+        return this.normalizeValue(this.getLocalStorage(this.BX_REST_SETTINGS.auth.key))
+      case 'off':
+        return undefined
       default:
-        return (this.authData) ? this.authData.access_token : undefined
+        return this.normalizeValue((this.authData) ? this.authData.access_token : undefined)
     }
   }
 
   getCheckAuthParamsIsOn(){
     return this.BX_REST_SETTINGS.auth.source !== 'off'
+  }
+
+  getAuthError(operation = 'request'): SessionKeyError {
+    const source = this.BX_REST_SETTINGS.auth.source
+    const key = this.getKeyAuth()
+
+    if (!this.getCheckAuthParamsIsOn()) {
+      return new SessionKeyError(
+        `Authorization is disabled for ${operation}: BXRestSettings.auth.source is "off".`
+      )
+    }
+
+    const sourceName = (typeof source === 'function') ? 'custom function' : source
+    const checked = this.getAuthCheckedPlaces()
+
+    return new SessionKeyError([
+      `Authorization token was not found for ${operation}.`,
+      `auth.source: ${sourceName}.`,
+      `auth.key: ${key}.`,
+      `Checked: ${checked.join(', ')}.`,
+      'Set BXRestSettings.auth.source/key correctly or save a valid token before making the request.'
+    ].join(' '))
   }
 
   getBaseUrl(): Observable<string | undefined> {
@@ -132,8 +136,124 @@ export default class SessionKeyServices {
       return of(prepareBaseAddress(this.BX_REST_SETTINGS.urls.key, additional_part))
     }
 
-    const str = localStorage.getItem(this.BX_REST_SETTINGS.urls.key)
+    const str = this.getLocalStorage(this.BX_REST_SETTINGS.urls.key)
 
     return of(prepareBaseAddress((str) ? str : '', additional_part))
+  }
+
+  getBaseUrlError(operation = 'request'): SessionKeyError {
+    return new SessionKeyError([
+      `Base URL was not resolved for ${operation}.`,
+      `urls.source: ${this.BX_REST_SETTINGS.urls.source}.`,
+      `urls.key: ${this.BX_REST_SETTINGS.urls.key || '(empty)'}.`,
+      'Set BXRestSettings.urls.key to a URL or to a localStorage key containing the portal URL.'
+    ].join(' '))
+  }
+
+  private getAuthCheckedPlaces(): string[] {
+    const source = this.BX_REST_SETTINGS.auth.source
+
+    if (typeof source === 'function') {
+      return ['BXRestSettings.auth.source()']
+    }
+
+    switch (source) {
+      case 'cookies':
+        return this.BX_REST_SETTINGS.auth.key === 'auth'
+          ? ['cookie "auth"']
+          : ['window.BX.bitrix_sessid()', 'URL query "sessid"', 'localStorage "sessid"', 'cookie "auth"']
+      case 'localStorage':
+        return [`localStorage "${this.BX_REST_SETTINGS.auth.key}"`]
+      case 'off':
+        return ['authorization lookup skipped']
+      default:
+        return [`sessionStorage "${this.constructor.name}" access_token`]
+    }
+  }
+
+  private getBxSessid(): string {
+    const bx = (typeof window !== 'undefined') ? (window as any).BX : undefined
+
+    if (!bx || typeof bx.bitrix_sessid !== 'function') {
+      return ''
+    }
+
+    try {
+      return this.normalizeValue(bx.bitrix_sessid()) || ''
+    } catch {
+      return ''
+    }
+  }
+
+  private getSearchParam(name: string): string | undefined {
+    if (typeof document === 'undefined') {
+      return undefined
+    }
+
+    try {
+      return new URLSearchParams(document.location.search).get(name) || undefined
+    } catch {
+      return undefined
+    }
+  }
+
+  private getCookie(name: string): string {
+    if (typeof document === 'undefined') {
+      return ''
+    }
+
+    try {
+      return Cookies.get(name)
+    } catch {
+      return ''
+    }
+  }
+
+  private getLocalStorage(name: string): string | null {
+    return this.getStorageItem('localStorage', name)
+  }
+
+  private setLocalStorage(name: string, value: string): void {
+    if (typeof localStorage === 'undefined') {
+      return
+    }
+
+    try {
+      LocalStorage.set(name, value)
+    } catch {
+      return
+    }
+  }
+
+  private getSessionItem<T>(name: string): T | undefined {
+    if (typeof sessionStorage === 'undefined') {
+      return undefined
+    }
+
+    try {
+      return SessionStorage.getItem<T>(name)
+    } catch {
+      return undefined
+    }
+  }
+
+  private getStorageItem(kind: StorageKind, name: string): string | null {
+    const storage = kind === 'localStorage'
+      ? (typeof localStorage !== 'undefined' ? localStorage : undefined)
+      : (typeof sessionStorage !== 'undefined' ? sessionStorage : undefined)
+
+    if (!storage) {
+      return null
+    }
+
+    try {
+      return storage.getItem(name)
+    } catch {
+      return null
+    }
+  }
+
+  private normalizeValue(value: string | null | undefined): string | undefined {
+    return (value && value.length > 0) ? value : undefined
   }
 }

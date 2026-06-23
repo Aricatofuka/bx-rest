@@ -4,10 +4,15 @@ import { iBXRestDepartmentHttp } from '../typification/rest/department/departmen
 import { iBXRestParamDepartmentAdd } from '../typification/rest/department/add'
 import { iBXRestParamDepartmentDel } from '../typification/rest/department/del'
 import { iBXRestDepartmentUpdate } from '../typification/rest/department/update'
-import { methods } from '../typification/base/methods'
+import { $add, $delete, $department, $get, $update } from '../consts/part-name-methods'
 
 export class BXRestDepartment {
-  protected url = methods.department
+  protected url = {
+    get: [$department, $get],
+    del: [$department, $delete],
+    add: [$department, $add],
+    update: [$department, $update],
+  }
 
   private readonly http = new HttpBXServices()
 

@@ -10,10 +10,24 @@ import {
   iBXRestTaskCommentHtml
 } from '../../typification/rest/task'
 import { mergeMap, of } from 'rxjs'
-import { methods } from '../../typification/base/methods'
+import {
+  $add,
+  $commentitem,
+  $delete,
+  $get,
+  $getlist,
+  $task,
+  $update
+} from '../../consts/part-name-methods'
 
 export class BXRestNavvyTaskCommentItem {
-  protected url = methods.task.commentItem
+  protected url = {
+    getList: [$task, $commentitem, $getlist],
+    get: [$task, $commentitem, $get],
+    add: [$task, $commentitem, $add],
+    update: [$task, $commentitem, $update],
+    delete: [$task, $commentitem, $delete],
+  }
 
   private readonly Navvy = new Navvy()
 

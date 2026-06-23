@@ -3,11 +3,15 @@ import { iBXRestParamTaskStageGet } from '../../typification/rest/task/stages/ge
 import { iBXRestTaskStage } from '../../typification/rest/task/stages/stage'
 import { iBXRestParamTaskStagesUpdate } from '../../typification/rest/task/stages/update'
 import { iBXRestParamTaskStagesCanMoveTask } from '../../typification/rest/task/stages/canMoveTask'
-import { methods } from '../../typification/base/methods'
+import { $get, $stages, $task, $update } from '../../consts/part-name-methods'
 
 export class BXRestTaskStages {
   private readonly http = new HttpBXServices()
-  protected url = methods.task.stages
+  protected url = {
+    get: [$task, $stages, $get],
+    update: [$task, $stages, $update],
+    canmovetask: [$task, $stages, 'canmovetask'],
+  }
 
   get(param: iBXRestParamTaskStageGet) {
     return this.http.post<iBXRestTaskStage[]>(this.url.get, param)

@@ -1,7 +1,7 @@
 import { BXRestMapDiskAttachedObject } from '../../map/disk/attachedObject'
 import { Navvy } from '../../services/navvy'
 import { iBXRestParamRestDiskAttachedObject } from '../../typification/rest/disk'
-import { methods } from '../../typification/base/methods'
+import { $disk, $get } from '../../consts/part-name-methods'
 
 export class BXRestNavvyDiskAttachedObject {
 
@@ -9,7 +9,7 @@ export class BXRestNavvyDiskAttachedObject {
 
   get(param: iBXRestParamRestDiskAttachedObject) {
     return this.Navvy.simple(
-      methods.disk.attachedObject.get,
+      [$disk, 'attachedObject', $get],
       param,
       BXRestMapDiskAttachedObject.get)
   }
