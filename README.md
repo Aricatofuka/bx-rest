@@ -1,6 +1,8 @@
-# BX rest
+# bx-rest - Bitrix24 REST API client for TypeScript, Angular and Vue
 
-This is an intermediary that generates requests from your application to Bitrix24
+`bx-rest` is a TypeScript SDK for the Bitrix24 REST API. It helps call BX24 REST methods, work with auth tokens, sessid, OAuth2, pagination, mappers and typed API requests.
+
+Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix REST TypeScript library.
 
 ### Install
 
@@ -55,6 +57,49 @@ export const appConfig: ApplicationConfig = {
 }
 document.cookie ='auth=ACCESS_TOKEN;  max-age=99999'
 ```
+
+# SessionKeyServices
+
+`SessionKeyServices` is available from the public API and can be used when you need to inspect the current authorization data before making REST requests.
+
+```typescript
+import { BXRestSettings, SessionKeyServices, SessionKeyError } from 'bx-rest'
+
+BXRestSettings.update({
+  auth: {
+    source: 'cookies',
+    key: 'auth'
+  },
+  urls: {
+    source: 'string',
+    key: 'https://example.bitrix24.com',
+    additional_part: 'rest'
+  }
+})
+
+const session = new SessionKeyServices()
+
+const auth = session.getAuthParams()
+const authKey = session.getKeyAuth()
+
+if (!auth && session.getCheckAuthParamsIsOn()) {
+  const error = session.getAuthError('manual auth check')
+  if (error instanceof SessionKeyError) {
+    console.error(error.message)
+  }
+  throw error
+}
+
+session.getBaseUrl().subscribe((baseUrl) => {
+  if (!baseUrl) {
+    throw session.getBaseUrlError('manual base url check')
+  }
+
+  console.log({ authKey, auth, baseUrl })
+})
+```
+
+For `auth.key: 'auth'`, the service reads the `auth` cookie. For `auth.key: 'sessid'`, it tries `window.BX.bitrix_sessid()`, then the `sessid` query parameter, then `localStorage.sessid`, and finally the `auth` cookie. If `auth.source` is `localStorage`, the value is read by `auth.key`. If `auth.source` is `off`, authorization params are not added to requests.
 
 ```typescript
 import { BXRestNavvy } from 'bx-rest'
