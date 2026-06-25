@@ -9,4 +9,3 @@ export class BXRestNavvyCrm {
   public readonly contact = new BXRestNavvyCrmContact()
   public readonly company = new BXRestNavvyCrmCompany()
 }
-

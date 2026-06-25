@@ -11,5 +11,4 @@ export class BXRestNavvyBXRestBizProcWorkflow {
   start(param: iBXRestParamBizprocWorkflowStart) {
     return this.Navvy.simple([$bizproc, $workflow, $start], param)
   }
-
 }
