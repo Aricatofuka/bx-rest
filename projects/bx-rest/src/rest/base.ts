@@ -9,7 +9,6 @@ import { BXRestSonetGroup } from '../request/sonet_group'
 import { BXRestServer } from '../request/server'
 import { BXRestDepartment } from '../request/department'
 import { BXRestApp } from '../request/app'
-import { BXRestTimeMan } from '../request/timeman'
 import { HttpBXServices } from '../services/http/HttpBX'
 import { iBXRestProfileHttp } from '../typification/rest/profile'
 import { iBXRestBatch, iBXRestParamBatch } from '../typification/rest/batch'
@@ -29,7 +28,6 @@ export class BXRest {
   public readonly server = new BXRestServer()
   public readonly department = new BXRestDepartment()
   public readonly app = new BXRestApp()
-  public readonly timeMan = new BXRestTimeMan()
   public readonly socialNetWork = new BXRestSocialNetWork()
   public readonly pull = new BXRestPull()
 

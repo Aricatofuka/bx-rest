@@ -1,9 +1,11 @@
 import { BXRestNavvyLists } from './lists'
 import { forkJoin, mergeMap, Observable, of, throwError } from 'rxjs'
+import { BXRestNavvyBizProcTask } from './bizproc/task'
 import { BXRestNavvyBXRestBizProcWorkflow } from './bizproc/workflow'
 
 export class BXRestNavvyBizProc {
 
+  public readonly task = new BXRestNavvyBizProcTask()
   public readonly workflow = new BXRestNavvyBXRestBizProcWorkflow()
   private readonly BXRestNavvyLists = new BXRestNavvyLists()
 
@@ -23,14 +25,12 @@ export class BXRestNavvyBizProc {
     parametersBizProc: Record<string, string>,
     templateIDs: number[] = []
   ) {
-
     // Не понимаю почему DATE_CREATE указывается не на сервере
     // но если пользователь не указал, надо указать
     const value: any = parametersElement['DATE_CREATE']
     if (value === null || value === undefined || (typeof value === 'string' || value.trim() === '')) {
       parametersElement['DATE_CREATE'] = new Date()
     }
-
 
     return this.BXRestNavvyLists.element.add(
         {
