@@ -1,6 +1,7 @@
 {
   "name": "bx-rest",
-  "version": "0.9.5",
+  "version": "0.9.6",
+  "private": true,
   "description": "Bitrix24 REST API client and TypeScript SDK for Angular, Vue and browser apps",
   "keywords": [
     "bitrix",
@@ -75,6 +76,10 @@
     "typescript-eslint": "^8.18.0"
   },
   "scripts": {
-    "lint": "ng lint"
+    "build": "ng build bx-rest",
+    "lint": "ng lint",
+    "pack:dist": "npm pack dist/bx-rest",
+    "prepublishOnly": "node -e \"throw new Error('Do not publish from repository root. Run npm run publish:dist.')\"",
+    "publish:dist": "npm publish dist/bx-rest"
   }
 }
