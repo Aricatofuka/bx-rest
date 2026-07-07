@@ -6,7 +6,12 @@ import {
   iBXRestTask, iBXRestTasksTaskGetFields, iBXRestTasksTaskDeferHttp,
   iBXRestParamTasksTaskGet, iBXRestTasksTaskGet, iBXRestTasksTaskGetHttpDefault,
   iBXRestParamTasksTaskUpdateFields,
-  iBXRestTasksTaskFieldsCanUpdate
+  iBXRestTasksTaskFieldsCanUpdate,
+  iBXRestParamTasksTaskApprove,
+  iBXRestTasksTaskApproveHttp,
+  iBXRestParamTasksTaskComplete,
+  iBXRestTasksTaskCompleteHttp,
+  iBXRestParamTasksTaskDefer
 } from '../../typification/rest/tasks'
 import { Navvy } from '../../services/navvy'
 import { BXRestMapTasksTask } from '../../map/tasks/task'
@@ -164,6 +169,30 @@ export class BXRestNavvyTasksTask {
   }
 
   // TODO: переписать нормально
+  approve(param: iBXRestParamTasksTaskApprove) {
+    return this.Navvy.simple<
+      iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskApproveHttp>,
+      iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskApproveHttp>,
+      iBXRestParamTasksTaskApprove
+    >(this.url.approve, param)
+  }
+
+  complete(param: iBXRestParamTasksTaskComplete) {
+    return this.Navvy.simple<
+      iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskCompleteHttp>,
+      iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskCompleteHttp>,
+      iBXRestParamTasksTaskComplete
+    >(this.url.complete, param)
+  }
+
+  defer(param: iBXRestParamTasksTaskDefer) {
+    return this.Navvy.simple<
+      iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskDeferHttp>,
+      iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskDeferHttp>,
+      iBXRestParamTasksTaskDefer
+    >(this.url.defer, param)
+  }
+
   update<CustomFields extends object>(
     task: AllKeyFree<iBXRestTasksTaskGet<iBXRestTaskFieldsName[], CustomFields>>,
     updateFields: (iBXRestTasksTaskFieldsCanUpdate | keyof ToUpperCaseKeys<ObjectToSnake<CustomFields>>)[]

@@ -40,11 +40,6 @@ export const BXRestRequestProvider: Provider = {
   useFactory: () => new BXRestRequest(),
 }
 
-export const BXRestProvider: Provider = {
-  provide: BXRest,
-  useFactory: () => new BXRest(),
-}
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
@@ -124,7 +119,7 @@ export class AnyComponent {
 ```
 # Usage in Vue
 ```typescript
-import { BXRestSettings, BXRest, BXRestMap, BXRestNavvy, BXRestRequest } from 'bx-rest';
+import { BXRestSettings, BXRestMap, BXRestNavvy, BXRestRequest } from 'bx-rest';
 
 const bxRestPlugin = {
     install(Vue) {
@@ -145,7 +140,6 @@ const bxRestPlugin = {
         Vue.config.globalProperties.$bxRestNavvy = new BXRestNavvy();
         Vue.config.globalProperties.$bxRestMap = new BXRestMap();
         Vue.config.globalProperties.$bxRestRequest = new BXRestRequest();
-        Vue.config.globalProperties.$bxRest = new BXRest();
     },
 };
 

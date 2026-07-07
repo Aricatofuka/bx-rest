@@ -1,4 +1,5 @@
 import {
+  iBXRestAddTaskStage,
   iBXRestParamTaskStageGet,
   iBXRestParamTaskStagesUpdate,
   iBXRestParamTaskStagesCanMoveTask,
@@ -38,22 +39,29 @@ export class BXRestNavvyTaskStages {
 
   private readonly Navvy = new Navvy()
 
+  add(param: iBXRestAddTaskStage) {
+    return this.Navvy.simple<number, number, iBXRestAddTaskStage>(
+      this.url.add,
+      param
+    )
+  }
+
   get(param: iBXRestParamTaskStageGet) {
-    this.Navvy.simple<iBXRestTaskStage[], iBXRestTaskStage[], iBXRestParamTaskStageGet>(
+    return this.Navvy.simple<iBXRestTaskStage[], iBXRestTaskStage[], iBXRestParamTaskStageGet>(
       this.url.get,
       param
     )
   }
 
   update(param: iBXRestParamTaskStagesUpdate) {
-    this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesUpdate>(
+    return this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesUpdate>(
       this.url.update,
       param
     )
   }
 
   canMoveTask(param: iBXRestParamTaskStagesCanMoveTask) {
-    this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesCanMoveTask>(
+    return this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesCanMoveTask>(
       this.url.canMoveTask,
       param
     )

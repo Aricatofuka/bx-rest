@@ -119,4 +119,6 @@ export const $lead = 'lead'
 export const $deal = 'deal'
 export const $contact = 'contact'
 export const $company = 'company'
+export const $quote = 'quote'
+export const $productrows = 'productrows'
 
