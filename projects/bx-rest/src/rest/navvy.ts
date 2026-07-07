@@ -18,6 +18,7 @@ import { BXRestNavvyTimeMan } from '../request-navvy/timeman'
 import { BXRestNavvySocialNetWork } from '../request-navvy/socialnetwork'
 import { BXRestNavvyPull } from '../request-navvy/pull'
 import { BXRestNavvyCrm } from '../request-navvy/crm'
+import { iBXRestProfile, iBXRestProfileHttp } from '../typification/rest/profile'
 
 export class BXRestNavvy {
   public readonly user = new BXRestNavvyUser()
@@ -40,7 +41,11 @@ export class BXRestNavvy {
   public readonly Navvy = new Navvy()
 
   public profile() {
-    return this.Navvy.simple(['profile'], BXRestMap.profile)
+    return this.Navvy.simple<iBXRestProfileHttp, iBXRestProfile>(
+      ['profile'],
+      undefined,
+      BXRestMap.profile
+    )
   }
 
   // public batch<T, C, M>(param: iBXRestNavvyParamBatch<T, C, M>) {

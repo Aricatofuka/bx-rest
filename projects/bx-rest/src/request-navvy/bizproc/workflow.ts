@@ -22,7 +22,10 @@ export class BXRestNavvyBXRestBizProcWorkflow {
    * Запускает Бизнес-процесс
    */
   start(param: iBXRestParamBizprocWorkflowStart) {
-    return this.Navvy.simple([$bizproc, $workflow, $start], param)
+    return this.Navvy.simple<string, string, iBXRestParamBizprocWorkflowStart>(
+      [$bizproc, $workflow, $start],
+      param
+    )
   }
 
   /**

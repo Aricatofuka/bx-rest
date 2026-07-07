@@ -39,6 +39,6 @@ export class BXRestNavvyListsElement {
   }
 
   add(param: iBXRestParamListsElementAdd) {
-    return this.Navvy.simple(this.url.add, param)
+    return this.Navvy.simple<number, number, iBXRestParamListsElementAdd>(this.url.add, param)
   }
 }

@@ -29,6 +29,6 @@ export class BXRestNavvyRestCalendarUserSettings {
    * @deprecated Не протестирован
    */
   set(param: iBXRestCalendarUserSettingsSetParam) {
-    return this.Navvy.simple(this.url.set, param)
+    return this.Navvy.simple<boolean, boolean, iBXRestCalendarUserSettingsSetParam>(this.url.set, param)
   }
 }

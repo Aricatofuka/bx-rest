@@ -4,7 +4,7 @@ import {
   iBXRestTasksTaskListHttp,
 } from '../../typification/rest/tasks/task/list'
 import {
-  iBXRestTasksTaskGetHttp, iBXRestTasksTaskGetHttpDefault
+  iBXRestTasksTaskGet, iBXRestTasksTaskGetHttp, iBXRestTasksTaskGetHttpDefault
 } from '../../typification/rest/tasks/task/get'
 import { BXRestMapTasksTaskResult } from './task/result'
 import { iBXRestHttpTask, iBXRestTask, iBXRestTaskHttpTag } from '../../typification/rest/tasks/task'
@@ -23,9 +23,15 @@ export class BXRestMapTasksTask {
     return (item) ? BXRestMapTasksTask.TaskBXHttpToTaskBX(item.task) : undefined
   }
 
-  static get<S extends iBXRestTaskFieldsName[], CustomFields>(item: iBXRestTasksTaskGetHttp<S, CustomFields> | undefined) {
+  static get<S extends iBXRestTaskFieldsName[], CustomFields>(
+    item: iBXRestTasksTaskGetHttp<S, CustomFields> | undefined
+  ): iBXRestTasksTaskGet<S, CustomFields> | undefined {
     return (item && item.task) ?
-      BXRestMapTasksTask.TaskBXHttpToTaskBX(item.task)
+      BXRestMapTasksTask.TaskBXHttpToTaskBX<
+        CustomFields,
+        typeof item.task,
+        iBXRestTasksTaskGet<S, CustomFields>
+      >(item.task)
       : undefined
   }
 

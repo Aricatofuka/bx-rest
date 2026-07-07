@@ -33,7 +33,7 @@ export class BXRestNavvyLogBlogPost {
   private Navvy = new Navvy()
 
   add(param: iBXRestParamLogBlogPostAdd) {
-    return this.Navvy.simple(this.url.add, param)
+    return this.Navvy.simple<number, number, iBXRestParamLogBlogPostAdd>(this.url.add, param)
   }
 
   get(param: iBXRestParamBlogPostGet = {}) {

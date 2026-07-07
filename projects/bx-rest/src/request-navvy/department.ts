@@ -1,4 +1,9 @@
-import { iBXRestParamDepartmentGet, iBXRestParamDepartmentAdd, iBXRestDepartmentUpdate } from '../typification/rest/department'
+import {
+  iBXRestParamDepartmentGet,
+  iBXRestParamDepartmentAdd,
+  iBXRestDepartmentUpdate,
+  iBXRestParamDepartmentDel
+} from '../typification/rest/department'
 import { Navvy } from '../services/navvy'
 import { BXRestMapDepartment } from '../map/department'
 import { $add, $delete, $department, $get, $update } from '../consts/part-name-methods'
@@ -21,15 +26,15 @@ export class BXRestNavvyDepartment {
   }
 
   add(param: iBXRestParamDepartmentAdd) {
-    return this.Navvy.simple(this.url.add, param)
+    return this.Navvy.simple<number, number, iBXRestParamDepartmentAdd>(this.url.add, param)
   }
 
   del(id: number) {
-    return this.Navvy.simple(this.url.del, {ID: id})
+    return this.Navvy.simple<boolean, boolean, iBXRestParamDepartmentDel>(this.url.del, {ID: id})
   }
 
   update(param: iBXRestDepartmentUpdate) {
     param.NAME = param.NAME.trim()
-    return this.Navvy.simple(this.url.update, param)
+    return this.Navvy.simple<boolean, boolean, iBXRestDepartmentUpdate>(this.url.update, param)
   }
 }

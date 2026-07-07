@@ -4,7 +4,7 @@ import {
   iBXRestTaskFieldsName,
   iBXRestTasksTaskBaseAnswer,
   iBXRestTask, iBXRestTasksTaskGetFields, iBXRestTasksTaskDeferHttp,
-  iBXRestParamTasksTaskGet, iBXRestTasksTaskGet, iBXRestTasksTaskGetHttpDefault,
+  iBXRestParamTasksTaskGet, iBXRestTasksTaskGet, iBXRestTasksTaskGetHttp, iBXRestTasksTaskGetHttpDefault,
   iBXRestParamTasksTaskUpdateFields,
   iBXRestTasksTaskFieldsCanUpdate,
   iBXRestParamTasksTaskApprove,
@@ -222,7 +222,11 @@ export class BXRestNavvyTasksTask {
   }
 
   get<S extends iBXRestTaskFieldsName[], CustomFields extends object = object>(param: iBXRestParamTasksTaskGet<CustomFields>) {
-    return this.Navvy.simple(
+    return this.Navvy.simple<
+      iBXRestTasksTaskGetHttp<S, CustomFields>,
+      iBXRestTasksTaskGet<S, CustomFields>,
+      iBXRestParamTasksTaskGet<CustomFields>
+    >(
       this.url.get,
       param,
       BXRestMapTasksTask.get<S, CustomFields>

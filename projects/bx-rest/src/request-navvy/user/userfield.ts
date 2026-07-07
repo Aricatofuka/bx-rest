@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { $add, $delete, $file, $get, $list, $update, $user, $userfield } from '../../consts/part-name-methods'
+import { iBXRestUserUserField } from '../../typification/rest/user'
 
 export class BXRestNavvyUserUserfield {
   private url = {
@@ -30,6 +31,6 @@ export class BXRestNavvyUserUserfield {
   private readonly Navvy = new Navvy()
 
   list() {
-    return this.Navvy.simple(this.url.list)
+    return this.Navvy.simple<iBXRestUserUserField[]>(this.url.list)
   }
 }

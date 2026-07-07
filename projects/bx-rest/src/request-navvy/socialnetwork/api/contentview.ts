@@ -1,5 +1,6 @@
 import {
-  iBXRestParamSocialNetWorkApiContentViewSet
+  iBXRestParamSocialNetWorkApiContentViewSet,
+  iBXRestSocialNetWorkApiContentViewSet
 } from '../../../typification/rest/socialnetwork'
 
 import { Navvy } from '../../../services/navvy'
@@ -10,6 +11,10 @@ export class BXRestNavvySocialNetWorkApiContentView {
   private readonly Navvy = new Navvy()
 
   set(param: iBXRestParamSocialNetWorkApiContentViewSet){
-    return this.Navvy.simple([$socialnetwork, $api, 'contentView', $set], param)
+    return this.Navvy.simple<
+      iBXRestSocialNetWorkApiContentViewSet,
+      iBXRestSocialNetWorkApiContentViewSet,
+      iBXRestParamSocialNetWorkApiContentViewSet
+    >([$socialnetwork, $api, 'contentView', $set], param)
   }
 }

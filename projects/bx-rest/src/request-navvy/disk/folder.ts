@@ -11,7 +11,8 @@ import {
   iBXRestParamFolderDeleteTree,
   iBXRestParamFolderGetChildren,
   iBXRestParamFolderGetExternalLink,
-  iBXRestParamFolderRestore
+  iBXRestParamFolderRestore,
+  iBXRestDiskFolderGetFieldsHttp
 } from '../../typification/rest/disk'
 
 import {
@@ -114,7 +115,7 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   deleteTree(param: iBXRestParamFolderDeleteTree) {
-    return this.Navvy.simple(
+    return this.Navvy.simple<boolean, boolean, iBXRestParamFolderDeleteTree>(
       this.url.deleteTree,
       param
     )
@@ -152,7 +153,7 @@ export class BXRestNavvyDiskFolder {
    * @param param
    */
   getExternalLink(param: iBXRestParamFolderGetExternalLink) {
-    return this.Navvy.simple(
+    return this.Navvy.simple<string, string, iBXRestParamFolderGetExternalLink>(
       this.url.getExternalLink,
       param
     )
@@ -162,7 +163,7 @@ export class BXRestNavvyDiskFolder {
    * Возвращает описание полей папки
    */
   getFields() {
-    return this.Navvy.simple(
+    return this.Navvy.simple<iBXRestDiskFolderGetFieldsHttp>(
       this.url.getFields
     )
   }

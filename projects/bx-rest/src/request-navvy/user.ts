@@ -1,5 +1,11 @@
 import { Navvy } from '../services/navvy'
-import { iBXRestParamUserGet, iBXRestParamUserSearch, iBXRestUser, iBXRestUserHttp } from '../typification/rest/user'
+import {
+  iBXRestParamUserGet,
+  iBXRestParamUserSearch,
+  iBXRestUser,
+  iBXRestUserHttp,
+  iBXRestUserHttpField
+} from '../typification/rest/user'
 import clone from 'just-clone'
 import { BXRestNavvyUserUserfield } from './user/userfield'
 import { BXRestMapUser } from '../map/user'
@@ -86,14 +92,14 @@ export class BXRestNavvyUser {
   }
 
   access(params: string[]) {
-    return this.Navvy.simple(
+    return this.Navvy.simple<boolean, boolean, string[]>(
       this.url.access,
       params,
     )
   }
 
   fields() {
-    return this.Navvy.simple(this.url.fields)
+    return this.Navvy.simple<iBXRestUserHttpField>(this.url.fields)
   }
 
   // getAll(params: iBXGetParam = {}): Observable<iBXRestUser [] | undefined> {
