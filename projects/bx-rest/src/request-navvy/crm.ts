@@ -3,8 +3,14 @@ import { BXRestNavvyCrmDeal } from './crm/deal'
 import { BXRestNavvyCrmContact } from './crm/contact'
 import { BXRestNavvyCrmCompany } from './crm/company'
 import { BXRestNavvyCrmQuote } from './crm/quote/index'
+import { BXRestNavvyCrmEnum } from './crm/enum/index'
+import { BXRestNavvyCrmMultifield } from './crm/multifield'
 
 export class BXRestNavvyCrm {
+  /** Перечисления CRM (`crm.enum.*`). */
+  public readonly enum = new BXRestNavvyCrmEnum()
+  /** Описание множественных полей CRM (`crm.multifield.*`). */
+  public readonly multifield = new BXRestNavvyCrmMultifield()
   public readonly lead = new BXRestNavvyCrmLead()
   public readonly deal = new BXRestNavvyCrmDeal()
   public readonly contact = new BXRestNavvyCrmContact()
