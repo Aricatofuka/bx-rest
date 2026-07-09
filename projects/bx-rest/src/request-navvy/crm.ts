@@ -5,8 +5,11 @@ import { BXRestNavvyCrmCompany } from './crm/company'
 import { BXRestNavvyCrmQuote } from './crm/quote/index'
 import { BXRestNavvyCrmEnum } from './crm/enum/index'
 import { BXRestNavvyCrmMultifield } from './crm/multifield'
+import { BXRestNavvyCrmAutomation } from './crm/automation/index'
 
 export class BXRestNavvyCrm {
+  /** Автоматизация CRM (`crm.automation.*`). */
+  public readonly automation = new BXRestNavvyCrmAutomation()
   /** Перечисления CRM (`crm.enum.*`). */
   public readonly enum = new BXRestNavvyCrmEnum()
   /** Описание множественных полей CRM (`crm.multifield.*`). */

@@ -146,7 +146,7 @@ const bxRestPlugin = {
 export default bxRestPlugin;
 ```
 
-```vue
+```typescript
 import './assets/main.css'
 
 import { createApp } from 'vue'
