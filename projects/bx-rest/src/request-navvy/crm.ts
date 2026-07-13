@@ -6,8 +6,11 @@ import { BXRestNavvyCrmQuote } from './crm/quote/index'
 import { BXRestNavvyCrmEnum } from './crm/enum/index'
 import { BXRestNavvyCrmMultifield } from './crm/multifield'
 import { BXRestNavvyCrmAutomation } from './crm/automation/index'
+import { BXRestNavvyCrmAutomatedSolution } from './crm/automatedsolution'
 
 export class BXRestNavvyCrm {
+  /** Цифровые рабочие места (`crm.automatedsolution.*`). */
+  public readonly automatedSolution = new BXRestNavvyCrmAutomatedSolution()
   /** Автоматизация CRM (`crm.automation.*`). */
   public readonly automation = new BXRestNavvyCrmAutomation()
   /** Перечисления CRM (`crm.enum.*`). */

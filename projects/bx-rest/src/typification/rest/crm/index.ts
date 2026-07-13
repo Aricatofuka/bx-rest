@@ -6,4 +6,5 @@ export * from './quote'
 export * from './enum'
 export * from './multifield'
 export * from './automation'
+export * from './automatedsolution'
 
