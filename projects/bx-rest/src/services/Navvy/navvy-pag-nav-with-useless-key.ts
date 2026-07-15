@@ -5,7 +5,7 @@ import clone from 'just-clone'
 import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 import { NavvyPagBase } from './extends/navvy-pag-base'
 import { ReturnTypeNavvy } from './navvy-support'
-import * as qs from 'qs'
+import { serializeBitrixParams } from '../../functions/serializeBitrixParams'
 import { BXRest } from '../../rest/base'
 
 export class NavvyPagNavWithUselessKey<T, R, P extends iBXRestPagination> extends NavvyPagBase<Record<string, T>, R[], P> {
@@ -38,7 +38,7 @@ export class NavvyPagNavWithUselessKey<T, R, P extends iBXRestPagination> extend
 
                     // Формируем строку запроса
                     return this.http.getNameMethod(this.url)
-                      + '?' + qs.stringify(param, { arrayFormat: 'brackets' })
+                      + '?' + serializeBitrixParams(param)
                   })
                 }).pipe(
                   map(v => {

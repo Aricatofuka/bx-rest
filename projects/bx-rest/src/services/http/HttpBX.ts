@@ -8,8 +8,8 @@ import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import flatten from 'just-flatten-it'
 import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 import { switchMap } from 'rxjs/operators'
-import * as qs from 'qs'
 import { prepareBaseAddress } from '../base'
+import { serializeBitrixParams as stringifyBitrixParams } from '../../functions/serializeBitrixParams'
 
 export class HttpBXServices extends HttpServices {
 
@@ -49,7 +49,7 @@ export class HttpBXServices extends HttpServices {
     )
     for (let key in param) {
       if (typeof key === 'string' || typeof key === 'number' && param[key].param) {
-        res[key] = param[key].name + '?' + qs.stringify(param[key].param, {arrayFormat: 'brackets'})
+        res[key] = param[key].name + '?' + stringifyBitrixParams(param[key].param)
       }
     }
     return res
@@ -137,42 +137,8 @@ export class HttpBXServices extends HttpServices {
     )
   }
 
-  serializeBitrixParams(obj: any, prefix = ''): string {
-    const pairs: string[] = []
-
-    for (const key in obj) {
-      if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
-
-      const value = obj[key]
-      const prefixedKey = prefix ? `${prefix}[${key}]` : key
-
-      if (value === undefined) {
-        continue
-      } else if (value === null) {
-        pairs.push(`${encodeURIComponent(prefixedKey)}=`)
-      } else if (value instanceof Date) {
-        pairs.push(`${encodeURIComponent(prefixedKey)}=${encodeURIComponent(value.toISOString())}`)
-      } else if (Array.isArray(value)) {
-        value.forEach((item) => {
-          if (item === undefined) return
-          if (item === null) {
-            pairs.push(`${encodeURIComponent(prefixedKey)}[]=`)
-          } else if (item instanceof Date) {
-            pairs.push(`${encodeURIComponent(prefixedKey)}[]=${encodeURIComponent(item.toISOString())}`)
-          } else if (typeof item === 'object') {
-            pairs.push(this.serializeBitrixParams(item, `${prefixedKey}[]`))
-          } else {
-            pairs.push(`${encodeURIComponent(prefixedKey)}[]=${encodeURIComponent(item)}`)
-          }
-        })
-      } else if (typeof value === 'object') {
-        pairs.push(this.serializeBitrixParams(value, prefixedKey))
-      } else {
-        pairs.push(`${encodeURIComponent(prefixedKey)}=${encodeURIComponent(value)}`)
-      }
-    }
-
-    return pairs.join('&')
+  serializeBitrixParams(params: unknown): string {
+    return stringifyBitrixParams(params)
   }
 
   // Мб не работает

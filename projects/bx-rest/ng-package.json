@@ -9,7 +9,7 @@
     "just-flatten-it",
     "just-values",
     "luxon",
-    "qs",
+    "qs-esm",
     "rxjs",
     "snake-camel-types",
     "ts-case-convert",

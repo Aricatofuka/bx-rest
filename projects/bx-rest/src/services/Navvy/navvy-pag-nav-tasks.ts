@@ -6,7 +6,7 @@ import { ReturnTypeNavvy } from './navvy-support'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 import { NavvyPagBase } from './extends/navvy-pag-base'
-import * as qs from 'qs'
+import { serializeBitrixParams } from '../../functions/serializeBitrixParams'
 import { BXRest } from '../../rest/base'
 
 export class NavvyPagNavTasks<T, R, P extends iBXRestPagination> extends NavvyPagBase<{tasks: T[] | undefined}, R[], P> {
@@ -56,7 +56,7 @@ export class NavvyPagNavTasks<T, R, P extends iBXRestPagination> extends NavvyPa
 
                     // Формируем строку запроса
                     return this.http.getNameMethod(this.url)
-                      + '?' + qs.stringify(param, { arrayFormat: 'brackets' })
+                      + '?' + serializeBitrixParams(param)
                   })
                 })
               })

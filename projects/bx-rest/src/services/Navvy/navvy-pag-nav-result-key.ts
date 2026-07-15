@@ -6,7 +6,7 @@ import { ReturnTypeNavvy } from './navvy-support'
 import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 import { NavvyPagBase } from './extends/navvy-pag-base'
-import * as qs from 'qs'
+import { serializeBitrixParams } from '../../functions/serializeBitrixParams'
 import { BXRest } from '../../rest/base'
 
 type KeyedResult<K extends string, T> = Record<K, T[] | undefined>
@@ -67,7 +67,7 @@ export class NavvyPagNavResultKey<T, R, P extends iBXRestPagination, K extends s
                     param.start = (i + 1) * this.pageSize
 
                     return this.http.getNameMethod(this.url)
-                      + '?' + qs.stringify(param, { arrayFormat: 'brackets' })
+                      + '?' + serializeBitrixParams(param)
                   })
                 })
               })

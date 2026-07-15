@@ -7,7 +7,7 @@ import { iBXRestAnswer } from '../../typification/rest/base/answer'
 import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 import { BXRest } from '../../rest/base'
 import { NavvyPagBase } from './extends/navvy-pag-base'
-import * as qs from 'qs'
+import { serializeBitrixParams } from '../../functions/serializeBitrixParams'
 
 
 export class NavvyPag<T, R, P extends iBXRestPagination> extends NavvyPagBase<T[], R[], P> {
@@ -45,7 +45,7 @@ export class NavvyPag<T, R, P extends iBXRestPagination> extends NavvyPagBase<T[
 
                     // Формируем строку запроса
                     return this.http.getNameMethod(this.url)
-                      + '?' + qs.stringify(param, { arrayFormat: 'brackets' })
+                      + '?' + serializeBitrixParams(param)
                   })
                 }).pipe(
                 )
