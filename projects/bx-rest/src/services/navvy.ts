@@ -5,6 +5,7 @@ import { NavvyPagNavWithUselessKey } from './navvy/navvy-pag-nav-with-useless-ke
 import { NavvyPagNavTasks } from './navvy/navvy-pag-nav-tasks'
 import { NavvyPag } from './navvy/navvy-pag'
 import { NavvyPagNavResultKey } from './navvy/navvy-pag-nav-result-key'
+import { NavvyPagNavResultKeyObject } from './navvy/navvy-pag-nav-result-key-object'
 
 export * from './navvy/navvy-simple'
 export * from './navvy/navvy-alternative-pagination-navigation'
@@ -12,6 +13,7 @@ export * from './navvy/navvy-pag-nav-with-useless-key'
 export * from './navvy/navvy-pag-nav-tasks'
 export * from './navvy/navvy-pag-nav-result-key'
 export * from './navvy/navvy-pag'
+export * from './navvy/navvy-pag-nav-result-key-object'
 export * from './navvy/navvy-support'
 
 export class Navvy {
@@ -75,6 +77,15 @@ export class Navvy {
     map?: (param: Record<K, T[] | undefined> | undefined) => R[] | undefined
   ) {
     return new NavvyPagNavResultKey(url, arg, key, map)
+  }
+
+  pagNavResultKeyObject<T, R, A extends iBXRestPagination, K extends string>(
+    url: string[],
+    arg: A,
+    key: K,
+    map?: (param: Record<K, Record<string, T> | undefined> | undefined) => R[] | undefined
+  ) {
+    return new NavvyPagNavResultKeyObject(url, arg, key, map)
   }
 
   pagNavWithUselessKey<T, R, A extends iBXRestPagination>(

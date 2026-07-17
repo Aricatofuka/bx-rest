@@ -7,8 +7,11 @@ import { BXRestNavvyCrmEnum } from './crm/enum/index'
 import { BXRestNavvyCrmMultifield } from './crm/multifield'
 import { BXRestNavvyCrmAutomation } from './crm/automation/index'
 import { BXRestNavvyCrmAutomatedSolution } from './crm/automatedsolution'
+import { BXRestNavvyCrmDocumentGenerator } from './crm/documentgenerator/index'
 
 export class BXRestNavvyCrm {
+  /** Генератор документов CRM (`crm.documentgenerator.*`). */
+  public readonly documentGenerator = new BXRestNavvyCrmDocumentGenerator()
   /** Цифровые рабочие места (`crm.automatedsolution.*`). */
   public readonly automatedSolution = new BXRestNavvyCrmAutomatedSolution()
   /** Автоматизация CRM (`crm.automation.*`). */

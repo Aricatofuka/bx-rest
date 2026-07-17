@@ -3,8 +3,7 @@ import { stringify, type IStringifyOptions } from 'qs-esm'
 const BITRIX_STRINGIFY_OPTIONS: IStringifyOptions = {
   // Добавляет числовые индексы массивов: fields[PHONE][0][VALUE].
   arrayFormat: 'indices',
-  // Использует bracket notation для вложенных объектов: filter[ID], а не filter.ID.
-  allowDots: false,
+  // allowDots не передаётся: значение по умолчанию false сохраняет bracket notation.
   // Выполняет URL-кодирование ключей и значений параметров.
   encode: true,
   // Кодирует не только значения, но и ключи вместе с квадратными скобками.
