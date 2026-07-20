@@ -4,4 +4,5 @@ export * from './contact'
 export * from './company'
 export * from './quote'
 export * from './automatedsolution'
+export * from './currency'
 

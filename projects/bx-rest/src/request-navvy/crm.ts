@@ -8,8 +8,11 @@ import { BXRestNavvyCrmMultifield } from './crm/multifield'
 import { BXRestNavvyCrmAutomation } from './crm/automation/index'
 import { BXRestNavvyCrmAutomatedSolution } from './crm/automatedsolution'
 import { BXRestNavvyCrmDocumentGenerator } from './crm/documentgenerator/index'
+import { BXRestNavvyCrmCurrency } from './crm/currency'
 
 export class BXRestNavvyCrm {
+  /** Валюты CRM (`crm.currency.*`). */
+  public readonly currency = new BXRestNavvyCrmCurrency()
   /** Генератор документов CRM (`crm.documentgenerator.*`). */
   public readonly documentGenerator = new BXRestNavvyCrmDocumentGenerator()
   /** Цифровые рабочие места (`crm.automatedsolution.*`). */
