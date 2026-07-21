@@ -9,4 +9,5 @@ export * from './automation'
 export * from './automatedsolution'
 export * from './documentgenerator'
 export * from './currency'
+export * from './status'
 
