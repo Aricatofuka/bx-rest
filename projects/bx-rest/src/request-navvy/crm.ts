@@ -10,8 +10,14 @@ import { BXRestNavvyCrmAutomatedSolution } from './crm/automatedsolution'
 import { BXRestNavvyCrmDocumentGenerator } from './crm/documentgenerator/index'
 import { BXRestNavvyCrmCurrency } from './crm/currency'
 import { BXRestNavvyCrmStatus } from './crm/status'
+import { BXRestNavvyCrmDuplicate } from './crm/duplicate/index'
+import { BXRestNavvyCrmEntity } from './crm/entity'
 
 export class BXRestNavvyCrm {
+  /** Поиск дубликатов и настройка его полей (`crm.duplicate.*`). */
+  public readonly duplicate = new BXRestNavvyCrmDuplicate()
+  /** Операции над универсальными CRM-объектами (`crm.entity.*`). */
+  public readonly entity = new BXRestNavvyCrmEntity()
   /** Справочники CRM (`crm.status.*`). */
   public readonly status = new BXRestNavvyCrmStatus()
   /** Валюты CRM (`crm.currency.*`). */

@@ -10,4 +10,6 @@ export * from './automatedsolution'
 export * from './documentgenerator'
 export * from './currency'
 export * from './status'
+export * from './duplicate'
+export * from './entity'
 
