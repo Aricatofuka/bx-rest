@@ -6,4 +6,5 @@ export * from './quote'
 export * from './automatedsolution'
 export * from './currency'
 export * from './status'
+export * from './calllist'
 

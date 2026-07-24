@@ -12,4 +12,5 @@ export * from './currency'
 export * from './status'
 export * from './duplicate'
 export * from './entity'
+export * from './calllist'
 

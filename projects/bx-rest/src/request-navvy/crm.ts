@@ -12,8 +12,11 @@ import { BXRestNavvyCrmCurrency } from './crm/currency'
 import { BXRestNavvyCrmStatus } from './crm/status'
 import { BXRestNavvyCrmDuplicate } from './crm/duplicate/index'
 import { BXRestNavvyCrmEntity } from './crm/entity'
+import { BXRestNavvyCrmCallList } from './crm/calllist/index'
 
 export class BXRestNavvyCrm {
+  /** Списки обзвона и их участники (`crm.calllist.*`). */
+  public readonly callList = new BXRestNavvyCrmCallList()
   /** Поиск дубликатов и настройка его полей (`crm.duplicate.*`). */
   public readonly duplicate = new BXRestNavvyCrmDuplicate()
   /** Операции над универсальными CRM-объектами (`crm.entity.*`). */
