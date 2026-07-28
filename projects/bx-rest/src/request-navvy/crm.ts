@@ -13,8 +13,14 @@ import { BXRestNavvyCrmStatus } from './crm/status'
 import { BXRestNavvyCrmDuplicate } from './crm/duplicate/index'
 import { BXRestNavvyCrmEntity } from './crm/entity'
 import { BXRestNavvyCrmCallList } from './crm/calllist/index'
+import { BXRestNavvyCrmAddress } from './crm/address'
+import { BXRestNavvyCrmRequisite } from './crm/requisite/index'
 
 export class BXRestNavvyCrm {
+  /** Адреса CRM, в том числе адреса реквизитов (`crm.address.*`). */
+  public readonly address = new BXRestNavvyCrmAddress()
+  /** Реквизиты, банковские данные, связи и шаблоны (`crm.requisite.*`). */
+  public readonly requisite = new BXRestNavvyCrmRequisite()
   /** Списки обзвона и их участники (`crm.calllist.*`). */
   public readonly callList = new BXRestNavvyCrmCallList()
   /** Поиск дубликатов и настройка его полей (`crm.duplicate.*`). */

@@ -13,4 +13,5 @@ export * from './status'
 export * from './duplicate'
 export * from './entity'
 export * from './calllist'
+export * from './requisite'
 
