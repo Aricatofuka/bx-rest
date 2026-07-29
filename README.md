@@ -1,59 +1,161 @@
-# bx-rest - Bitrix24 REST API client for TypeScript, Angular and Vue
+# bx-rest - Bitrix24 REST API client for TypeScript, Angular, Vue and React
 
 `bx-rest` is a TypeScript SDK for the Bitrix24 REST API. It helps call BX24 REST methods, work with auth tokens, sessid, OAuth2, pagination, mappers and typed API requests.
 
 Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix REST TypeScript library.
 
-### Install
+## Install
 
 ```shell
 npm install bx-rest
 ```
-# Usage in Angular
+
+## Quick Start
+
+Configure the portal URL and an access-token source once, then create a client and subscribe to the returned RxJS `Observable`. Use a complete URL including `https://`.
+
 ```typescript
-import { BXRestSettings } from 'bx-rest'
+import { firstValueFrom } from 'rxjs'
+import { BXRestNavvy, BXRestSettings } from 'bx-rest'
+
+const accessToken = 'YOUR_ACCESS_TOKEN'
 
 BXRestSettings.update({
   auth: {
-    source: 'cookies',
+    source: () => accessToken,
     key: 'auth'
   },
   urls: {
     source: 'string',
-    key: environment.urls.home,
+    key: 'https://example.bitrix24.com',
     additional_part: 'rest'
   }
 })
 
+const bxRest = new BXRestNavvy()
+
+const deals = await firstValueFrom(
+  bxRest.crm.deal.list({
+    select: ['ID', 'TITLE'],
+    filter: {},
+    start: 0
+  }).res()
+)
+
+console.log(deals)
+```
+
+Do not hardcode or commit a production access token. Pass it from your application's authorization flow, server response or secure runtime configuration.
+
+### Result modes
+
+REST calls are lazy: the request starts when the returned `Observable` is subscribed to or passed to `firstValueFrom`.
+
+| Method | Result |
+| --- | --- |
+| `.res()` | Unwraps the Bitrix response and applies the configured mapper. For paginated methods it returns the current page. |
+| `.resAll()` | Loads and combines every page. Available on paginated Navvy helpers. |
+| `.resVanilla()` | Returns the raw Bitrix response, including fields such as `result`, `total` and `next`. |
+| `.mapForVanilla()` | Keeps the raw response envelope but applies the mapper to its `result`. |
+
+## Authentication and OAuth2
+
+`auth.source` controls where credentials are read from. `auth.key` controls the request parameter name, except for the special `OAuth2` cookie-credentials mode.
+
+| Scenario | `auth.source` | `auth.key` | Behaviour |
+| --- | --- | --- | --- |
+| Access token from application state | `() => accessToken` | `auth` | Calls the function before each request and sends its value in the `auth` parameter. Recommended for OAuth2 access tokens managed by the application. |
+| Access token in local storage | `localStorage` | `auth` | Reads `localStorage["auth"]` and sends it as `auth`. |
+| Access token in a cookie | `cookies` | `auth` | Reads the `auth` cookie and sends it as `auth`. |
+| Embedded Bitrix page / local session | `cookies` | `sessid` | Tries `window.BX.bitrix_sessid()`, the `sessid` query parameter, `localStorage.sessid`, then the `auth` cookie. Sends the resolved value as `sessid`. |
+| Incoming webhook or URL that already contains authorization | `off` | Any value | Skips credential lookup and does not add an authorization parameter. |
+| Cookie-based credential request | Any source returning a non-empty value | `OAuth2` | Does not append the resolved value to request params and enables Axios `withCredentials`. Use only when the portal and CORS policy support credential cookies. |
+
+For a regular Bitrix OAuth2 `access_token`, use `auth.key: 'auth'` and provide the current token through a function or `localStorage`. The special `auth.key: 'OAuth2'` mode is for credential cookies; it does not send an OAuth access token by itself.
+
+For an incoming webhook URL, keep the full webhook path in `urls.key`, set `additional_part` to an empty string and disable additional authorization:
+
+```typescript
+BXRestSettings.update({
+  auth: {
+    source: 'off',
+    key: 'auth'
+  },
+  urls: {
+    source: 'string',
+    key: 'https://example.bitrix24.com/rest/1/WEBHOOK_CODE',
+    additional_part: ''
+  }
+})
+```
+
+## Usage in Angular
+
+Register the public clients and `Navvy` when you want to inject them into Angular services or components:
+
+```typescript
+import { ApplicationConfig, Provider } from '@angular/core'
+import {
+  BXRestMap,
+  BXRestNavvy,
+  BXRestRequest,
+  Navvy
+} from 'bx-rest'
+
 export const BXRestNavvyProvider: Provider = {
   provide: BXRestNavvy,
-  useClass: BXRestNavvy,
-};
+  useFactory: () => new BXRestNavvy()
+}
 
 export const BXRestMapProvider: Provider = {
   provide: BXRestMap,
-  useFactory: () => new BXRestMap(),
+  useFactory: () => new BXRestMap()
 }
 
 export const BXRestRequestProvider: Provider = {
   provide: BXRestRequest,
-  useFactory: () => new BXRestRequest(),
+  useFactory: () => new BXRestRequest()
+}
+
+export const NavvyProvider: Provider = {
+  provide: Navvy,
+  useFactory: () => new Navvy()
 }
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
-    provideHttpClient(),
     BXRestNavvyProvider,
     BXRestMapProvider,
     BXRestRequestProvider,
-    BXRestMapProvider
+    NavvyProvider
   ]
 }
-document.cookie ='auth=ACCESS_TOKEN;  max-age=99999'
 ```
 
-# SessionKeyServices
+Example component:
+
+```typescript
+import { Component, inject } from '@angular/core'
+import { BXRestNavvy } from 'bx-rest'
+
+@Component({
+  selector: 'app-list',
+  template: ''
+})
+export class ListComponent {
+  private readonly bxRest = inject(BXRestNavvy)
+
+  readonly listElements$ = this.bxRest.lists.element.get({
+    IBLOCK_TYPE_ID: 'lists',
+    IBLOCK_ID: 150,
+    FILTER: {
+      '>ID': 0
+    }
+  }).res()
+}
+```
+
+## SessionKeyServices
 
 `SessionKeyServices` is available from the public API and can be used when you need to inspect the current authorization data before making REST requests.
 
@@ -94,220 +196,243 @@ session.getBaseUrl().subscribe((baseUrl) => {
 })
 ```
 
-For `auth.key: 'auth'`, the service reads the `auth` cookie. For `auth.key: 'sessid'`, it tries `window.BX.bitrix_sessid()`, then the `sessid` query parameter, then `localStorage.sessid`, and finally the `auth` cookie. If `auth.source` is `localStorage`, the value is read by `auth.key`. If `auth.source` is `off`, authorization params are not added to requests.
+## Usage in Vue
 
 ```typescript
-import { BXRestNavvy } from 'bx-rest'
+import type { Plugin } from 'vue'
+import { BXRestSettings, BXRestMap, BXRestNavvy, BXRestRequest } from 'bx-rest'
 
-@Component({
-  selector: 'app-any',
-  templateUrl: './any.component.html',
-  styleUrls: ['./any.component.scss']
-})
-export class AnyComponent {
+const bxRestPlugin: Plugin = {
+  install(app) {
+    BXRestSettings.update({
+      auth: {
+        source: 'cookies',
+        key: 'auth'
+      },
+      urls: {
+        source: 'string',
+        key: 'https://example.bitrix24.com',
+        additional_part: 'rest'
+      }
+    })
 
-  listElements$ = this.BXRestNavvy.lists.element.get({
-    IBLOCK_TYPE_ID: 'lists',
-    IBLOCK_ID: 150,
-    FILTER: {
-      ['>' + vacancies.del]: 0
-    }
-  }).res() // or .resAll() - to get all elements or .resVanilla() - to get all elements
-
-  private readonly BXRestNavvy = inject(BXRestNavvy)
+    app.config.globalProperties.$bxRestNavvy = new BXRestNavvy()
+    app.config.globalProperties.$bxRestMap = new BXRestMap()
+    app.config.globalProperties.$bxRestRequest = new BXRestRequest()
+  }
 }
-```
-# Usage in Vue
-```typescript
-import { BXRestSettings, BXRestMap, BXRestNavvy, BXRestRequest } from 'bx-rest';
 
-const bxRestPlugin = {
-    install(Vue) {
-        // Settings bx-rest
-        BXRestSettings.update({
-            auth: {
-                source: 'cookies',
-                key: 'auth',
-            },
-            urls: {
-                source: 'string',
-                key: 'b24.trace-studio.com',
-                additional_part: 'rest',
-            },
-        });
-
-        // Adding instances to global access
-        Vue.config.globalProperties.$bxRestNavvy = new BXRestNavvy();
-        Vue.config.globalProperties.$bxRestMap = new BXRestMap();
-        Vue.config.globalProperties.$bxRestRequest = new BXRestRequest();
-    },
-};
-
-export default bxRestPlugin;
+export default bxRestPlugin
 ```
 
-```typescript
+```vue
 import './assets/main.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'
-import bxRestPlugin from './bxRestPlugin';
+import bxRestPlugin from './bxRestPlugin'
 
-const app = createApp(App);
+const app = createApp(App)
 
-app.use(bxRestPlugin);
+app.use(bxRestPlugin)
 
-app.mount('#app');
+app.mount('#app')
 ```
 
-# Extension
-You can add your own methods to the rest API; you can read more about this here:
-https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=7985
+## Usage in React
 
-And after creating the methods, we can add functions to call them in the same style as in the current plugin:
+Create the client outside the component and unsubscribe when the component is unmounted:
+
+```tsx
+import { useEffect, useState } from 'react'
+import { BXRestNavvy } from 'bx-rest'
+
+const bxRest = new BXRestNavvy()
+
+export function Deals() {
+  const [deals, setDeals] = useState<unknown[]>([])
+
+  useEffect(() => {
+    const subscription = bxRest.crm.deal.list({
+      select: ['ID', 'TITLE'],
+      filter: {},
+      start: 0
+    }).res().subscribe({
+      next: value => setDeals(value ?? []),
+      error: error => console.error(error)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  return <pre>{JSON.stringify(deals, null, 2)}</pre>
+}
+```
+
+## Custom REST methods
+
+`Navvy` is exported from `bx-rest`. In Angular, register the `NavvyProvider` shown above and inject `Navvy` into your custom API service. A method URL is represented as an array and is joined with dots before the request is sent.
+
+See the [Bitrix24 documentation](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=7985) for registering custom REST methods.
+
+### Mapper
+
+A mapper is a regular function. It does not need to extend `BXRestMap`.
+
 ```typescript
-import { Injectable } from '@angular/core'
-import { partNameMethods as PNM } from 'bx-rest' // part name methods for saving add size
-import { BXRestRequest } from 'bx-rest'
 import {
-  iBXRestCustomBlogpostGetViewParam,
-  iBXRestCustomHttpBlogpostGetView
-} from '@/lib/typification/bitrix/api/custom/blogpost/get/view'
+  iBXRestCustomBlogGet,
+  iBXRestCustomBlogGetHttp
+} from '../type/blog'
+
+export class BXCustomBlogMap {
+  static get(
+    value: iBXRestCustomBlogGetHttp[] | undefined
+  ): iBXRestCustomBlogGet[] {
+    return (value ?? []).map(item => ({
+      id: Number(item.ID),
+      title: item.TITLE
+    }))
+  }
+}
+```
+
+### A custom method with `simple()`
+
+Use `simple()` when the method returns one response without automatic pagination:
+
+```typescript
+import { inject, Injectable } from '@angular/core'
+import { Navvy, partNameMethods as PNM } from 'bx-rest'
+import { BXCustomBlogMap } from '../map/blog'
 import {
-  iBXRestCustomHttpBlogpostGetRating,
-  iBXRestCustomHttpBlogpostGetRatingParam
-} from '@/lib/typification/bitrix/api/custom/blogpost/get/rating'
+  iBXRestCustomBlogGet,
+  iBXRestCustomBlogGetHttp,
+  iBXRestCustomParamBlogGet
+} from '../type/blog'
 
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestCustomBlogpostGet {
-
-  url = {
-    view: [PNM.$log, PNM.$blogpost, PNM.$get, 'view'],
-    rating: [PNM.$log, PNM.$blogpost, PNM.$get, 'rating'],
+export class BXRestNavvyCustomApiBlog {
+  private readonly url = {
+    get: ['blog', PNM.$get]
   }
 
-  private readonly http = inject(BXRestRequest)
+  private readonly navvy = inject(Navvy)
 
-  view(param: iBXRestCustomBlogpostGetViewParam) {
-    return this.http.post<iBXRestCustomHttpBlogpostGetView[]>(this.url.view, param)
-  }
-
-  rating(param: iBXRestCustomHttpBlogpostGetRatingParam) {
-    return this.http.post<iBXRestCustomHttpBlogpostGetRating[]>(this.url.rating, param)
+  get(param: iBXRestCustomParamBlogGet) {
+    return this.navvy.simple<
+      iBXRestCustomBlogGetHttp[],
+      iBXRestCustomBlogGet[],
+      iBXRestCustomParamBlogGet
+    >(
+      this.url.get,
+      param,
+      BXCustomBlogMap.get
+    )
   }
 }
 ```
-in navvy:
+
+The returned helper supports `.res()`, `.resVanilla()` and `.mapForVanilla()`.
+
+### A paginated custom method with `pagNav()`
+
+Use `pagNav()` when the Bitrix response contains an array and standard `start`, `next` and `total` pagination fields. The parameter type must support `start?: number`.
+
 ```typescript
-import { Injectable } from '@angular/core'
-import { Navvy } from 'bx-rest'
-import { BXRestCustomBlogpostGet } from '../../blogpost/get'
-import { BXRestCustomMapBlogpostGet } from '../../map/blogpost/get'
-import { iBXRestCustomBlogpostGetViewParam } from '@/lib/typification/bitrix/api/custom/blogpost/get/view'
+import { inject, Injectable } from '@angular/core'
+import { Navvy, partNameMethods as PNM } from 'bx-rest'
+import type { iBXRestPagination } from 'bx-rest/typification/base'
+import { BXCustomBlogMap } from '../map/blog'
 import {
-  iBXRestCustomHttpBlogpostGetRatingParam
-} from '@/lib/typification/bitrix/api/custom/blogpost/get/rating'
+  iBXRestCustomBlogGet,
+  iBXRestCustomBlogGetHttp
+} from '../type/blog'
+
+export interface iBXRestCustomParamBlogList extends iBXRestPagination {
+  filter?: Record<string, unknown>
+}
 
 @Injectable({
   providedIn: 'root'
 })
-export class BXRestCustomNavvyBlogpostGet {
-
-  Navvy: Navvy<BXRestCustomBlogpostGet, BXRestCustomMapBlogpostGet>
-
-  url = {
-    view: [PNM.$log, PNM.$blogpost, PNM.$get, 'view'],
-    rating: [PNM.$log, PNM.$blogpost, PNM.$get, 'rating'],
+export class BXRestNavvyCustomApiBlogList {
+  private readonly url = {
+    list: ['blog', PNM.$list]
   }
 
-  private readonly http = inject(BXRestRequest)
-  private readonly BXRestCustomBlogpostGet = inject(BXRestCustomBlogpostGet)
-  private readonly BXRestCustomMapBlogpostGet = inject(BXRestCustomMapBlogpostGet)
-  private readonly Navvy = new Navvy(this.BXRestCustomBlogpostGet, this.BXRestCustomMapBlogpostGet)
+  private readonly navvy = inject(Navvy)
 
-  view(param: iBXRestCustomBlogpostGetViewParam) {
-    return this.Navvy.PagNav(this.url.view, param, this.BXRestCustomMapBlogpostGet.view)
-  }
-
-  rating(param: iBXRestCustomHttpBlogpostGetRatingParam) {
-    return this.Navvy.PagNav(this.url.rating, param, this.BXRestCustomMapBlogpostGet.rating)
+  list(param: iBXRestCustomParamBlogList) {
+    return this.navvy.pagNav<
+      iBXRestCustomBlogGetHttp,
+      iBXRestCustomBlogGet,
+      iBXRestCustomParamBlogList
+    >(
+      this.url.list,
+      param,
+      BXCustomBlogMap.get
+    )
   }
 }
 ```
-mapper:
+
+The returned helper additionally supports `.resAll()` for loading and combining all pages.
+
+## Specific methods
+
+### `tasks.task.list`
+
+The first generic argument selects built-in task fields. The second adds project-specific user fields:
+
 ```typescript
-import { Injectable } from '@angular/core'
-import {
-  iBXRestCustomBlogpostGetView,
-  iBXRestCustomHttpBlogpostGetView
-} from '@/lib/typification/bitrix/api/custom/blogpost/get/view'
-import {
-  iBXRestCustomBlogpostGetRating,
-  iBXRestCustomHttpBlogpostGetRating,
-} from '@/lib/typification/bitrix/api/custom/blogpost/get/rating'
-import { BXRestMapBase } from 'bx-rest'
+import { BXRestNavvy } from 'bx-rest'
+import type { iBXRestTaskFieldsName } from 'bx-rest/typification/tasks'
 
-@Injectable({
-  providedIn: 'root'
-})
-export class BXRestCustomMapBlogpostGet extends BXRestMapBase {
-
-  view(value: iBXRestCustomHttpBlogpostGetView[] | undefined): iBXRestCustomBlogpostGetView[] {
-    return (value) ? value.map(i => {
-        return {
-          ID: toNum(i.ID),
-          USER_ID: toNum(i.USER_ID),
-          DATE: toDate(i.DATE, 'dd.MM.yyyy HH:mm:ss'),
-        }
-      })
-      : []
-  }
-
-  rating(value: iBXRestCustomHttpBlogpostGetRating[] | undefined): iBXRestCustomBlogpostGetRating[] {
-    return (value) ? value.map(i => {
-        return {
-          ID: toNum(i.ID),
-          REACTION: i.REACTION,
-          TOTAL_VOTES: toNum(i.TOTAL_VOTES),
-        }
-      }) as iBXRestCustomBlogpostGetRating[]
-      : [] as iBXRestCustomBlogpostGetRating[]
-  }
-}
-```
-# Specific methods
-
-tasks.task.list:
-```typescript
-
-// your's select defult fields
-export type selectTaskFieldsType = Extract<
+type SelectedTaskField = Extract<
   iBXRestTaskFieldsName,
   'ID' | 'TITLE' | 'GROUP_ID' | 'TIME_ESTIMATE' | 'CREATED_DATE' | 'CLOSED_DATE' | 'DURATION_FACT' | 'TIME_SPENT_IN_LOGS'
 >
 
-// your's custom fields tasks
-export type customTaskField = { ufListDiscipline: string, ufUfListSubdiscipline: string, ufList1: string }
+type CustomTaskFields = {
+  ufListDiscipline: string
+  ufListSubdiscipline: string
+  ufList1: string
+}
 
-return this.BXRestNavvy.tasks.task.list<selectTaskFieldsType[], customTaskField>(
-  {
-    order: {
-      ID: 'DESC'
-    },
-    filter: {
-      CREATED_BY: [v.ID],
-      // '<REAL_STATUS': 5,
-      TITLE: (this.formControl.controls.textSearch.value) ? this.formControl.controls.textSearch.value : ''
-    },
-    select: [...selectTaskFields, ...selectTaskFieldsCustom],
-    start: (this.formControl.controls.pageNumber.value) ? this.formControl.controls.pageNumber.value * 50 : 0
-  }
-)
+const selectedTaskFields: SelectedTaskField[] = [
+  'ID',
+  'TITLE',
+  'GROUP_ID',
+  'CREATED_DATE'
+]
+
+const selectedCustomFields = [
+  'UF_LIST_DISCIPLINE',
+  'UF_LIST_SUBDISCIPLINE',
+  'UF_LIST_1'
+] as const
+
+const bxRest = new BXRestNavvy()
+
+const tasks$ = bxRest.tasks.task.list<
+  SelectedTaskField[],
+  CustomTaskFields
+>({
+  order: {
+    ID: 'DESC'
+  },
+  filter: {
+    CREATED_BY: [1]
+  },
+  select: [...selectedTaskFields, ...selectedCustomFields],
+  start: 0
+}).res()
 ```
 
-# Future features
+## Future features
 - Auto get token
 - Mappers for normalization types
 - 100% coverage
