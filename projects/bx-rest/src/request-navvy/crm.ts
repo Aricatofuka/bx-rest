@@ -15,8 +15,11 @@ import { BXRestNavvyCrmEntity } from './crm/entity'
 import { BXRestNavvyCrmCallList } from './crm/calllist/index'
 import { BXRestNavvyCrmAddress } from './crm/address'
 import { BXRestNavvyCrmRequisite } from './crm/requisite/index'
+import { BXRestNavvyCrmTimeline } from './crm/timeline/index'
 
 export class BXRestNavvyCrm {
+  /** Таймлайн CRM: комментарии, заметки, связи и лог-записи (`crm.timeline.*`). */
+  public readonly timeline = new BXRestNavvyCrmTimeline()
   /** Адреса CRM, в том числе адреса реквизитов (`crm.address.*`). */
   public readonly address = new BXRestNavvyCrmAddress()
   /** Реквизиты, банковские данные, связи и шаблоны (`crm.requisite.*`). */
