@@ -2,11 +2,22 @@ import { BXRestNavvyLists } from './lists'
 import { forkJoin, mergeMap, Observable, of, throwError } from 'rxjs'
 import { BXRestNavvyBizProcTask } from './bizproc/task'
 import { BXRestNavvyBXRestBizProcWorkflow } from './bizproc/workflow'
+import { BXRestNavvyBizProcActivity } from './bizproc/activity'
+import { BXRestNavvyBizProcEvent } from './bizproc/event'
+import { BXRestNavvyBizProcRobot } from './bizproc/robot'
 
+/** Бизнес-процессы, задания, действия и роботы (`bizproc.*`). */
 export class BXRestNavvyBizProc {
-
+  /** Задания бизнес-процессов. */
   public readonly task = new BXRestNavvyBizProcTask()
+  /** Запущенные бизнес-процессы и их шаблоны. */
   public readonly workflow = new BXRestNavvyBXRestBizProcWorkflow()
+  /** Действия бизнес-процессов, зарегистрированные приложением. */
+  public readonly activity = new BXRestNavvyBizProcActivity()
+  /** Роботы, зарегистрированные приложением. */
+  public readonly robot = new BXRestNavvyBizProcRobot()
+  /** Возврат результатов действиям и роботам. */
+  public readonly event = new BXRestNavvyBizProcEvent()
   private readonly BXRestNavvyLists = new BXRestNavvyLists()
 
   /**

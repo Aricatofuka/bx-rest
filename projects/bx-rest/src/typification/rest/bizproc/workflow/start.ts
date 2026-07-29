@@ -1,5 +1,13 @@
+/** Параметры `bizproc.workflow.start`. */
 export interface iBXRestParamBizprocWorkflowStart {
-  TEMPLATE_ID: number, //	Идентификатор шаблона БП
-  DOCUMENT_ID: string[], //	Идентификатор документа БП
-  PARAMETERS: any //	Значения параметров БП (если шаблон с параметрами) TODO: Описать нормально
+  /** Идентификатор шаблона бизнес-процесса. */
+  TEMPLATE_ID: number
+  /**
+   * Документ в формате `[модуль, объект, идентификатор элемента]`.
+   *
+   * @example ['crm', 'CCrmDocumentDeal', 'DEAL_777']
+   */
+  DOCUMENT_ID: string[]
+  /** Значения входных параметров шаблона. */
+  PARAMETERS?: Record<string, unknown>
 }

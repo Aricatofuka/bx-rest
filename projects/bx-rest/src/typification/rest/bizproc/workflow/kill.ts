@@ -1,3 +1,5 @@
+/** Параметры `bizproc.workflow.kill`. */
 export interface iBXRestParamBizprocWorkflowKill {
-  ID: string
+  /** Идентификатор запущенного бизнес-процесса. */
+  ID: number | string
 }
