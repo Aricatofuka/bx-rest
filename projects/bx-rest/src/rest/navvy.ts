@@ -18,6 +18,7 @@ import { BXRestNavvyTimeMan } from '../request-navvy/timeman'
 import { BXRestNavvySocialNetWork } from '../request-navvy/socialnetwork'
 import { BXRestNavvyPull } from '../request-navvy/pull'
 import { BXRestNavvyCrm } from '../request-navvy/crm'
+import { BXRestNavvyEvent } from '../request-navvy/event'
 import { iBXRestProfile, iBXRestProfileHttp } from '../typification/rest/profile'
 
 export class BXRestNavvy {
@@ -38,6 +39,8 @@ export class BXRestNavvy {
   public readonly socialNetWork = new BXRestNavvySocialNetWork()
   public readonly pull = new BXRestNavvyPull()
   public readonly crm = new BXRestNavvyCrm()
+  /** Регистрация обработчиков и работа с онлайн- и офлайн-событиями. */
+  public readonly event = new BXRestNavvyEvent()
   public readonly Navvy = new Navvy()
 
   public profile() {
