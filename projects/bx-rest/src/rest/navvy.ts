@@ -20,6 +20,10 @@ import { BXRestNavvyPull } from '../request-navvy/pull'
 import { BXRestNavvyCrm } from '../request-navvy/crm'
 import { BXRestNavvyEvent } from '../request-navvy/event'
 import { iBXRestProfile, iBXRestProfileHttp } from '../typification/rest/profile'
+import { BXRestNavvyMethod } from '../request-navvy/method'
+import { BXRestNavvyAccess } from '../request-navvy/access'
+import { BXRestNavvyFeature } from '../request-navvy/feature'
+import { iBXRestParamScope } from '../typification/rest/common'
 
 export class BXRestNavvy {
   public readonly user = new BXRestNavvyUser()
@@ -41,13 +45,38 @@ export class BXRestNavvy {
   public readonly crm = new BXRestNavvyCrm()
   /** Регистрация обработчиков и работа с онлайн- и офлайн-событиями. */
   public readonly event = new BXRestNavvyEvent()
+  /** Проверка существования и доступности REST-методов. */
+  public readonly method = new BXRestNavvyMethod()
+  /** Получение описаний кодов доступа. */
+  public readonly access = new BXRestNavvyAccess()
+  /** Проверка доступности возможностей портала. */
+  public readonly feature = new BXRestNavvyFeature()
   public readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает базовую информацию о текущем пользователе без scope `user`.
+   *
+   * Результат содержит идентификатор, имя, фамилию, признак администратора,
+   * пол, часовой пояс и связанные поля профиля.
+   */
   public profile() {
     return this.Navvy.simple<iBXRestProfileHttp, iBXRestProfile>(
       ['profile'],
       undefined,
       BXRestMap.profile
+    )
+  }
+
+  /**
+   * Возвращает разрешения текущего приложения.
+   *
+   * Передайте `{ full: true }`, чтобы запросить полный список разрешений
+   * портала. Без параметров возвращаются разрешения, доступные приложению.
+   */
+  public scope(param: iBXRestParamScope = {}) {
+    return this.Navvy.simple<string[], string[], iBXRestParamScope>(
+      ['scope'],
+      param
     )
   }
 

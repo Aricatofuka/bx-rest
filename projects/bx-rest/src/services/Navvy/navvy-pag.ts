@@ -9,7 +9,6 @@ import { BXRest } from '../../rest/base'
 import { NavvyPagBase } from './extends/navvy-pag-base'
 import { serializeBitrixParams } from '../../functions/serializeBitrixParams'
 
-
 export class NavvyPag<T, R, P extends iBXRestPagination> extends NavvyPagBase<T[], R[], P> {
 
   save: ReturnTypeNavvy<T, R>[] = []

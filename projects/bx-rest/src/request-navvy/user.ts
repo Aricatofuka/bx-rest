@@ -1,6 +1,7 @@
 import { Navvy } from '../services/navvy'
 import {
   iBXRestParamUserGet,
+  iBXRestParamUserAccess,
   iBXRestParamUserSearch,
   iBXRestUser,
   iBXRestUserHttp,
@@ -10,6 +11,7 @@ import clone from 'just-clone'
 import { BXRestNavvyUserUserfield } from './user/userfield'
 import { BXRestMapUser } from '../map/user'
 import { $get, $search, $update, $user } from '../consts/part-name-methods'
+import { BXRestNavvyUserOption } from './user/option'
 
 export class BXRestNavvyUser {
   def: { params: { ACTIVE: boolean, start: 0 } } = {
@@ -29,8 +31,16 @@ export class BXRestNavvyUser {
   }
 
   public readonly userField = new BXRestNavvyUserUserfield()
+  /** Персональные настройки текущего пользователя для приложения. */
+  public readonly option = new BXRestNavvyUserOption()
   private readonly Navvy = new Navvy()
 
+  /**
+   * Проверяет, может ли текущий пользователь управлять настройками приложений.
+   *
+   * Возвращает `true` для пользователя с соответствующими административными
+   * правами и `false` в остальных случаях.
+   */
   admin() {
     return this.Navvy.simple<boolean>(
       this.url.admin
@@ -91,10 +101,20 @@ export class BXRestNavvyUser {
     )
   }
 
-  access(params: string[]) {
-    return this.Navvy.simple<boolean, boolean, string[]>(
+  /**
+   * Проверяет наличие хотя бы одного из указанных кодов доступа.
+   *
+   * Для обратной совместимости можно передать как объект
+   * `{ ACCESS: ['G2', 'AU'] }`, так и непосредственно массив кодов.
+   */
+  access(params: iBXRestParamUserAccess | string[]) {
+    const preparedParams: iBXRestParamUserAccess = Array.isArray(params)
+      ? {ACCESS: params}
+      : params
+
+    return this.Navvy.simple<boolean, boolean, iBXRestParamUserAccess>(
       this.url.access,
-      params,
+      preparedParams,
     )
   }
 
