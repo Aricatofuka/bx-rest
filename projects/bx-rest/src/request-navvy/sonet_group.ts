@@ -1,58 +1,58 @@
-import { iBXRestParamSonetGroupGet } from '../typification/rest/sonet_group'
+import { $create, $delete, $get, $setowner, $sonet_group, $update } from '../consts/part-name-methods'
 import { BXRestMapSonetGroup } from '../map/sonet_group'
+import { BXRestNavvySonetGroupFeature } from './sonet_group/feature'
+import { BXRestNavvySonetGroupUser } from './sonet_group/user'
 import { Navvy } from '../services/navvy'
-import { $get, $sonet_group } from '../consts/part-name-methods'
+import {
+  iBXRestParamSonetGroupCreate,
+  iBXRestParamSonetGroupGet,
+  iBXRestParamSonetGroupId,
+  iBXRestParamSonetGroupSetOwner,
+  iBXRestParamSonetGroupUpdate
+} from '../typification/rest/sonet_group'
 
 export class BXRestNavvySonetGroup {
-
-  url = {
-    // /**
-    //  * Создает группу соцсети, используя метод API CSocNetGroup::CreateGroup(), указывая владельцем группы текущего пользователя
-    //  */
-    // create: [$sonet_group, $create],
-    // /**
-    //  * Удаляет группу соцсети
-    //  */
-    // delete: [$sonet_group, $delete],
-    // feature: {
-    //     access: [$sonet_group, $feature, $access] // Проверяет, имеет ли текущий пользователь право на совершение операции в группе соцсети, осуществляя вызов функции CSocNetFeaturesPerms::CurrentUserCanPerformOperation()
-    // },
-    /**
-     * Возвращает массив групп соцсети, каждая из которых содержит массив полей, осуществляя вызов CSocNetGroup::GetList(), при этом возвращаются только те группы, которые доступны пользователю по правам
-     */
+  private readonly Navvy = new Navvy()
+  private readonly url = {
+    create: [$sonet_group, $create],
+    delete: [$sonet_group, $delete],
     get: [$sonet_group, $get],
-    // /**
-    //  * Изменяет владельца группы
-    //  */
-    // setOwner: [$sonet_group, 'setowner'],
-    // /**
-    //  * Изменяет параметры группы соцсети, используя метод API CSocNetGroup::Update()
-    //  */
-    // update: [$sonet_group, $update],
-    // user: {
-    //     add: [$sonet_group, $user, $add], // sonet_group.user.add	Добавляет пользователей в качестве участников рабочей группы (без приглашения и подтверждения)
-    //     delete: [$sonet_group, $user, $delete], //	Удаляет пользователей из рабочей группы
-    //     get: [$sonet_group, $user, $get], // Возвращает массив участников группы соцсети, осуществляя вызов CSocNetUserToGroup::GetList(), при этом проверяются права на доступ текущего пользователя к группе
-    //     groups: [$sonet_group, $user, 'groups'], // Возвращает массив групп соцсети текущего пользователя, осуществляя вызов CSocNetUserToGroup::GetList()
-    //     invite: [$sonet_group, $user, 'invite'], // Выполняет приглашение пользователей в группу соцсети от лица текущего пользователя, при этом проверяются права на доступ текущего пользователя к группе
-    //     request: [$sonet_group, $user, $request], // Отправляет запрос текущего пользователя на вступление в группу соцсети, при этом проверяются права на доступ текущего пользователя к группе.
-    //     update: [$sonet_group, $user, $update], // Изменяет роль пользователей в рабочей группе События при работе с группами СоцСети	Список событий при добавлении, изменении и удалении группы.
-    // },
-    // workgroup: {
-    //     list: [$socialnetwork, $api, $workgroup, $list], // Метод возвращает список групп,
-    //     get: [$socialnetwork, $api, $workgroup, $get] // Метод возвращает данные по рабочей группе
-    // }
+    setOwner: [$sonet_group, $setowner],
+    update: [$sonet_group, $update]
   }
 
-  private readonly Navvy = new Navvy()
+  public readonly feature = new BXRestNavvySonetGroupFeature()
+  public readonly user = new BXRestNavvySonetGroupUser()
+
+  create(param: iBXRestParamSonetGroupCreate) {
+    return this.Navvy.simple<number, number, iBXRestParamSonetGroupCreate>(
+      this.url.create,
+      param
+    )
+  }
+
+  delete(param: iBXRestParamSonetGroupId) {
+    return this.Navvy.simple<boolean, boolean, iBXRestParamSonetGroupId>(
+      this.url.delete,
+      param
+    )
+  }
 
   get(param: iBXRestParamSonetGroupGet = {}) {
-    return this.Navvy.simple(
-      this.url.get,
-      param,
-      BXRestMapSonetGroup.get
+    return this.Navvy.simple(this.url.get, param, BXRestMapSonetGroup.get)
+  }
+
+  setOwner(param: iBXRestParamSonetGroupSetOwner) {
+    return this.Navvy.simple<boolean, boolean, iBXRestParamSonetGroupSetOwner>(
+      this.url.setOwner,
+      param
+    )
+  }
+
+  update(param: iBXRestParamSonetGroupUpdate) {
+    return this.Navvy.simple<number, number, iBXRestParamSonetGroupUpdate>(
+      this.url.update,
+      param
     )
   }
 }
-
-

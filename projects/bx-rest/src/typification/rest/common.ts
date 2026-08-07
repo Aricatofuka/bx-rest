@@ -64,3 +64,9 @@ export interface iBXRestFeatureAvailabilityBase {
  */
 export type iBXRestFeatureAvailability = iBXRestFeatureAvailabilityBase
   & Partial<Record<`${string}_selfhosted`, 'Y' | 'N'>>
+
+/** Расширяемый объект ответа для REST-модулей без стабильной схемы результата. */
+export type iBXRestGenericObject = Record<string, unknown>
+
+/** Расширяемый набор параметров для специализированных REST-методов. */
+export type iBXRestGenericParams = Record<string, unknown>

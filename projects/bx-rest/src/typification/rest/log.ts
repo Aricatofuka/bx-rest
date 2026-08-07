@@ -4,5 +4,6 @@
 export * from './log/blogpost/add'
 export * from './log/blogpost/essence'
 export * from './log/blogpost/get'
+export * from './log/operations'
 
 

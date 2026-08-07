@@ -1,97 +1,70 @@
-import { BXRestNavvyListsElement } from './lists/element'
-import { iBXRestParamListGet } from '../typification/rest/lists'
-import { Navvy } from '../services/navvy'
+import {
+  $add,
+  $delete,
+  $get,
+  $iblock,
+  $id,
+  $lists,
+  $type,
+  $update
+} from '../consts/part-name-methods'
 import { BXRestMapLists } from '../map/lists'
+import { BXRestNavvyListsElement } from './lists/element'
 import BXRestNavvyListsField from './lists/field'
-import { $add, $element, $field, $get, $lists } from '../consts/part-name-methods'
+import { BXRestNavvyListsSection } from './lists/section'
+import { Navvy } from '../services/navvy'
+import {
+  iBXRestParamListGet,
+  iBXRestParamListsAdd,
+  iBXRestParamListsDelete,
+  iBXRestParamListsGetIBlockTypeId,
+  iBXRestParamListsUpdate
+} from '../typification/rest/lists'
 
 export class BXRestNavvyLists {
-
-  url = {
-    // /**
-    //  * Метод создаёт список
-    //  */
-    // add: [$lists, $add],
-    // /**
-    //  * Метод удаляет список
-    //  */
-    // delete: [$lists, $delete],
-    /**
-     * Метод возвращает данные по спискам
-     */
+  private readonly Navvy = new Navvy()
+  private readonly url = {
+    add: [$lists, $add],
+    delete: [$lists, $delete],
     get: [$lists, $get],
-    // /**
-    //  * Метод обновляет существующий список
-    //  */
-    // update: [$lists, $update],
-    // /**
-    //  * Метод возвращает id типа инфоблока
-    //  */
-    // getIBlockTypeId: [$lists, $get, $iblock, $type, $id],
-    element: {
-      /**
-       * Метод создаёт элемент списка
-       */
-      add: [$lists, $element, $add],
-      // /**
-      //  * Метод удаляет элемент списка TODO: Реализовать
-      //  */
-      // delete: [$lists, $element, $delete],
-      /**
-       * Метод возвращает список элементов или элемент
-       */
-      get: [$lists, $element, $get],
-      // /**
-      //  * Метод обновляет элемент списка TODO: Реализовать
-      //  */
-      // update: [$lists, $element, $update],
-      // /**
-      //  * Метод возвращает путь к файлу TODO: Реализовать
-      //  */
-      // getFileUrl: [$lists, $element, $get, $file, $url]
-    },
-    field: {
-      // /**
-      //  * Метод создает поле списка
-      //  */
-      // add: [$lists, $field, $add],
-      // /**
-      //  * Метод удаляет поле списка
-      //  */
-      // delete: [$lists, $field, $delete],
-      /**
-       * Метод возвращает данные поля
-       */
-      get: [$lists, $field, $get],
-      // type: {
-      //   /**
-      //    * Метод возвращает доступные типа полей для указанного списка
-      //    */
-      //   get: [$lists, $field, $type, $get],
-      // },
-      // /**
-      //  * Метод обновляет поле списка
-      //  */
-      // update: [$lists, $field, $update],
-    }
+    update: [$lists, $update],
+    getIBlockTypeId: [$lists, $get, $iblock, $type, $id]
   }
+
   public readonly element = new BXRestNavvyListsElement()
   public readonly field = new BXRestNavvyListsField()
+  public readonly section = new BXRestNavvyListsSection()
 
-  protected Navvy = new Navvy()
+  add(param: iBXRestParamListsAdd) {
+    return this.Navvy.simple<number, number, iBXRestParamListsAdd>(
+      this.url.add,
+      param
+    )
+  }
+
+  delete(param: iBXRestParamListsDelete) {
+    return this.Navvy.simple<boolean, boolean, iBXRestParamListsDelete>(
+      this.url.delete,
+      param
+    )
+  }
 
   get(param: iBXRestParamListGet) {
     return this.Navvy.pagNav(this.url.get, param, BXRestMapLists.get)
   }
 
-  // getAllWithMap(pram: getListParam): Observable<ItemLists[] | undefined> {
-  //     return this.getAll(pram)
-  //         .pipe(
-  //             map(v => (v && v.length) ? v.map(i => this.listsMap.mapItemLists(i)) : [])
-  //         )
-  // }
+  update(param: iBXRestParamListsUpdate) {
+    return this.Navvy.simple<boolean, boolean, iBXRestParamListsUpdate>(
+      this.url.update,
+      param
+    )
+  }
 
-  // getField(pram: getListFieldParam): Observable<iHttpAnswerBX<FieldItemLists[]> | undefined> {
-  //     return this.http.post<iHttpAnswerBX<{ [key: string]: FieldItemLists }>>(this.url.field.get, pram)
-  // }
+  getIBlockTypeId(param: iBXRestParamListsGetIBlockTypeId) {
+    return this.Navvy.simple<
+      string | null,
+      string | null,
+      iBXRestParamListsGetIBlockTypeId
+    >(this.url.getIBlockTypeId, param)
+  }
 }

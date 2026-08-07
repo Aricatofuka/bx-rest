@@ -13,5 +13,6 @@ export * from './disk/folder/uploadFile'
 export * from './disk/map'
 export * from './disk/storage/getchildren'
 export * from './disk/storage/uploadfile'
+export * from './disk/operations'
 
 

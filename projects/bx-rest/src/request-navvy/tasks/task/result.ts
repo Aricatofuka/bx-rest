@@ -2,9 +2,11 @@ import { Navvy } from '../../../services/navvy'
 import { BXRestMapTasksTaskResult } from '../../../map/tasks/task/result'
 import {
   iBXRestParamTasksTaskResultList, iBXParamRestTasksTaskResultAdd, iBXRestTasksTaskResult,
-  iBXRestTasksTaskResultHttp
+  iBXRestTasksTaskResultHttp,
+  iBXRestTasksObject,
+  iBXRestTasksParams
 } from '../../../typification/rest/tasks'
-import { $list, $result, $task, $tasks } from '../../../consts/part-name-methods'
+import { $add, $addFromComment, $addfromchatmessage, $delete, $deleteFromComment, $list, $result, $task, $tasks, $update } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyTasksTaskResult {
 
@@ -16,11 +18,11 @@ export class BXRestNavvyTasksTaskResult {
     /**
      * Создание результата задачи из комментария
      */
-    addFromComment: [$tasks, $task, $result, 'addFromComment'],
+    addFromComment: [$tasks, $task, $result, $addFromComment],
     /**
      * Удаление результата задачи по комментарию из которого он был создан
      */
-    deleteFromComment: [$tasks, $task, $result, 'deleteFromComment'],
+    deleteFromComment: [$tasks, $task, $result, $deleteFromComment],
   }
 
   private Navvy = new Navvy()
@@ -46,5 +48,21 @@ export class BXRestNavvyTasksTaskResult {
       param,
       BXRestMapTasksTaskResult.list
     )
+  }
+
+  add(param: iBXRestTasksParams) {
+    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $add], param)
+  }
+
+  addFromChatMessage(param: iBXRestTasksParams) {
+    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $addfromchatmessage], param)
+  }
+
+  delete(param: iBXRestTasksParams) {
+    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $delete], param)
+  }
+
+  update(param: iBXRestTasksParams) {
+    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $update], param)
   }
 }

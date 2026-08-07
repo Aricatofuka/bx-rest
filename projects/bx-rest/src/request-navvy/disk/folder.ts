@@ -12,34 +12,27 @@ import {
   iBXRestParamFolderGetChildren,
   iBXRestParamFolderGetExternalLink,
   iBXRestParamFolderRestore,
-  iBXRestDiskFolderGetFieldsHttp
+  iBXRestDiskFolderGetFieldsHttp,
+  iBXRestParamDiskFolderShareToUser
 } from '../../typification/rest/disk'
 
-import {
-  $copyto,
-  $disk,
-  $folder,
-  $get,
-  $getchildren,
-  $getFields, $markdeleted,
-  $moveto,
-  $rename, $restore, $uploadfile
-} from '../../consts/part-name-methods'
+import { $addsubfolder, $copyto, $deletetree, $disk, $folder, $get, $getExternalLink, $getFields, $getchildren, $markdeleted, $moveto, $rename, $restore, $sharetouser, $uploadfile } from '../../consts/part-name-methods'
 
 export class BXRestNavvyDiskFolder {
   protected url = {
     getFields: [$disk, $folder, $getFields],
     get: [$disk, $folder, $get],
     getChildren: [$disk, $folder, $getchildren],
-    addSubFolder: [$disk, $folder, 'addsubfolder'],
+    addSubFolder: [$disk, $folder, $addsubfolder],
     copyTo: [$disk, $folder, $copyto],
     moveTo: [$disk, $folder, $moveto],
     rename: [$disk, $folder, $rename],
-    deleteTree: [$disk, $folder, 'deletetree'],
+    deleteTree: [$disk, $folder, $deletetree],
     markDeleted: [$disk, $folder, $markdeleted],
     restore: [$disk, $folder, $restore],
     uploadFile: [$disk, $folder, $uploadfile],
-    getExternalLink: [$disk, $folder, 'getExternalLink']
+    getExternalLink: [$disk, $folder, $getExternalLink],
+    shareToUser: [$disk, $folder, $sharetouser]
   }
   private Navvy = new Navvy()
 
@@ -166,6 +159,14 @@ export class BXRestNavvyDiskFolder {
     return this.Navvy.simple<iBXRestDiskFolderGetFieldsHttp>(
       this.url.getFields
     )
+  }
+
+  shareToUser(param: iBXRestParamDiskFolderShareToUser) {
+    return this.Navvy.simple<
+      boolean,
+      boolean,
+      iBXRestParamDiskFolderShareToUser
+    >(this.url.shareToUser, param)
   }
 
   /**

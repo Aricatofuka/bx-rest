@@ -435,4 +435,3 @@ const tasks$ = bxRest.tasks.task.list<
 ## Future features
 - Auto get token
 - Mappers for normalization types
-- 100% coverage

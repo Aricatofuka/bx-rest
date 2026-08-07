@@ -1,6 +1,10 @@
 import { BXRestNavvyRestCalendarEvent } from './calendar/event'
 import { BXRestNavvyRestCalendarSection } from './calendar/section'
 import { BXRestNavvyRestCalendarUser } from './calendar/user'
+import { BXRestNavvyCalendarAccessibility } from './calendar/accessibility'
+import { BXRestNavvyCalendarMeeting } from './calendar/meeting'
+import { BXRestNavvyCalendarResource } from './calendar/resource'
+import { BXRestNavvyCalendarSettings } from './calendar/settings'
 
 export class BXRestNavvyCalendar {
 
@@ -32,5 +36,9 @@ export class BXRestNavvyCalendar {
   public readonly event = new BXRestNavvyRestCalendarEvent()
   public readonly section = new BXRestNavvyRestCalendarSection()
   public readonly user = new BXRestNavvyRestCalendarUser()
+  public readonly accessibility = new BXRestNavvyCalendarAccessibility()
+  public readonly meeting = new BXRestNavvyCalendarMeeting()
+  public readonly resource = new BXRestNavvyCalendarResource()
+  public readonly settings = new BXRestNavvyCalendarSettings()
 
 }

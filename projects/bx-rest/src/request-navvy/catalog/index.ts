@@ -1,0 +1,50 @@
+import { BXRestNavvyCatalogCatalog } from './catalog'
+import { BXRestNavvyCatalogDocument } from './document'
+import { BXRestNavvyCatalogDocumentContractor } from './documentcontractor'
+import { BXRestNavvyCatalogEnum } from './enum'
+import { BXRestNavvyCatalogExtra } from './extra'
+import { BXRestNavvyCatalogMeasure } from './measure'
+import { BXRestNavvyCatalogPrice } from './price'
+import { BXRestNavvyCatalogPriceType } from './pricetype'
+import { BXRestNavvyCatalogPriceTypeGroup } from './pricetypegroup'
+import { BXRestNavvyCatalogPriceTypeLang } from './pricetypelang'
+import { BXRestNavvyCatalogProduct } from './product'
+import { BXRestNavvyCatalogProductImage } from './productimage'
+import { BXRestNavvyCatalogProductProperty } from './productproperty'
+import { BXRestNavvyCatalogProductPropertyEnum } from './productpropertyenum'
+import { BXRestNavvyCatalogProductPropertyFeature } from './productpropertyfeature'
+import { BXRestNavvyCatalogProductPropertySection } from './productpropertysection'
+import { BXRestNavvyCatalogRatio } from './ratio'
+import { BXRestNavvyCatalogRoundingRule } from './roundingrule'
+import { BXRestNavvyCatalogSection } from './section'
+import { BXRestNavvyCatalogStore } from './store'
+import { BXRestNavvyCatalogStoreProduct } from './storeproduct'
+import { BXRestNavvyCatalogUserfield } from './userfield'
+import { BXRestNavvyCatalogVat } from './vat'
+
+export class BXRestNavvyCatalog {
+  public readonly catalog = new BXRestNavvyCatalogCatalog()
+  public readonly document = new BXRestNavvyCatalogDocument()
+  public readonly documentContractor = new BXRestNavvyCatalogDocumentContractor()
+  public readonly enum = new BXRestNavvyCatalogEnum()
+  public readonly extra = new BXRestNavvyCatalogExtra()
+  public readonly measure = new BXRestNavvyCatalogMeasure()
+  public readonly price = new BXRestNavvyCatalogPrice()
+  public readonly priceType = new BXRestNavvyCatalogPriceType()
+  public readonly priceTypeGroup = new BXRestNavvyCatalogPriceTypeGroup()
+  public readonly priceTypeLang = new BXRestNavvyCatalogPriceTypeLang()
+  public readonly product = new BXRestNavvyCatalogProduct()
+  public readonly productImage = new BXRestNavvyCatalogProductImage()
+  public readonly productProperty = new BXRestNavvyCatalogProductProperty()
+  public readonly productPropertyEnum = new BXRestNavvyCatalogProductPropertyEnum()
+  public readonly productPropertyFeature = new BXRestNavvyCatalogProductPropertyFeature()
+  public readonly productPropertySection = new BXRestNavvyCatalogProductPropertySection()
+  public readonly ratio = new BXRestNavvyCatalogRatio()
+  public readonly roundingRule = new BXRestNavvyCatalogRoundingRule()
+  public readonly section = new BXRestNavvyCatalogSection()
+  public readonly store = new BXRestNavvyCatalogStore()
+  public readonly storeProduct = new BXRestNavvyCatalogStoreProduct()
+  public readonly userfield = new BXRestNavvyCatalogUserfield()
+  public readonly vat = new BXRestNavvyCatalogVat()
+}
+

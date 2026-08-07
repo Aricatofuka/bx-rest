@@ -15,4 +15,5 @@ export * from './entity'
 export * from './calllist'
 export * from './requisite'
 export * from './timeline'
+export * from './universal'
 

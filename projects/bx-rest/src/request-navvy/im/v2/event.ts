@@ -1,0 +1,32 @@
+import { Navvy } from '../../../services/navvy'
+import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import { $Event, $get, $im, $subscribe, $unsubscribe, $v2 } from '../../../consts/part-name-methods'
+
+export class BXRestNavvyImV2Event  {
+  private readonly Navvy = new Navvy()
+
+  get(param: iBXRestGenericParams = {}) {
+    return this.Navvy.simple<
+      iBXRestGenericObject,
+      iBXRestGenericObject,
+      iBXRestGenericParams
+    >([$im, $v2, $Event, $get], param)
+  }
+
+  subscribe(param: iBXRestGenericParams = {}) {
+    return this.Navvy.simple<
+      iBXRestGenericObject,
+      iBXRestGenericObject,
+      iBXRestGenericParams
+    >([$im, $v2, $Event, $subscribe], param)
+  }
+
+  unsubscribe(param: iBXRestGenericParams = {}) {
+    return this.Navvy.simple<
+      iBXRestGenericObject,
+      iBXRestGenericObject,
+      iBXRestGenericParams
+    >([$im, $v2, $Event, $unsubscribe], param)
+  }
+}
+

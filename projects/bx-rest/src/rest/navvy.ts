@@ -23,9 +23,55 @@ import { iBXRestProfile, iBXRestProfileHttp } from '../typification/rest/profile
 import { BXRestNavvyMethod } from '../request-navvy/method'
 import { BXRestNavvyAccess } from '../request-navvy/access'
 import { BXRestNavvyFeature } from '../request-navvy/feature'
+import { BXRestNavvyAi } from '../request-navvy/ai/index'
+import { BXRestNavvyMailService } from '../request-navvy/mailservice'
+import { BXRestNavvyMessageService } from '../request-navvy/messageservice/index'
+import { BXRestNavvyUserConsent } from '../request-navvy/userconsent/index'
+import { BXRestNavvyTelephony } from '../request-navvy/telephony/index'
+import { BXRestNavvyVote } from '../request-navvy/vote/index'
+import { BXRestNavvyImConnector } from '../request-navvy/imconnector/index'
+import { BXRestNavvyEntity } from '../request-navvy/entity/index'
+import { BXRestNavvyBiConnector } from '../request-navvy/biconnector/index'
+import { BXRestNavvyVoxImplant } from '../request-navvy/voximplant/index'
+import { BXRestNavvyMail } from '../request-navvy/mail/index'
+import { BXRestNavvyNote } from '../request-navvy/note/index'
+import { BXRestNavvyDocumentGenerator } from '../request-navvy/documentgenerator/index'
+import { BXRestNavvyImBot } from '../request-navvy/imbot/index'
+import { BXRestNavvyBooking } from '../request-navvy/booking/index'
+import { BXRestNavvyImOpenLines } from '../request-navvy/imopenlines/index'
+import { BXRestNavvyLanding } from '../request-navvy/landing/index'
+import { BXRestNavvyCatalog } from '../request-navvy/catalog/index'
+import { BXRestNavvySale } from '../request-navvy/sale/index'
+import { BXRestNavvySign } from '../request-navvy/sign/index'
+import { BXRestNavvyEventLog } from '../request-navvy/eventlog/index'
+import { BXRestNavvyPlacement } from '../request-navvy/placement'
+import { BXRestNavvyUserFieldType } from '../request-navvy/userfieldtype'
 import { iBXRestParamScope } from '../typification/rest/common'
 
 export class BXRestNavvy {
+  public readonly ai = new BXRestNavvyAi()
+  public readonly mailService = new BXRestNavvyMailService()
+  public readonly messageService = new BXRestNavvyMessageService()
+  public readonly userConsent = new BXRestNavvyUserConsent()
+  public readonly telephony = new BXRestNavvyTelephony()
+  public readonly vote = new BXRestNavvyVote()
+  public readonly imConnector = new BXRestNavvyImConnector()
+  public readonly entity = new BXRestNavvyEntity()
+  public readonly biConnector = new BXRestNavvyBiConnector()
+  public readonly voxImplant = new BXRestNavvyVoxImplant()
+  public readonly mail = new BXRestNavvyMail()
+  public readonly note = new BXRestNavvyNote()
+  public readonly documentGenerator = new BXRestNavvyDocumentGenerator()
+  public readonly imBot = new BXRestNavvyImBot()
+  public readonly booking = new BXRestNavvyBooking()
+  public readonly imOpenLines = new BXRestNavvyImOpenLines()
+  public readonly landing = new BXRestNavvyLanding()
+  public readonly catalog = new BXRestNavvyCatalog()
+  public readonly sale = new BXRestNavvySale()
+  public readonly sign = new BXRestNavvySign()
+  public readonly eventLog = new BXRestNavvyEventLog()
+  public readonly placement = new BXRestNavvyPlacement()
+  public readonly userFieldType = new BXRestNavvyUserFieldType()
   public readonly user = new BXRestNavvyUser()
   public readonly lists = new BXRestNavvyLists()
   public readonly task = new BXRestNavvyTask()
@@ -78,6 +124,11 @@ export class BXRestNavvy {
       ['scope'],
       param
     )
+  }
+
+  /** Возвращает список REST-методов, доступных текущему приложению. */
+  public methods() {
+    return this.Navvy.simple<string[]>(['methods'])
   }
 
   // public batch<T, C, M>(param: iBXRestNavvyParamBatch<T, C, M>) {

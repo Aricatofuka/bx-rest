@@ -11,7 +11,9 @@ import {
   iBXRestTasksTaskApproveHttp,
   iBXRestParamTasksTaskComplete,
   iBXRestTasksTaskCompleteHttp,
-  iBXRestParamTasksTaskDefer
+  iBXRestParamTasksTaskDefer,
+  iBXRestParamTasksTaskId,
+  iBXRestTasksObject
 } from '../../typification/rest/tasks'
 import { Navvy } from '../../services/navvy'
 import { BXRestMapTasksTask } from '../../map/tasks/task'
@@ -25,17 +27,15 @@ import {
 import { ToUpperCaseKeys } from '../../typification/base/upper-case-keys'
 import { ObjectToSnake } from 'ts-case-convert/lib/caseConvert'
 import { AllKeyFree } from '../../typification/base/all-key-free'
-import {
-  $add,
-  $approve,
-  $complete,
-  $defer,
-  $delegate,
-  $get, $getaccess,
-  $getFields, $list, $result,
-  $task,
-  $tasks, $update
-} from '../../consts/part-name-methods'
+import { $add, $addFromComment, $approve, $complete, $defer, $delegate, $delete, $deleteFromComment, $disapprove, $get, $getFieldsExact, $getaccess, $list, $mute, $pause, $pin, $renew, $result, $start, $startwatch, $stopwatch, $task, $tasks, $unmute, $unpin, $update } from '../../consts/part-name-methods'
+import { BXRestNavvyTasksTaskAccess } from './task/access'
+import { BXRestNavvyTasksTaskChat } from './task/chat'
+import { BXRestNavvyTasksTaskCounters } from './task/counters'
+import { BXRestNavvyTasksTaskFavorite } from './task/favorite'
+import { BXRestNavvyTasksTaskField } from './task/field'
+import { BXRestNavvyTasksTaskFiles } from './task/files'
+import { BXRestNavvyTasksTaskHistory } from './task/history'
+import { BXRestNavvyTasksTaskFile } from './task/file'
 
 export class BXRestNavvyTasksTask {
 
@@ -97,7 +97,7 @@ export class BXRestNavvyTasksTask {
     /**
      * Возвращает все доступные поля
      */
-    getFields: [$tasks, $task, $getFields],
+    getFields: [$tasks, $task, $getFieldsExact],
     /**
      * Метод для проверки доступа к задаче
      */
@@ -144,15 +144,23 @@ export class BXRestNavvyTasksTask {
       /**
        * Создание результата задачи из комментария
        */
-      addFromComment: [$tasks, $task, $result, 'addFromComment'],
+      addFromComment: [$tasks, $task, $result, $addFromComment],
       /**
        * Удаление результата задачи по комментарию из которого он был создан
        */
-      deleteFromComment: [$tasks, $task, $result, 'deleteFromComment'],
+      deleteFromComment: [$tasks, $task, $result, $deleteFromComment],
     }
   }
 
   public readonly result = new BXRestNavvyTasksTaskResult()
+  public readonly access = new BXRestNavvyTasksTaskAccess()
+  public readonly chat = new BXRestNavvyTasksTaskChat()
+  public readonly counters = new BXRestNavvyTasksTaskCounters()
+  public readonly favorite = new BXRestNavvyTasksTaskFavorite()
+  public readonly field = new BXRestNavvyTasksTaskField()
+  public readonly file = new BXRestNavvyTasksTaskFile()
+  public readonly files = new BXRestNavvyTasksTaskFiles()
+  public readonly history = new BXRestNavvyTasksTaskHistory()
 
   private readonly Navvy = new Navvy()
 
@@ -204,11 +212,10 @@ export class BXRestNavvyTasksTask {
       for (let updateField of updateFields) {
         const key = String(updateField)
         if (taskTS[camelCase(key)]) {
-          // @ts-ignore
+          // @ts-expect-error Custom field keys are selected dynamically.
           sendTask[key] = taskTS[camelCase(key)]
         }
       }
-      // @ts-ignore
       if (Object.values(sendTask).length && task && task.id) {
         return this.Navvy.simple<
           iBXRestTasksTaskBaseAnswer<iBXRestTasksTaskDeferHttp>,
@@ -315,13 +322,99 @@ export class BXRestNavvyTasksTask {
   }
 
   getAccess(param: iBXRestParamTaskGetAccess) {
-    return this.Navvy.simple<iBXRestTaskGetAccess, {
-      [key: number]: iBXRestTaskGetAccessItem
-    }, iBXRestParamTaskGetAccess>(
+    return this.Navvy.simple<iBXRestTaskGetAccess, Record<number, iBXRestTaskGetAccessItem>, iBXRestParamTaskGetAccess>(
       this.url.getAccess,
       param,
       BXRestMapTasksTask.getAccess
     )
+  }
+
+  delete(param: iBXRestParamTasksTaskId) {
+    return this.Navvy.simple<
+      iBXRestTasksObject,
+      iBXRestTasksObject,
+      iBXRestParamTasksTaskId
+    >([$tasks, $task, $delete], param)
+  }
+
+  disapprove(param: iBXRestParamTasksTaskId) {
+    return this.Navvy.simple<
+      iBXRestTasksObject,
+      iBXRestTasksObject,
+      iBXRestParamTasksTaskId
+    >([$tasks, $task, $disapprove], param)
+  }
+
+  mute(param: iBXRestParamTasksTaskId) {
+    return this.Navvy.simple<
+      iBXRestTasksObject,
+      iBXRestTasksObject,
+      iBXRestParamTasksTaskId
+    >([$tasks, $task, $mute], param)
+  }
+
+  pause(param: iBXRestParamTasksTaskId) {
+    return this.Navvy.simple<
+      iBXRestTasksObject,
+      iBXRestTasksObject,
+      iBXRestParamTasksTaskId
+    >([$tasks, $task, $pause], param)
+  }
+
+  pin(param: iBXRestParamTasksTaskId) {
+    return this.Navvy.simple<
+      iBXRestTasksObject,
+      iBXRestTasksObject,
+      iBXRestParamTasksTaskId
+    >([$tasks, $task, $pin], param)
+  }
+
+  renew(param: iBXRestParamTasksTaskId) {
+    return this.Navvy.simple<
+      iBXRestTasksObject,
+      iBXRestTasksObject,
+      iBXRestParamTasksTaskId
+    >([$tasks, $task, $renew], param)
+  }
+
+  start(param: iBXRestParamTasksTaskId) {
+    return this.Navvy.simple<
+      iBXRestTasksObject,
+      iBXRestTasksObject,
+      iBXRestParamTasksTaskId
+    >([$tasks, $task, $start], param)
+  }
+
+  startWatch(param: iBXRestParamTasksTaskId) {
+    return this.Navvy.simple<
+      iBXRestTasksObject,
+      iBXRestTasksObject,
+      iBXRestParamTasksTaskId
+    >([$tasks, $task, $startwatch], param)
+  }
+
+  stopWatch(param: iBXRestParamTasksTaskId) {
+    return this.Navvy.simple<
+      iBXRestTasksObject,
+      iBXRestTasksObject,
+      iBXRestParamTasksTaskId
+    >([$tasks, $task, $stopwatch], param)
+  }
+
+  unmute(param: iBXRestParamTasksTaskId) {
+    return this.Navvy.simple<
+      iBXRestTasksObject,
+      iBXRestTasksObject,
+      iBXRestParamTasksTaskId
+    >([$tasks, $task, $unmute], param)
+  }
+
+  unpin(param: iBXRestParamTasksTaskId) {
+    return this.Navvy.simple<
+      iBXRestTasksObject,
+      iBXRestTasksObject,
+      iBXRestParamTasksTaskId
+    >([$tasks, $task, $unpin], param)
   }
 
 }

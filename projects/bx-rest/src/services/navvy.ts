@@ -30,6 +30,19 @@ export class Navvy {
     )
   }
 
+  simpleV3<T, R = T, A = undefined>(
+    url: string[],
+    arg?: A,
+    map?: (param: T | undefined) => R | undefined
+  ) {
+    return new NavvySimple(
+      url,
+      arg !== undefined ? arg : undefined,
+      map,
+      true
+    )
+  }
+
   /**
    * Новый, пока тестируемый метод для api методов с пагинацией
    *

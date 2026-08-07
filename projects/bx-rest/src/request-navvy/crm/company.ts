@@ -1,5 +1,5 @@
 import { Navvy } from '../../services/navvy'
-import { $add, $company, $crm, $delete, $get, $list, $update } from '../../consts/part-name-methods'
+import { $add, $company, $crm, $delete, $fields, $get, $list, $update } from '../../consts/part-name-methods'
 import {
   iBXRestParamCrmCompanyAdd,
   iBXRestParamCrmCompanyGet,
@@ -8,8 +8,14 @@ import {
   iBXRestParamCrmCompanyDelete
 } from '../../typification/rest/crm'
 import { BXRestMapCrmCompany } from '../../map/crm'
+import { BXRestNavvyCrmCompanyContact } from './company/contact'
+import { BXRestNavvyCrmCompanyDetails } from './company/details'
+import { BXRestNavvyCrmCompanyUserField } from './company/userfield'
 
 export class BXRestNavvyCrmCompany {
+  public readonly contact = new BXRestNavvyCrmCompanyContact()
+  public readonly details = new BXRestNavvyCrmCompanyDetails()
+  public readonly userField = new BXRestNavvyCrmCompanyUserField()
   url = {
     /**
      * Создает новую компанию
@@ -34,7 +40,7 @@ export class BXRestNavvyCrmCompany {
     /**
      * Возвращает описание полей компании
      */
-    fields: [$crm, $company, 'fields']
+    fields: [$crm, $company, $fields]
   }
 
   private Navvy = new Navvy()

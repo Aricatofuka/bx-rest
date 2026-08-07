@@ -3,12 +3,14 @@ import {
   iBXRestParamAddElapseditem,
   iBXRestParamUpdateElapseditem,
   iBXRestParamDelElapseditem,
-  iIsActionAllowedParam
+  iIsActionAllowedParam,
+  iBXRestTaskObject,
+  iBXRestTaskElapsedItem
 } from '../../typification/rest/task'
 import { Navvy } from '../../services/navvy'
 import { BXRestNavvyOperationElapsedItem } from './operation/elapseditem'
 import { BXRestNavvyDelegateElapsedItem } from './delegate/elapseditem'
-import { $add, $delete, $elapseditem, $getlist, $isactionallowed, $task, $update } from '../../consts/part-name-methods'
+import { $add, $delete, $elapseditem, $get, $getlist, $getmanifest, $isActionAllowed, $task, $update } from '../../consts/part-name-methods'
 
 export class BXRestNavvyElapsedItem {
   protected url = {
@@ -35,7 +37,7 @@ export class BXRestNavvyElapsedItem {
     /**
      * Проверяет разрешено ли действие
      */
-    isActionAllowed: [$task, $elapseditem, $isactionallowed],
+    isActionAllowed: [$task, $elapseditem, $isActionAllowed],
     /**
      * Изменяет параметры записи о затраченном времени
      */
@@ -78,6 +80,18 @@ export class BXRestNavvyElapsedItem {
 
   delete(param: iBXRestParamDelElapseditem) {
     return this.Navvy.simple<null, null, iBXRestParamDelElapseditem>(this.url.delete, param)
+  }
+
+  get(param: iBXRestParamDelElapseditem) {
+    return this.Navvy.simple<
+      iBXRestTaskElapsedItem,
+      iBXRestTaskElapsedItem,
+      iBXRestParamDelElapseditem
+    >([$task, $elapseditem, $get], param)
+  }
+
+  getManifest() {
+    return this.Navvy.simple<iBXRestTaskObject>([$task, $elapseditem, $getmanifest])
   }
 
 }

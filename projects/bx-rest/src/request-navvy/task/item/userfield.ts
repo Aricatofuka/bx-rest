@@ -1,9 +1,15 @@
 import { Navvy } from '../../../services/navvy'
 import { BXRestMapTaskUserField } from '../../../map/task/item/userfield'
 import {
-  iBXRestParamTaskItemUserFieldGetlist, iBXRestTaskItemUserFieldGetlist, iBXRestTaskItemUserFieldGetlistHttp
+  iBXRestParamTaskItemUserFieldAdd,
+  iBXRestParamTaskItemUserFieldGetlist,
+  iBXRestParamTaskItemUserFieldId,
+  iBXRestParamTaskItemUserFieldUpdate,
+  iBXRestTaskItemUserFieldGetlist,
+  iBXRestTaskItemUserFieldGetlistHttp,
+  iBXRestTaskObject
 } from '../../../typification/rest/task'
-import { $item, $task, $userfield } from '../../../consts/part-name-methods'
+import { $add, $delete, $get, $getFields, $getlist, $gettypes, $item, $task, $update, $userfield } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyTaskItemUserField {
 
@@ -11,7 +17,7 @@ export class BXRestNavvyTaskItemUserField {
     /**
      * Получение всех доступных полей свойства
      */
-    getFields: [$task, $item, $userfield, 'getfields'],
+    getFields: [$task, $item, $userfield, $getFields],
     // /**
     //  * Получение всех доступных типов данных
     //  */
@@ -27,7 +33,7 @@ export class BXRestNavvyTaskItemUserField {
     /**
      * Получение списка свойств
      */
-    getList: [$task, $item, $userfield, 'getlist'],
+    getList: [$task, $item, $userfield, $getlist],
     // /**
     //  * Редактирование параметров свойства
     //  */
@@ -45,6 +51,43 @@ export class BXRestNavvyTaskItemUserField {
       this.url.getList,
       param,
       BXRestMapTaskUserField.getList
+    )
+  }
+
+  add(param: iBXRestParamTaskItemUserFieldAdd) {
+    return this.Navvy.simple<number, number, iBXRestParamTaskItemUserFieldAdd>(
+      [$task, $item, $userfield, $add],
+      param
+    )
+  }
+
+  delete(param: iBXRestParamTaskItemUserFieldId) {
+    return this.Navvy.simple<boolean, boolean, iBXRestParamTaskItemUserFieldId>(
+      [$task, $item, $userfield, $delete],
+      param
+    )
+  }
+
+  get(param: iBXRestParamTaskItemUserFieldId) {
+    return this.Navvy.simple<
+      iBXRestTaskObject,
+      iBXRestTaskObject,
+      iBXRestParamTaskItemUserFieldId
+    >([$task, $item, $userfield, $get], param)
+  }
+
+  getFields() {
+    return this.Navvy.simple<iBXRestTaskObject>([$task, $item, $userfield, $getFields])
+  }
+
+  getTypes() {
+    return this.Navvy.simple<iBXRestTaskObject>([$task, $item, $userfield, $gettypes])
+  }
+
+  update(param: iBXRestParamTaskItemUserFieldUpdate) {
+    return this.Navvy.simple<boolean, boolean, iBXRestParamTaskItemUserFieldUpdate>(
+      [$task, $item, $userfield, $update],
+      param
     )
   }
 }

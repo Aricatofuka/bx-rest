@@ -1,0 +1,52 @@
+import { BXRestNavvySaleBasketItem } from './basketitem'
+import { BXRestNavvySaleBasketProperties } from './basketproperties'
+import { BXRestNavvySaleBusinessValuePersonDomain } from './businessvaluepersondomain'
+import { BXRestNavvySaleCashbox } from './cashbox'
+import { BXRestNavvySaleDelivery } from './delivery'
+import { BXRestNavvySaleOrder } from './order'
+import { BXRestNavvySalePayment } from './payment'
+import { BXRestNavvySalePaymentItemBasket } from './paymentitembasket'
+import { BXRestNavvySalePaymentItemShipment } from './paymentitemshipment'
+import { BXRestNavvySalePaySystem } from './paysystem'
+import { BXRestNavvySalePersonType } from './persontype'
+import { BXRestNavvySaleProperty } from './property'
+import { BXRestNavvySalePropertyGroup } from './propertygroup'
+import { BXRestNavvySalePropertyRelation } from './propertyrelation'
+import { BXRestNavvySalePropertyValue } from './propertyvalue'
+import { BXRestNavvySalePropertyVariant } from './propertyvariant'
+import { BXRestNavvySaleShipment } from './shipment'
+import { BXRestNavvySaleShipmentItem } from './shipmentitem'
+import { BXRestNavvySaleShipmentProperty } from './shipmentproperty'
+import { BXRestNavvySaleShipmentPropertyValue } from './shipmentpropertyvalue'
+import { BXRestNavvySaleStatus } from './status'
+import { BXRestNavvySaleStatusLang } from './statuslang'
+import { BXRestNavvySaleTradeBinding } from './tradebinding'
+import { BXRestNavvySaleTradePlatform } from './tradeplatform'
+
+export class BXRestNavvySale {
+  public readonly basketItem = new BXRestNavvySaleBasketItem()
+  public readonly basketProperties = new BXRestNavvySaleBasketProperties()
+  public readonly businessValuePersonDomain = new BXRestNavvySaleBusinessValuePersonDomain()
+  public readonly cashbox = new BXRestNavvySaleCashbox()
+  public readonly delivery = new BXRestNavvySaleDelivery()
+  public readonly order = new BXRestNavvySaleOrder()
+  public readonly payment = new BXRestNavvySalePayment()
+  public readonly paymentItemBasket = new BXRestNavvySalePaymentItemBasket()
+  public readonly paymentItemShipment = new BXRestNavvySalePaymentItemShipment()
+  public readonly paySystem = new BXRestNavvySalePaySystem()
+  public readonly personType = new BXRestNavvySalePersonType()
+  public readonly property = new BXRestNavvySaleProperty()
+  public readonly propertyGroup = new BXRestNavvySalePropertyGroup()
+  public readonly propertyRelation = new BXRestNavvySalePropertyRelation()
+  public readonly propertyValue = new BXRestNavvySalePropertyValue()
+  public readonly propertyVariant = new BXRestNavvySalePropertyVariant()
+  public readonly shipment = new BXRestNavvySaleShipment()
+  public readonly shipmentItem = new BXRestNavvySaleShipmentItem()
+  public readonly shipmentProperty = new BXRestNavvySaleShipmentProperty()
+  public readonly shipmentPropertyValue = new BXRestNavvySaleShipmentPropertyValue()
+  public readonly status = new BXRestNavvySaleStatus()
+  public readonly statusLang = new BXRestNavvySaleStatusLang()
+  public readonly tradeBinding = new BXRestNavvySaleTradeBinding()
+  public readonly tradePlatform = new BXRestNavvySaleTradePlatform()
+}
+

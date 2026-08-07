@@ -75,8 +75,9 @@ export class HttpBXServices extends HttpServices {
    * @param name
    * @param params
    */
-  post<T>(name: string[], params: any = {}) {
-    return this.httpPost<iBXRestAnswer<T>>(this.getNameMethod(name), params)
+  post<T>(name: string[], params: any = {}, restApi = false) {
+    const method = this.getNameMethod(name)
+    return this.httpPost<iBXRestAnswer<T>>(restApi ? `api/${method}` : method, params)
   }
 
   /**

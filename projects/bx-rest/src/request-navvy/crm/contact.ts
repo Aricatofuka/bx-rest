@@ -1,5 +1,5 @@
 import { Navvy } from '../../services/navvy'
-import { $add, $contact, $crm, $delete, $get, $list, $update } from '../../consts/part-name-methods'
+import { $add, $contact, $crm, $delete, $fields, $get, $list, $update } from '../../consts/part-name-methods'
 import {
   iBXRestParamCrmContactAdd,
   iBXRestParamCrmContactGet,
@@ -8,8 +8,14 @@ import {
   iBXRestParamCrmContactDelete
 } from '../../typification/rest/crm'
 import { BXRestMapCrmContact } from '../../map/crm'
+import { BXRestNavvyCrmContactCompany } from './contact/company'
+import { BXRestNavvyCrmContactDetails } from './contact/details'
+import { BXRestNavvyCrmContactUserField } from './contact/userfield'
 
 export class BXRestNavvyCrmContact {
+  public readonly company = new BXRestNavvyCrmContactCompany()
+  public readonly details = new BXRestNavvyCrmContactDetails()
+  public readonly userField = new BXRestNavvyCrmContactUserField()
   url = {
     /**
      * Создает новый контакт
@@ -34,7 +40,7 @@ export class BXRestNavvyCrmContact {
     /**
      * Возвращает описание полей контакта
      */
-    fields: [$crm, $contact, 'fields']
+    fields: [$crm, $contact, $fields]
   }
 
   private Navvy = new Navvy()

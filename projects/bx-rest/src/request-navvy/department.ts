@@ -2,21 +2,28 @@ import {
   iBXRestParamDepartmentGet,
   iBXRestParamDepartmentAdd,
   iBXRestDepartmentUpdate,
-  iBXRestParamDepartmentDel
+  iBXRestParamDepartmentDel,
+  iBXRestDepartmentFields
 } from '../typification/rest/department'
 import { Navvy } from '../services/navvy'
 import { BXRestMapDepartment } from '../map/department'
-import { $add, $delete, $department, $get, $update } from '../consts/part-name-methods'
+import { $add, $delete, $department, $fields, $get, $update } from '../consts/part-name-methods'
 
 export class BXRestNavvyDepartment {
 
   url = {
     get: [$department, $get],
+    fields: [$department, $fields],
     del: [$department, $delete],
     add: [$department, $add],
     update: [$department, $update]
   }
   protected Navvy = new Navvy()
+
+  /** Returns names and descriptions of the available department fields. */
+  fields() {
+    return this.Navvy.simple<iBXRestDepartmentFields>(this.url.fields)
+  }
 
   get(param: iBXRestParamDepartmentGet = {}) {
     return this.Navvy.pagNav(

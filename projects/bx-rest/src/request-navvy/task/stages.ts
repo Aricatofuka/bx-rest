@@ -3,10 +3,12 @@ import {
   iBXRestParamTaskStageGet,
   iBXRestParamTaskStagesUpdate,
   iBXRestParamTaskStagesCanMoveTask,
-  iBXRestTaskStage
+  iBXRestTaskStage,
+  iBXRestParamTaskStagesDelete,
+  iBXRestParamTaskStagesMoveTask
 } from '../../typification/rest/task'
 import { Navvy } from '../../services/navvy'
-import { $add, $delete, $get, $stages, $task, $update } from '../../consts/part-name-methods'
+import { $add, $canmovetask, $delete, $get, $movetask, $stages, $task, $update } from '../../consts/part-name-methods'
 
 export class BXRestNavvyTaskStages {
 
@@ -18,7 +20,7 @@ export class BXRestNavvyTaskStages {
     /**
      * Метод определяет, может ли текущий пользователь перемещать задачи в указанной сущности
      */
-    canMoveTask: [$task, $stages, 'canmovetask'],
+    canMoveTask: [$task, $stages, $canmovetask],
     /**
      * Метод удаляет стадии Канбана / Моего плана
      */
@@ -30,7 +32,7 @@ export class BXRestNavvyTaskStages {
     /**
      * Метод перемещает задачи из одной стадии в другую
      */
-    movetask: [$task, $stages, 'movetask'], //
+    movetask: [$task, $stages, $movetask], //
     /**
      * Метод обновляет стадии Канбана / Моего плана.
      */
@@ -63,6 +65,20 @@ export class BXRestNavvyTaskStages {
   canMoveTask(param: iBXRestParamTaskStagesCanMoveTask) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesCanMoveTask>(
       this.url.canMoveTask,
+      param
+    )
+  }
+
+  delete(param: iBXRestParamTaskStagesDelete) {
+    return this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesDelete>(
+      this.url.delete,
+      param
+    )
+  }
+
+  moveTask(param: iBXRestParamTaskStagesMoveTask) {
+    return this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesMoveTask>(
+      this.url.movetask,
       param
     )
   }

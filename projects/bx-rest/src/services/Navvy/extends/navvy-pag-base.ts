@@ -5,12 +5,6 @@ import { BXRestMapResult, instanceOfiBXRestAnswerSuccess } from '../../../functi
 import { HttpBXServices } from '../../http/HttpBX'
 import { ReturnTypeNavvy } from '../navvy-support'
 
-// TODO: посмотреть как будет себя вести, если все в порядке то оставить
-interface Mapper<T, R> {
-  (param: T): R
-  (param: undefined): undefined
-}
-
 export abstract class NavvyPagBase<T, R, P> {
 
   protected readonly http: HttpBXServices
@@ -19,14 +13,14 @@ export abstract class NavvyPagBase<T, R, P> {
   public constructor(
     protected url: string[],
     protected param: P,
-    /// protected map: Mapper<T, R> | undefined = undefined
-    protected map: ((param: T| undefined) => R | undefined) | undefined = undefined
+    protected map: ((param: T| undefined) => R | undefined) | undefined = undefined,
+    protected restApi = false
   ) {
     this.http = new HttpBXServices()
   }
 
   resVanilla() {
-    return this.http.post<T>(this.url, this.param)
+    return this.http.post<T>(this.url, this.param, this.restApi)
   }
 
   mapForVanilla(): Observable<iBXRestAnswer<ReturnTypeNavvy<T, R>> | undefined> {

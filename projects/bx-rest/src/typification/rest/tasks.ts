@@ -20,6 +20,7 @@ export * from './tasks/task/get'
 export * from './tasks/task/getFields'
 export * from './tasks/task/list'
 export * from './tasks/task/update'
+export * from './tasks/operations'
 export * from './tasks/task'
 
 

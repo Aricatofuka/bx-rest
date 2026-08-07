@@ -1,5 +1,5 @@
 import { Navvy } from '../../services/navvy'
-import { $add, $crm, $delete, $get, $lead, $list, $update } from '../../consts/part-name-methods'
+import { $add, $crm, $delete, $fields, $get, $lead, $list, $update } from '../../consts/part-name-methods'
 import {
   iBXRestParamCrmLeadAdd,
   iBXRestParamCrmLeadGet,
@@ -8,8 +8,16 @@ import {
   iBXRestParamCrmLeadDelete
 } from '../../typification/rest/crm'
 import { BXRestMapCrmLead } from '../../map/crm'
+import { BXRestNavvyCrmLeadContact } from './lead/contact'
+import { BXRestNavvyCrmLeadDetails } from './lead/details'
+import { BXRestNavvyCrmLeadProductRows } from './lead/productrows'
+import { BXRestNavvyCrmLeadUserField } from './lead/userfield'
 
 export class BXRestNavvyCrmLead {
+  public readonly contact = new BXRestNavvyCrmLeadContact()
+  public readonly details = new BXRestNavvyCrmLeadDetails()
+  public readonly productRows = new BXRestNavvyCrmLeadProductRows()
+  public readonly userField = new BXRestNavvyCrmLeadUserField()
   url = {
     /**
      * Создает новый лид
@@ -34,7 +42,7 @@ export class BXRestNavvyCrmLead {
     /**
      * Возвращает описание полей лида
      */
-    fields: [$crm, $lead, 'fields']
+    fields: [$crm, $lead, $fields]
   }
 
   private Navvy = new Navvy()

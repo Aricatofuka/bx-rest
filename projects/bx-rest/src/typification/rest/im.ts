@@ -35,4 +35,7 @@ export * from './im/user/status/get'
 export * from './im/user/status/idle'
 export * from './im/user/status/set'
 
+// additional current methods
+export * from './im/operations'
+
 

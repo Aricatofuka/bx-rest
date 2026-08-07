@@ -2,7 +2,7 @@ import { iBXRestYesNo } from '../../base/yes-no'
 
 export interface iBXRestImUserGetParam {
   ID: number
-  AVATAR_HR: iBXRestYesNo
+  AVATAR_HR?: iBXRestYesNo
 }
 
 /** Объект с номерами телефонов пользователя */

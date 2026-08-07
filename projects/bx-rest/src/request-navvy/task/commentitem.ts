@@ -7,18 +7,12 @@ import {
   BXRestTaskCommentItemGetList,
   BXRestTaskCommentItemDelete,
   iBXRestTaskComment,
-  iBXRestTaskCommentHtml
+  iBXRestTaskCommentHtml,
+  iBXRestParamTaskItemAction,
+  iBXRestTaskObject
 } from '../../typification/rest/task'
 import { mergeMap, of } from 'rxjs'
-import {
-  $add,
-  $commentitem,
-  $delete,
-  $get,
-  $getlist,
-  $task,
-  $update
-} from '../../consts/part-name-methods'
+import { $add, $commentitem, $delete, $get, $getlist, $getmanifest, $isactionallowed, $task, $update } from '../../consts/part-name-methods'
 
 export class BXRestNavvyTaskCommentItem {
   protected url = {
@@ -77,5 +71,16 @@ export class BXRestNavvyTaskCommentItem {
     } else {
       return of(false)
     }
+  }
+
+  getmanifest() {
+    return this.Navvy.simple<iBXRestTaskObject>([$task, $commentitem, $getmanifest])
+  }
+
+  isactionallowed(param: iBXRestParamTaskItemAction) {
+    return this.Navvy.simple<boolean, boolean, iBXRestParamTaskItemAction>(
+      [$task, $commentitem, $isactionallowed],
+      param
+    )
   }
 }

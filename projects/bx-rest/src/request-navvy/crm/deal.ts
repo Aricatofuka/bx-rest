@@ -1,5 +1,5 @@
 import { Navvy } from '../../services/navvy'
-import { $add, $crm, $deal, $delete, $get, $list, $update } from '../../consts/part-name-methods'
+import { $add, $crm, $deal, $delete, $fields, $get, $list, $update } from '../../consts/part-name-methods'
 import {
   iBXRestParamCrmDealAdd,
   iBXRestParamCrmDealGet,
@@ -8,8 +8,18 @@ import {
   iBXRestParamCrmDealDelete
 } from '../../typification/rest/crm'
 import { BXRestMapCrmDeal } from '../../map/crm'
+import { BXRestNavvyCrmDealContact } from './deal/contact'
+import { BXRestNavvyCrmDealDetails } from './deal/details'
+import { BXRestNavvyCrmDealProductRows } from './deal/productrows'
+import { BXRestNavvyCrmDealRecurring } from './deal/recurring'
+import { BXRestNavvyCrmDealUserField } from './deal/userfield'
 
 export class BXRestNavvyCrmDeal {
+  public readonly contact = new BXRestNavvyCrmDealContact()
+  public readonly details = new BXRestNavvyCrmDealDetails()
+  public readonly productRows = new BXRestNavvyCrmDealProductRows()
+  public readonly recurring = new BXRestNavvyCrmDealRecurring()
+  public readonly userField = new BXRestNavvyCrmDealUserField()
   url = {
     /**
      * Создает новую сделку
@@ -34,7 +44,7 @@ export class BXRestNavvyCrmDeal {
     /**
      * Возвращает описание полей сделки
      */
-    fields: [$crm, $deal, 'fields']
+    fields: [$crm, $deal, $fields]
   }
 
   private Navvy = new Navvy()

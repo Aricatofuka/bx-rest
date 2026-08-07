@@ -1,5 +1,5 @@
 import { Navvy } from '../../services/navvy'
-import { $dialog, $get, $im } from '../../consts/part-name-methods'
+import { $get, $im, $user } from '../../consts/part-name-methods'
 import { iBXRestImUserGet, iBXRestImUserGetHttp, iBXRestImUserGetParam } from '../../typification/rest/im'
 import { BXRestMapImUser } from '../../map/im/user'
 import { BXRestNavvyImUserStatus } from './user/status'
@@ -17,7 +17,7 @@ export class BXRestNavvyImUser {
    */
   get(param: iBXRestImUserGetParam) {
     return this.Navvy.simple<iBXRestImUserGetHttp, iBXRestImUserGet, iBXRestImUserGetParam>(
-      [$im, $dialog, $get],
+      [$im, $user, $get],
       param,
       BXRestMapImUser.get
     )

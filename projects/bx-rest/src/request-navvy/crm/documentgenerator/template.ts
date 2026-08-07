@@ -1,15 +1,5 @@
 import { Navvy } from '../../../services/navvy'
-import {
-  $add,
-  $crm,
-  $delete,
-  $documentgenerator,
-  $get,
-  $getFields,
-  $list,
-  $template,
-  $update
-} from '../../../consts/part-name-methods'
+import { $add, $crm, $delete, $documentgenerator, $get, $getFields, $list, $template, $update } from '../../../consts/part-name-methods'
 import {
   iBXRestCrmDocumentGeneratorField,
   iBXRestCrmDocumentGeneratorTemplate,

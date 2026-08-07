@@ -1,0 +1,5 @@
+export { BXRestNavvyImV2ChatBot } from './v2/chat/bot'
+export { BXRestNavvyImV2Chat } from './v2/chat'
+export { BXRestNavvyImV2Event } from './v2/event'
+export { BXRestNavvyImV2File } from './v2/file'
+export { BXRestNavvyImV2 } from './v2/index'

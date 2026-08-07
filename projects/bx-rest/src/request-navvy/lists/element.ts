@@ -1,34 +1,32 @@
-import { iBXRestParamListsElementGet, iBXRestParamListsElementAdd } from '../../typification/rest/lists'
+import {
+  $add,
+  $delete,
+  $element,
+  $file,
+  $get,
+  $lists,
+  $update,
+  $url
+} from '../../consts/part-name-methods'
 import BXRestListsElementMap from '../../map/lists/element'
 import { Navvy } from '../../services/navvy'
-import { $add, $element, $get, $lists } from '../../consts/part-name-methods'
+import {
+  iBXRestParamListsElementAdd,
+  iBXRestParamListsElementDelete,
+  iBXRestParamListsElementGet,
+  iBXRestParamListsElementGetFileUrl,
+  iBXRestParamListsElementUpdate
+} from '../../typification/rest/lists'
 
 export class BXRestNavvyListsElement {
-
-  url = {
-    /**
-     * Метод создаёт элемент списка
-     */
+  private readonly Navvy = new Navvy()
+  private readonly url = {
     add: [$lists, $element, $add],
-    // /**
-    //  * Метод удаляет элемент списка TODO: Реализовать
-    //  */
-    // delete: [$lists, $element, $delete],
-    /**
-     * Метод возвращает список элементов или элемент
-     */
+    delete: [$lists, $element, $delete],
     get: [$lists, $element, $get],
-    // /**
-    //  * Метод обновляет элемент списка TODO: Реализовать
-    //  */
-    // update: [$lists, $element, $update],
-    // /**
-    //  * Метод возвращает путь к файлу TODO: Реализовать
-    //  */
-    // getFileUrl: [$lists, $element, $get, $file, $url]
+    update: [$lists, $element, $update],
+    getFileUrl: [$lists, $element, $get, $file, $url]
   }
-
-  private Navvy = new Navvy()
 
   get(param: iBXRestParamListsElementGet) {
     return this.Navvy.pagNav(
@@ -39,6 +37,31 @@ export class BXRestNavvyListsElement {
   }
 
   add(param: iBXRestParamListsElementAdd) {
-    return this.Navvy.simple<number, number, iBXRestParamListsElementAdd>(this.url.add, param)
+    return this.Navvy.simple<number, number, iBXRestParamListsElementAdd>(
+      this.url.add,
+      param
+    )
+  }
+
+  delete(param: iBXRestParamListsElementDelete) {
+    return this.Navvy.simple<boolean, boolean, iBXRestParamListsElementDelete>(
+      this.url.delete,
+      param
+    )
+  }
+
+  update(param: iBXRestParamListsElementUpdate) {
+    return this.Navvy.simple<boolean, boolean, iBXRestParamListsElementUpdate>(
+      this.url.update,
+      param
+    )
+  }
+
+  getFileUrl(param: iBXRestParamListsElementGetFileUrl) {
+    return this.Navvy.simple<
+      string[],
+      string[],
+      iBXRestParamListsElementGetFileUrl
+    >(this.url.getFileUrl, param)
   }
 }

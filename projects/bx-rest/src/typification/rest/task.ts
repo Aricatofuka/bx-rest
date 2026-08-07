@@ -29,5 +29,6 @@ export * from './task/stages/canMoveTask'
 export * from './task/stages/get'
 export * from './task/stages/stage'
 export * from './task/stages/update'
+export * from './task/operations'
 
 

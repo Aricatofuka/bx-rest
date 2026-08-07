@@ -1,4 +1,4 @@
-import { $add, $crm, $currency, $delete, $get, $list, $update } from '../../consts/part-name-methods'
+import { $add, $crm, $currency, $delete, $fields, $get, $list, $update } from '../../consts/part-name-methods'
 import { BXRestMapCrmCurrency } from '../../map/crm'
 import { Navvy } from '../../services/navvy'
 import {
@@ -12,6 +12,7 @@ import {
   iBXRestParamCrmCurrencyUpdate
 } from '../../typification/rest/crm'
 import { BXRestNavvyCrmCurrencyBase } from './currency/base'
+import { BXRestNavvyCrmCurrencyLocalizations } from './currency/localizations'
 
 export * from './currency/base'
 
@@ -24,11 +25,12 @@ export class BXRestNavvyCrmCurrency {
     get: [$crm, $currency, $get],
     list: [$crm, $currency, $list],
     delete: [$crm, $currency, $delete],
-    fields: [$crm, $currency, 'fields']
+    fields: [$crm, $currency, $fields]
   }
 
   /** Базовая валюта (`crm.currency.base.*`). */
   public readonly base = new BXRestNavvyCrmCurrencyBase()
+  public readonly localizations = new BXRestNavvyCrmCurrencyLocalizations()
 
   /**
    * Создает новую валюту.

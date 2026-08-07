@@ -3,5 +3,6 @@
  */
 export * from './socialnetwork/api/contentview/set'
 export * from './socialnetwork/api/livefeed/blogpost/important/vote'
+export * from './socialnetwork/workgroup'
 
 

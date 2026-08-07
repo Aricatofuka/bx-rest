@@ -3,5 +3,6 @@
  */
 export * from './sonet_group/base'
 export * from './sonet_group/get'
+export * from './sonet_group/operations'
 
 

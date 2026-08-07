@@ -16,8 +16,26 @@ import { BXRestNavvyCrmCallList } from './crm/calllist/index'
 import { BXRestNavvyCrmAddress } from './crm/address'
 import { BXRestNavvyCrmRequisite } from './crm/requisite/index'
 import { BXRestNavvyCrmTimeline } from './crm/timeline/index'
+import { BXRestNavvyCrmCategory } from './crm/category'
+import { BXRestNavvyCrmItem } from './crm/item'
+import { BXRestNavvyCrmSettings } from './crm/settings'
+import { BXRestNavvyCrmType } from './crm/type'
+import { BXRestNavvyCrmUserField } from './crm/userfield'
+import { BXRestNavvyCrmActivity } from './crm/activity'
+import { BXRestNavvyCrmOrderEntity } from './crm/orderentity'
+import { BXRestNavvyCrmStageHistory } from './crm/stagehistory'
+import { BXRestNavvyCrmTracking } from './crm/tracking'
 
 export class BXRestNavvyCrm {
+  public readonly activity = new BXRestNavvyCrmActivity()
+  public readonly category = new BXRestNavvyCrmCategory()
+  public readonly item = new BXRestNavvyCrmItem()
+  public readonly settings = new BXRestNavvyCrmSettings()
+  public readonly type = new BXRestNavvyCrmType()
+  public readonly userField = new BXRestNavvyCrmUserField()
+  public readonly orderEntity = new BXRestNavvyCrmOrderEntity()
+  public readonly stageHistory = new BXRestNavvyCrmStageHistory()
+  public readonly tracking = new BXRestNavvyCrmTracking()
   /** Таймлайн CRM: комментарии, заметки, связи и лог-записи (`crm.timeline.*`). */
   public readonly timeline = new BXRestNavvyCrmTimeline()
   /** Адреса CRM, в том числе адреса реквизитов (`crm.address.*`). */

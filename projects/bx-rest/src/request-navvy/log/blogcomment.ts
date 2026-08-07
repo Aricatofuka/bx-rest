@@ -1,7 +1,2 @@
-import { $add, $blogcomment, $log } from '../../consts/part-name-methods'
-
-export class BXRestNavvyLogBlogComment {
-  url = {
-    add: [$log, $blogcomment, $add], //	Добавляет комментарий к сообщению Живой ленты
-  }
-}
+export { BXRestNavvyLogBlogCommentUser } from './blogcomment/user'
+export { BXRestNavvyLogBlogComment } from './blogcomment/index'

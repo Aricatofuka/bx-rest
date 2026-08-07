@@ -1,8 +1,10 @@
-import { $dialog, $get, $im, $messages } from '../../../consts/part-name-methods'
+import { $dialog, $get, $im, $messages, $search } from '../../../consts/part-name-methods'
 import { Navvy } from '../../../services/navvy'
 import {
   iBXRestImDialogMessagesGet, iBXRestImDialogMessagesGetHttp,
-  iBXRestImDialogMessagesGetParam
+  iBXRestImDialogMessagesGetParam,
+  iBXRestImObject,
+  iBXRestParamImDialogMessagesSearch
 } from '../../../typification/rest/im'
 import { BXRestMapImDialogMessages } from '../../../map/im/gialog/messages'
 
@@ -16,5 +18,13 @@ export class BXRestNavvyImDialogMessages {
       param,
       BXRestMapImDialogMessages.get
     )
+  }
+
+  search(param: iBXRestParamImDialogMessagesSearch) {
+    return this.Navvy.simple<
+      iBXRestImObject,
+      iBXRestImObject,
+      iBXRestParamImDialogMessagesSearch
+    >([$im, $dialog, $messages, $search], param)
   }
 }

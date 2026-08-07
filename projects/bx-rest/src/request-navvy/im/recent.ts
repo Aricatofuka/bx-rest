@@ -49,7 +49,7 @@ export class BXRestNavvyImRecent {
    * Удалить чат из списка последних
    */
   hide(param: iBXRestImDialogRecentUnreadParam) {
-    return this.Navvy.simple<boolean, boolean, iBXRestImDialogRecentUnreadParam>(this.url.unread, param)
+    return this.Navvy.simple<boolean, boolean, iBXRestImDialogRecentUnreadParam>(this.url.hide, param)
   }
 
   /**

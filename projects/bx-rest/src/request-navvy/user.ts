@@ -1,5 +1,6 @@
 import { Navvy } from '../services/navvy'
 import {
+  iBXRestParamUserAdd,
   iBXRestParamUserGet,
   iBXRestParamUserAccess,
   iBXRestParamUserSearch,
@@ -10,7 +11,7 @@ import {
 import clone from 'just-clone'
 import { BXRestNavvyUserUserfield } from './user/userfield'
 import { BXRestMapUser } from '../map/user'
-import { $get, $search, $update, $user } from '../consts/part-name-methods'
+import { $access, $add, $admin, $current, $fields, $get, $search, $update, $user } from '../consts/part-name-methods'
 import { BXRestNavvyUserOption } from './user/option'
 
 export class BXRestNavvyUser {
@@ -18,22 +19,31 @@ export class BXRestNavvyUser {
     params: {ACTIVE: true, start: 0}
   }
   url = {
-    admin: [$user, 'admin'],
+    add: [$user, $add],
+    admin: [$user, $admin],
     get: [$user, $get],
-    current: [$user, 'current'],
+    current: [$user, $current],
     update: [$user, $update],
     search: [$user, $search],
-    access: [$user, 'access'], // U1 - пользователь с id =1
+    access: [$user, $access], // U1 - пользователь с id =1
     // AU - все авторизованные пользователи
     // D1 - подразделение с id=1
     // G1 - группа с id=1
-    fields: [$user, 'fields'],
+    fields: [$user, $fields],
   }
 
   public readonly userField = new BXRestNavvyUserUserfield()
   /** Персональные настройки текущего пользователя для приложения. */
   public readonly option = new BXRestNavvyUserOption()
   private readonly Navvy = new Navvy()
+
+  /** Invites an intranet or extranet user. Requires user invitation rights. */
+  add(param: iBXRestParamUserAdd) {
+    return this.Navvy.simple<number, number, iBXRestParamUserAdd>(
+      this.url.add,
+      param
+    )
+  }
 
   /**
    * Проверяет, может ли текущий пользователь управлять настройками приложений.

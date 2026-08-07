@@ -1,17 +1,5 @@
 import { Navvy } from '../../../services/navvy'
-import {
-  $add,
-  $crm,
-  $delete,
-  $document,
-  $documentgenerator,
-  $enablepublicurl,
-  $get,
-  $getFields,
-  $list,
-  $update,
-  $upload
-} from '../../../consts/part-name-methods'
+import { $add, $crm, $delete, $document, $documentgenerator, $enablepublicurl, $get, $getFields, $list, $update, $upload } from '../../../consts/part-name-methods'
 import {
   iBXRestCrmDocumentGeneratorDocument,
   iBXRestCrmDocumentGeneratorField,
@@ -60,7 +48,11 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-add.html
    */
   add(param: iBXRestParamCrmDocumentGeneratorDocumentAdd) {
-    return this.documentRequest(this.url.add, param)
+    return this.Navvy.simple<DocumentResult, iBXRestCrmDocumentGeneratorDocument, iBXRestParamCrmDocumentGeneratorDocumentAdd>(
+      this.url.add,
+      param,
+      result => result?.document
+    )
   }
 
   /**
@@ -71,7 +63,11 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-update.html
    */
   update(param: iBXRestParamCrmDocumentGeneratorDocumentUpdate) {
-    return this.documentRequest(this.url.update, param)
+    return this.Navvy.simple<DocumentResult, iBXRestCrmDocumentGeneratorDocument, iBXRestParamCrmDocumentGeneratorDocumentUpdate>(
+      this.url.update,
+      param,
+      result => result?.document
+    )
   }
 
   /**
@@ -82,7 +78,11 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-get.html
    */
   get(param: iBXRestParamCrmDocumentGeneratorDocumentGet) {
-    return this.documentRequest(this.url.get, param)
+    return this.Navvy.simple<DocumentResult, iBXRestCrmDocumentGeneratorDocument, iBXRestParamCrmDocumentGeneratorDocumentGet>(
+      this.url.get,
+      param,
+      result => result?.document
+    )
   }
 
   /**
@@ -132,7 +132,11 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-upload.html
    */
   upload(param: iBXRestParamCrmDocumentGeneratorDocumentUpload) {
-    return this.documentRequest(this.url.upload, param)
+    return this.Navvy.simple<DocumentResult, iBXRestCrmDocumentGeneratorDocument, iBXRestParamCrmDocumentGeneratorDocumentUpload>(
+      this.url.upload,
+      param,
+      result => result?.document
+    )
   }
 
   /**
@@ -147,13 +151,5 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
       Record<string, iBXRestCrmDocumentGeneratorField>,
       iBXRestParamCrmDocumentGeneratorDocumentGetFields
     >(this.url.getFields, param, result => result?.documentFields)
-  }
-
-  private documentRequest<P>(url: string[], param: P) {
-    return this.Navvy.simple<DocumentResult, iBXRestCrmDocumentGeneratorDocument, P>(
-      url,
-      param,
-      result => result?.document
-    )
   }
 }

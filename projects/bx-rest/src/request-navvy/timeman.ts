@@ -10,10 +10,18 @@ import {
 } from '../typification/rest/timeman'
 import { Navvy } from '../services/navvy'
 import { BXRestMapTimeMan } from '../map/timeman'
-import { $pause, $settings, $status, $timeMan } from '../consts/part-name-methods'
+import { $close, $open, $pause, $settings, $status, $timeMan } from '../consts/part-name-methods'
 import { toLocalAtom } from '../functions/toLocalAtom'
+import { BXRestNavvyTimemanNetworkRange } from './timeman/networkrange'
+import { BXRestNavvyTimemanRecord } from './timeman/record'
+import { BXRestNavvyTimemanSchedule } from './timeman/schedule'
+import { BXRestNavvyTimemanTimeControl } from './timeman/timecontrol'
 
 export class BXRestNavvyTimeMan {
+  public readonly networkRange = new BXRestNavvyTimemanNetworkRange()
+  public readonly record = new BXRestNavvyTimemanRecord()
+  public readonly schedule = new BXRestNavvyTimemanSchedule()
+  public readonly timeControl = new BXRestNavvyTimemanTimeControl()
   protected readonly url = {
     /**
      * Получение настроек рабочего времени пользователя
@@ -26,11 +34,11 @@ export class BXRestNavvyTimeMan {
     /**
      * Начать новый рабочий день либо возобновить закрытый или приостановленный
      */
-    open: [$timeMan, 'open'],
+    open: [$timeMan, $open],
     /**
      * Закрыть рабочий день
      */
-    close: [$timeMan, 'close'],
+    close: [$timeMan, $close],
     /**
      * Приостановить рабочий день
      */
