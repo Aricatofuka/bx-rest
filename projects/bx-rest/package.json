@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "0.21.0",
+  "version": "0.21.1",
   "description": "Bitrix24 REST API client and TypeScript SDK for Angular, Vue and browser apps",
   "keywords": [
     "bitrix",
@@ -43,6 +43,7 @@
   },
   "files": [
     "README.md",
+    "LICENSE",
     "*.d.ts",
     "consts",
     "esm2022",

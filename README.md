@@ -1,14 +1,49 @@
+<!-- This file is generated from projects/bx-rest/README.md by `npm run sync-readme`. Do not edit directly. -->
+
 # bx-rest - Bitrix24 REST API client for TypeScript, Angular, Vue and React
+
+[![npm version](https://img.shields.io/npm/v/bx-rest.svg)](https://www.npmjs.com/package/bx-rest)
+[![npm downloads](https://img.shields.io/npm/dm/bx-rest.svg)](https://www.npmjs.com/package/bx-rest)
+[![license](https://img.shields.io/npm/l/bx-rest.svg)](https://github.com/Aricatofuka/bx-rest/blob/main/LICENSE)
 
 `bx-rest` is a TypeScript SDK for the Bitrix24 REST API. It helps call BX24 REST methods, work with auth tokens, sessid, OAuth2, pagination, mappers and typed API requests.
 
 Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix REST TypeScript library.
+
+## Contents
+
+- [Install](#install)
+- [Requirements](#requirements)
+- [Quick Start](#quick-start)
+  - [Result modes](#result-modes)
+- [Authentication and OAuth2](#authentication-and-oauth2)
+- [Error handling](#error-handling)
+- [Usage in Angular](#usage-in-angular)
+- [SessionKeyServices](#sessionkeyservices)
+- [Usage in Vue](#usage-in-vue)
+- [Usage in React](#usage-in-react)
+- [Custom REST methods](#custom-rest-methods)
+  - [Mapper](#mapper)
+  - [A custom method with `simple()`](#a-custom-method-with-simple)
+  - [A paginated custom method with `pagNav()`](#a-paginated-custom-method-with-pagnav)
+- [Specific methods](#specific-methods)
+  - [`tasks.task.list`](#taskstasklist)
+- [Future features](#future-features)
+- [License](#license)
 
 ## Install
 
 ```shell
 npm install bx-rest
 ```
+
+## Requirements
+
+- **Module format:** `bx-rest` ships ES modules only — there is no CommonJS/`require` build. Use it from an ESM-aware bundler (Angular CLI, Vite, webpack 5+, Next.js, ...) or a native `import()`. Plain `require('bx-rest')` (older Jest configs without ESM support, `ts-node` in CJS mode, etc.) will not resolve the package.
+- **TypeScript:** developed against TypeScript 5.5+. `strict` mode is recommended — the bundled typification relies on it to give accurate field types.
+- **RxJS:** `rxjs` (^7.8) is a regular dependency bundled with the package, not a `peerDependency`, so no specific host version is enforced. Every REST call returns an RxJS `Observable`.
+- **Frameworks:** the Angular, Vue and React examples below are written against Angular 18/19, Vue 3 and React 18+ APIs (the versions this library is built and tested with). None of these frameworks are declared as `peerDependencies` — `bx-rest` has no hard dependency on any of them — but the DI/composition patterns shown assume those major versions.
+- **Environment:** `bx-rest` is browser-oriented. The `cookies`/`localStorage`/`sessid` auth sources and `SessionKeyServices` read `window`, `document` and `localStorage` directly. In a server-side-rendered app (Angular Universal, Next.js, etc.) only exercise those code paths in the browser (e.g. behind `isPlatformBrowser`/`typeof window !== 'undefined'` guards), or use an auth source that doesn't touch browser globals, such as `source: () => accessToken` or `source: 'off'`.
 
 ## Quick Start
 
@@ -86,6 +121,51 @@ BXRestSettings.update({
     key: 'https://example.bitrix24.com/rest/1/WEBHOOK_CODE',
     additional_part: ''
   }
+})
+```
+
+## Error handling
+
+`bx-rest` surfaces two different kinds of failure, and `.res()` only reacts to one of them.
+
+| Failure | When it happens | How it surfaces on `.res()` |
+| --- | --- | --- |
+| Transport / configuration errors — network failure, missing auth, missing base URL | Before or during the HTTP call | The returned `Observable` errors. Handle it with RxJS `catchError` or the `error` callback of `subscribe()`. |
+| Bitrix API errors — `{ error, error_description }`, e.g. `INSUFFICIENT_SCOPE`, `expired_token` | HTTP 200 response whose body is not a success payload | `.res()` resolves normally with `undefined`. **It does not throw.** |
+
+Because a Bitrix-level error resolves as `undefined` rather than as an `Observable` error, don't rely on `.res()` alone to tell "no records" apart from "the call failed". When that distinction matters, call `.resVanilla()` instead and check the response with the exported `isBXRestAnswerSuccess()` type guard:
+
+```typescript
+import { firstValueFrom } from 'rxjs'
+import { BXRestNavvy, isBXRestAnswerSuccess } from 'bx-rest'
+
+const bxRest = new BXRestNavvy()
+
+const answer = await firstValueFrom(
+  bxRest.crm.deal.list({
+    select: ['ID', 'TITLE'],
+    filter: {},
+    start: 0
+  }).resVanilla()
+)
+
+if (!answer || !isBXRestAnswerSuccess(answer)) {
+  console.error('Bitrix API error:', answer?.error, answer?.error_description)
+} else {
+  console.log(answer.result)
+}
+```
+
+Transport-level failures still propagate as `Observable` errors and can be caught the usual RxJS way:
+
+```typescript
+bxRest.crm.deal.list({
+  select: ['ID', 'TITLE'],
+  filter: {},
+  start: 0
+}).res().subscribe({
+  next: deals => console.log(deals),
+  error: err => console.error('Request failed:', err.message)
 })
 ```
 
@@ -435,3 +515,9 @@ const tasks$ = bxRest.tasks.task.list<
 ## Future features
 - Auto get token
 - Mappers for normalization types
+
+Have a feature request or found a bug? Check [existing issues](https://github.com/Aricatofuka/bx-rest/issues) or open a new one.
+
+## License
+
+[MIT](https://github.com/Aricatofuka/bx-rest/blob/main/LICENSE) © Aricatofuka

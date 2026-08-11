@@ -142,51 +142,6 @@ export class HttpBXServices extends HttpServices {
     return stringifyBitrixParams(params)
   }
 
-  // Мб не работает
-  override httpGet<T>(url: string, params: any = {}): Observable<T | undefined> {
-    if (params === null) {
-      params = {}
-    }
-    const auth = this.session.getAuthParams()
-    const paramsClone = clone(params)
-    const checkIsOn = this.session.getCheckAuthParamsIsOn()
-    const key = this.session.getKeyAuth()
-
-    if (checkIsOn) {
-      if (!auth) {
-        return throwError(() => this.session.getAuthError('get'))
-      }
-
-      if (key !== 'OAuth2') {
-        paramsClone[key] = auth
-      }
-    }
-
-    let options = {
-      params: paramsClone
-      // params: JSON.stringify(paramsClone)
-    }
-
-    return this.session.getBaseUrl().pipe(
-      switchMap((baseUrl) => {
-        if (!baseUrl) {
-          return throwError(() => this.session.getBaseUrlError('get'))
-        }
-
-        return from(
-          this.axiosInstance.post<T>(prepareBaseAddress(baseUrl) + url, options,
-            {
-              withCredentials: key === 'OAuth2',
-              headers: {
-                'Content-Type': 'application/json',
-              }
-            }
-          ).then((response) => response.data)
-        )
-      })
-    )
-  }
-
   getNameMethod(arr: string[]) {
     return arr.join('.')
   }
