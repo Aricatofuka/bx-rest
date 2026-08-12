@@ -4,6 +4,19 @@ import { catchError, map } from 'rxjs/operators'
 import { BXRestMapResult, instanceOfiBXRestAnswerSuccess } from '../../../functions/mapResult'
 import { HttpBXServices } from '../../http/HttpBX'
 import { ReturnTypeNavvy } from '../navvy-support'
+import { BXRestApiError } from '../../../functions/errors'
+
+export interface BXRestResOptions {
+  /**
+   * When `true`, a Bitrix-level API error (`{ error, error_description }`,
+   * e.g. `INSUFFICIENT_SCOPE`, `expired_token`) makes the `Observable`
+   * returned by `.res()` error out with a `BXRestApiError` instead of
+   * resolving with `undefined`.
+   *
+   * Default: `false` (preserves the historical `.res()` behaviour).
+   */
+  throwOnApiError?: boolean
+}
 
 export abstract class NavvyPagBase<T, R, P> {
 
@@ -37,8 +50,8 @@ export abstract class NavvyPagBase<T, R, P> {
       )
   }
 
-  res() {
-    return this.mapAndError(this.resVanilla()).pipe(
+  res(options?: BXRestResOptions) {
+    return this.mapAndError(this.resVanilla(), options).pipe(
       map(v => (v && this.map)
         ? this.map(v)
         : v
@@ -47,12 +60,21 @@ export abstract class NavvyPagBase<T, R, P> {
   }
 
   mapAndError<T>(
-    request: Observable<iBXRestAnswer<T> | undefined>
+    request: Observable<iBXRestAnswer<T> | undefined>,
+    options?: BXRestResOptions
   ) {
     return request.pipe(
-      map(v => BXRestMapResult(v)),
+      map(v => {
+        if (options?.throwOnApiError && v && !instanceOfiBXRestAnswerSuccess(v)) {
+          throw new BXRestApiError(v.error, v.error_description)
+        }
+        return BXRestMapResult(v)
+      }),
       catchError((err: any) => {
         console.error(err)
+        if (err instanceof BXRestApiError) {
+          throw err
+        }
         throw new Error((err.error) ? err.error : err)
       })
     )

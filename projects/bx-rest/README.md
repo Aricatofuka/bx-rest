@@ -86,10 +86,16 @@ REST calls are lazy: the request starts when the returned `Observable` is subscr
 
 | Method | Result |
 | --- | --- |
-| `.res()` | Unwraps the Bitrix response and applies the configured mapper. For paginated methods it returns the current page. |
+| `.res(options?)` | Unwraps the Bitrix response and applies the configured mapper. For paginated methods it returns the current page. |
 | `.resAll()` | Loads and combines every page. Available on paginated Navvy helpers. |
 | `.resVanilla()` | Returns the raw Bitrix response, including fields such as `result`, `total` and `next`. |
 | `.mapForVanilla()` | Keeps the raw response envelope but applies the mapper to its `result`. |
+
+`.res()` accepts an optional options object:
+
+| Option | Default | Effect |
+| --- | --- | --- |
+| `throwOnApiError` | `false` | When `true`, a Bitrix-level API error makes the returned `Observable` error out with a `BXRestApiError` instead of resolving with `undefined`. See [Error handling](#error-handling). |
 
 ## Authentication and OAuth2
 
@@ -129,9 +135,34 @@ BXRestSettings.update({
 | Failure | When it happens | How it surfaces on `.res()` |
 | --- | --- | --- |
 | Transport / configuration errors — network failure, missing auth, missing base URL | Before or during the HTTP call | The returned `Observable` errors. Handle it with RxJS `catchError` or the `error` callback of `subscribe()`. |
-| Bitrix API errors — `{ error, error_description }`, e.g. `INSUFFICIENT_SCOPE`, `expired_token` | HTTP 200 response whose body is not a success payload | `.res()` resolves normally with `undefined`. **It does not throw.** |
+| Bitrix API errors — `{ error, error_description }`, e.g. `INSUFFICIENT_SCOPE`, `expired_token` | HTTP 200 response whose body is not a success payload | By default, `.res()` resolves normally with `undefined` — **it does not throw**. Pass `{ throwOnApiError: true }` to make it throw a `BXRestApiError` instead. |
 
-Because a Bitrix-level error resolves as `undefined` rather than as an `Observable` error, don't rely on `.res()` alone to tell "no records" apart from "the call failed". When that distinction matters, call `.resVanilla()` instead and check the response with the exported `isBXRestAnswerSuccess()` type guard:
+Because a Bitrix-level error resolves as `undefined` rather than as an `Observable` error by default, don't rely on plain `.res()` alone to tell "no records" apart from "the call failed". You have two options.
+
+**Option 1 — opt in to throwing with `.res({ throwOnApiError: true })`.** The `Observable` errors with a `BXRestApiError`, exposing `error` and `error_description`, so it can be handled alongside transport errors in a single `catchError`/`error` callback:
+
+```typescript
+import { BXRestNavvy, BXRestApiError } from 'bx-rest'
+
+const bxRest = new BXRestNavvy()
+
+bxRest.crm.deal.list({
+  select: ['ID', 'TITLE'],
+  filter: {},
+  start: 0
+}).res({ throwOnApiError: true }).subscribe({
+  next: deals => console.log(deals),
+  error: err => {
+    if (err instanceof BXRestApiError) {
+      console.error('Bitrix API error:', err.error, err.error_description)
+    } else {
+      console.error('Request failed:', err.message)
+    }
+  }
+})
+```
+
+**Option 2 — keep the default and check the raw response.** Call `.resVanilla()` instead and check the response with the exported `isBXRestAnswerSuccess()` type guard:
 
 ```typescript
 import { firstValueFrom } from 'rxjs'
@@ -154,7 +185,7 @@ if (!answer || !isBXRestAnswerSuccess(answer)) {
 }
 ```
 
-Transport-level failures still propagate as `Observable` errors and can be caught the usual RxJS way:
+Regardless of `throwOnApiError`, transport-level failures always propagate as `Observable` errors and can be caught the usual RxJS way:
 
 ```typescript
 bxRest.crm.deal.list({
