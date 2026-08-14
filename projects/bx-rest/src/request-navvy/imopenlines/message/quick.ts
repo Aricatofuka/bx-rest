@@ -5,6 +5,9 @@ import { $imopenlines, $message, $quick, $save } from '../../../consts/part-name
 export class BXRestNavvyImOpenLinesMessageQuick  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Сохраняет сообщение как быстрый ответ.
+   */
   save(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

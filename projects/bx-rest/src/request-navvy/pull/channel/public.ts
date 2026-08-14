@@ -13,6 +13,9 @@ export class BXRestNavvyPullChannelPublic {
 
   private Navvy = new Navvy()
 
+  /**
+   * Возвращает публичный канал Push & Pull (public_id и подпись) с ограниченным сроком действия для приёма событий без авторизации пользователя.
+   */
   get() {
     return this.Navvy.simple<iBXRestPullChannelPublicGetHttp,
       iBXRestPullChannelPublicGet>([$pull, $channel, $public, $get], undefined, BXRestMapPullChannelPublic.get)

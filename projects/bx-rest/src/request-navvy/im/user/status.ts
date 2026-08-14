@@ -6,6 +6,9 @@ import { BXRestNavvyImUserStatusIdle } from './status/idle'
 export class BXRestNavvyImUserStatus {
   private Navvy = new Navvy()
 
+  /**
+   * Автоматический статус «Отошёл» (`im.user.status.idle.*`).
+   */
   public readonly idle = new BXRestNavvyImUserStatusIdle()
 
   /**

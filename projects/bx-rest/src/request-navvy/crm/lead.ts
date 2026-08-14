@@ -14,9 +14,21 @@ import { BXRestNavvyCrmLeadProductRows } from './lead/productrows'
 import { BXRestNavvyCrmLeadUserField } from './lead/userfield'
 
 export class BXRestNavvyCrmLead {
+  /**
+   * Контакты лида (`crm.lead.contact.*`).
+   */
   public readonly contact = new BXRestNavvyCrmLeadContact()
+  /**
+   * Карточка лида (`crm.lead.details.*`).
+   */
   public readonly details = new BXRestNavvyCrmLeadDetails()
+  /**
+   * Товары лида (`crm.lead.productrows.*`).
+   */
   public readonly productRows = new BXRestNavvyCrmLeadProductRows()
+  /**
+   * Пользовательские поля лида (`crm.lead.userfield.*`).
+   */
   public readonly userField = new BXRestNavvyCrmLeadUserField()
   url = {
     /**

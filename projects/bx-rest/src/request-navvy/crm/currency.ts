@@ -30,6 +30,9 @@ export class BXRestNavvyCrmCurrency {
 
   /** Базовая валюта (`crm.currency.base.*`). */
   public readonly base = new BXRestNavvyCrmCurrencyBase()
+  /**
+   * Локализации валют (`crm.currency.localizations.*`).
+   */
   public readonly localizations = new BXRestNavvyCrmCurrencyLocalizations()
 
   /**

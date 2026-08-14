@@ -5,6 +5,9 @@ import { $b2e, $company, $list, $provider, $sign } from '../../../../consts/part
 export class BXRestNavvySignB2ECompanyProvider  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список провайдеров подписи компании.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

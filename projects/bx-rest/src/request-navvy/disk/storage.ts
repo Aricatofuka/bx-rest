@@ -41,6 +41,9 @@ export class BXRestNavvyDiskStorage {
   public operation = new BXRestNavvyOperationDiskStorage()
   private Navvy = new Navvy()
 
+  /**
+   * Возвращает описание хранилища приложения.
+   */
   getForApp() {
     return this.Navvy.simple<iBXRestFolderInfo>(this.url.getForApp)
   }
@@ -64,6 +67,9 @@ export class BXRestNavvyDiskStorage {
   }
    */
 
+  /**
+   * Возвращает список файлов и папок в корне хранилища.
+   */
   getChildren(param: iBXRestParamGetchildren) {
     return this.Navvy.simple<(iBXRestFolderHttp | iBXRestDiskFileHttp)[], iBXRestDiskFileAndFolderMap, iBXRestParamGetchildren>(
       this.url.getChildren,
@@ -72,6 +78,9 @@ export class BXRestNavvyDiskStorage {
     )
   }
 
+  /**
+   * Создаёт папку в корне хранилища.
+   */
   addFolder(param: { id: number, data: { NAME: string } }) {
     return this.Navvy.simple<iBXRestFolderHttp, iBXRestFolder, { id: number, data: { NAME: string } }>(
       this.url.addFolder,
@@ -80,6 +89,9 @@ export class BXRestNavvyDiskStorage {
     )
   }
 
+  /**
+   * Загружает новый файл в корень хранилища.
+   */
   uploadFile(param: iBXRestParamUploadFile) {
     return this.Navvy.simple<iBXRestDiskFileHttp, iBXRestDiskFile, iBXRestParamUploadFile>(
       this.url.uploadFile,

@@ -5,6 +5,9 @@ import { $catalog, $document, $list, $update, $userfield } from '../../../consts
 export class BXRestNavvyCatalogUserfieldDocument  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список пользовательских полей документов складского учёта.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvyCatalogUserfieldDocument  {
       iBXRestGenericParams
     >([$catalog, $userfield, $document, $list], param)
   }
+  /**
+   * Обновляет пользовательское поле документа складского учёта.
+   */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

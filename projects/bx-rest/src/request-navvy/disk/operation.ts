@@ -6,11 +6,20 @@ import { of, throwError } from 'rxjs'
 
 export class BXRestNavvyDiskOperation {
 
+  /**
+   * Папки на Диске (`disk.folder.*`).
+   */
   public readonly folder = new BXRestNavvyDiskFolder()
+  /**
+   * Файлы на Диске (`disk.file.*`).
+   */
   public readonly disk = new BXRestNavvyDiskFile()
   private readonly storage = new BXRestNavvyDiskStorage()
 
   // данные файла в base64
+  /**
+   * Загружает файл (в base64) в общее хранилище приложения.
+   */
   loadFileInAppFolder(file: {
     name: string,
     val: string
@@ -33,6 +42,9 @@ export class BXRestNavvyDiskOperation {
       )
   }
 
+  /**
+   * Возвращает содержимое корневой папки приложения, создавая её при отсутствии.
+   */
   getOfCreateRootContentFolderApp(folderName: string) {
     return this.getOfCreateRootFolderApp(folderName).pipe(
       mergeMap(v => {
@@ -45,6 +57,9 @@ export class BXRestNavvyDiskOperation {
 
   }
 
+  /**
+   * Возвращает список папок и файлов в общем хранилище приложения.
+   */
   getRootFoldersApp() {
     // return this.BXDiskFolder$.pipe(
     //   take(1),

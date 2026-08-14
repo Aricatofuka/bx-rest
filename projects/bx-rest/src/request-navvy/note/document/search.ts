@@ -6,8 +6,14 @@ import { BXRestNavvyNoteDocumentSearchField } from './search/field'
 export class BXRestNavvyNoteDocumentSearch  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Поля результата поиска документов (`note.document.search.field.*`).
+   */
   public readonly field = new BXRestNavvyNoteDocumentSearchField()
 
+  /**
+   * Ищет документы по заголовку и содержимому.
+   */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,

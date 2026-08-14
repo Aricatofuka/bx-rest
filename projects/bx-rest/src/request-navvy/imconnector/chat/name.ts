@@ -5,6 +5,9 @@ import { $chat, $imconnector, $name, $set } from '../../../consts/part-name-meth
 export class BXRestNavvyImConnectorChatName  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Устанавливает новое имя чата коннектора.
+   */
   set(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$imconnector, $chat, $name, $set], param)
   }

@@ -5,6 +5,9 @@ import { $add, $delete, $get, $getFieldsByType, $list, $property, $sale, $update
 export class BXRestNavvySaleProperty  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет свойство заказа.
+   */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvySaleProperty  {
       iBXRestGenericParams
     >([$sale, $property, $add], param)
   }
+  /**
+   * Удаляет свойство заказа.
+   */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvySaleProperty  {
       iBXRestGenericParams
     >([$sale, $property, $delete], param)
   }
+  /**
+   * Возвращает свойство заказа по идентификатору.
+   */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -26,6 +35,9 @@ export class BXRestNavvySaleProperty  {
       iBXRestGenericParams
     >([$sale, $property, $get], param)
   }
+  /**
+   * Возвращает описание полей свойства заказа для указанного типа.
+   */
   public getFieldsByType(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -33,6 +45,9 @@ export class BXRestNavvySaleProperty  {
       iBXRestGenericParams
     >([$sale, $property, $getFieldsByType], param)
   }
+  /**
+   * Возвращает список свойств заказа.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -40,6 +55,9 @@ export class BXRestNavvySaleProperty  {
       iBXRestGenericParams
     >([$sale, $property, $list], param)
   }
+  /**
+   * Обновляет свойство заказа.
+   */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

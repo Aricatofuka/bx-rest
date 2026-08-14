@@ -5,6 +5,9 @@ import { $add, $biconnector, $delete, $fields, $get, $list, $source, $update } f
 export class BXRestNavvyBiConnectorSource {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет новый источник.
+   */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyBiConnectorSource {
     >([$biconnector, $source, $add], param)
   }
 
+  /**
+   * Удаляет источник.
+   */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(
       [$biconnector, $source, $delete],
@@ -20,6 +26,9 @@ export class BXRestNavvyBiConnectorSource {
     )
   }
 
+  /**
+   * Возвращает описание полей источника.
+   */
   fields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -28,6 +37,9 @@ export class BXRestNavvyBiConnectorSource {
     >([$biconnector, $source, $fields], param)
   }
 
+  /**
+   * Возвращает информацию об источнике.
+   */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -36,6 +48,9 @@ export class BXRestNavvyBiConnectorSource {
     >([$biconnector, $source, $get], param)
   }
 
+  /**
+   * Возвращает список доступных источников.
+   */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject[],
@@ -44,6 +59,9 @@ export class BXRestNavvyBiConnectorSource {
     >([$biconnector, $source, $list], param)
   }
 
+  /**
+   * Обновляет существующий источник.
+   */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(
       [$biconnector, $source, $update],

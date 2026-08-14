@@ -10,8 +10,14 @@ export class BXRestNavvyLogBlogComment {
     delete: [$log, $blogcomment, $delete]
   }
 
+  /**
+   * Комментарии к сообщению Ленты новостей (`log.blogcomment.user.*`).
+   */
   public readonly user = new BXRestNavvyLogBlogCommentUser()
 
+  /**
+   * Добавляет комментарий к сообщению Ленты новостей.
+   */
   add(param: iBXRestParamLogBlogCommentAdd) {
     return this.Navvy.simple<number, number, iBXRestParamLogBlogCommentAdd>(
       this.url.add,
@@ -19,6 +25,9 @@ export class BXRestNavvyLogBlogComment {
     )
   }
 
+  /**
+   * Удаляет комментарий к сообщению Ленты новостей.
+   */
   delete(param: iBXRestParamLogBlogCommentDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamLogBlogCommentDelete>(
       this.url.delete,

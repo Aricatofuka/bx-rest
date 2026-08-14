@@ -5,6 +5,9 @@ import { $field, $file, $get, $list, $note } from '../../../consts/part-name-met
 export class BXRestNavvyNoteFileField  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает описание поля файла документа.
+   */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyNoteFileField  {
     >([$note, $file, $field, $get], param)
   }
 
+  /**
+   * Возвращает список полей файла документа.
+   */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,

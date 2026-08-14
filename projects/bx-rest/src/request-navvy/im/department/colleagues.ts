@@ -5,6 +5,9 @@ import { $colleagues, $department, $im, $list } from '../../../consts/part-name-
 export class BXRestNavvyImDepartmentColleagues {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список коллег текущего пользователя.
+   */
   list(param: iBXRestParamImDepartmentColleaguesList = {}) {
     return this.Navvy.simple<
       iBXRestImObject[],

@@ -5,6 +5,9 @@ import { $deleteForLanding, $deleteForSite, $get, $getSpecialPage, $landing, $se
 export class BXRestNavvyLandingSysPage  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Снимает признак специальной страницы со страницы.
+   */
   public deleteForLanding(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvyLandingSysPage  {
       iBXRestGenericParams
     >([$landing, $syspage, $deleteForLanding], param)
   }
+  /**
+   * Снимает признак специальной страницы с сайта.
+   */
   public deleteForSite(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvyLandingSysPage  {
       iBXRestGenericParams
     >([$landing, $syspage, $deleteForSite], param)
   }
+  /**
+   * Возвращает специальные страницы сайта.
+   */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -26,6 +35,9 @@ export class BXRestNavvyLandingSysPage  {
       iBXRestGenericParams
     >([$landing, $syspage, $get], param)
   }
+  /**
+   * Возвращает специальную страницу по коду.
+   */
   public getSpecialPage(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -33,6 +45,9 @@ export class BXRestNavvyLandingSysPage  {
       iBXRestGenericParams
     >([$landing, $syspage, $getSpecialPage], param)
   }
+  /**
+   * Назначает страницу специальной.
+   */
   public set(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

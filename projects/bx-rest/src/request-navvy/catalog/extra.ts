@@ -5,6 +5,9 @@ import { $catalog, $extra, $get, $getFieldsExact, $list } from '../../consts/par
 export class BXRestNavvyCatalogExtra  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает наценку по идентификатору.
+   */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvyCatalogExtra  {
       iBXRestGenericParams
     >([$catalog, $extra, $get], param)
   }
+  /**
+   * Возвращает описание полей наценки.
+   */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvyCatalogExtra  {
       iBXRestGenericParams
     >([$catalog, $extra, $getFieldsExact], param)
   }
+  /**
+   * Возвращает список наценок.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

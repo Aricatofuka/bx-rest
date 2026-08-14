@@ -5,6 +5,9 @@ import { $get, $statistic, $voximplant } from '../../consts/part-name-methods'
 export class BXRestNavvyVoxImplantStatistic  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список звонков.
+   */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject[],

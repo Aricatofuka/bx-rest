@@ -13,8 +13,17 @@ import { BXRestNavvyCrmContactDetails } from './contact/details'
 import { BXRestNavvyCrmContactUserField } from './contact/userfield'
 
 export class BXRestNavvyCrmContact {
+  /**
+   * Компании контакта (`crm.contact.company.*`).
+   */
   public readonly company = new BXRestNavvyCrmContactCompany()
+  /**
+   * Карточка контакта (`crm.contact.details.*`).
+   */
   public readonly details = new BXRestNavvyCrmContactDetails()
+  /**
+   * Пользовательские поля контактов (`crm.contact.userfield.*`).
+   */
   public readonly userField = new BXRestNavvyCrmContactUserField()
   url = {
     /**

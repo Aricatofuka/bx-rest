@@ -5,6 +5,9 @@ import { $activity, $communication, $crm, $fields } from '../../../consts/part-n
 export class BXRestNavvyCrmActivityCommunication  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает описание полей коммуникации дела.
+   */
   fields() {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $activity, $communication, $fields], {})
   }

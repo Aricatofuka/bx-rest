@@ -9,6 +9,9 @@ export class BXRestNavvyCalendarSettings {
     get: [$calendar, $settings, $get]
   }
 
+  /**
+   * Возвращает основные настройки календаря.
+   */
   get() {
     return this.Navvy.simple<iBXRestCalendarSettings>(this.url.get)
   }

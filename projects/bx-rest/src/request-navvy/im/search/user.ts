@@ -5,6 +5,9 @@ import { $im, $list, $search, $user } from '../../../consts/part-name-methods'
 export class BXRestNavvyImSearchUser {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Ищет пользователей.
+   */
   list(param: iBXRestParamImSearchUserList) {
     return this.Navvy.simple<
       iBXRestImObject[],

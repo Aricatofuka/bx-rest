@@ -5,6 +5,9 @@ import { $Im, $Integration, $send, $vote } from '../../../consts/part-name-metho
 export class BXRestNavvyVoteIntegrationIm {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Создаёт и отправляет голосование в чат.
+   */
   send(param: iBXRestGenericParams) {
     return this.Navvy.simple<iBXRestGenericObject, iBXRestGenericObject, iBXRestGenericParams>(
       [$vote, $Integration, $Im, $send], param

@@ -6,8 +6,14 @@ import { BXRestNavvyTasksTaskChatMessageField } from './message/field'
 export class BXRestNavvyTasksTaskChatMessage  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Поля сообщения чата задачи (`tasks.task.chat.message.field.*`).
+   */
   public readonly field = new BXRestNavvyTasksTaskChatMessageField()
 
+  /**
+   * Отправляет сообщение в чат задачи.
+   */
   send(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $chat, $message, $send], param)
   }

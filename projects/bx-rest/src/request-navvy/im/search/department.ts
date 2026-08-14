@@ -5,6 +5,9 @@ import { $department, $im, $list, $search } from '../../../consts/part-name-meth
 export class BXRestNavvyImSearchDepartment {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Ищет подразделения.
+   */
   list(param: iBXRestParamImSearchDepartmentList) {
     return this.Navvy.simple<
       iBXRestImObject[],

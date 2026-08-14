@@ -8,6 +8,9 @@ export class BXRestNavvyDiskRights {
     getTasks: [$disk, $rights, $getTasks]
   }
 
+  /**
+   * Возвращает список уровней доступа для назначения прав.
+   */
   getTasks() {
     return this.Navvy.simple<iBXRestDiskAccessTask[]>(this.url.getTasks)
   }

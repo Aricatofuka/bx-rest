@@ -5,6 +5,9 @@ import { $agreement, $list, $text, $userconsent } from '../../consts/part-name-m
 export class BXRestNavvyUserConsentAgreement {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список соглашений.
+   */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject[],
@@ -13,6 +16,9 @@ export class BXRestNavvyUserConsentAgreement {
     >([$userconsent, $agreement, $list], param)
   }
 
+  /**
+   * Возвращает текст соглашения.
+   */
   text(param: iBXRestGenericParams) {
     return this.Navvy.simple<string, string, iBXRestGenericParams>(
       [$userconsent, $agreement, $text], param

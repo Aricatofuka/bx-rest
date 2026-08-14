@@ -10,6 +10,9 @@ export class BXRestNavvyTimemanNetworkRange {
     set: [$timeMan, $networkrange, $set]
   }
 
+  /**
+   * Проверяет, входит ли IP-адрес в диапазоны сетевых адресов офисной сети.
+   */
   check(param: iBXRestParamTimemanNetworkRangeCheck = {}) {
     return this.Navvy.simple<
       iBXRestTimemanObject,
@@ -18,10 +21,16 @@ export class BXRestNavvyTimemanNetworkRange {
     >(this.url.check, param)
   }
 
+  /**
+   * Возвращает диапазоны сетевых адресов офисной сети.
+   */
   get() {
     return this.Navvy.simple<iBXRestTimemanNetworkRange[]>(this.url.get)
   }
 
+  /**
+   * Устанавливает диапазоны сетевых адресов офисной сети.
+   */
   set(param: iBXRestParamTimemanNetworkRangeSet) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTimemanNetworkRangeSet>(
       this.url.set,

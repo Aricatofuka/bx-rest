@@ -5,6 +5,9 @@ import { $connector, $sip, $status, $voximplant } from '../../../consts/part-nam
 export class BXRestNavvyVoxImplantSipConnector  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает текущий статус SIP-коннектора.
+   */
   status(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

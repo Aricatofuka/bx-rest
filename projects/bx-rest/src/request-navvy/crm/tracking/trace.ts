@@ -5,12 +5,18 @@ import { $add, $crm, $delete, $trace, $tracking } from '../../../consts/part-nam
 export class BXRestNavvyCrmTrackingTrace {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Создаёт трассировку сквозной аналитики (Sales Intelligence).
+   */
   add(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $tracking, $trace, $add], param
     )
   }
 
+  /**
+   * Удаляет трассировку сквозной аналитики.
+   */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $tracking, $trace, $delete], param

@@ -5,6 +5,9 @@ import { $Bot, $Chat, $im, $sendContext, $v2 } from '../../../../consts/part-nam
 export class BXRestNavvyImV2ChatBot  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Отправляет боту контекст сообщений чата.
+   */
   sendContext(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

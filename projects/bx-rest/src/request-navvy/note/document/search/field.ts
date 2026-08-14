@@ -5,6 +5,9 @@ import { $document, $field, $get, $list, $note, $search } from '../../../../cons
 export class BXRestNavvyNoteDocumentSearchField  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает описание поля результата поиска документов.
+   */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyNoteDocumentSearchField  {
     >([$note, $document, $search, $field, $get], param)
   }
 
+  /**
+   * Возвращает список полей результата поиска документов.
+   */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,

@@ -12,6 +12,9 @@ export class BXRestNavvyImDialogMessages {
 
   private Navvy = new Navvy()
 
+  /**
+   * Возвращает список последних сообщений чата.
+   */
   get(param: iBXRestImDialogMessagesGetParam) {
     return this.Navvy.simple<iBXRestImDialogMessagesGetHttp, iBXRestImDialogMessagesGet, iBXRestImDialogMessagesGetParam>(
       [$im, $dialog, $messages, $get],
@@ -20,6 +23,9 @@ export class BXRestNavvyImDialogMessages {
     )
   }
 
+  /**
+   * Ищет сообщения в чате.
+   */
   search(param: iBXRestParamImDialogMessagesSearch) {
     return this.Navvy.simple<
       iBXRestImObject,

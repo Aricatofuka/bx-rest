@@ -10,6 +10,9 @@ export class BXRestNavvyPullApplicationConfig {
 
   private Navvy = new Navvy()
 
+  /**
+   * Возвращает конфигурацию подключения приложения к серверам Push & Pull.
+   */
   get() {
     return this.Navvy.simple<iBXRestPullApplicationConfigGetHttp, iBXRestPullApplicationConfigGet>(
       [$pull, $application, $config, $get],

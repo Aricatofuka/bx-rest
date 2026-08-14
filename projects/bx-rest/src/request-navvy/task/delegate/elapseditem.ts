@@ -7,6 +7,9 @@ export class BXRestNavvyDelegateElapsedItem {
 
   private Navvy = new Navvy()
 
+  /**
+   * Возвращает список записей о затраченном времени по задаче.
+   */
   getList(
     param: iBXRestParamElapseditemGet = {}
   ) {

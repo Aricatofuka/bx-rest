@@ -5,6 +5,9 @@ import { $get, $reports, $timeMan, $timecontrol, $users } from '../../../../cons
 export class BXRestNavvyTimemanTimeControlReportsUsers {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список пользователей указанного подразделения.
+   */
   get(param: iBXRestParamTimemanTimeControlReportsUsersGet = {}) {
     return this.Navvy.simple<
       iBXRestTimemanObject[],

@@ -12,6 +12,9 @@ import { $add, $checklistitem, $complete, $delete, $get, $getlist, $getmanifest,
 export class BXRestNavvyTaskChecklistItem {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет элемент чек-листа к задаче.
+   */
   add(param: iBXRestParamTaskChecklistItemAdd) {
     return this.Navvy.simple<number, number, iBXRestParamTaskChecklistItemAdd>(
       [$task, $checklistitem, $add],
@@ -19,6 +22,9 @@ export class BXRestNavvyTaskChecklistItem {
     )
   }
 
+  /**
+   * Отмечает элемент чек-листа как выполненный.
+   */
   complete(param: iBXRestParamTaskChecklistItem) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskChecklistItem>(
       [$task, $checklistitem, $complete],
@@ -26,6 +32,9 @@ export class BXRestNavvyTaskChecklistItem {
     )
   }
 
+  /**
+   * Удаляет элемент чек-листа.
+   */
   delete(param: iBXRestParamTaskChecklistItem) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskChecklistItem>(
       [$task, $checklistitem, $delete],
@@ -33,6 +42,9 @@ export class BXRestNavvyTaskChecklistItem {
     )
   }
 
+  /**
+   * Возвращает элемент чек-листа по идентификатору.
+   */
   get(param: iBXRestParamTaskChecklistItem) {
     return this.Navvy.simple<
       iBXRestTaskObject,
@@ -41,6 +53,9 @@ export class BXRestNavvyTaskChecklistItem {
     >([$task, $checklistitem, $get], param)
   }
 
+  /**
+   * Возвращает список элементов чек-листа.
+   */
   getlist(param: Pick<iBXRestParamTaskChecklistItem, 'TASKID'>) {
     return this.Navvy.simple<
       iBXRestTaskObject[],
@@ -49,10 +64,16 @@ export class BXRestNavvyTaskChecklistItem {
     >([$task, $checklistitem, $getlist], param)
   }
 
+  /**
+   * Возвращает список методов чек-листа и их описание.
+   */
   getmanifest() {
     return this.Navvy.simple<iBXRestTaskObject>([$task, $checklistitem, $getmanifest])
   }
 
+  /**
+   * Проверяет, разрешено ли действие с элементом чек-листа.
+   */
   isactionallowed(param: iBXRestParamTaskChecklistItemAction) {
     return this.Navvy.simple<
       boolean,
@@ -61,6 +82,9 @@ export class BXRestNavvyTaskChecklistItem {
     >([$task, $checklistitem, $isactionallowed], param)
   }
 
+  /**
+   * Помещает элемент чек-листа после указанного.
+   */
   moveafteritem(param: iBXRestParamTaskChecklistItemMove) {
     return this.Navvy.simple<
       boolean,
@@ -69,6 +93,9 @@ export class BXRestNavvyTaskChecklistItem {
     >([$task, $checklistitem, $moveafteritem], param)
   }
 
+  /**
+   * Отмечает выполненный элемент чек-листа как активный.
+   */
   renew(param: iBXRestParamTaskChecklistItem) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskChecklistItem>(
       [$task, $checklistitem, $renew],
@@ -76,6 +103,9 @@ export class BXRestNavvyTaskChecklistItem {
     )
   }
 
+  /**
+   * Обновляет данные элемента чек-листа.
+   */
   update(param: iBXRestParamTaskChecklistItemUpdate) {
     return this.Navvy.simple<
       boolean,

@@ -5,6 +5,9 @@ import { $b2e, $mysafe, $sign, $tail } from '../../../consts/part-name-methods'
 export class BXRestNavvySignB2EMySafe  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список подписанных документов в сейфе компании.
+   */
   public tail(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

@@ -5,6 +5,9 @@ import { $department, $employees, $get, $im } from '../../../consts/part-name-me
 export class BXRestNavvyImDepartmentEmployees {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список сотрудников подразделения.
+   */
   get(param: iBXRestParamImDepartmentEmployeesGet) {
     return this.Navvy.simple<
       iBXRestImObject[],

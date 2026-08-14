@@ -15,6 +15,9 @@ export class BXRestNavvyBiConnectorDataset {
     new BXRestNavvyBiConnectorDatasetFields()
   )
 
+  /**
+   * Добавляет новый датасет.
+   */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -23,6 +26,9 @@ export class BXRestNavvyBiConnectorDataset {
     >([$biconnector, $dataset, $add], param)
   }
 
+  /**
+   * Удаляет датасет.
+   */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(
       [$biconnector, $dataset, $delete],
@@ -30,6 +36,9 @@ export class BXRestNavvyBiConnectorDataset {
     )
   }
 
+  /**
+   * Возвращает информацию о датасете.
+   */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -38,6 +47,9 @@ export class BXRestNavvyBiConnectorDataset {
     >([$biconnector, $dataset, $get], param)
   }
 
+  /**
+   * Возвращает список доступных датасетов.
+   */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject[],
@@ -46,6 +58,9 @@ export class BXRestNavvyBiConnectorDataset {
     >([$biconnector, $dataset, $list], param)
   }
 
+  /**
+   * Обновляет существующий датасет.
+   */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(
       [$biconnector, $dataset, $update],

@@ -27,6 +27,9 @@ export class BXRestNavvyTasksTaskResult {
 
   private Navvy = new Navvy()
 
+  /**
+   * Удаляет комментарий из результата задачи.
+   */
   deleteFromComment(commentID: { commentId: number }) {
     return this.Navvy.simple<null, null, { commentId: number }>(
       this.url.deleteFromComment,
@@ -34,6 +37,9 @@ export class BXRestNavvyTasksTaskResult {
     )
   }
 
+  /**
+   * Добавляет комментарий в результат задачи.
+   */
   addFromComment(param: iBXParamRestTasksTaskResultAdd) {
     return this.Navvy.simple<iBXRestTasksTaskResultHttp, iBXRestTasksTaskResult, iBXParamRestTasksTaskResultAdd>(
       this.url.addFromComment,
@@ -42,6 +48,9 @@ export class BXRestNavvyTasksTaskResult {
     )
   }
 
+  /**
+   * Возвращает список результатов задачи.
+   */
   list(param: iBXRestParamTasksTaskResultList) {
     return this.Navvy.pagNav<iBXRestTasksTaskResultHttp, iBXRestTasksTaskResult, iBXRestParamTasksTaskResultList>(
       this.url.list,
@@ -50,18 +59,30 @@ export class BXRestNavvyTasksTaskResult {
     )
   }
 
+  /**
+   * Добавляет результат к задаче.
+   */
   add(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $add], param)
   }
 
+  /**
+   * Создаёт результат задачи из сообщения чата.
+   */
   addFromChatMessage(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $addfromchatmessage], param)
   }
 
+  /**
+   * Удаляет результат задачи.
+   */
   delete(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $delete], param)
   }
 
+  /**
+   * Обновляет текст результата задачи.
+   */
   update(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $update], param)
   }

@@ -3,6 +3,9 @@ import { BXRestNavvyPullChannelPublic } from './pull/channel/public'
 import { BXRestNavvyPullApplicationConfig } from './pull/application/config'
 
 export class BXRestNavvyPull {
+  /**
+   * Настройки подключения к серверам Push & Pull (`pull.config.*`).
+   */
   public readonly config = new BXRestNavvyPullConfig()
   public readonly channel = {
     public: new BXRestNavvyPullChannelPublic()

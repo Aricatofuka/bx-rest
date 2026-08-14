@@ -5,6 +5,9 @@ import { $dialog, $get, $imopenlines } from '../../consts/part-name-methods'
 export class BXRestNavvyImOpenLinesDialog  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает данные диалога оператора.
+   */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

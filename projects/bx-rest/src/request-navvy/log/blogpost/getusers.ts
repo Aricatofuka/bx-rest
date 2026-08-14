@@ -8,6 +8,9 @@ export class BXRestNavvyLogBlogPostGetUsers {
     important: [$log, $blogpost, $getusers, $important]
   }
 
+  /**
+   * Возвращает пользователей, прочитавших важное сообщение.
+   */
   important(param: iBXRestParamLogBlogPostId) {
     return this.Navvy.simple<number[], number[], iBXRestParamLogBlogPostId>(
       this.url.important,

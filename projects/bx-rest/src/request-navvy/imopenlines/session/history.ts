@@ -5,6 +5,9 @@ import { $get, $history, $imopenlines, $session } from '../../../consts/part-nam
 export class BXRestNavvyImOpenLinesSessionHistory  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает историю сообщений и данные сессии.
+   */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

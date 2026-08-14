@@ -5,6 +5,9 @@ import { $add, $delete, $get, $getFieldsExact, $list, $personType, $sale, $updat
 export class BXRestNavvySalePersonType  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет тип плательщика.
+   */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvySalePersonType  {
       iBXRestGenericParams
     >([$sale, $personType, $add], param)
   }
+  /**
+   * Удаляет тип плательщика.
+   */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvySalePersonType  {
       iBXRestGenericParams
     >([$sale, $personType, $delete], param)
   }
+  /**
+   * Возвращает тип плательщика по идентификатору.
+   */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -26,6 +35,9 @@ export class BXRestNavvySalePersonType  {
       iBXRestGenericParams
     >([$sale, $personType, $get], param)
   }
+  /**
+   * Возвращает описание полей типа плательщика.
+   */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -33,6 +45,9 @@ export class BXRestNavvySalePersonType  {
       iBXRestGenericParams
     >([$sale, $personType, $getFieldsExact], param)
   }
+  /**
+   * Возвращает список типов плательщиков.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -40,6 +55,9 @@ export class BXRestNavvySalePersonType  {
       iBXRestGenericParams
     >([$sale, $personType, $list], param)
   }
+  /**
+   * Обновляет тип плательщика.
+   */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

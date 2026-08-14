@@ -5,6 +5,9 @@ import { $booking, $clienttype, $list, $v1 } from '../../../consts/part-name-met
 export class BXRestNavvyBookingV1ClientType  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список типов клиентов.
+   */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

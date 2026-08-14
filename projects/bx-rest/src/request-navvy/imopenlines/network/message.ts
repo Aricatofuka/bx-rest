@@ -5,6 +5,9 @@ import { $add, $imopenlines, $message, $network } from '../../../consts/part-nam
 export class BXRestNavvyImOpenLinesNetworkMessage  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Отправляет сообщение пользователю от имени открытой линии.
+   */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

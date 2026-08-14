@@ -24,6 +24,9 @@ export class BXRestNavvyListsSection {
     update: [$lists, $section, $update]
   }
 
+  /**
+   * Создаёт раздел списка.
+   */
   add(param: iBXRestParamListsSectionAdd) {
     return this.Navvy.simple<number, number, iBXRestParamListsSectionAdd>(
       this.url.add,
@@ -31,6 +34,9 @@ export class BXRestNavvyListsSection {
     )
   }
 
+  /**
+   * Удаляет раздел списка.
+   */
   delete(param: iBXRestParamListsSectionDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsSectionDelete>(
       this.url.delete,
@@ -38,6 +44,9 @@ export class BXRestNavvyListsSection {
     )
   }
 
+  /**
+   * Возвращает раздел или список разделов.
+   */
   get(param: iBXRestParamListsSectionGet) {
     return this.Navvy.pagNav<
       iBXRestListsSection,
@@ -46,6 +55,9 @@ export class BXRestNavvyListsSection {
     >(this.url.get, param)
   }
 
+  /**
+   * Обновляет раздел списка.
+   */
   update(param: iBXRestParamListsSectionUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsSectionUpdate>(
       this.url.update,

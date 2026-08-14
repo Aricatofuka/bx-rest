@@ -5,6 +5,9 @@ import { $get, $tts, $voices, $voximplant } from '../../../consts/part-name-meth
 export class BXRestNavvyVoxImplantTtsVoices  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список доступных голосов для синтеза речи.
+   */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject[],

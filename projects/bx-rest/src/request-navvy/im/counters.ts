@@ -6,6 +6,9 @@ export class BXRestNavvyImCounters {
 
   private Navvy = new Navvy()
 
+  /**
+   * Возвращает счётчики сообщений и уведомлений.
+   */
   get(){
     return this.Navvy.simple<iBXRestImCounters>([$im, $counters, $get])
   }

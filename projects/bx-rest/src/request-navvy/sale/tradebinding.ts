@@ -5,6 +5,9 @@ import { $getFieldsExact, $list, $sale, $tradeBinding } from '../../consts/part-
 export class BXRestNavvySaleTradeBinding  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает описание полей привязки источника заказов.
+   */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvySaleTradeBinding  {
       iBXRestGenericParams
     >([$sale, $tradeBinding, $getFieldsExact], param)
   }
+  /**
+   * Возвращает список привязок источников заказов.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

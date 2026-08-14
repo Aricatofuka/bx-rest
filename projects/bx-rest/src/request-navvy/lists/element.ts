@@ -28,6 +28,9 @@ export class BXRestNavvyListsElement {
     getFileUrl: [$lists, $element, $get, $file, $url]
   }
 
+  /**
+   * Возвращает элемент или список элементов.
+   */
   get(param: iBXRestParamListsElementGet) {
     return this.Navvy.pagNav(
       this.url.get,
@@ -36,6 +39,9 @@ export class BXRestNavvyListsElement {
     )
   }
 
+  /**
+   * Создаёт элемент списка.
+   */
   add(param: iBXRestParamListsElementAdd) {
     return this.Navvy.simple<number, number, iBXRestParamListsElementAdd>(
       this.url.add,
@@ -43,6 +49,9 @@ export class BXRestNavvyListsElement {
     )
   }
 
+  /**
+   * Удаляет элемент списка.
+   */
   delete(param: iBXRestParamListsElementDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsElementDelete>(
       this.url.delete,
@@ -50,6 +59,9 @@ export class BXRestNavvyListsElement {
     )
   }
 
+  /**
+   * Обновляет элемент списка.
+   */
   update(param: iBXRestParamListsElementUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsElementUpdate>(
       this.url.update,
@@ -57,6 +69,9 @@ export class BXRestNavvyListsElement {
     )
   }
 
+  /**
+   * Возвращает путь к файлу.
+   */
   getFileUrl(param: iBXRestParamListsElementGetFileUrl) {
     return this.Navvy.simple<
       string[],

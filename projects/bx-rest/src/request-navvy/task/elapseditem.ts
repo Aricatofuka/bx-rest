@@ -44,16 +44,25 @@ export class BXRestNavvyElapsedItem {
     update: [$task, $elapseditem, $update],
   }
   private readonly delegate = new BXRestNavvyDelegateElapsedItem()
+  /**
+   * Затраченное время по задаче (`task.elapseditem.*`).
+   */
   public readonly operation = new BXRestNavvyOperationElapsedItem(this)
 
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список записей о затраченном времени через делегирующий сервис.
+   */
   getList(
     param: iBXRestParamElapseditemGet = {}
   ) {
     return this.delegate.getList(param)
   }
 
+  /**
+   * Добавляет затраченное время к задаче.
+   */
   add(param: iBXRestParamAddElapseditem) {
     return this.Navvy.simple<number, number, iBXRestParamAddElapseditem>(this.url.add, param)
   }
@@ -78,10 +87,16 @@ export class BXRestNavvyElapsedItem {
     return this.Navvy.simple<boolean, boolean, iIsActionAllowedParam>(this.url.isActionAllowed, param)
   }
 
+  /**
+   * Удаляет запись о затраченном времени.
+   */
   delete(param: iBXRestParamDelElapseditem) {
     return this.Navvy.simple<null, null, iBXRestParamDelElapseditem>(this.url.delete, param)
   }
 
+  /**
+   * Возвращает запись о затраченном времени.
+   */
   get(param: iBXRestParamDelElapseditem) {
     return this.Navvy.simple<
       iBXRestTaskElapsedItem,
@@ -90,6 +105,9 @@ export class BXRestNavvyElapsedItem {
     >([$task, $elapseditem, $get], param)
   }
 
+  /**
+   * Возвращает список методов затраченного времени и их описание.
+   */
   getManifest() {
     return this.Navvy.simple<iBXRestTaskObject>([$task, $elapseditem, $getmanifest])
   }

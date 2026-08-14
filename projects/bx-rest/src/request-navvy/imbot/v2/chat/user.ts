@@ -5,6 +5,9 @@ import { $Chat, $add, $delete, $imbot, $list, $user, $v2 } from '../../../../con
 export class BXRestNavvyImBotV2ChatUser  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет участников в чат.
+   */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyImBotV2ChatUser  {
     >([$imbot, $v2, $Chat, $user, $add], param)
   }
 
+  /**
+   * Удаляет участника из чата.
+   */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -21,6 +27,9 @@ export class BXRestNavvyImBotV2ChatUser  {
     >([$imbot, $v2, $Chat, $user, $delete], param)
   }
 
+  /**
+   * Возвращает список участников чата.
+   */
   list(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

@@ -32,6 +32,9 @@ export class BXRestNavvyUser {
     fields: [$user, $fields],
   }
 
+  /**
+   * Пользовательские поля профиля (`user.userfield.*`).
+   */
   public readonly userField = new BXRestNavvyUserUserfield()
   /** Персональные настройки текущего пользователя для приложения. */
   public readonly option = new BXRestNavvyUserOption()
@@ -57,6 +60,9 @@ export class BXRestNavvyUser {
     )
   }
 
+  /**
+   * Возвращает список пользователей по фильтру.
+   */
   get(params: iBXRestParamUserGet = {}) {
     let copyParams = clone(params)
     this.setDefParam(copyParams)
@@ -67,6 +73,9 @@ export class BXRestNavvyUser {
       BXRestMapUser.get)
   }
 
+  /**
+   * Возвращает информацию о текущем пользователе.
+   */
   current() {
     return this.Navvy.simple<iBXRestUserHttp, iBXRestUser>(
       this.url.current,
@@ -128,6 +137,9 @@ export class BXRestNavvyUser {
     )
   }
 
+  /**
+   * Возвращает список полей профиля пользователя.
+   */
   fields() {
     return this.Navvy.simple<iBXRestUserHttpField>(this.url.fields)
   }
@@ -198,6 +210,9 @@ export class BXRestNavvyUser {
   //   )
   // }
 
+  /**
+   * Дополняет параметры запроса пользователей значениями по умолчанию (ACTIVE, start).
+   */
   private setDefParam(params: iBXRestParamUserGet) {
     if (!params.FILTER) {
       params.FILTER = {}

@@ -5,6 +5,9 @@ import { $Event, $get, $im, $subscribe, $unsubscribe, $v2 } from '../../../const
 export class BXRestNavvyImV2Event  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает накопленные события в режиме polling.
+   */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyImV2Event  {
     >([$im, $v2, $Event, $get], param)
   }
 
+  /**
+   * Подписывает текущего пользователя на запись событий.
+   */
   subscribe(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -21,6 +27,9 @@ export class BXRestNavvyImV2Event  {
     >([$im, $v2, $Event, $subscribe], param)
   }
 
+  /**
+   * Отписывает текущего пользователя от записи событий.
+   */
   unsubscribe(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

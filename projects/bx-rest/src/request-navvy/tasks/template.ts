@@ -5,8 +5,14 @@ import { BXRestNavvyTasksTemplateChecklist } from './template/checklist'
 
 export class BXRestNavvyTasksTemplate {
   private readonly Navvy = new Navvy()
+  /**
+   * Чек-листы шаблона задачи (`tasks.template.checklist.*`).
+   */
   public readonly checklist = new BXRestNavvyTasksTemplateChecklist()
 
+  /**
+   * Добавляет шаблон задачи.
+   */
   add(param: iBXRestParamTasksTemplateFields) {
     return this.Navvy.simple<
       iBXRestTasksObject,
@@ -15,16 +21,25 @@ export class BXRestNavvyTasksTemplate {
     >([$tasks, $template, $add], param)
   }
 
+  /**
+   * Удаляет шаблон задачи.
+   */
   delete(param: iBXRestParamTasksTemplateId) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTasksTemplateId>(
       [$tasks, $template, $delete], param
     )
   }
 
+  /**
+   * Возвращает описание полей шаблона задачи.
+   */
   fields() {
     return this.Navvy.simple<iBXRestTasksObject>([$tasks, $template, $fields])
   }
 
+  /**
+   * Возвращает шаблон задачи по идентификатору.
+   */
   get(param: iBXRestParamTasksTemplateId) {
     return this.Navvy.simple<
       iBXRestTasksObject,
@@ -33,6 +48,9 @@ export class BXRestNavvyTasksTemplate {
     >([$tasks, $template, $get], param)
   }
 
+  /**
+   * Изменяет шаблон задачи.
+   */
   update(param: iBXRestParamTasksTemplateUpdate) {
     return this.Navvy.simple<
       iBXRestTasksObject,

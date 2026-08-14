@@ -5,6 +5,9 @@ import { $field, $get, $list, $mail, $recipient } from '../../../consts/part-nam
 export class BXRestNavvyMailRecipientField  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает описание поля получателя.
+   */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyMailRecipientField  {
     >([$mail, $recipient, $field, $get], param)
   }
 
+  /**
+   * Возвращает список полей получателя.
+   */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,

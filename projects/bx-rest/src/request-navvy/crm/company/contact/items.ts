@@ -5,6 +5,9 @@ import { $company, $contact, $crm, $delete, $get, $items, $set } from '../../../
 export class BXRestNavvyCrmCompanyContactItems {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Очищает набор контактов компании.
+   */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $company, $contact, $items, $delete],
@@ -12,6 +15,9 @@ export class BXRestNavvyCrmCompanyContactItems {
     )
   }
 
+  /**
+   * Возвращает набор контактов, связанных с компанией.
+   */
   get(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>(
       [$crm, $company, $contact, $items, $get],
@@ -19,6 +25,9 @@ export class BXRestNavvyCrmCompanyContactItems {
     )
   }
 
+  /**
+   * Устанавливает набор контактов для компании.
+   */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $company, $contact, $items, $set],

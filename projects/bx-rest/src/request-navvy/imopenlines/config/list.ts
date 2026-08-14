@@ -5,6 +5,9 @@ import { $config, $get, $imopenlines, $list } from '../../../consts/part-name-me
 export class BXRestNavvyImOpenLinesConfigList  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список открытых линий.
+   */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

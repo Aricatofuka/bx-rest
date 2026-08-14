@@ -15,10 +15,25 @@ import { BXRestNavvyCrmDealRecurring } from './deal/recurring'
 import { BXRestNavvyCrmDealUserField } from './deal/userfield'
 
 export class BXRestNavvyCrmDeal {
+  /**
+   * Контакты сделки (`crm.deal.contact.*`).
+   */
   public readonly contact = new BXRestNavvyCrmDealContact()
+  /**
+   * Карточка сделки (`crm.deal.details.*`).
+   */
   public readonly details = new BXRestNavvyCrmDealDetails()
+  /**
+   * Товарные позиции сделки (`crm.deal.productrows.*`).
+   */
   public readonly productRows = new BXRestNavvyCrmDealProductRows()
+  /**
+   * Шаблоны регулярных сделок (`crm.deal.recurring.*`).
+   */
   public readonly recurring = new BXRestNavvyCrmDealRecurring()
+  /**
+   * Пользовательские поля сделок (`crm.deal.userfield.*`).
+   */
   public readonly userField = new BXRestNavvyCrmDealUserField()
   url = {
     /**

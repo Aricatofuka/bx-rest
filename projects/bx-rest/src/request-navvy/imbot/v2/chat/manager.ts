@@ -5,6 +5,9 @@ import { $Chat, $add, $delete, $imbot, $manager, $v2 } from '../../../../consts/
 export class BXRestNavvyImBotV2ChatManager  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет менеджеров чата.
+   */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyImBotV2ChatManager  {
     >([$imbot, $v2, $Chat, $manager, $add], param)
   }
 
+  /**
+   * Удаляет менеджеров чата.
+   */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

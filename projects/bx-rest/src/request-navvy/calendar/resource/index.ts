@@ -13,8 +13,14 @@ export class BXRestNavvyCalendarResource {
     delete: [$calendar, $resource, $delete]
   }
 
+  /**
+   * Бронирования ресурсов (`calendar.resource.booking.*`).
+   */
   public readonly booking = new BXRestNavvyCalendarResourceBooking()
 
+  /**
+   * Добавляет ресурс.
+   */
   add(param: iBXRestParamCalendarResourceAdd) {
     return this.Navvy.simple<
       number,
@@ -23,6 +29,9 @@ export class BXRestNavvyCalendarResource {
     >(this.url.add, param)
   }
 
+  /**
+   * Обновляет ресурс.
+   */
   update(param: iBXRestParamCalendarResourceUpdate) {
     return this.Navvy.simple<
       number,
@@ -31,10 +40,16 @@ export class BXRestNavvyCalendarResource {
     >(this.url.update, param)
   }
 
+  /**
+   * Возвращает список ресурсов.
+   */
   list() {
     return this.Navvy.simple<iBXRestCalendarResource[]>(this.url.list)
   }
 
+  /**
+   * Удаляет ресурс.
+   */
   delete(param: iBXRestParamCalendarResourceDelete) {
     return this.Navvy.simple<
       boolean,

@@ -5,6 +5,9 @@ import { $add, $report, $timeMan, $timecontrol } from '../../../consts/part-name
 export class BXRestNavvyTimemanTimeControlReport {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Отправляет отчёт о выявленном отсутствии.
+   */
   add(param: iBXRestParamTimemanTimeControlReportAdd) {
     return this.Navvy.simple<
       boolean,

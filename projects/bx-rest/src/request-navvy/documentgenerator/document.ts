@@ -5,6 +5,9 @@ import { $add, $delete, $document, $documentgenerator, $enablepublicurl, $get, $
 export class BXRestNavvyDocumentGeneratorDocument  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Создаёт новый документ на основании шаблона.
+   */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyDocumentGeneratorDocument  {
     >([$documentgenerator, $document, $add], param)
   }
 
+  /**
+   * Удаляет документ.
+   */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -21,6 +27,9 @@ export class BXRestNavvyDocumentGeneratorDocument  {
     >([$documentgenerator, $document, $delete], param)
   }
 
+  /**
+   * Включает или выключает публичную ссылку на документ.
+   */
   enablePublicUrl(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -29,6 +38,9 @@ export class BXRestNavvyDocumentGeneratorDocument  {
     >([$documentgenerator, $document, $enablepublicurl], param)
   }
 
+  /**
+   * Возвращает документ по идентификатору.
+   */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -37,6 +49,9 @@ export class BXRestNavvyDocumentGeneratorDocument  {
     >([$documentgenerator, $document, $get], param)
   }
 
+  /**
+   * Возвращает список полей документа.
+   */
   getFields(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -45,6 +60,9 @@ export class BXRestNavvyDocumentGeneratorDocument  {
     >([$documentgenerator, $document, $getFields], param)
   }
 
+  /**
+   * Возвращает список документов.
+   */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -53,6 +71,9 @@ export class BXRestNavvyDocumentGeneratorDocument  {
     >([$documentgenerator, $document, $list], param)
   }
 
+  /**
+   * Изменяет существующий документ.
+   */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

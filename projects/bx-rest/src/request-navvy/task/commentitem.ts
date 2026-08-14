@@ -25,18 +25,27 @@ export class BXRestNavvyTaskCommentItem {
 
   private readonly Navvy = new Navvy()
 
+  /**
+   * Создаёт новый комментарий к задаче.
+   */
   add(param: iBXRestCommentTaskAdd) {
     return this.Navvy.simple<number, number, iBXRestCommentTaskAdd>(
       this.url.add, param
     )
   }
 
+  /**
+   * Обновляет данные комментария.
+   */
   update(param: iBXRestTaskCommentItemUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestTaskCommentItemUpdate>(
       this.url.update, param
     )
   }
 
+  /**
+   * Возвращает комментарий к задаче.
+   */
   get(param: iBXRestParamTaskCommentItemGet) {
     return this.Navvy.simple<iBXRestTaskCommentHtml, iBXRestTaskComment, iBXRestParamTaskCommentItemGet>(
       this.url.get, param,
@@ -44,6 +53,9 @@ export class BXRestNavvyTaskCommentItem {
     )
   }
 
+  /**
+   * Возвращает список комментариев к задаче.
+   */
   getlist(param: BXRestTaskCommentItemGetList = {
     FILTER: {},
     ORDER: {
@@ -56,6 +68,9 @@ export class BXRestNavvyTaskCommentItem {
     )
   }
 
+  /**
+   * Удаляет комментарий.
+   */
   del(param: BXRestTaskCommentItemDelete) {
     if (param.ITEMID > 0) {
       return this.get(param).res().pipe(
@@ -73,10 +88,16 @@ export class BXRestNavvyTaskCommentItem {
     }
   }
 
+  /**
+   * Возвращает список методов комментариев и их описание.
+   */
   getmanifest() {
     return this.Navvy.simple<iBXRestTaskObject>([$task, $commentitem, $getmanifest])
   }
 
+  /**
+   * Проверяет, разрешено ли действие с комментарием.
+   */
   isactionallowed(param: iBXRestParamTaskItemAction) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskItemAction>(
       [$task, $commentitem, $isactionallowed],

@@ -6,8 +6,14 @@ import { BXRestNavvyImOpenLinesBotSessionMessage } from './session/message'
 export class BXRestNavvyImOpenLinesBotSession  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Автоматические сообщения чат-бота (`imopenlines.bot.session.message.*`).
+   */
   public readonly message = new BXRestNavvyImOpenLinesBotSessionMessage()
 
+  /**
+   * Завершает диалог от имени чат-бота.
+   */
   finish(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -16,6 +22,9 @@ export class BXRestNavvyImOpenLinesBotSession  {
     >([$imopenlines, $bot, $session, $finish], param)
   }
 
+  /**
+   * Переключает диалог на свободного оператора.
+   */
   operator(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -24,6 +33,9 @@ export class BXRestNavvyImOpenLinesBotSession  {
     >([$imopenlines, $bot, $session, $operator], param)
   }
 
+  /**
+   * Переводит диалог на оператора или в очередь.
+   */
   transfer(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

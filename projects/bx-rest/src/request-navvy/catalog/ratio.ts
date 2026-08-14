@@ -5,6 +5,9 @@ import { $catalog, $get, $getFieldsExact, $list, $ratio } from '../../consts/par
 export class BXRestNavvyCatalogRatio  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает коэффициент единицы измерения по идентификатору.
+   */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvyCatalogRatio  {
       iBXRestGenericParams
     >([$catalog, $ratio, $get], param)
   }
+  /**
+   * Возвращает описание полей коэффициента единицы измерения.
+   */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvyCatalogRatio  {
       iBXRestGenericParams
     >([$catalog, $ratio, $getFieldsExact], param)
   }
+  /**
+   * Возвращает список коэффициентов единиц измерения.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

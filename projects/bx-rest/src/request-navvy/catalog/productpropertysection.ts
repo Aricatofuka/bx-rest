@@ -5,6 +5,9 @@ import { $catalog, $get, $list, $productPropertySection, $set } from '../../cons
 export class BXRestNavvyCatalogProductPropertySection  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает секционные настройки свойства.
+   */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvyCatalogProductPropertySection  {
       iBXRestGenericParams
     >([$catalog, $productPropertySection, $get], param)
   }
+  /**
+   * Возвращает список секционных настроек свойств.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvyCatalogProductPropertySection  {
       iBXRestGenericParams
     >([$catalog, $productPropertySection, $list], param)
   }
+  /**
+   * Устанавливает секционные настройки свойства.
+   */
   public set(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

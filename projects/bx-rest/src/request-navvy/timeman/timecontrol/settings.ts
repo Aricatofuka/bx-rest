@@ -5,12 +5,18 @@ import { $get, $set, $settings, $timeMan, $timecontrol } from '../../../consts/p
 export class BXRestNavvyTimemanTimeControlSettings {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает настройки инструмента контроля времени.
+   */
   get() {
     return this.Navvy.simple<iBXRestTimemanTimeControlSettings>(
       [$timeMan, $timecontrol, $settings, $get]
     )
   }
 
+  /**
+   * Устанавливает настройки инструмента контроля времени.
+   */
   set(param: iBXRestParamTimemanTimeControlSettingsSet) {
     return this.Navvy.simple<
       boolean,

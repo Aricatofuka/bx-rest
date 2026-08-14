@@ -5,6 +5,9 @@ import { $add, $catalog, $get, $getAvailableFeaturesByProperty, $getFieldsExact,
 export class BXRestNavvyCatalogProductPropertyFeature  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет параметр свойства товара.
+   */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
       iBXRestGenericParams
     >([$catalog, $productPropertyFeature, $add], param)
   }
+  /**
+   * Возвращает параметр свойства товара по идентификатору.
+   */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
       iBXRestGenericParams
     >([$catalog, $productPropertyFeature, $get], param)
   }
+  /**
+   * Возвращает доступные параметры для указанного свойства.
+   */
   public getAvailableFeaturesByProperty(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -28,6 +37,9 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
     $catalog, $productPropertyFeature, $getAvailableFeaturesByProperty
   ], param)
   }
+  /**
+   * Возвращает описание полей параметра свойства.
+   */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -35,6 +47,9 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
       iBXRestGenericParams
     >([$catalog, $productPropertyFeature, $getFieldsExact], param)
   }
+  /**
+   * Возвращает список параметров свойств товаров.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -42,6 +57,9 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
       iBXRestGenericParams
     >([$catalog, $productPropertyFeature, $list], param)
   }
+  /**
+   * Обновляет параметр свойства товара.
+   */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

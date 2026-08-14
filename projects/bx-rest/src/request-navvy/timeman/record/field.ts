@@ -5,6 +5,9 @@ import { $field, $get, $list, $record, $timeMan } from '../../../consts/part-nam
 export class BXRestNavvyTimemanRecordField {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает описание поля записи о рабочем времени.
+   */
   get(param: iBXRestParamTimemanRecordFieldGet) {
     return this.Navvy.simple<
       iBXRestTimemanItemResult,
@@ -13,6 +16,9 @@ export class BXRestNavvyTimemanRecordField {
     >([$timeMan, $record, $field, $get], param)
   }
 
+  /**
+   * Возвращает список полей записи о рабочем времени.
+   */
   list(param: iBXRestParamTimemanRecordFieldList = {}) {
     return this.Navvy.simple<
       iBXRestTimemanItemsResult,

@@ -5,6 +5,9 @@ import { $add, $catalog, $delete, $get, $getFieldsExact, $list, $productImage } 
 export class BXRestNavvyCatalogProductImage  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет изображение товара.
+   */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvyCatalogProductImage  {
       iBXRestGenericParams
     >([$catalog, $productImage, $add], param)
   }
+  /**
+   * Удаляет изображение товара.
+   */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvyCatalogProductImage  {
       iBXRestGenericParams
     >([$catalog, $productImage, $delete], param)
   }
+  /**
+   * Возвращает изображение товара по идентификатору.
+   */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -26,6 +35,9 @@ export class BXRestNavvyCatalogProductImage  {
       iBXRestGenericParams
     >([$catalog, $productImage, $get], param)
   }
+  /**
+   * Возвращает описание полей изображения товара.
+   */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -33,6 +45,9 @@ export class BXRestNavvyCatalogProductImage  {
       iBXRestGenericParams
     >([$catalog, $productImage, $getFieldsExact], param)
   }
+  /**
+   * Возвращает список изображений товара.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

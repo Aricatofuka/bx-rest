@@ -6,8 +6,14 @@ import { BXRestNavvyNoteDocumentTreeField } from './tree/field'
 export class BXRestNavvyNoteDocumentTree  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Поля дерева документов (`note.document.tree.field.*`).
+   */
   public readonly field = new BXRestNavvyNoteDocumentTreeField()
 
+  /**
+   * Возвращает дерево документов одной базы знаний.
+   */
   list(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,

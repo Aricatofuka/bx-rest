@@ -5,6 +5,9 @@ import { $crm, $fields, $settings, $userfield } from '../../../consts/part-name-
 export class BXRestNavvyCrmUserFieldSettings {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает описание полей настроек для указанного типа пользовательского поля.
+   */
   fields() {
     return this.Navvy.simple<iBXRestCrmObject>([$crm, $userfield, $settings, $fields])
   }

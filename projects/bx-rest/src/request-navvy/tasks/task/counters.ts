@@ -5,6 +5,9 @@ import { $counters, $get, $task, $tasks } from '../../../consts/part-name-method
 export class BXRestNavvyTasksTaskCounters  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает счётчики задач пользователя.
+   */
   get(param: iBXRestTasksParams = {}) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $counters, $get], param)
   }

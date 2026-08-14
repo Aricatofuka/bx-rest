@@ -5,6 +5,9 @@ import { $config, $get, $imopenlines, $path } from '../../../consts/part-name-me
 export class BXRestNavvyImOpenLinesConfigPath  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает ссылку на публичную страницу открытых линий портала.
+   */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

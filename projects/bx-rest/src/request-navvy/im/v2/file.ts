@@ -5,6 +5,9 @@ import { $File, $download, $im, $upload, $v2 } from '../../../consts/part-name-m
 export class BXRestNavvyImV2File  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает ссылку для скачивания файла.
+   */
   download(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyImV2File  {
     >([$im, $v2, $File, $download], param)
   }
 
+  /**
+   * Загружает файл в чат.
+   */
   upload(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

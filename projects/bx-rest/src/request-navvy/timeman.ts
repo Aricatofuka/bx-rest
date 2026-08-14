@@ -18,9 +18,21 @@ import { BXRestNavvyTimemanSchedule } from './timeman/schedule'
 import { BXRestNavvyTimemanTimeControl } from './timeman/timecontrol'
 
 export class BXRestNavvyTimeMan {
+  /**
+   * Офисные сети (`timeman.networkrange.*`).
+   */
   public readonly networkRange = new BXRestNavvyTimemanNetworkRange()
+  /**
+   * Записи о рабочем времени (`timeman.record.*`).
+   */
   public readonly record = new BXRestNavvyTimemanRecord()
+  /**
+   * Рабочий график (`timeman.schedule.*`).
+   */
   public readonly schedule = new BXRestNavvyTimemanSchedule()
+  /**
+   * Контроль рабочего времени (`timeman.timecontrol.*`).
+   */
   public readonly timeControl = new BXRestNavvyTimemanTimeControl()
   protected readonly url = {
     /**
@@ -47,6 +59,9 @@ export class BXRestNavvyTimeMan {
 
   protected Navvy = new Navvy()
 
+  /**
+   * Возвращает информацию о текущем рабочем дне пользователя.
+   */
   status(param: iBXRestParamTimeManStatus | undefined = undefined){
     return this.Navvy.simple(
       this.url.status,
@@ -55,6 +70,9 @@ export class BXRestNavvyTimeMan {
     )
   }
 
+  /**
+   * Начинает новый рабочий день или возобновляет закрытый.
+   */
   open(param: iBXRestParamTimeManOpen = {}) {
     if(param && param.TIME instanceof Date){
       param.TIME = toLocalAtom(param.TIME)
@@ -66,6 +84,9 @@ export class BXRestNavvyTimeMan {
     )
   }
 
+  /**
+   * Ставит рабочий день на паузу.
+   */
   pause(param: iBXRestParamTimeManPause = {}) {
     return this.Navvy.simple<iBXRestTimeManStatusHttp, iBXRestTimeManStatus, iBXRestParamTimeManPause>(
       this.url.pause,
@@ -74,6 +95,9 @@ export class BXRestNavvyTimeMan {
     )
   }
 
+  /**
+   * Закрывает рабочий день.
+   */
   close(param: iBXRestParamTimeManClose = {}) {
     if(param && param.TIME instanceof Date){
       param.TIME = toLocalAtom(param.TIME)
@@ -85,6 +109,9 @@ export class BXRestNavvyTimeMan {
     )
   }
 
+  /**
+   * Возвращает настройки рабочего времени пользователя.
+   */
   settings(param: iBXRestParamTimeManSettings = {}) {
     return this.Navvy.simple<iBXRestTimeManSettings, iBXRestTimeManSettings, iBXRestParamTimeManSettings>(
       this.url.settings,

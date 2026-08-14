@@ -5,6 +5,9 @@ import { $add, $consent, $userconsent } from '../../consts/part-name-methods'
 export class BXRestNavvyUserConsentConsent {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Сохраняет полученное согласие пользователя.
+   */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(
       [$userconsent, $consent, $add], param

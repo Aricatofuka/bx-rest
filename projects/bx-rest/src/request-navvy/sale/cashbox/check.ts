@@ -5,6 +5,9 @@ import { $apply, $cashbox, $check, $sale } from '../../../consts/part-name-metho
 export class BXRestNavvySaleCashboxCheck  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Формирует чек для кассы.
+   */
   public apply(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

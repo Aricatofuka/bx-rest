@@ -13,8 +13,14 @@ export default class BXRestNavvyListsField {
     update: [$lists, $field, $update]
   }
 
+  /**
+   * Типы полей универсального списка (`lists.field.type.*`).
+   */
   public readonly type = new BXRestNavvyListsFieldType()
 
+  /**
+   * Создаёт поле списка.
+   */
   add(param: iBXRestParamListsFieldAdd) {
     return this.Navvy.simple<string, string, iBXRestParamListsFieldAdd>(
       this.url.add,
@@ -22,6 +28,9 @@ export default class BXRestNavvyListsField {
     )
   }
 
+  /**
+   * Удаляет поле списка.
+   */
   delete(param: iBXRestParamListsFieldDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsFieldDelete>(
       this.url.delete,
@@ -29,6 +38,9 @@ export default class BXRestNavvyListsField {
     )
   }
 
+  /**
+   * Возвращает данные поля.
+   */
   get(param: iBXRestParamListField) {
     return this.Navvy.pagNavWithUselessKey<
       iBXRestFieldItem,
@@ -37,6 +49,9 @@ export default class BXRestNavvyListsField {
     >(this.url.get, param, BXRestMapListsField.get)
   }
 
+  /**
+   * Обновляет поле списка.
+   */
   update(param: iBXRestParamListsFieldUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsFieldUpdate>(
       this.url.update,

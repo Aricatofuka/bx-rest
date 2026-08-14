@@ -5,6 +5,9 @@ import { $add, $chat, $crm, $delete, $imopenlines, $user } from '../../../../con
 export class BXRestNavvyImOpenLinesCrmChatUser  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет пользователя в существующий CRM-чат.
+   */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyImOpenLinesCrmChatUser  {
     >([$imopenlines, $crm, $chat, $user, $add], param)
   }
 
+  /**
+   * Удаляет пользователя из CRM-чата.
+   */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

@@ -5,6 +5,9 @@ import { $add, $delete, $get, $getFieldsExact, $list, $sale, $status, $update } 
 export class BXRestNavvySaleStatus  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет статус.
+   */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvySaleStatus  {
       iBXRestGenericParams
     >([$sale, $status, $add], param)
   }
+  /**
+   * Удаляет статус.
+   */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvySaleStatus  {
       iBXRestGenericParams
     >([$sale, $status, $delete], param)
   }
+  /**
+   * Возвращает статус по идентификатору.
+   */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -26,6 +35,9 @@ export class BXRestNavvySaleStatus  {
       iBXRestGenericParams
     >([$sale, $status, $get], param)
   }
+  /**
+   * Возвращает описание полей статуса.
+   */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -33,6 +45,9 @@ export class BXRestNavvySaleStatus  {
       iBXRestGenericParams
     >([$sale, $status, $getFieldsExact], param)
   }
+  /**
+   * Возвращает список статусов.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -40,6 +55,9 @@ export class BXRestNavvySaleStatus  {
       iBXRestGenericParams
     >([$sale, $status, $list], param)
   }
+  /**
+   * Обновляет статус.
+   */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

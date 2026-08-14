@@ -5,6 +5,9 @@ import { $checkContent, $getList, $landing, $register, $repo, $unbind, $unregist
 export class BXRestNavvyLandingRepo  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Проверяет содержимое пользовательского блока перед регистрацией.
+   */
   public checkContent(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvyLandingRepo  {
       iBXRestGenericParams
     >([$landing, $repo, $checkContent], param)
   }
+  /**
+   * Возвращает список пользовательских блоков репозитория.
+   */
   public getList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvyLandingRepo  {
       iBXRestGenericParams
     >([$landing, $repo, $getList], param)
   }
+  /**
+   * Регистрирует пользовательский блок в репозитории.
+   */
   public register(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -26,6 +35,9 @@ export class BXRestNavvyLandingRepo  {
       iBXRestGenericParams
     >([$landing, $repo, $register], param)
   }
+  /**
+   * Удаляет место встраивания, зарегистрированное текущим приложением.
+   */
   public unbind(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -33,6 +45,9 @@ export class BXRestNavvyLandingRepo  {
       iBXRestGenericParams
     >([$landing, $repo, $unbind], param)
   }
+  /**
+   * Удаляет пользовательский блок из репозитория.
+   */
   public unregister(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

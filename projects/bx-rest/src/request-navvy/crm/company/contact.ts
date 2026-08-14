@@ -6,8 +6,14 @@ import { BXRestNavvyCrmCompanyContactItems } from './contact/items'
 
 export class BXRestNavvyCrmCompanyContact {
   private readonly Navvy = new Navvy()
+  /**
+   * Набор контактов компании (`crm.company.contact.items.*`).
+   */
   public readonly items = new BXRestNavvyCrmCompanyContactItems()
 
+  /**
+   * Добавляет контакт к указанной компании.
+   */
   add(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $company, $contact, $add],
@@ -15,6 +21,9 @@ export class BXRestNavvyCrmCompanyContact {
     )
   }
 
+  /**
+   * Удаляет контакт из указанной компании.
+   */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $company, $contact, $delete],
@@ -22,6 +31,9 @@ export class BXRestNavvyCrmCompanyContact {
     )
   }
 
+  /**
+   * Возвращает описание полей связи компания-контакт.
+   */
   fields() {
     return this.Navvy.simple<iBXRestCrmObject>([$crm, $company, $contact, $fields])
   }

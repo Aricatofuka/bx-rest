@@ -22,6 +22,9 @@ export class BXRestNavvySonetGroupUser {
     update: [$sonet_group, $user, $update]
   }
 
+  /**
+   * Добавляет пользователей в рабочую группу.
+   */
   add(param: iBXRestParamSonetGroupUserChange) {
     return this.Navvy.simple<number[], number[], iBXRestParamSonetGroupUserChange>(
       this.url.add,
@@ -29,6 +32,9 @@ export class BXRestNavvySonetGroupUser {
     )
   }
 
+  /**
+   * Удаляет пользователей из рабочей группы.
+   */
   delete(param: iBXRestParamSonetGroupUserChange) {
     return this.Navvy.simple<number[], number[], iBXRestParamSonetGroupUserChange>(
       this.url.delete,
@@ -36,6 +42,9 @@ export class BXRestNavvySonetGroupUser {
     )
   }
 
+  /**
+   * Возвращает список участников рабочей группы.
+   */
   get(param: iBXRestParamSonetGroupUserGet) {
     return this.Navvy.simple<
       iBXRestSonetGroupUser[],
@@ -44,10 +53,16 @@ export class BXRestNavvySonetGroupUser {
     >(this.url.get, param)
   }
 
+  /**
+   * Возвращает список групп текущего пользователя.
+   */
   groups() {
     return this.Navvy.simple<iBXRestSonetGroupUserGroup[]>(this.url.groups)
   }
 
+  /**
+   * Приглашает пользователей в рабочую группу.
+   */
   invite(param: iBXRestParamSonetGroupUserInvite) {
     return this.Navvy.simple<number[], number[], iBXRestParamSonetGroupUserInvite>(
       this.url.invite,
@@ -55,6 +70,9 @@ export class BXRestNavvySonetGroupUser {
     )
   }
 
+  /**
+   * Отправляет запрос на вступление в рабочую группу.
+   */
   request(param: iBXRestParamSonetGroupUserRequest) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamSonetGroupUserRequest>(
       this.url.request,
@@ -62,6 +80,9 @@ export class BXRestNavvySonetGroupUser {
     )
   }
 
+  /**
+   * Изменяет роль пользователя в рабочей группе.
+   */
   update(param: iBXRestParamSonetGroupUserUpdate) {
     return this.Navvy.simple<number[], number[], iBXRestParamSonetGroupUserUpdate>(
       this.url.update,

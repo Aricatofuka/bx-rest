@@ -10,6 +10,9 @@ export class BXRestNavvySocialNetWorkApiContentView {
 
   private readonly Navvy = new Navvy()
 
+  /**
+   * Отмечает переданные элементы контента (по XML ID) как просмотренные текущим пользователем.
+   */
   set(param: iBXRestParamSocialNetWorkApiContentViewSet){
     return this.Navvy.simple<
       iBXRestSocialNetWorkApiContentViewSet,

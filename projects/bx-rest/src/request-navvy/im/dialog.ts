@@ -16,7 +16,13 @@ export class BXRestNavvyImDialog {
 
   private Navvy = new Navvy()
 
+  /**
+   * Участники диалога (`im.dialog.users.*`).
+   */
   public readonly users = new BXRestNavvyImDialogUsers()
+  /**
+   * Сообщения диалога (`im.dialog.messages.*`).
+   */
   public readonly messages = new BXRestNavvyImDialogMessages()
   public readonly read = BXRestNavvyImDialogRead(this.Navvy)
 

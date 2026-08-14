@@ -5,6 +5,9 @@ import { $Chat, $add, $delete, $imbot, $message, $reaction, $v2 } from '../../..
 export class BXRestNavvyImBotV2ChatMessageReaction  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет реакцию на сообщение.
+   */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyImBotV2ChatMessageReaction  {
     >([$imbot, $v2, $Chat, $message, $reaction, $add], param)
   }
 
+  /**
+   * Удаляет реакцию с сообщения.
+   */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

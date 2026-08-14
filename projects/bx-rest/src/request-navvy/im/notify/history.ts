@@ -5,6 +5,9 @@ import { $history, $im, $notify, $search } from '../../../consts/part-name-metho
 export class BXRestNavvyImNotifyHistory {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Выполняет поиск по истории уведомлений.
+   */
   search(param: iBXRestParamImNotifyHistorySearch = {}) {
     return this.Navvy.simple<
       iBXRestImObject,

@@ -12,6 +12,9 @@ export class BXRestNavvySonetGroupFeature {
     access: [$sonet_group, $feature, $access]
   }
 
+  /**
+   * Проверяет права текущего пользователя на функциональность группы.
+   */
   access(param: iBXRestParamSonetGroupFeatureAccess) {
     return this.Navvy.simple<
       boolean,

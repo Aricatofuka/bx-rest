@@ -46,6 +46,9 @@ export class BXRestNavvyTaskItemUserField {
 
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает список пользовательских полей задачи.
+   */
   getList(param: iBXRestParamTaskItemUserFieldGetlist = {}){
     return this.Navvy.pagNav<iBXRestTaskItemUserFieldGetlistHttp, iBXRestTaskItemUserFieldGetlist, iBXRestParamTaskItemUserFieldGetlist>(
       this.url.getList,
@@ -54,6 +57,9 @@ export class BXRestNavvyTaskItemUserField {
     )
   }
 
+  /**
+   * Создаёт новое пользовательское поле задачи.
+   */
   add(param: iBXRestParamTaskItemUserFieldAdd) {
     return this.Navvy.simple<number, number, iBXRestParamTaskItemUserFieldAdd>(
       [$task, $item, $userfield, $add],
@@ -61,6 +67,9 @@ export class BXRestNavvyTaskItemUserField {
     )
   }
 
+  /**
+   * Удаляет пользовательское поле задачи.
+   */
   delete(param: iBXRestParamTaskItemUserFieldId) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskItemUserFieldId>(
       [$task, $item, $userfield, $delete],
@@ -68,6 +77,9 @@ export class BXRestNavvyTaskItemUserField {
     )
   }
 
+  /**
+   * Возвращает пользовательское поле задачи по идентификатору.
+   */
   get(param: iBXRestParamTaskItemUserFieldId) {
     return this.Navvy.simple<
       iBXRestTaskObject,
@@ -76,14 +88,23 @@ export class BXRestNavvyTaskItemUserField {
     >([$task, $item, $userfield, $get], param)
   }
 
+  /**
+   * Возвращает доступные поля пользовательского поля задачи.
+   */
   getFields() {
     return this.Navvy.simple<iBXRestTaskObject>([$task, $item, $userfield, $getFields])
   }
 
+  /**
+   * Возвращает все доступные типы данных пользовательских полей.
+   */
   getTypes() {
     return this.Navvy.simple<iBXRestTaskObject>([$task, $item, $userfield, $gettypes])
   }
 
+  /**
+   * Обновляет параметры пользовательского поля задачи.
+   */
   update(param: iBXRestParamTaskItemUserFieldUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskItemUserFieldUpdate>(
       [$task, $item, $userfield, $update],

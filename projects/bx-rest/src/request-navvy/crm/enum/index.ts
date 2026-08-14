@@ -125,6 +125,9 @@ export class BXRestNavvyCrmEnum {
     return this.Navvy.simple<iBXRestCrmOrderOwnerType[]>(this.url.getorderownertypes)
   }
 
+  /**
+   * Выполняет запрос перечисления CRM без параметров.
+   */
   private enumItems(url: string[]) {
     return this.Navvy.simple<iBXRestCrmEnumItem[]>(url)
   }

@@ -5,6 +5,9 @@ import { $add, $delete, $get, $im, $last, $search } from '../../../consts/part-n
 export class BXRestNavvyImSearchLast {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет запрос в историю поиска.
+   */
   add(param: iBXRestParamImSearchLastDialog) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImSearchLastDialog>(
       [$im, $search, $last, $add],
@@ -12,6 +15,9 @@ export class BXRestNavvyImSearchLast {
     )
   }
 
+  /**
+   * Удаляет запрос из истории поиска.
+   */
   delete(param: iBXRestParamImSearchLastDialog) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImSearchLastDialog>(
       [$im, $search, $last, $delete],
@@ -19,6 +25,9 @@ export class BXRestNavvyImSearchLast {
     )
   }
 
+  /**
+   * Возвращает историю поиска.
+   */
   get(param: iBXRestParamImSearchLastGet = {}) {
     return this.Navvy.simple<
       iBXRestImObject[],

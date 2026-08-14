@@ -7,38 +7,33 @@ import { BXRestNavvyCalendarResource } from './calendar/resource'
 import { BXRestNavvyCalendarSettings } from './calendar/settings'
 
 export class BXRestNavvyCalendar {
-
-  // TODO: эту дичь расформировать потом по классам
-  /*
-  url = {
-    accessibility: {get: getNameMethod([$calendar, $accessibility, $get])}, // Возвращает занятость пользователей из списка.
-    meeting: {
-      params: {
-        set: getNameMethod([$calendar, $meeting, $params, $set]), // Устанавливает параметры события для текущего пользователя
-      },
-      status: {
-        get: getNameMethod([$calendar, $meeting, $status, $get]), // Возвращает статус участия текущего пользователя в событии
-        set: getNameMethod([$calendar, $meeting, $status, $set]), // Устанавливает статус участия в событии для текущего пользователя
-      },
-    },
-    resource: {
-      list: getNameMethod([$calendar, $resource, $list]), // Возвращает список (массив) всех ресурсов
-      add: getNameMethod([$calendar, $resource, $add]), // Добавляет новый ресурс
-      update: getNameMethod([$calendar, $resource, $update]), // Изменяет ресурс
-      delete: getNameMethod([$calendar, $resource, $delete]), // Удаляет ресурс
-      booking: {
-        list: getNameMethod([$calendar, $resource, $booking, $list]), // Предоставляет возможность выбрать бронирования ресурсов
-      }
-    },
-    getbyid: getNameMethod([$calendar, $event, 'getbyid']), // Возвращает событие календаря по идентификатору
-  }
-  */
+  /**
+   * События календаря (`calendar.event.*`).
+   */
   public readonly event = new BXRestNavvyRestCalendarEvent()
+  /**
+   * Календари (`calendar.section.*`).
+   */
   public readonly section = new BXRestNavvyRestCalendarSection()
+  /**
+   * Пользователи календаря (`calendar.user.*`).
+   */
   public readonly user = new BXRestNavvyRestCalendarUser()
+  /**
+   * Занятость пользователей (`calendar.accessibility.*`).
+   */
   public readonly accessibility = new BXRestNavvyCalendarAccessibility()
+  /**
+   * Встречи календаря (`calendar.meeting.*`).
+   */
   public readonly meeting = new BXRestNavvyCalendarMeeting()
+  /**
+   * Ресурсы для бронирования (`calendar.resource.*`).
+   */
   public readonly resource = new BXRestNavvyCalendarResource()
+  /**
+   * Настройки календаря (`calendar.settings.*`).
+   */
   public readonly settings = new BXRestNavvyCalendarSettings()
 
 }

@@ -35,6 +35,9 @@ export class BXRestNavvyImChat {
   }
 
   private Navvy = new Navvy()
+  /**
+   * Участники чата (`im.chat.user.*`).
+   */
   public readonly user = new BXRestNavvyImChatUser()
 
   /**

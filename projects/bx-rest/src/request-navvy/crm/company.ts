@@ -13,8 +13,17 @@ import { BXRestNavvyCrmCompanyDetails } from './company/details'
 import { BXRestNavvyCrmCompanyUserField } from './company/userfield'
 
 export class BXRestNavvyCrmCompany {
+  /**
+   * Контакты компании (`crm.company.contact.*`).
+   */
   public readonly contact = new BXRestNavvyCrmCompanyContact()
+  /**
+   * Карточка компании (`crm.company.details.*`).
+   */
   public readonly details = new BXRestNavvyCrmCompanyDetails()
+  /**
+   * Пользовательские поля компаний (`crm.company.userfield.*`).
+   */
   public readonly userField = new BXRestNavvyCrmCompanyUserField()
   url = {
     /**

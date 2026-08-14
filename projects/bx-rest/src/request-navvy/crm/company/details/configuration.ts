@@ -5,6 +5,9 @@ import { $company, $configuration, $crm, $details, $forceCommonScopeForAll, $get
 export class BXRestNavvyCrmCompanyDetailsConfiguration {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Принудительно устанавливает общую карточку компаний для всех пользователей.
+   */
   forceCommonScopeForAll(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $company, $details, $configuration, $forceCommonScopeForAll],
@@ -12,6 +15,9 @@ export class BXRestNavvyCrmCompanyDetailsConfiguration {
     )
   }
 
+  /**
+   * Возвращает настройки карточки компаний.
+   */
   get(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>(
       [$crm, $company, $details, $configuration, $get],
@@ -19,6 +25,9 @@ export class BXRestNavvyCrmCompanyDetailsConfiguration {
     )
   }
 
+  /**
+   * Сбрасывает настройки карточки компаний.
+   */
   reset(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $company, $details, $configuration, $reset],
@@ -26,6 +35,9 @@ export class BXRestNavvyCrmCompanyDetailsConfiguration {
     )
   }
 
+  /**
+   * Устанавливает настройки карточки компаний.
+   */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $company, $details, $configuration, $set],

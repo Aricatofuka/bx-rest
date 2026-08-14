@@ -7,6 +7,9 @@ export class BXRestNavvyDiskAttachedObject {
 
   private Navvy = new Navvy()
 
+  /**
+   * Возвращает информацию о прикреплённом файле.
+   */
   get(param: iBXRestParamRestDiskAttachedObject) {
     return this.Navvy.simple(
       [$disk, 'attachedObject', $get],

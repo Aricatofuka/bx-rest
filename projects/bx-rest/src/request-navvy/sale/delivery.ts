@@ -9,10 +9,25 @@ import { BXRestNavvySaleDeliveryRequest } from './delivery/request'
 export class BXRestNavvySaleDelivery  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Настройки службы доставки (`sale.delivery.config.*`).
+   */
   public readonly config = new BXRestNavvySaleDeliveryConfig()
+  /**
+   * Дополнительные услуги службы доставки (`sale.delivery.extra.*`).
+   */
   public readonly extra = new BXRestNavvySaleDeliveryExtra()
+  /**
+   * Обработчики служб доставки (`sale.delivery.handler.*`).
+   */
   public readonly handler = new BXRestNavvySaleDeliveryHandler()
+  /**
+   * Запросы на расчёт доставки (`sale.delivery.request.*`).
+   */
   public readonly request = new BXRestNavvySaleDeliveryRequest()
+  /**
+   * Добавляет службу доставки.
+   */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -20,6 +35,9 @@ export class BXRestNavvySaleDelivery  {
       iBXRestGenericParams
     >([$sale, $delivery, $add], param)
   }
+  /**
+   * Удаляет службу доставки.
+   */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -27,6 +45,9 @@ export class BXRestNavvySaleDelivery  {
       iBXRestGenericParams
     >([$sale, $delivery, $delete], param)
   }
+  /**
+   * Возвращает список служб доставки.
+   */
   public getList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -34,6 +55,9 @@ export class BXRestNavvySaleDelivery  {
       iBXRestGenericParams
     >([$sale, $delivery, $getList], param)
   }
+  /**
+   * Обновляет службу доставки.
+   */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

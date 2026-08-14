@@ -5,6 +5,9 @@ import { $configuration, $crm, $deal, $details, $forceCommonScopeForAll, $get, $
 export class BXRestNavvyCrmDealDetailsConfiguration {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Принудительно устанавливает общую карточку сделки для всех пользователей.
+   */
   forceCommonScopeForAll(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $deal, $details, $configuration, $forceCommonScopeForAll],
@@ -12,6 +15,9 @@ export class BXRestNavvyCrmDealDetailsConfiguration {
     )
   }
 
+  /**
+   * Возвращает настройки карточки сделки.
+   */
   get(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>(
       [$crm, $deal, $details, $configuration, $get],
@@ -19,6 +25,9 @@ export class BXRestNavvyCrmDealDetailsConfiguration {
     )
   }
 
+  /**
+   * Сбрасывает настройки карточки сделки.
+   */
   reset(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $deal, $details, $configuration, $reset],
@@ -26,6 +35,9 @@ export class BXRestNavvyCrmDealDetailsConfiguration {
     )
   }
 
+  /**
+   * Устанавливает настройки карточки сделки.
+   */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $deal, $details, $configuration, $set],

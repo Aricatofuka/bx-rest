@@ -9,12 +9,30 @@ import { BXRestNavvyImNotifySystem } from './notify/system'
 
 export class BXRestNavvyImNotify {
   private readonly Navvy = new Navvy()
+  /**
+   * История уведомлений (`im.notify.history.*`).
+   */
   public readonly history = new BXRestNavvyImNotifyHistory()
+  /**
+   * Персональные уведомления (`im.notify.personal.*`).
+   */
   public readonly personal = new BXRestNavvyImNotifyPersonal()
+  /**
+   * Признак прочтения уведомлений (`im.notify.read.*`).
+   */
   public readonly read = new BXRestNavvyImNotifyRead()
+  /**
+   * Схемы типов уведомлений (`im.notify.schema.*`).
+   */
   public readonly schema = new BXRestNavvyImNotifySchema()
+  /**
+   * Системные уведомления (`im.notify.system.*`).
+   */
   public readonly system = new BXRestNavvyImNotifySystem()
 
+  /**
+   * Отправляет уведомление.
+   */
   send(param: iBXRestParamImNotifySend) {
     return this.Navvy.simple<number, number, iBXRestParamImNotifySend>(
       [$im, $notify],
@@ -22,6 +40,9 @@ export class BXRestNavvyImNotify {
     )
   }
 
+  /**
+   * Отвечает на уведомление с быстрым ответом.
+   */
   answer(param: iBXRestParamImNotifyAnswer) {
     return this.Navvy.simple<
       iBXRestImObject,
@@ -30,6 +51,9 @@ export class BXRestNavvyImNotify {
     >([$im, $notify, $answer], param)
   }
 
+  /**
+   * Обрабатывает нажатие кнопки уведомления.
+   */
   confirm(param: iBXRestParamImNotifyConfirm) {
     return this.Navvy.simple<
       iBXRestImObject,
@@ -38,6 +62,9 @@ export class BXRestNavvyImNotify {
     >([$im, $notify, $confirm], param)
   }
 
+  /**
+   * Удаляет уведомления.
+   */
   delete(param: iBXRestParamImNotifyDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImNotifyDelete>(
       [$im, $notify, $delete],
@@ -45,6 +72,9 @@ export class BXRestNavvyImNotify {
     )
   }
 
+  /**
+   * Возвращает уведомления пользователя.
+   */
   get(param: iBXRestParamImNotifyGet = {}) {
     return this.Navvy.simple<
       iBXRestImObject,

@@ -5,6 +5,9 @@ import { $Chat, $imbot, $inputAction, $notify, $v2 } from '../../../../consts/pa
 export class BXRestNavvyImBotV2ChatInputAction  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Показывает индикатор действия бота в чате.
+   */
   notify(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

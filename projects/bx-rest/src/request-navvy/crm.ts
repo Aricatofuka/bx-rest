@@ -27,14 +27,41 @@ import { BXRestNavvyCrmStageHistory } from './crm/stagehistory'
 import { BXRestNavvyCrmTracking } from './crm/tracking'
 
 export class BXRestNavvyCrm {
+  /**
+   * Дела CRM: звонки, письма, встречи и настраиваемые типы (`crm.activity.*`).
+   */
   public readonly activity = new BXRestNavvyCrmActivity()
+  /**
+   * Воронки CRM (`crm.category.*`).
+   */
   public readonly category = new BXRestNavvyCrmCategory()
+  /**
+   * Элементы смарт-процессов и универсальные объекты CRM (`crm.item.*`).
+   */
   public readonly item = new BXRestNavvyCrmItem()
+  /**
+   * Настройки CRM (`crm.settings.*`).
+   */
   public readonly settings = new BXRestNavvyCrmSettings()
+  /**
+   * Типы смарт-процессов (`crm.type.*`).
+   */
   public readonly type = new BXRestNavvyCrmType()
+  /**
+   * Пользовательские поля CRM (`crm.userfield.*`).
+   */
   public readonly userField = new BXRestNavvyCrmUserField()
+  /**
+   * Привязки заказов интернет-магазина к объектам CRM (`crm.orderentity.*`).
+   */
   public readonly orderEntity = new BXRestNavvyCrmOrderEntity()
+  /**
+   * История движения по стадиям (`crm.stagehistory.*`).
+   */
   public readonly stageHistory = new BXRestNavvyCrmStageHistory()
+  /**
+   * Сквозная аналитика (`crm.tracking.*`).
+   */
   public readonly tracking = new BXRestNavvyCrmTracking()
   /** Таймлайн CRM: комментарии, заметки, связи и лог-записи (`crm.timeline.*`). */
   public readonly timeline = new BXRestNavvyCrmTimeline()
@@ -62,9 +89,21 @@ export class BXRestNavvyCrm {
   public readonly enum = new BXRestNavvyCrmEnum()
   /** Описание множественных полей CRM (`crm.multifield.*`). */
   public readonly multifield = new BXRestNavvyCrmMultifield()
+  /**
+   * Лиды (`crm.lead.*`).
+   */
   public readonly lead = new BXRestNavvyCrmLead()
+  /**
+   * Сделки (`crm.deal.*`).
+   */
   public readonly deal = new BXRestNavvyCrmDeal()
+  /**
+   * Контакты (`crm.contact.*`).
+   */
   public readonly contact = new BXRestNavvyCrmContact()
+  /**
+   * Компании (`crm.company.*`).
+   */
   public readonly company = new BXRestNavvyCrmCompany()
   /** Коммерческие предложения и связанные с ними товарные и пользовательские поля. */
   public readonly quote = new BXRestNavvyCrmQuote()

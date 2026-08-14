@@ -8,7 +8,13 @@ import { BXRestNavvyImUserList } from './user/list'
 export class BXRestNavvyImUser {
   private Navvy = new Navvy()
 
+  /**
+   * Данные о списке пользователей (`im.user.list.*`).
+   */
   public readonly list = new BXRestNavvyImUserList()
+  /**
+   * Статус пользователя в чате (`im.user.status.*`).
+   */
   public readonly status = new BXRestNavvyImUserStatus()
   /**
    * Получить данные о пользователе

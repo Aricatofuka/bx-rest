@@ -5,6 +5,9 @@ import { $add, $im, $notify, $system } from '../../../consts/part-name-methods'
 export class BXRestNavvyImNotifySystem {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Отправляет системное уведомление.
+   */
   add(param: iBXRestParamImNotifySystemAdd) {
     return this.Navvy.simple<number, number, iBXRestParamImNotifySystemAdd>(
       [$im, $notify, $system, $add],

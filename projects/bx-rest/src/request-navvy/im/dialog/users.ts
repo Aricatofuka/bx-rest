@@ -11,6 +11,9 @@ export class BXRestNavvyImDialogUsers {
 
   private Navvy = new Navvy()
 
+  /**
+   * Возвращает список участников чата.
+   */
   list(param: iBXRestImDialogUserGetParam) {
     return this.Navvy.simple<iBXRestImDialogUserGetHttp, iBXRestImDialogUserGet, iBXRestImDialogUserGetParam>(
       [$im, $dialog, $users, $list],

@@ -6,8 +6,14 @@ import { BXRestNavvyCrmDealContactItems } from './contact/items'
 
 export class BXRestNavvyCrmDealContact {
   private readonly Navvy = new Navvy()
+  /**
+   * Набор контактов сделки (`crm.deal.contact.items.*`).
+   */
   public readonly items = new BXRestNavvyCrmDealContactItems()
 
+  /**
+   * Связывает контакт со сделкой.
+   */
   add(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $deal, $contact, $add],
@@ -15,6 +21,9 @@ export class BXRestNavvyCrmDealContact {
     )
   }
 
+  /**
+   * Убирает контакт из сделки.
+   */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
       [$crm, $deal, $contact, $delete],
@@ -22,6 +31,9 @@ export class BXRestNavvyCrmDealContact {
     )
   }
 
+  /**
+   * Возвращает описание полей связи сделки с контактом.
+   */
   fields() {
     return this.Navvy.simple<iBXRestCrmObject>([$crm, $deal, $contact, $fields])
   }

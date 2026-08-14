@@ -5,6 +5,9 @@ import { $add, $catalog, $delete, $download, $get, $getFieldsByFilter, $list, $p
 export class BXRestNavvyCatalogProductService  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет услугу.
+   */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvyCatalogProductService  {
       iBXRestGenericParams
     >([$catalog, $product, $service, $add], param)
   }
+  /**
+   * Удаляет услугу.
+   */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvyCatalogProductService  {
       iBXRestGenericParams
     >([$catalog, $product, $service, $delete], param)
   }
+  /**
+   * Скачивает изображение услуги.
+   */
   public download(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -26,6 +35,9 @@ export class BXRestNavvyCatalogProductService  {
       iBXRestGenericParams
     >([$catalog, $product, $service, $download], param)
   }
+  /**
+   * Возвращает услугу по идентификатору.
+   */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -33,6 +45,9 @@ export class BXRestNavvyCatalogProductService  {
       iBXRestGenericParams
     >([$catalog, $product, $service, $get], param)
   }
+  /**
+   * Возвращает описание полей услуг с учётом фильтра.
+   */
   public getFieldsByFilter(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -42,6 +57,9 @@ export class BXRestNavvyCatalogProductService  {
     $catalog, $product, $service, $getFieldsByFilter
   ], param)
   }
+  /**
+   * Возвращает список услуг.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -49,6 +67,9 @@ export class BXRestNavvyCatalogProductService  {
       iBXRestGenericParams
     >([$catalog, $product, $service, $list], param)
   }
+  /**
+   * Обновляет услугу.
+   */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

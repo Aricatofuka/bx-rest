@@ -5,6 +5,9 @@ import { $callback, $start, $voximplant } from '../../consts/part-name-methods'
 export class BXRestNavvyVoxImplantCallback  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Запускает обратный звонок.
+   */
   start(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

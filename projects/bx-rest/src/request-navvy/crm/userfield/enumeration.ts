@@ -5,6 +5,9 @@ import { $crm, $enumeration, $fields, $userfield } from '../../../consts/part-na
 export class BXRestNavvyCrmUserFieldEnumeration {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает описание полей для пользовательского поля типа enumeration.
+   */
   fields() {
     return this.Navvy.simple<iBXRestCrmObject>([$crm, $userfield, $enumeration, $fields])
   }

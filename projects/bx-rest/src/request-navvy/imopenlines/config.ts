@@ -7,9 +7,18 @@ import { BXRestNavvyImOpenLinesConfigPath } from './config/path'
 export class BXRestNavvyImOpenLinesConfig  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Список открытых линий (`imopenlines.config.list.*`).
+   */
   public readonly list = new BXRestNavvyImOpenLinesConfigList()
+  /**
+   * Публичная страница открытых линий (`imopenlines.config.path.*`).
+   */
   public readonly path = new BXRestNavvyImOpenLinesConfigPath()
 
+  /**
+   * Добавляет новую открытую линию.
+   */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -18,6 +27,9 @@ export class BXRestNavvyImOpenLinesConfig  {
     >([$imopenlines, $config, $add], param)
   }
 
+  /**
+   * Удаляет открытую линию.
+   */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -26,6 +38,9 @@ export class BXRestNavvyImOpenLinesConfig  {
     >([$imopenlines, $config, $delete], param)
   }
 
+  /**
+   * Возвращает открытую линию по идентификатору.
+   */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -34,6 +49,9 @@ export class BXRestNavvyImOpenLinesConfig  {
     >([$imopenlines, $config, $get], param)
   }
 
+  /**
+   * Изменяет настройки открытой линии.
+   */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

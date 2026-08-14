@@ -5,6 +5,9 @@ import { $add, $command, $delete, $im, $like, $message, $share, $update } from '
 export class BXRestNavvyImMessage {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет сообщение в чат.
+   */
   add(param: iBXRestParamImMessageAdd) {
     return this.Navvy.simple<number, number, iBXRestParamImMessageAdd>(
       [$im, $message, $add],
@@ -12,6 +15,9 @@ export class BXRestNavvyImMessage {
     )
   }
 
+  /**
+   * Выполняет команду чат-бота.
+   */
   command(param: iBXRestParamImMessageCommand) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImMessageCommand>(
       [$im, $message, $command],
@@ -19,6 +25,9 @@ export class BXRestNavvyImMessage {
     )
   }
 
+  /**
+   * Удаляет сообщение.
+   */
   delete(param: iBXRestParamImMessageDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImMessageDelete>(
       [$im, $message, $delete],
@@ -26,6 +35,9 @@ export class BXRestNavvyImMessage {
     )
   }
 
+  /**
+   * Изменяет статус «Мне нравится» у сообщения.
+   */
   like(param: iBXRestParamImMessageLike) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImMessageLike>(
       [$im, $message, $like],
@@ -33,6 +45,9 @@ export class BXRestNavvyImMessage {
     )
   }
 
+  /**
+   * Создаёт чат, задачу или сообщение Ленты новостей из сообщения.
+   */
   share(param: iBXRestParamImMessageShare) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImMessageShare>(
       [$im, $message, $share],
@@ -40,6 +55,9 @@ export class BXRestNavvyImMessage {
     )
   }
 
+  /**
+   * Изменяет отправленное сообщение.
+   */
   update(param: iBXRestParamImMessageUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImMessageUpdate>(
       [$im, $message, $update],

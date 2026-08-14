@@ -5,6 +5,9 @@ import { $commit, $delete, $disk, $file, $im, $save } from '../../../consts/part
 export class BXRestNavvyImDiskFile {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет файл в чат (устаревший метод).
+   */
   commit(param: iBXRestParamImDiskFileCommit) {
     return this.Navvy.simple<
       iBXRestImObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyImDiskFile {
     >([$im, $disk, $file, $commit], param)
   }
 
+  /**
+   * Удаляет файл из папки чата.
+   */
   delete(param: iBXRestParamImDiskFileDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImDiskFileDelete>(
       [$im, $disk, $file, $delete],
@@ -20,6 +26,9 @@ export class BXRestNavvyImDiskFile {
     )
   }
 
+  /**
+   * Сохраняет файл чата на Диск.
+   */
   save(param: iBXRestParamImDiskFileSave) {
     return this.Navvy.simple<
       iBXRestImObject,

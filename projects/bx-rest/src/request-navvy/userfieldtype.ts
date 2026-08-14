@@ -5,6 +5,9 @@ import { $add, $delete, $list, $update, $userfieldtype } from '../consts/part-na
 export class BXRestNavvyUserFieldType {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Регистрирует новый тип пользовательских полей.
+   */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -12,6 +15,9 @@ export class BXRestNavvyUserFieldType {
       iBXRestGenericParams
     >([$userfieldtype, $add], param)
   }
+  /**
+   * Удаляет зарегистрированный приложением тип пользовательских полей.
+   */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -19,6 +25,9 @@ export class BXRestNavvyUserFieldType {
       iBXRestGenericParams
     >([$userfieldtype, $delete], param)
   }
+  /**
+   * Возвращает список типов пользовательских полей, зарегистрированных приложением.
+   */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -26,6 +35,9 @@ export class BXRestNavvyUserFieldType {
       iBXRestGenericParams
     >([$userfieldtype, $list], param)
   }
+  /**
+   * Изменяет настройки зарегистрированного приложением типа пользовательских полей.
+   */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

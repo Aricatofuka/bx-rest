@@ -10,6 +10,9 @@ export class BXRestNavvyTaskPlanner {
 
   private readonly Navvy = new Navvy()
   
+  /**
+   * Возвращает список задач из «Плана на день».
+   */
   getList() {
     return this.Navvy.simple<(string | number)[], (string | number)[], undefined>(
       this.url.getList,

@@ -5,6 +5,9 @@ import { $collection, $field, $get, $list, $note } from '../../../consts/part-na
 export class BXRestNavvyNoteCollectionField  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает описание поля базы знаний.
+   */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyNoteCollectionField  {
     >([$note, $collection, $field, $get], param)
   }
 
+  /**
+   * Возвращает список полей базы знаний.
+   */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,

@@ -29,6 +29,9 @@ export class BXRestNavvyOperationElapsedItem {
   constructor(private BXRestNavvyElapsedItem: BXRestNavvyElapsedItem) {
   }
 
+  /**
+   * Возвращает записи о затраченном времени пользователей за период.
+   */
   getByInterval(idsUsers: number[], dateStart: Date, dateEnd: Date) {
     const param: iBXRestParamElapseditemGet = {
       ORDER: {
@@ -48,6 +51,9 @@ export class BXRestNavvyOperationElapsedItem {
   }
 
   // TODO: Сделать нормально
+  /**
+   * Возвращает список записей о затраченном времени по задаче.
+   */
   getListByIDTask(ids: number[]) {
     // Работает только потому что "nPageSize: 99999"
     return this.http.branch<iBXRestParamElapseditemGet, iBXRestTaskElapsedItemHttp>
@@ -77,6 +83,9 @@ export class BXRestNavvyOperationElapsedItem {
     )
   }
 
+  /**
+   * Проверяет право на добавление затраченного времени сразу по нескольким задачам.
+   */
   checkPermissionAddElapsedTimeToTaskArr(tasks: number[], userCurrent: iBXRestUser | undefined = undefined) {
     // Убираем дубли, чтобы не проверять права по одной задаче несколько раз.
     const ids = [...new Set(tasks.filter(i => !!i))]
@@ -298,6 +307,9 @@ export class BXRestNavvyOperationElapsedItem {
   }
 
   // TODO: разобраться что это за ебатня в комментах и вписать нормальной комент если она нужна
+  /**
+   * Проверяет право на изменение записи о затраченном времени.
+   */
   isAllowedModify(idTask: number, idItem: number) {
     // let permission = Permission.get()
     // if (permission?.tasks?.length) {
@@ -379,6 +391,9 @@ export class BXRestNavvyOperationElapsedItem {
     )
   }
 
+  /**
+   * Проверяет право на удаление записи о затраченном времени.
+   */
   private isAllowedRemove(idTask: number, idItem: number) {
     return this.isActionAllowed(
       {

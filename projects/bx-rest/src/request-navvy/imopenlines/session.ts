@@ -8,10 +8,22 @@ import { BXRestNavvyImOpenLinesSessionMode } from './session/mode'
 export class BXRestNavvyImOpenLinesSession  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Оценка сессии руководителем (`imopenlines.session.head.*`).
+   */
   public readonly head = new BXRestNavvyImOpenLinesSessionHead()
+  /**
+   * История сессии (`imopenlines.session.history.*`).
+   */
   public readonly history = new BXRestNavvyImOpenLinesSessionHistory()
+  /**
+   * Режимы диалога (`imopenlines.session.mode.*`).
+   */
   public readonly mode = new BXRestNavvyImOpenLinesSessionMode()
 
+  /**
+   * Переводит диалог на текущего оператора.
+   */
   intercept(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -20,6 +32,9 @@ export class BXRestNavvyImOpenLinesSession  {
     >([$imopenlines, $session, $intercept], param)
   }
 
+  /**
+   * Присоединяет оператора к диалогу.
+   */
   join(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -28,6 +43,9 @@ export class BXRestNavvyImOpenLinesSession  {
     >([$imopenlines, $session, $join], param)
   }
 
+  /**
+   * Возвращает идентификатор чата по коду пользователя.
+   */
   open(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -36,6 +54,9 @@ export class BXRestNavvyImOpenLinesSession  {
     >([$imopenlines, $session, $open], param)
   }
 
+  /**
+   * Запускает новую сессию в чате.
+   */
   start(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

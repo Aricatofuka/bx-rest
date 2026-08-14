@@ -14,6 +14,9 @@ export class BXRestNavvySocialNetWorkApiLiveFeedBlogPostImportant {
 
   private readonly Navvy = new Navvy()
 
+  /**
+   * Отмечает важное сообщение Ленты новостей как прочитанное текущим пользователем.
+   */
   vote(param: iBXRestParamSocialNetWorkApiBlogpostImportantVote) {
     return this.Navvy.simple(
       this.url.vote, param,

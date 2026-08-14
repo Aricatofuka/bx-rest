@@ -6,7 +6,13 @@ import { BXRestNavvySalePaySystemSettingsPayment } from './settings/payment'
 export class BXRestNavvySalePaySystemSettings  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Настройки оплаты платёжной системы (`sale.paysystem.settings.payment.*`).
+   */
   public readonly payment = new BXRestNavvySalePaySystemSettingsPayment()
+  /**
+   * Возвращает настройки платёжной системы.
+   */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -14,6 +20,9 @@ export class BXRestNavvySalePaySystemSettings  {
       iBXRestGenericParams
     >([$sale, $paysystem, $settings, $get], param)
   }
+  /**
+   * Обновляет настройки платёжной системы.
+   */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
       iBXRestGenericObject,

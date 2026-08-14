@@ -14,10 +14,16 @@ export class BXRestNavvyImChatUser {
     delete: [$im, $chat, $user, $delete],
   }
 
+  /**
+   * Возвращает идентификаторы участников чата.
+   */
   list(param: iBXRestImChatUserListParam) {
     return this.Navvy.simple<number[], number[], iBXRestImChatUserListParam>(this.url.list, param)
   }
 
+  /**
+   * Исключает участников из чата.
+   */
   delete(param: iBXRestImChatUserDeleteParam) {
     return this.Navvy.simple<number, number, iBXRestImChatUserDeleteParam>(this.url.delete, param)
   }

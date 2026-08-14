@@ -5,14 +5,23 @@ import { $add, $delete, $entity, $get, $item, $property, $update } from '../../.
 export class BXRestNavvyEntityItemProperty  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Добавляет дополнительное свойство элементов.
+   */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $item, $property, $add], param)
   }
 
+  /**
+   * Удаляет дополнительное свойство элементов.
+   */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $item, $property, $delete], param)
   }
 
+  /**
+   * Возвращает список дополнительных свойств элементов.
+   */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -21,6 +30,9 @@ export class BXRestNavvyEntityItemProperty  {
     >([$entity, $item, $property, $get], param)
   }
 
+  /**
+   * Изменяет дополнительное свойство элементов.
+   */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $item, $property, $update], param)
   }

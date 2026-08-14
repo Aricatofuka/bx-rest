@@ -5,6 +5,9 @@ import { $bot, $imopenlines, $message, $send, $session } from '../../../../const
 export class BXRestNavvyImOpenLinesBotSessionMessage  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Отправляет автоматическое сообщение в диалог.
+   */
   send(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

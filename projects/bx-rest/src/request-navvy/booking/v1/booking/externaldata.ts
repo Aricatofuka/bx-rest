@@ -5,6 +5,9 @@ import { $booking, $externaldata, $list, $set, $unset, $v1 } from '../../../../c
 export class BXRestNavvyBookingV1BookingExternalData  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает связи бронирования с внешними системами.
+   */
   list(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyBookingV1BookingExternalData  {
     >([$booking, $v1, $booking, $externaldata, $list], param)
   }
 
+  /**
+   * Устанавливает связи для бронирования с внешними системами.
+   */
   set(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -21,6 +27,9 @@ export class BXRestNavvyBookingV1BookingExternalData  {
     >([$booking, $v1, $booking, $externaldata, $set], param)
   }
 
+  /**
+   * Удаляет связи для бронирования с внешними системами.
+   */
   unset(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

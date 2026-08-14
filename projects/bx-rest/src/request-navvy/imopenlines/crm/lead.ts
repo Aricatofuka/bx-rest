@@ -5,6 +5,9 @@ import { $create, $crm, $imopenlines, $lead } from '../../../consts/part-name-me
 export class BXRestNavvyImOpenLinesCrmLead  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Создаёт лид CRM по диалогу.
+   */
   create(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

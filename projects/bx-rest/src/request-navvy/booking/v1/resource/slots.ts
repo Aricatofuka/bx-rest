@@ -5,6 +5,9 @@ import { $booking, $list, $resource, $set, $slots, $unset, $v1 } from '../../../
 export class BXRestNavvyBookingV1ResourceSlots  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает настройку слотов для ресурса.
+   */
   list(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -13,6 +16,9 @@ export class BXRestNavvyBookingV1ResourceSlots  {
     >([$booking, $v1, $resource, $slots, $list], param)
   }
 
+  /**
+   * Устанавливает слоты для ресурса.
+   */
   set(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
@@ -21,6 +27,9 @@ export class BXRestNavvyBookingV1ResourceSlots  {
     >([$booking, $v1, $resource, $slots, $set], param)
   }
 
+  /**
+   * Удаляет слоты для ресурса.
+   */
   unset(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,

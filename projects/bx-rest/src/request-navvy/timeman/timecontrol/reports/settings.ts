@@ -5,6 +5,9 @@ import { $get, $reports, $settings, $timeMan, $timecontrol } from '../../../../c
 export class BXRestNavvyTimemanTimeControlReportsSettings {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Возвращает настройки интерфейса отчётов пользователя.
+   */
   get() {
     return this.Navvy.simple<iBXRestTimemanTimeControlSettings>(
       [$timeMan, $timecontrol, $reports, $settings, $get]

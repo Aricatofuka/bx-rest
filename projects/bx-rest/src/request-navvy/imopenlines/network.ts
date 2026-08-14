@@ -6,8 +6,14 @@ import { BXRestNavvyImOpenLinesNetworkMessage } from './network/message'
 export class BXRestNavvyImOpenLinesNetwork  {
   private readonly Navvy = new Navvy()
 
+  /**
+   * Сообщения сети открытых линий (`imopenlines.network.message.*`).
+   */
   public readonly message = new BXRestNavvyImOpenLinesNetworkMessage()
 
+  /**
+   * Подключает внешнюю открытую линию к порталу.
+   */
   join(param: iBXRestGenericParams) {
     return this.Navvy.simple<
       iBXRestGenericObject,
