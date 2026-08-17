@@ -1,4 +1,4 @@
-import Cookies from '../../services/vanilla/сookies'
+import Cookies from '../../services/vanilla/cookies'
 import { Observable, of, Subscription } from 'rxjs'
 import { prepareBaseAddress } from '../base'
 import { LocalStorageServices as LocalStorage } from '../../services/vanilla/localStorage'
