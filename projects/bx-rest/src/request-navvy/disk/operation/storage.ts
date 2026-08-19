@@ -32,25 +32,6 @@ export class BXRestNavvyOperationDiskStorage {
     }
   }
 
-  /*
-  private getforappEnd(){
-    console.log('this.BXRestDiskStorage.getforapp()', this.BXRestDiskStorage.getforapp())
-    let res = SessionStorage.getItem<iBXRestFolderInfo>(this.constructor.name + this.getforapp.name)
-    if(res){
-      return of({result: res})
-    } else {
-      console.log('this.BXRestDiskStorage.getforapp()', this.BXRestDiskStorage, this.BXRestDiskStorage.getforapp())
-      return this.BXRestDiskStorage.getforapp().pipe(
-        tap(v => {
-          if(v){
-            SessionStorage.setItem(this.constructor.name + this.getforapp.name, v)
-          }
-        })
-      )
-    }
-  }
-   */
-
   /**
    * Возвращает список файлов и папок в хранилище приложения.
    */

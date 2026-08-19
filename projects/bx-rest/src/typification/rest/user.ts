@@ -3,6 +3,7 @@
  */
 export * from './user/user'
 export * from './user/add'
+export * from './user/update'
 export * from './user/get'
 export * from './user/search'
 export * from './user/userFilter'
