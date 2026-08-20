@@ -63,18 +63,24 @@ export class BXRestNavvyRestCalendarEvent {
   // }
 
   get = Object.assign(
-    /** Возвращает список событий календаря, всегда весь список, паганации в методе нет да и не нужна */
-    (param: iBXRestCalendarEventGetParam) => this.Navvy.simple(
+    /**
+     * Возвращает список событий календаря, всегда весь список, паганации в методе нет да и не нужна.
+     *
+     * @param param
+     * @param dateTimeFormat Формат полей с датой и временем в ответе (см. {@link BXRestMapCalendarEvent.get}).
+     *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию.
+     */
+    (param: iBXRestCalendarEventGetParam, dateTimeFormat?: string) => this.Navvy.simple(
       this.url.get,
       param,
-      BXRestMapCalendarEvent.get
+      (raw?: Parameters<typeof BXRestMapCalendarEvent.get>[0]) => BXRestMapCalendarEvent.get(raw, dateTimeFormat)
     ),
     {
-      /** Метод получает список будущих событий */
-      nearest: (param: iBXRestCalendarEventGetNearestParam) => this.Navvy.simple(
+      /** Метод получает список будущих событий. @see get */
+      nearest: (param: iBXRestCalendarEventGetNearestParam, dateTimeFormat?: string) => this.Navvy.simple(
         this.url.get.nearest,
         param,
-        BXRestMapCalendarEvent.get
+        (raw?: Parameters<typeof BXRestMapCalendarEvent.get>[0]) => BXRestMapCalendarEvent.get(raw, dateTimeFormat)
       ),
     }
   );
@@ -87,12 +93,18 @@ export class BXRestNavvyRestCalendarEvent {
     )
   }
 
-  /** Метод получает информацию о событии календаря по идентификатору */
-  getById(param: iBXRestCalendarEventGetByIdParam) {
+  /**
+   * Метод получает информацию о событии календаря по идентификатору.
+   *
+   * @param param
+   * @param dateTimeFormat Формат полей с датой и временем в ответе (см. {@link BXRestMapCalendarEvent.getById}).
+   *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию.
+   */
+  getById(param: iBXRestCalendarEventGetByIdParam, dateTimeFormat?: string) {
     return this.Navvy.simple(
       this.url.getById,
       param,
-      BXRestMapCalendarEvent.getById
+      (raw?: Parameters<typeof BXRestMapCalendarEvent.getById>[0]) => BXRestMapCalendarEvent.getById(raw, dateTimeFormat)
     )
   }
 }

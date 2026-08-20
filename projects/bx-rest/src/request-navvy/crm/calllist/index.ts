@@ -56,14 +56,16 @@ export class BXRestNavvyCrmCallList {
    * Участников можно получить через `items.get()`.
    *
    * @param param Идентификатор списка обзвона.
+   * @param dateTimeFormat Формат поля `DATE_CREATE` в ответе (см. {@link BXRestMapCrmCallList.get}).
+   *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию.
    * @see https://apidocs.bitrix24.ru/api-reference/crm/call-list/crm-calllist-get.html
    */
-  get(param: iBXRestParamCrmCallListGet) {
+  get(param: iBXRestParamCrmCallListGet, dateTimeFormat?: string) {
     return this.Navvy.simple<
       iBXRestCrmCallListHttp,
       iBXRestCrmCallList,
       iBXRestParamCrmCallListGet
-    >(this.url.get, param, BXRestMapCrmCallList.get)
+    >(this.url.get, param, (raw?: iBXRestCrmCallListHttp) => BXRestMapCrmCallList.get(raw, dateTimeFormat))
   }
 
   /**
@@ -72,14 +74,16 @@ export class BXRestNavvyCrmCallList {
    * Набор полей каждого элемента результата зависит от `SELECT`.
    *
    * @param param Выбираемые поля, фильтр и порядок сортировки.
+   * @param dateTimeFormat Формат поля `DATE_CREATE` в ответе (см. {@link BXRestMapCrmCallList.list}).
+   *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию.
    * @see https://apidocs.bitrix24.ru/api-reference/crm/call-list/crm-calllist-list.html
    */
-  list(param: iBXRestParamCrmCallListList = {}) {
+  list(param: iBXRestParamCrmCallListList = {}, dateTimeFormat?: string) {
     return this.Navvy.simple<
       iBXRestCrmCallListListItemHttp[],
       iBXRestCrmCallListListItem[],
       iBXRestParamCrmCallListList
-    >(this.url.list, param, BXRestMapCrmCallList.list)
+    >(this.url.list, param, (raw?: iBXRestCrmCallListListItemHttp[]) => BXRestMapCrmCallList.list(raw, dateTimeFormat))
   }
 
   /**

@@ -26,6 +26,7 @@ Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix 
   - [A paginated custom method with `pagNav()`](#a-paginated-custom-method-with-pagnav)
 - [Specific methods](#specific-methods)
   - [`tasks.task.list`](#taskstasklist)
+- [Date parsing](#date-parsing)
 - [Future features](#future-features)
 - [License](#license)
 
@@ -539,6 +540,29 @@ const tasks$ = bxRest.tasks.task.list<
   select: [...selectedTaskFields, ...selectedCustomFields],
   start: 0
 }).res()
+```
+
+## Date parsing
+
+Some Bitrix24 REST fields (notably `calendar.section.get`, `calendar.event.get` and `crm.calllist.*`) return dates as plain strings formatted according to the portal's own date/time settings (Settings → date and time format) — not a fixed ISO format. Because that format is a per-portal setting, `bx-rest` can't know it in advance, so `BXBaseServices.toDate()` (used internally by these mappers) resolves an ambiguous string in three steps, in order:
+
+1. **The format you asked for.** If you (or a mapper) pass an explicit `format` (e.g. `'dd.MM.yyyy HH:mm:ss'`), it's tried first, token by token (`yyyy`, `MM`, `dd`, `HH`, `mm`, `ss`, and their single-letter variants) with the literal separators from the format string.
+2. **A short list of known Bitrix24 formats** (`'dd.MM.yyyy HH:mm:ss'`, `'yyyy-MM-dd HH:mm:ss'`, `'dd.MM.yyyy'`, `'yyyy-MM-dd'`) — tried if step 1 didn't match, since different portals commonly send one of these.
+3. **A positional heuristic**, as a last resort — it locates the year by its unambiguous 4-digit length (whichever end of the date it's on), treats the middle segment as the month (true for both ISO and European-style dates) and reads any separator (`.`, `-`, `/`, space...). It does **not** guess in the one case that's genuinely ambiguous — a purely numeric `MM/dd` vs `dd/MM` order where both segments are ≤ 12 — and it validates ranges (month 1-12, day 1-31, hour/minute/second) rather than letting `Date` silently roll over an out-of-range value into the next month/year.
+
+If you already know your portal's exact format, pass it explicitly instead of relying on auto-detection — it's always tried first and skips steps 2-3 entirely. The calendar and call-list mappers accept it as a single optional trailing `dateTimeFormat` argument, and it flows through the corresponding `BXRestNavvy` methods too. Where a mapper also has date-only fields (`calendar.event`'s `EXDATE`/`RRULE.UNTIL`), their format is derived from `dateTimeFormat` by dropping `HH:mm:ss` — day/month/year order is always the same for both on a given portal, so there's nothing extra to pass:
+
+```typescript
+import { BXRestNavvy } from 'bx-rest'
+
+const bxRest = new BXRestNavvy()
+
+// Portal-specific date/time format, e.g. from Settings → date and time format.
+const dateTimeFormat = 'yyyy-MM-dd HH:mm:ss'
+
+bxRest.calendar.event.get({ FROM: '01.01.2026', TO: '31.01.2026' }, dateTimeFormat).res()
+bxRest.calendar.section.get({}, dateTimeFormat).res()
+bxRest.crm.callList.get({ ID: 1 }, dateTimeFormat).res()
 ```
 
 ## Future features

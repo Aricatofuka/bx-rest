@@ -104,8 +104,9 @@ interface iBXRestCalendarEventGetAnswerRuleHttp extends iBXRestCalendarEventGetA
 }
 
 interface iBXRestCalendarEventGetAnswerRule extends iBXRestCalendarEventGetAnswerRuleBase {
-  UNTIL: Date
-  '~UNTIL': Date
+  // Bitrix присылает RRULE и без UNTIL — например, повторение ограничено через COUNT, а не датой
+  UNTIL: Date | null
+  '~UNTIL': Date | null
 }
 
 interface iBXRestCalendarEventGetAnswerRuleBase {
