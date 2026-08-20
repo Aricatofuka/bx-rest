@@ -18,6 +18,7 @@
     "entryFile": "src/public-api.ts"
   },
   "assets": [
-    "LICENSE"
+    "LICENSE",
+    "README.en.md"
   ]
 }

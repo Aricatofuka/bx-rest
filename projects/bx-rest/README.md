@@ -1,52 +1,54 @@
-# bx-rest - Bitrix24 REST API client for TypeScript, Angular, Vue and React
+🇷🇺 **Русский** | 🇬🇧 [English](README.en.md)
+
+# bx-rest — REST API клиент Bitrix24 для TypeScript, Angular, Vue и React
 
 [![npm version](https://img.shields.io/npm/v/bx-rest.svg)](https://www.npmjs.com/package/bx-rest)
 [![npm downloads](https://img.shields.io/npm/dm/bx-rest.svg)](https://www.npmjs.com/package/bx-rest)
 [![license](https://img.shields.io/npm/l/bx-rest.svg)](https://github.com/Aricatofuka/bx-rest/blob/main/LICENSE)
 
-`bx-rest` is a TypeScript SDK for the Bitrix24 REST API. It helps call BX24 REST methods, work with auth tokens, sessid, OAuth2, pagination, mappers and typed API requests.
+`bx-rest` — SDK на TypeScript для REST API Bitrix24. Помогает вызывать методы BX24 REST, работать с токенами авторизации, sessid, OAuth2, пагинацией, мапперами и типизированными API-запросами.
 
-Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix REST TypeScript library.
+Также известен как: REST-клиент Bitrix24, BX24 REST SDK, API-клиент Bitrix24, Bitrix REST TypeScript библиотека.
 
-## Contents
+## Содержание
 
-- [Install](#install)
-- [Requirements](#requirements)
-- [Quick Start](#quick-start)
-  - [Result modes](#result-modes)
-- [Authentication and OAuth2](#authentication-and-oauth2)
-- [Error handling](#error-handling)
-- [Usage in Angular](#usage-in-angular)
+- [Установка](#установка)
+- [Требования](#требования)
+- [Быстрый старт](#быстрый-старт)
+  - [Режимы результата](#режимы-результата)
+- [Аутентификация и OAuth2](#аутентификация-и-oauth2)
+- [Обработка ошибок](#обработка-ошибок)
+- [Использование в Angular](#использование-в-angular)
 - [SessionKeyServices](#sessionkeyservices)
-- [Usage in Vue](#usage-in-vue)
-- [Usage in React](#usage-in-react)
-- [Custom REST methods](#custom-rest-methods)
+- [Использование в Vue](#использование-в-vue)
+- [Использование в React](#использование-в-react)
+- [Кастомные REST-методы](#кастомные-rest-методы)
   - [Mapper](#mapper)
-  - [A custom method with `simple()`](#a-custom-method-with-simple)
-  - [A paginated custom method with `pagNav()`](#a-paginated-custom-method-with-pagnav)
-- [Specific methods](#specific-methods)
+  - [Кастомный метод с `simple()`](#кастомный-метод-с-simple)
+  - [Пагинированный кастомный метод с `pagNav()`](#пагинированный-кастомный-метод-с-pagnav)
+- [Специфичные методы](#специфичные-методы)
   - [`tasks.task.list`](#taskstasklist)
-- [Date parsing](#date-parsing)
-- [Future features](#future-features)
-- [License](#license)
+- [Парсинг дат](#парсинг-дат)
+- [Планы на будущее](#планы-на-будущее)
+- [Лицензия](#лицензия)
 
-## Install
+## Установка
 
 ```shell
 npm install bx-rest
 ```
 
-## Requirements
+## Требования
 
-- **Module format:** `bx-rest` ships ES modules only — there is no CommonJS/`require` build. Use it from an ESM-aware bundler (Angular CLI, Vite, webpack 5+, Next.js, ...) or a native `import()`. Plain `require('bx-rest')` (older Jest configs without ESM support, `ts-node` in CJS mode, etc.) will not resolve the package.
-- **TypeScript:** developed against TypeScript 5.5+. `strict` mode is recommended — the bundled typification relies on it to give accurate field types.
-- **RxJS:** `rxjs` (^7.8) is a regular dependency bundled with the package, not a `peerDependency`, so no specific host version is enforced. Every REST call returns an RxJS `Observable`.
-- **Frameworks:** the Angular, Vue and React examples below are written against Angular 18/19, Vue 3 and React 18+ APIs (the versions this library is built and tested with). None of these frameworks are declared as `peerDependencies` — `bx-rest` has no hard dependency on any of them — but the DI/composition patterns shown assume those major versions.
-- **Environment:** `bx-rest` is browser-oriented. The `cookies`/`localStorage`/`sessid` auth sources and `SessionKeyServices` read `window`, `document` and `localStorage` directly. In a server-side-rendered app (Angular Universal, Next.js, etc.) only exercise those code paths in the browser (e.g. behind `isPlatformBrowser`/`typeof window !== 'undefined'` guards), or use an auth source that doesn't touch browser globals, such as `source: () => accessToken` or `source: 'off'`.
+- **Формат модулей:** `bx-rest` поставляется только в виде ES-модулей — сборки CommonJS/`require` нет. Используйте его через ESM-совместимый бандлер (Angular CLI, Vite, webpack 5+, Next.js, ...) или нативный `import()`. Обычный `require('bx-rest')` (старые конфигурации Jest без поддержки ESM, `ts-node` в режиме CJS и т.п.) пакет не разрешит.
+- **TypeScript:** разработан под TypeScript 5.5+. Рекомендуется режим `strict` — встроенная типизация опирается на него для точных типов полей.
+- **RxJS:** `rxjs` (^7.8) — обычная зависимость, поставляемая вместе с пакетом, а не `peerDependency`, поэтому конкретная версия у хоста не требуется. Каждый REST-вызов возвращает RxJS `Observable`.
+- **Фреймворки:** примеры для Angular, Vue и React ниже написаны под API Angular 18/19, Vue 3 и React 18+ (версии, на которых собирается и тестируется библиотека). Ни один из этих фреймворков не объявлен как `peerDependencies` — `bx-rest` не имеет жёсткой зависимости ни от одного из них, — но показанные паттерны DI/композиции рассчитаны именно на эти мажорные версии.
+- **Окружение:** `bx-rest` ориентирован на браузер. Источники авторизации `cookies`/`localStorage`/`sessid` и `SessionKeyServices` напрямую читают `window`, `document` и `localStorage`. В приложении с серверным рендерингом (Angular Universal, Next.js и т.п.) выполняйте эти участки кода только в браузере (например, под защитой `isPlatformBrowser`/`typeof window !== 'undefined'`), либо используйте источник авторизации, не обращающийся к браузерным глобальным объектам, например `source: () => accessToken` или `source: 'off'`.
 
-## Quick Start
+## Быстрый старт
 
-Configure the portal URL and an access-token source once, then create a client and subscribe to the returned RxJS `Observable`. Use a complete URL including `https://`.
+Один раз настройте URL портала и источник access-токена, затем создайте клиент и подпишитесь на возвращённый RxJS `Observable`. Указывайте полный URL, включая `https://`.
 
 ```typescript
 import { firstValueFrom } from 'rxjs'
@@ -79,41 +81,41 @@ const deals = await firstValueFrom(
 console.log(deals)
 ```
 
-Do not hardcode or commit a production access token. Pass it from your application's authorization flow, server response or secure runtime configuration.
+Не хардкодьте и не коммитьте боевой access-токен. Передавайте его из потока авторизации вашего приложения, ответа сервера или защищённой конфигурации времени выполнения.
 
-### Result modes
+### Режимы результата
 
-REST calls are lazy: the request starts when the returned `Observable` is subscribed to or passed to `firstValueFrom`.
+REST-вызовы ленивые: запрос начинается, когда на возвращённый `Observable` подписываются или передают его в `firstValueFrom`.
 
-| Method | Result |
+| Метод | Результат |
 | --- | --- |
-| `.res(options?)` | Unwraps the Bitrix response and applies the configured mapper. For paginated methods it returns the current page. |
-| `.resAll()` | Loads and combines every page. Available on paginated Navvy helpers. |
-| `.resVanilla()` | Returns the raw Bitrix response, including fields such as `result`, `total` and `next`. |
-| `.mapForVanilla()` | Keeps the raw response envelope but applies the mapper to its `result`. |
+| `.res(options?)` | Разворачивает ответ Bitrix и применяет настроенный маппер. Для пагинированных методов возвращает текущую страницу. |
+| `.resAll()` | Загружает и объединяет все страницы. Доступен для пагинированных Navvy-хелперов. |
+| `.resVanilla()` | Возвращает сырой ответ Bitrix, включая такие поля, как `result`, `total` и `next`. |
+| `.mapForVanilla()` | Сохраняет исходную обёртку ответа, но применяет маппер к её `result`. |
 
-`.res()` accepts an optional options object:
+`.res()` принимает необязательный объект опций:
 
-| Option | Default | Effect |
+| Опция | По умолчанию | Эффект |
 | --- | --- | --- |
-| `throwOnApiError` | `false` | When `true`, a Bitrix-level API error makes the returned `Observable` error out with a `BXRestApiError` instead of resolving with `undefined`. See [Error handling](#error-handling). |
+| `throwOnApiError` | `false` | При `true` ошибка API-уровня Bitrix приводит к тому, что возвращённый `Observable` завершается ошибкой `BXRestApiError` вместо резолва в `undefined`. См. [Обработка ошибок](#обработка-ошибок). |
 
-## Authentication and OAuth2
+## Аутентификация и OAuth2
 
-`auth.source` controls where credentials are read from. `auth.key` controls the request parameter name, except for the special `OAuth2` cookie-credentials mode.
+`auth.source` определяет, откуда читаются учётные данные. `auth.key` определяет имя параметра запроса, за исключением специального режима учётных данных через куки `OAuth2`.
 
-| Scenario | `auth.source` | `auth.key` | Behaviour |
+| Сценарий | `auth.source` | `auth.key` | Поведение |
 | --- | --- | --- | --- |
-| Access token from application state | `() => accessToken` | `auth` | Calls the function before each request and sends its value in the `auth` parameter. Recommended for OAuth2 access tokens managed by the application. |
-| Access token in local storage | `localStorage` | `auth` | Reads `localStorage["auth"]` and sends it as `auth`. |
-| Access token in a cookie | `cookies` | `auth` | Reads the `auth` cookie and sends it as `auth`. |
-| Embedded Bitrix page / local session | `cookies` | `sessid` | Tries `window.BX.bitrix_sessid()`, the `sessid` query parameter, `localStorage.sessid`, then the `auth` cookie. Sends the resolved value as `sessid`. |
-| Incoming webhook or URL that already contains authorization | `off` | Any value | Skips credential lookup and does not add an authorization parameter. |
-| Cookie-based credential request | Any source returning a non-empty value | `OAuth2` | Does not append the resolved value to request params and enables Axios `withCredentials`. Use only when the portal and CORS policy support credential cookies. |
+| Access-токен из состояния приложения | `() => accessToken` | `auth` | Вызывает функцию перед каждым запросом и отправляет её значение в параметре `auth`. Рекомендуется для OAuth2 access-токенов, которыми управляет приложение. |
+| Access-токен в local storage | `localStorage` | `auth` | Читает `localStorage["auth"]` и отправляет его как `auth`. |
+| Access-токен в куке | `cookies` | `auth` | Читает куку `auth` и отправляет её как `auth`. |
+| Встроенная страница Bitrix / локальная сессия | `cookies` | `sessid` | Пробует `window.BX.bitrix_sessid()`, query-параметр `sessid`, `localStorage.sessid`, затем куку `auth`. Отправляет полученное значение как `sessid`. |
+| Входящий вебхук или URL, уже содержащий авторизацию | `off` | Любое значение | Пропускает поиск учётных данных и не добавляет параметр авторизации. |
+| Запрос учётных данных через куки | Любой источник, возвращающий непустое значение | `OAuth2` | Не добавляет полученное значение в параметры запроса и включает `withCredentials` в Axios. Используйте только если портал и политика CORS поддерживают куки с учётными данными. |
 
-For a regular Bitrix OAuth2 `access_token`, use `auth.key: 'auth'` and provide the current token through a function or `localStorage`. The special `auth.key: 'OAuth2'` mode is for credential cookies; it does not send an OAuth access token by itself.
+Для обычного OAuth2 `access_token` Bitrix используйте `auth.key: 'auth'` и передавайте текущий токен через функцию или `localStorage`. Специальный режим `auth.key: 'OAuth2'` предназначен для куки с учётными данными; сам по себе он не отправляет OAuth access-токен.
 
-For an incoming webhook URL, keep the full webhook path in `urls.key`, set `additional_part` to an empty string and disable additional authorization:
+Для URL входящего вебхука сохраните полный путь вебхука в `urls.key`, установите `additional_part` в пустую строку и отключите дополнительную авторизацию:
 
 ```typescript
 BXRestSettings.update({
@@ -129,18 +131,18 @@ BXRestSettings.update({
 })
 ```
 
-## Error handling
+## Обработка ошибок
 
-`bx-rest` surfaces two different kinds of failure, and `.res()` only reacts to one of them.
+`bx-rest` показывает два разных вида сбоев, и `.res()` реагирует только на один из них.
 
-| Failure | When it happens | How it surfaces on `.res()` |
+| Сбой | Когда происходит | Как проявляется в `.res()` |
 | --- | --- | --- |
-| Transport / configuration errors — network failure, missing auth, missing base URL | Before or during the HTTP call | The returned `Observable` errors. Handle it with RxJS `catchError` or the `error` callback of `subscribe()`. |
-| Bitrix API errors — `{ error, error_description }`, e.g. `INSUFFICIENT_SCOPE`, `expired_token` | HTTP 200 response whose body is not a success payload | By default, `.res()` resolves normally with `undefined` — **it does not throw**. Pass `{ throwOnApiError: true }` to make it throw a `BXRestApiError` instead. |
+| Ошибки транспорта / конфигурации — сбой сети, отсутствие авторизации, отсутствие базового URL | До или во время HTTP-вызова | Возвращённый `Observable` завершается ошибкой. Обрабатывайте её через RxJS `catchError` или колбэк `error` у `subscribe()`. |
+| Ошибки API Bitrix — `{ error, error_description }`, например `INSUFFICIENT_SCOPE`, `expired_token` | HTTP-ответ 200, тело которого не является успешным payload'ом | По умолчанию `.res()` резолвится обычным образом со значением `undefined` — **исключение не выбрасывается**. Передайте `{ throwOnApiError: true }`, чтобы вместо этого выбрасывалось `BXRestApiError`. |
 
-Because a Bitrix-level error resolves as `undefined` rather than as an `Observable` error by default, don't rely on plain `.res()` alone to tell "no records" apart from "the call failed". You have two options.
+Поскольку ошибка уровня Bitrix по умолчанию резолвится как `undefined`, а не как ошибка `Observable`, не полагайтесь только на голый `.res()`, чтобы отличить «нет записей» от «запрос не удался». Есть два варианта.
 
-**Option 1 — opt in to throwing with `.res({ throwOnApiError: true })`.** The `Observable` errors with a `BXRestApiError`, exposing `error` and `error_description`, so it can be handled alongside transport errors in a single `catchError`/`error` callback:
+**Вариант 1 — включить выброс исключения через `.res({ throwOnApiError: true })`.** `Observable` завершается ошибкой `BXRestApiError`, предоставляющей `error` и `error_description`, поэтому её можно обработать вместе с транспортными ошибками в одном колбэке `catchError`/`error`:
 
 ```typescript
 import { BXRestNavvy, BXRestApiError } from 'bx-rest'
@@ -163,7 +165,7 @@ bxRest.crm.deal.list({
 })
 ```
 
-**Option 2 — keep the default and check the raw response.** Call `.resVanilla()` instead and check the response with the exported `isBXRestAnswerSuccess()` type guard:
+**Вариант 2 — оставить поведение по умолчанию и проверять сырой ответ.** Вызовите `.resVanilla()` и проверьте ответ с помощью экспортируемого type guard `isBXRestAnswerSuccess()`:
 
 ```typescript
 import { firstValueFrom } from 'rxjs'
@@ -186,7 +188,7 @@ if (!answer || !isBXRestAnswerSuccess(answer)) {
 }
 ```
 
-Regardless of `throwOnApiError`, transport-level failures always propagate as `Observable` errors and can be caught the usual RxJS way:
+Независимо от `throwOnApiError`, ошибки транспортного уровня всегда всплывают как ошибки `Observable` и могут быть перехвачены обычным способом RxJS:
 
 ```typescript
 bxRest.crm.deal.list({
@@ -199,9 +201,9 @@ bxRest.crm.deal.list({
 })
 ```
 
-## Usage in Angular
+## Использование в Angular
 
-Register the public clients and `Navvy` when you want to inject them into Angular services or components:
+Зарегистрируйте публичные клиенты и `Navvy`, когда нужно внедрять их в сервисы или компоненты Angular:
 
 ```typescript
 import { ApplicationConfig, Provider } from '@angular/core'
@@ -242,7 +244,7 @@ export const appConfig: ApplicationConfig = {
 }
 ```
 
-Example component:
+Пример компонента:
 
 ```typescript
 import { Component, inject } from '@angular/core'
@@ -267,7 +269,7 @@ export class ListComponent {
 
 ## SessionKeyServices
 
-`SessionKeyServices` is available from the public API and can be used when you need to inspect the current authorization data before making REST requests.
+`SessionKeyServices` доступен из публичного API и может использоваться, когда нужно проверить текущие данные авторизации перед выполнением REST-запросов.
 
 ```typescript
 import { BXRestSettings, SessionKeyServices, SessionKeyError } from 'bx-rest'
@@ -306,7 +308,7 @@ session.getBaseUrl().subscribe((baseUrl) => {
 })
 ```
 
-## Usage in Vue
+## Использование в Vue
 
 ```typescript
 import type { Plugin } from 'vue'
@@ -349,9 +351,9 @@ app.use(bxRestPlugin)
 app.mount('#app')
 ```
 
-## Usage in React
+## Использование в React
 
-Create the client outside the component and unsubscribe when the component is unmounted:
+Создавайте клиент вне компонента и отписывайтесь при размонтировании компонента:
 
 ```tsx
 import { useEffect, useState } from 'react'
@@ -379,15 +381,15 @@ export function Deals() {
 }
 ```
 
-## Custom REST methods
+## Кастомные REST-методы
 
-`Navvy` is exported from `bx-rest`. In Angular, register the `NavvyProvider` shown above and inject `Navvy` into your custom API service. A method URL is represented as an array and is joined with dots before the request is sent.
+`Navvy` экспортируется из `bx-rest`. В Angular зарегистрируйте показанный выше `NavvyProvider` и внедрите `Navvy` в ваш кастомный API-сервис. URL метода представлен массивом и перед отправкой запроса соединяется точками.
 
-See the [Bitrix24 documentation](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=7985) for registering custom REST methods.
+Для регистрации кастомных REST-методов см. [документацию Bitrix24](https://dev.1c-bitrix.ru/learning/course/index.php?COURSE_ID=99&LESSON_ID=7985).
 
 ### Mapper
 
-A mapper is a regular function. It does not need to extend `BXRestMap`.
+Маппер — это обычная функция. Ей не нужно наследоваться от `BXRestMap`.
 
 ```typescript
 import {
@@ -407,9 +409,9 @@ export class BXCustomBlogMap {
 }
 ```
 
-### A custom method with `simple()`
+### Кастомный метод с `simple()`
 
-Use `simple()` when the method returns one response without automatic pagination:
+Используйте `simple()`, когда метод возвращает один ответ без автоматической пагинации:
 
 ```typescript
 import { inject, Injectable } from '@angular/core'
@@ -445,11 +447,11 @@ export class BXRestNavvyCustomApiBlog {
 }
 ```
 
-The returned helper supports `.res()`, `.resVanilla()` and `.mapForVanilla()`.
+Возвращённый хелпер поддерживает `.res()`, `.resVanilla()` и `.mapForVanilla()`.
 
-### A paginated custom method with `pagNav()`
+### Пагинированный кастомный метод с `pagNav()`
 
-Use `pagNav()` when the Bitrix response contains an array and standard `start`, `next` and `total` pagination fields. The parameter type must support `start?: number`.
+Используйте `pagNav()`, когда ответ Bitrix содержит массив и стандартные поля пагинации `start`, `next` и `total`. Тип параметра должен поддерживать `start?: number`.
 
 ```typescript
 import { inject, Injectable } from '@angular/core'
@@ -489,13 +491,13 @@ export class BXRestNavvyCustomApiBlogList {
 }
 ```
 
-The returned helper additionally supports `.resAll()` for loading and combining all pages.
+Возвращённый хелпер дополнительно поддерживает `.resAll()` для загрузки и объединения всех страниц.
 
-## Specific methods
+## Специфичные методы
 
 ### `tasks.task.list`
 
-The first generic argument selects built-in task fields. The second adds project-specific user fields:
+Первый generic-аргумент выбирает встроенные поля задачи. Второй добавляет пользовательские поля, специфичные для проекта:
 
 ```typescript
 import { BXRestNavvy } from 'bx-rest'
@@ -542,22 +544,22 @@ const tasks$ = bxRest.tasks.task.list<
 }).res()
 ```
 
-## Date parsing
+## Парсинг дат
 
-Some Bitrix24 REST fields (notably `calendar.section.get`, `calendar.event.get` and `crm.calllist.*`) return dates as plain strings formatted according to the portal's own date/time settings (Settings → date and time format) — not a fixed ISO format. Because that format is a per-portal setting, `bx-rest` can't know it in advance, so `BXBaseServices.toDate()` (used internally by these mappers) resolves an ambiguous string in three steps, in order:
+Некоторые REST-поля Bitrix24 (в частности `calendar.section.get`, `calendar.event.get` и `crm.calllist.*`) возвращают даты в виде обычных строк, отформатированных согласно собственным настройкам даты/времени портала (Настройки → формат даты и времени), а не в фиксированном формате ISO. Поскольку этот формат — настройка конкретного портала, `bx-rest` не может знать его заранее, поэтому `BXBaseServices.toDate()` (используется этими мапперами внутренне) разрешает неоднозначную строку в три шага, по порядку:
 
-1. **The format you asked for.** If you (or a mapper) pass an explicit `format` (e.g. `'dd.MM.yyyy HH:mm:ss'`), it's tried first, token by token (`yyyy`, `MM`, `dd`, `HH`, `mm`, `ss`, and their single-letter variants) with the literal separators from the format string.
-2. **A short list of known Bitrix24 formats** (`'dd.MM.yyyy HH:mm:ss'`, `'yyyy-MM-dd HH:mm:ss'`, `'dd.MM.yyyy'`, `'yyyy-MM-dd'`) — tried if step 1 didn't match, since different portals commonly send one of these.
-3. **A positional heuristic**, as a last resort — it locates the year by its unambiguous 4-digit length (whichever end of the date it's on), treats the middle segment as the month (true for both ISO and European-style dates) and reads any separator (`.`, `-`, `/`, space...). It does **not** guess in the one case that's genuinely ambiguous — a purely numeric `MM/dd` vs `dd/MM` order where both segments are ≤ 12 — and it validates ranges (month 1-12, day 1-31, hour/minute/second) rather than letting `Date` silently roll over an out-of-range value into the next month/year.
+1. **Формат, который вы указали.** Если вы (или маппер) передаёте явный `format` (например, `'dd.MM.yyyy HH:mm:ss'`), он проверяется первым, токен за токеном (`yyyy`, `MM`, `dd`, `HH`, `mm`, `ss` и их однобуквенные варианты) с буквальными разделителями из строки формата.
+2. **Небольшой список известных форматов Bitrix24** (`'dd.MM.yyyy HH:mm:ss'`, `'yyyy-MM-dd HH:mm:ss'`, `'dd.MM.yyyy'`, `'yyyy-MM-dd'`) — проверяется, если шаг 1 не подошёл, поскольку разные порталы обычно присылают один из этих форматов.
+3. **Позиционная эвристика** как последний вариант — она находит год по его однозначной 4-значной длине (независимо от того, на каком конце даты он стоит), считает средний сегмент месяцем (это верно и для ISO, и для европейского формата даты) и распознаёт любой разделитель (`.`, `-`, `/`, пробел...). Она **не** пытается угадать в единственном действительно неоднозначном случае — чисто числовой порядок `MM/dd` против `dd/MM`, когда оба сегмента ≤ 12, — и проверяет диапазоны значений (месяц 1-12, день 1-31, час/минута/секунда), а не позволяет `Date` молча перевести некорректное значение на следующий месяц/год.
 
-If you already know your portal's exact format, pass it explicitly instead of relying on auto-detection — it's always tried first and skips steps 2-3 entirely. The calendar and call-list mappers accept it as a single optional trailing `dateTimeFormat` argument, and it flows through the corresponding `BXRestNavvy` methods too. Where a mapper also has date-only fields (`calendar.event`'s `EXDATE`/`RRULE.UNTIL`), their format is derived from `dateTimeFormat` by dropping `HH:mm:ss` — day/month/year order is always the same for both on a given portal, so there's nothing extra to pass:
+Если вы точно знаете формат вашего портала, передавайте его явно вместо того, чтобы полагаться на автоопределение — он всегда проверяется первым и полностью пропускает шаги 2-3. Мапперы календаря и списка звонков принимают его как единственный необязательный завершающий аргумент `dateTimeFormat`, и он также передаётся через соответствующие методы `BXRestNavvy`. Там, где у маппера есть ещё и поля только с датой (`EXDATE`/`RRULE.UNTIL` у `calendar.event`), их формат выводится из `dateTimeFormat` отбрасыванием `HH:mm:ss` — порядок день/месяц/год всегда одинаков для обоих на конкретном портале, поэтому передавать дополнительно нечего:
 
 ```typescript
 import { BXRestNavvy } from 'bx-rest'
 
 const bxRest = new BXRestNavvy()
 
-// Portal-specific date/time format, e.g. from Settings → date and time format.
+// Формат даты/времени конкретного портала, например из Настройки → формат даты и времени.
 const dateTimeFormat = 'yyyy-MM-dd HH:mm:ss'
 
 bxRest.calendar.event.get({ FROM: '01.01.2026', TO: '31.01.2026' }, dateTimeFormat).res()
@@ -565,12 +567,12 @@ bxRest.calendar.section.get({}, dateTimeFormat).res()
 bxRest.crm.callList.get({ ID: 1 }, dateTimeFormat).res()
 ```
 
-## Future features
-- Auto get token
-- Mappers for normalization types
+## Планы на будущее
+- Автоматическое получение токена
+- Мапперы для типов нормализации
 
-Have a feature request or found a bug? Check [existing issues](https://github.com/Aricatofuka/bx-rest/issues) or open a new one.
+Есть предложение по функциональности или нашли баг? Посмотрите [существующие issues](https://github.com/Aricatofuka/bx-rest/issues) или создайте новый.
 
-## License
+## Лицензия
 
 [MIT](https://github.com/Aricatofuka/bx-rest/blob/main/LICENSE) © Aricatofuka
