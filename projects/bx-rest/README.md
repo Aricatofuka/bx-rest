@@ -1,4 +1,4 @@
-🇷🇺 **Русский** | 🇬🇧 [English](README.en.md)
+<img src="https://flagcdn.com/20x15/ru.png" width="20" height="15" alt="RU"> **Русский** | <img src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="GB"> [English](README.en.md)
 
 # bx-rest — REST API клиент Bitrix24 для TypeScript, Angular, Vue и React
 

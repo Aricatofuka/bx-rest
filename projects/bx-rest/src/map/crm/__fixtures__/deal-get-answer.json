@@ -1,0 +1,23 @@
+{
+  "ID": "142",
+  "TITLE": "Website redesign",
+  "TYPE_ID": "SALE",
+  "STAGE_ID": "NEW",
+  "CURRENCY_ID": "USD",
+  "COMPANY_ID": "34",
+  "CONTACT_ID": "56",
+  "ASSIGNED_BY_ID": "1",
+  "CREATED_BY_ID": "1",
+  "MODIFY_BY_ID": "1",
+  "DATE_CREATE": "2024-01-05T09:03:07+03:00",
+  "DATE_MODIFY": "2024-01-10T12:00:00+03:00",
+  "BEGINDATE": "2024-01-05T00:00:00+03:00",
+  "CLOSEDATE": "2024-02-01T00:00:00+03:00",
+  "OPENED": "Y",
+  "IS_MANUAL_OPPORTUNITY": "N",
+  "OPPORTUNITY": "15000.5",
+  "PROBABILITY": "60",
+  "TAX_VALUE": "0",
+  "LOCATION_ID": "0",
+  "COMMENTS": "Initial scope discussed with the client."
+}

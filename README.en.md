@@ -1,6 +1,6 @@
 <!-- This file is generated from projects/bx-rest/README.en.md by `npm run sync-readme`. Do not edit directly. -->
 
-🇷🇺 [Русский](README.md) | 🇬🇧 **English**
+<img src="https://flagcdn.com/20x15/ru.png" width="20" height="15" alt="RU"> [Русский](README.md) | <img src="https://flagcdn.com/20x15/gb.png" width="20" height="15" alt="GB"> **English**
 
 # bx-rest - Bitrix24 REST API client for TypeScript, Angular, Vue and React
 

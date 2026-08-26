@@ -42,10 +42,9 @@ export class HttpServices extends BaseHttp {
 
         const fullUrl = prepareBaseAddress(baseUrl) + url
         if (this.session.getKeyAuth() === 'sessid') {
-          const body = this.getHttpParamsPost(paramsClone, new FormData(), [], settings)
           const urlEncodedBody = new URLSearchParams()
 
-          Object.keys(body).forEach((key) => {
+          Object.keys(paramsClone).forEach((key) => {
             const value = paramsClone[key]
 
             if (typeof value === 'object' && value !== null) {
