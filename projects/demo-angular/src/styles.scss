@@ -1,0 +1,175 @@
+@use '@angular/material' as mat;
+
+// Тёмная тема Material целиком (не адаптивная light/dark) — страница и
+// так тёмная (сама Windows/браузер в тёмном режиме), а старая "indigo-pink"
+// это фиксированная светлая тема: отсюда и эффект далматинца — тёмный фон
+// страницы и белые карточки Material поверх него.
+html {
+  color-scheme: dark;
+
+  @include mat.theme(
+    (
+      color: (
+        theme-type: dark,
+        primary: mat.$violet-palette,
+        tertiary: mat.$blue-palette
+      ),
+      typography: Roboto,
+      density: 0
+    )
+  );
+}
+
+* {
+  box-sizing: border-box;
+}
+
+code,
+pre {
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+/* Стили дочерних компонентов (connection-form, recipe-picker, result-panel)
+   вынесены сюда, а не в app.component.css, чтобы не заводить ::ng-deep —
+   у самих компонентов нет собственных styleUrl. Сами поля/кнопки/карточки
+   рисует Angular Material — здесь только раскладка и цветовые акценты. */
+
+.connection-form__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: start;
+}
+
+.connection-form__field {
+  min-width: 220px;
+}
+
+.connection-form__field--grow {
+  flex: 1 1 240px;
+}
+
+.connection-form__connect {
+  margin-top: 8px;
+}
+
+.connection-form__mode-hint {
+  margin: 0 0 10px;
+  font-size: 12px;
+  color: var(--mat-sys-on-surface-variant);
+  font-style: italic;
+}
+
+.connection-form__hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.connection-form__status {
+  color: #3fb950;
+  font-weight: 600;
+}
+
+.recipe-picker {
+  margin-bottom: 12px;
+}
+
+.recipe-picker mat-chip {
+  cursor: pointer;
+}
+
+.result-panel__empty {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 13px;
+}
+
+.result-card {
+  margin-bottom: 10px;
+  border-left: 4px solid var(--mat-sys-outline-variant);
+}
+
+.result-card--error {
+  border-left-color: #f85149;
+}
+
+.result-card--next,
+.result-card--complete {
+  border-left-color: #3fb950;
+}
+
+.result-card__body {
+  margin: 0;
+  font-size: 12px;
+  max-height: 300px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
+
+/* Подсветка JSON в панели результата — цвета как в редакторе Monaco (тема
+   vs-dark), чтобы результат не выглядел куском невзрачного plain text. */
+.json-key {
+  color: #9cdcfe;
+}
+
+.json-string {
+  color: #ce9178;
+}
+
+.json-number {
+  color: #b5cea8;
+}
+
+.json-boolean,
+.json-null {
+  color: #569cd6;
+}
+
+.json-undefined {
+  color: var(--mat-sys-on-surface-variant);
+  font-style: italic;
+}
+
+.toast {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 360px;
+  padding: 12px 14px;
+  background: var(--mat-sys-surface-container-high);
+  border: 1px solid #f85149;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  color: var(--mat-sys-on-surface);
+  font-size: 13px;
+  line-height: 1.4;
+  z-index: 1000;
+}
+
+.toast__close {
+  margin-left: auto;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.toast__close:hover {
+  color: var(--mat-sys-on-surface);
+}

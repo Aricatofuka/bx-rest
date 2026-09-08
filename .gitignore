@@ -29,6 +29,13 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
+# Демо-приложения (projects/demo-*) — независимые проекты со своим
+# node_modules/сборкой, не участвующие в корневой сборке/линте/тестах.
+projects/demo-*/node_modules
+projects/demo-*/dist
+projects/demo-angular/.angular
+projects/demo-shared/src/generated
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/

@@ -17,11 +17,13 @@ Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix 
 - [Quick Start](#quick-start)
   - [Result modes](#result-modes)
 - [Authentication and OAuth2](#authentication-and-oauth2)
+  - [`withCredentials`](#withcredentials)
 - [Error handling](#error-handling)
 - [Usage in Angular](#usage-in-angular)
 - [SessionKeyServices](#sessionkeyservices)
 - [Usage in Vue](#usage-in-vue)
 - [Usage in React](#usage-in-react)
+- [Demo](#demo)
 - [Custom REST methods](#custom-rest-methods)
   - [Mapper](#mapper)
   - [A custom method with `simple()`](#a-custom-method-with-simple)
@@ -107,13 +109,34 @@ REST calls are lazy: the request starts when the returned `Observable` is subscr
 | Scenario | `auth.source` | `auth.key` | Behaviour |
 | --- | --- | --- | --- |
 | Access token from application state | `() => accessToken` | `auth` | Calls the function before each request and sends its value in the `auth` parameter. Recommended for OAuth2 access tokens managed by the application. |
-| Access token in local storage | `localStorage` | `auth` | Reads `localStorage["auth"]` and sends it as `auth`. |
-| Access token in a cookie | `cookies` | `auth` | Reads the `auth` cookie and sends it as `auth`. |
+| Access token in local storage | `localStorage` | `auth` | Reads `localStorage["auth"]` and sends it as `auth`. The value is fully readable by any JS on the page (including via XSS) — a good fit for local development/prototyping; for production, prefer the function-based source managed by your application. |
+| Access token in a cookie | `cookies` | `auth` | Reads the `auth` cookie via `document.cookie` and sends it as `auth`. Your own JS code reads the cookie, so it can't be `HttpOnly` — from an XSS-protection standpoint this is no safer than `localStorage`. Like the previous option, mainly useful for local development. |
 | Embedded Bitrix page / local session | `cookies` | `sessid` | Tries `window.BX.bitrix_sessid()`, the `sessid` query parameter, `localStorage.sessid`, then the `auth` cookie. Sends the resolved value as `sessid`. |
-| Incoming webhook or URL that already contains authorization | `off` | Any value | Skips credential lookup and does not add an authorization parameter. |
-| Cookie-based credential request | Any source returning a non-empty value | `OAuth2` | Does not append the resolved value to request params and enables Axios `withCredentials`. Use only when the portal and CORS policy support credential cookies. |
+| Incoming webhook, an already-authorized URL, or your own proxy | `off` | Any value | Skips credential lookup and does not add an authorization parameter — used both for webhooks (the secret is already in the URL) and for routing through your own backend proxy (the secret stays server-side, the browser never sees it). For the proxy case, if it authenticates the browser with its own session cookie, see `withCredentials` below. |
+| Cookie-based credential request | Any source returning a non-empty value | `OAuth2` | Does not append the resolved value to request params and, by default, enables Axios `withCredentials` (unless overridden by the `withCredentials` setting, see below). Use only when the portal and CORS policy support credential cookies — also keep in mind that modern browsers increasingly block third-party cookies by default. |
 
 For a regular Bitrix OAuth2 `access_token`, use `auth.key: 'auth'` and provide the current token through a function or `localStorage`. The special `auth.key: 'OAuth2'` mode is for credential cookies; it does not send an OAuth access token by itself.
+
+### `withCredentials`
+
+By default, the axios `withCredentials` option (whether to attach browser cookies to the request) is only enabled for `auth.key: 'OAuth2'`. If you need it in another case — e.g. `auth.source: 'off'` points at your own proxy, and the browser should attach *that proxy's* session cookie (not Bitrix24's) — set `withCredentials` explicitly, independent of `auth.key`:
+
+```typescript
+BXRestSettings.update({
+  auth: {
+    source: 'off',
+    key: 'auth'
+  },
+  urls: {
+    source: 'string',
+    key: 'https://your-proxy.example.com/bitrix-proxy',
+    additional_part: ''
+  },
+  withCredentials: true
+})
+```
+
+An explicit value always takes priority over the "only for `OAuth2`" rule — you can also force `withCredentials` off for `auth.key: 'OAuth2'` if you don't need it.
 
 For an incoming webhook URL, keep the full webhook path in `urls.key`, set `additional_part` to an empty string and disable additional authorization:
 
@@ -380,6 +403,31 @@ export function Deals() {
   return <pre>{JSON.stringify(deals, null, 2)}</pre>
 }
 ```
+
+## Demo
+
+There are three independent demo apps in [`projects/`](../) — Angular, Vue
+and React (`demo-angular`, `demo-vue`, `demo-react`). Each one has a
+connection form covering every scenario from the "Authentication and OAuth2"
+section above (not just an access token and a webhook), a Monaco-based code
+editor with real autocompletion from `bx-rest`'s own types (not a plain text
+box or a request-builder form), and a result panel that actually runs the
+code you write against your portal. The UI switches between Russian and
+English automatically based on the browser/OS language. The shared logic
+(Monaco typings, code execution, ready-made snippets, i18n) lives in
+`projects/demo-shared` — the three demos mainly differ in the integration
+style (a DI provider in Angular, a plugin in Vue, a singleton + hook in
+React — see the sections above) and, for Angular, in the UI library
+(Angular Material — the idiomatic choice for that framework).
+
+Run from the repository root:
+
+```shell
+npm run demo:bootstrap
+```
+
+Then, in any of `projects/demo-angular|demo-vue|demo-react`: `npm run dev`
+(for Angular, `npm start`). See each demo's own README for details.
 
 ## Custom REST methods
 

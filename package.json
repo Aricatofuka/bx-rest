@@ -92,6 +92,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "pack:dist": "npm pack ./dist/bx-rest",
+    "demo:bootstrap": "node scripts/bootstrap-demos.mjs",
     "prepublishOnly": "node -e \"throw new Error('Do not publish from repository root. Run npm run publish:dist.')\"",
     "publish:dist": "npm run build && npm publish ./dist/bx-rest"
   }

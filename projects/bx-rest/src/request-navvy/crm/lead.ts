@@ -1,4 +1,5 @@
 import { Navvy } from '../../services/navvy'
+import { lowerCaseOrder } from '../../functions/lowerCaseOrder'
 import { $add, $crm, $delete, $fields, $get, $lead, $list, $update } from '../../consts/part-name-methods'
 import {
   iBXRestParamCrmLeadAdd,
@@ -86,7 +87,11 @@ export class BXRestNavvyCrmLead {
   list(param: iBXRestParamCrmLeadList) {
     return this.Navvy.pagNav(
       this.url.list,
-      param,
+      // crm.lead.list ждёт order в нижнем регистре ('asc'/'desc'), в отличие
+      // от остального REST API — публичный тип унифицирован на iBXRestParamSort
+      // ('ASC'/'DESC'), а тут приводим обратно к тому, что реально нужно
+      // отправить на бэкенд. См. lowerCaseOrder.
+      { ...param, order: lowerCaseOrder(param.order) },
       BXRestMapCrmLead.list
     )
   }

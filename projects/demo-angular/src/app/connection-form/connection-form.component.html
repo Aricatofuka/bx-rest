@@ -1,0 +1,49 @@
+<div class="connection-form__row">
+  <mat-form-field appearance="outline" class="connection-form__field">
+    <mat-label>{{ t.connection.authModeLabel }}</mat-label>
+    <mat-select [ngModel]="connection.authMode" (ngModelChange)="patch('authMode', $event)">
+      @for (mode of authModes; track mode) {
+        <mat-option [value]="mode">{{ t.connection.modes[mode].label }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  @if (meta.needsPortalUrl) {
+    <mat-form-field appearance="outline" class="connection-form__field connection-form__field--grow">
+      <mat-label>{{ t.connection.portalUrlLabel }}</mat-label>
+      <input
+        matInput
+        type="text"
+        [placeholder]="t.connection.portalUrlPlaceholder"
+        [ngModel]="connection.portalUrl"
+        (ngModelChange)="patch('portalUrl', $event)"
+      />
+    </mat-form-field>
+  }
+
+  @if (meta.valueKind !== 'none') {
+    <mat-form-field appearance="outline" class="connection-form__field connection-form__field--grow">
+      <mat-label>{{ meta.valueKind === 'webhookUrl' ? t.connection.webhookLabel : t.connection.tokenLabel }}</mat-label>
+      <input
+        matInput
+        [type]="meta.valueKind === 'token' ? 'password' : 'text'"
+        [placeholder]="meta.valueKind === 'webhookUrl' ? t.connection.webhookPlaceholder : t.connection.tokenPlaceholder"
+        [ngModel]="connection.value"
+        (ngModelChange)="patch('value', $event)"
+      />
+    </mat-form-field>
+  }
+
+  <button mat-raised-button color="primary" class="connection-form__connect" [disabled]="!isValid" (click)="connect.emit()">
+    {{ applied ? t.connection.reconnectButton : t.connection.connectButton }}
+  </button>
+</div>
+
+<p class="connection-form__mode-hint">{{ modeStrings.hint }}</p>
+
+<p class="connection-form__hint">
+  {{ t.connection.privacyHint }}
+  @if (applied) {
+    <span class="connection-form__status"> {{ t.connection.appliedStatus }}</span>
+  }
+</p>

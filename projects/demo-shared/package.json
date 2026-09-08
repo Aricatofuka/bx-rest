@@ -1,0 +1,22 @@
+{
+  "name": "bx-rest-demo-shared",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Общая логика демо-приложений bx-rest (Angular/Vue/React): подключение к порталу, настройка автодополнения Monaco по типам bx-rest, песочница выполнения кода, сниппеты.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "generate-typings": "node scripts/generate-typings.mjs",
+    "build": "npm run generate-typings && tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "bx-rest": "file:../../dist/bx-rest",
+    "rxjs": "^7.8.1",
+    "typescript": "~5.5.4"
+  },
+  "devDependencies": {
+    "monaco-editor": "^0.52.0",
+    "@types/node": "^22.20.1"
+  }
+}
