@@ -24,7 +24,15 @@ export class SessionKeyServices {
     authData: new Subscription()
   }
 
-  private readonly BX_REST_SETTINGS = BXRestSettings.date
+  // Геттер, а не поле с одноразовым снимком: BXRestSettings.update() создаёт
+  // НОВЫЙ объект (this.date = {...this.date, ...}), а не мутирует старый —
+  // поэтому `= BXRestSettings.date` в виде обычного поля навсегда
+  // "заморозил" бы то, что было на момент создания SessionKeyServices.
+  // Геттер вместо этого читает актуальный BXRestSettings.date при каждом
+  // обращении.
+  private get BX_REST_SETTINGS() {
+    return BXRestSettings.date
+  }
 
   constructor(
   ) {
@@ -65,6 +73,18 @@ export class SessionKeyServices {
     } else {
       return 'auth'
     }
+  }
+
+  /**
+   * Стоит ли прикладывать браузерные cookie к запросу (axios `withCredentials`).
+   * Явный `BXRestSettings.withCredentials` имеет приоритет; если не задан —
+   * сохраняется историческое поведение: включаем только для `auth.key === 'OAuth2'`.
+   */
+  getWithCredentials(): boolean {
+    if (typeof this.BX_REST_SETTINGS.withCredentials === 'boolean') {
+      return this.BX_REST_SETTINGS.withCredentials
+    }
+    return this.getKeyAuth() === 'OAuth2'
   }
 
   getSessid() {

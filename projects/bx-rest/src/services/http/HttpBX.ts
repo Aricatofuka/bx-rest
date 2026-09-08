@@ -1,4 +1,4 @@
-import { Observable, throwError, forkJoin, from } from 'rxjs'
+import { Observable, throwError, forkJoin, from, defer } from 'rxjs'
 import clone from 'just-clone'
 import { HttpServices } from './http'
 import {
@@ -91,51 +91,58 @@ export class HttpBXServices extends HttpServices {
   }
 
   override httpPost<T>(url: string, params: any = {}): Observable<T | undefined> {
-    const paramsClone = clone(params)
-    const key = this.session.getKeyAuth()
-    const auth = this.session.getAuthParams()
-    const checkIsOn = this.session.getCheckAuthParamsIsOn()
+    // defer() откладывает всё содержимое (в том числе чтение BXRestSettings
+    // через this.session.*) до реальной подписки — иначе даже с "живым"
+    // геттером в SessionKeyServices настройки читались бы в момент вызова
+    // .res(), а не в момент subscribe()/firstValueFrom(), что и обещано
+    // в README как поведение "ленивого" REST-вызова.
+    return defer(() => {
+      const paramsClone = clone(params)
+      const key = this.session.getKeyAuth()
+      const auth = this.session.getAuthParams()
+      const checkIsOn = this.session.getCheckAuthParamsIsOn()
 
-    if (checkIsOn) {
-      if (!auth) {
-        return throwError(() => this.session.getAuthError('post'))
-      }
-
-      if (key !== 'OAuth2') {
-        paramsClone[key] = auth
-      }
-    }
-
-    return this.session.getBaseUrl().pipe(
-      switchMap((baseUrl) => {
-        if (!baseUrl) {
-          return throwError(() => this.session.getBaseUrlError('post'))
+      if (checkIsOn) {
+        if (!auth) {
+          return throwError(() => this.session.getAuthError('post'))
         }
 
-        const fullUrl = prepareBaseAddress(baseUrl) + url
+        if (key !== 'OAuth2') {
+          paramsClone[key] = auth
+        }
+      }
 
-        if (key === 'sessid') {
-          // Преобразуем параметры в формат x-www-form-urlencoded
-          const bodyString = this.serializeBitrixParams(paramsClone)
+      return this.session.getBaseUrl().pipe(
+        switchMap((baseUrl) => {
+          if (!baseUrl) {
+            return throwError(() => this.session.getBaseUrlError('post'))
+          }
+
+          const fullUrl = prepareBaseAddress(baseUrl) + url
+
+          if (key === 'sessid') {
+            // Преобразуем параметры в формат x-www-form-urlencoded
+            const bodyString = this.serializeBitrixParams(paramsClone)
+            return from(
+              this.axiosInstance.post<T>(fullUrl, bodyString, {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+              }).then((response) => response.data)
+            )
+          }
+
           return from(
-            this.axiosInstance.post<T>(fullUrl, bodyString, {
-              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            }).then((response) => response.data)
-          )
-        }
-
-        return from(
-          this.axiosInstance.post<T>(fullUrl, paramsClone,
-            {
-              withCredentials: key === 'OAuth2',
-              headers: {
-                'Content-Type': 'application/json',
+            this.axiosInstance.post<T>(fullUrl, paramsClone,
+              {
+                withCredentials: this.session.getWithCredentials(),
+                headers: {
+                  'Content-Type': 'application/json',
+                }
               }
-            }
-          ).then((response) => response.data)
-        )
-      })
-    )
+            ).then((response) => response.data)
+          )
+        })
+      )
+    })
   }
 
   serializeBitrixParams(params: unknown): string {

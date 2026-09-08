@@ -118,5 +118,105 @@ describe('HttpBXServices', () => {
       const [url] = postSpy.mock.calls[0]
       expect(url).toContain('api/crm.deal.get')
     })
+
+    describe('lazy settings resolution', () => {
+    it('a BXRestSettings change made after httpPost() is called, but before subscribe, is honored (not what was current at call time)', async () => {
+      let token = ''
+      BXRestSettings.update({
+        auth: { source: () => token, key: 'auth' },
+        urls: { source: 'string', key: 'https://example.bitrix24.ru', additional_part: 'rest' }
+      })
+      const http = new HttpBXServices()
+      const postSpy = vi
+        .spyOn((http as any).axiosInstance, 'post')
+        .mockResolvedValue({ data: { result: 'ok' } })
+
+      // Observable создан здесь, но ещё не подписан — если бы настройки
+      // читались в момент этого вызова (а не в момент подписки), auth.source()
+      // выполнился бы прямо сейчас, с ещё пустым token.
+      const result$ = http.post(['crm', 'deal', 'get'], { ID: 1 })
+
+      token = 'REAL_TOKEN'
+
+      await firstValueFrom(result$)
+
+      const [, body] = postSpy.mock.calls[0] as [string, any]
+      expect(body.auth).toBe('REAL_TOKEN')
+    })
+
+    it('a base URL set after httpPost() is called, but before subscribe, is honored', async () => {
+      BXRestSettings.update({
+        auth: { source: 'off', key: 'auth' },
+        urls: { source: 'string', key: '', additional_part: 'rest' }
+      })
+      const http = new HttpBXServices()
+      const postSpy = vi
+        .spyOn((http as any).axiosInstance, 'post')
+        .mockResolvedValue({ data: { result: 'ok' } })
+
+      const result$ = http.post(['crm', 'deal', 'get'], { ID: 1 })
+
+      BXRestSettings.update({ urls: { source: 'string', key: 'https://example.bitrix24.ru', additional_part: 'rest' } })
+
+      await firstValueFrom(result$)
+
+      const [url] = postSpy.mock.calls[0]
+      expect(url).toContain('https://example.bitrix24.ru')
+    })
+  })
+
+  describe('withCredentials', () => {
+      it('no explicit setting, key !== "OAuth2" -> false (historical default)', async () => {
+        BXRestSettings.update({ auth: { source: 'off', key: 'auth' } })
+        const http = new HttpBXServices()
+        const postSpy = vi
+          .spyOn((http as any).axiosInstance, 'post')
+          .mockResolvedValue({ data: { result: 'ok' } })
+
+        await firstValueFrom(http.post(['crm', 'deal', 'get'], { ID: 1 }))
+
+        const [, , config] = postSpy.mock.calls[0] as [string, unknown, any]
+        expect(config.withCredentials).toBe(false)
+      })
+
+      it('no explicit setting, key === "OAuth2" -> true (historical default)', async () => {
+        BXRestSettings.update({ auth: { source: 'off', key: 'OAuth2' } })
+        const http = new HttpBXServices()
+        const postSpy = vi
+          .spyOn((http as any).axiosInstance, 'post')
+          .mockResolvedValue({ data: { result: 'ok' } })
+
+        await firstValueFrom(http.post(['crm', 'deal', 'get'], { ID: 1 }))
+
+        const [, , config] = postSpy.mock.calls[0] as [string, unknown, any]
+        expect(config.withCredentials).toBe(true)
+      })
+
+      it('explicit withCredentials: true overrides key !== "OAuth2" (e.g. own proxy with a session cookie)', async () => {
+        BXRestSettings.update({ auth: { source: 'off', key: 'auth' }, withCredentials: true })
+        const http = new HttpBXServices()
+        const postSpy = vi
+          .spyOn((http as any).axiosInstance, 'post')
+          .mockResolvedValue({ data: { result: 'ok' } })
+
+        await firstValueFrom(http.post(['crm', 'deal', 'get'], { ID: 1 }))
+
+        const [, , config] = postSpy.mock.calls[0] as [string, unknown, any]
+        expect(config.withCredentials).toBe(true)
+      })
+
+      it('explicit withCredentials: false overrides key === "OAuth2"', async () => {
+        BXRestSettings.update({ auth: { source: 'off', key: 'OAuth2' }, withCredentials: false })
+        const http = new HttpBXServices()
+        const postSpy = vi
+          .spyOn((http as any).axiosInstance, 'post')
+          .mockResolvedValue({ data: { result: 'ok' } })
+
+        await firstValueFrom(http.post(['crm', 'deal', 'get'], { ID: 1 }))
+
+        const [, , config] = postSpy.mock.calls[0] as [string, unknown, any]
+        expect(config.withCredentials).toBe(false)
+      })
+    })
   })
 })
