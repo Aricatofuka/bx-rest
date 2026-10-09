@@ -65,6 +65,7 @@
   },
   "sideEffects": false,
   "devDependencies": {
+    "@angular-devkit/architect-cli": "^0.1802.21",
     "@angular-devkit/build-angular": "^18.2.11",
     "@angular-eslint/builder": "^19.0.2",
     "@angular-eslint/eslint-plugin": "^19.0.2",
@@ -88,8 +89,8 @@
     "sync-license": "node scripts/sync-license.mjs",
     "sync-changelog": "node scripts/sync-changelog.mjs",
     "prebuild": "npm run sync-readme && npm run sync-license && npm run sync-changelog",
-    "build": "ng build bx-rest",
-    "lint": "ng lint",
+    "build": "architect bx-rest:build",
+    "lint": "architect bx-rest:lint",
     "test": "vitest run",
     "test:watch": "vitest",
     "pack:dist": "npm pack ./dist/bx-rest",
