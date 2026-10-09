@@ -6,9 +6,7 @@ export interface iBXRestTaskComment extends iBXRestTaskCommentBase {
 }
 
 export interface iBXRestTaskCommentHtml extends iBXRestTaskCommentBase {
-  ATTACHED_OBJECTS?: {
-    [key: number]: iCommentTaskFileHtml
-  }
+  ATTACHED_OBJECTS?: Record<number, iCommentTaskFileHtml>
   AUTHOR_ID: string
   ID: string
   POST_DATE: string

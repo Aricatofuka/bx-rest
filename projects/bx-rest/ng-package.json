@@ -19,6 +19,7 @@
   },
   "assets": [
     "LICENSE",
-    "README.en.md"
+    "README.en.md",
+    "CHANGELOG.md"
   ]
 }

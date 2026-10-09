@@ -25,13 +25,13 @@ export class SessionKeyServices {
   }
 
   // Геттер, а не поле с одноразовым снимком: BXRestSettings.update() создаёт
-  // НОВЫЙ объект (this.date = {...this.date, ...}), а не мутирует старый —
-  // поэтому `= BXRestSettings.date` в виде обычного поля навсегда
+  // НОВЫЙ объект (this.value = {...this.value, ...}), а не мутирует старый —
+  // поэтому `= BXRestSettings.value` в виде обычного поля навсегда
   // "заморозил" бы то, что было на момент создания SessionKeyServices.
-  // Геттер вместо этого читает актуальный BXRestSettings.date при каждом
+  // Геттер вместо этого читает актуальный BXRestSettings.value при каждом
   // обращении.
   private get BX_REST_SETTINGS() {
-    return BXRestSettings.date
+    return BXRestSettings.value
   }
 
   constructor(

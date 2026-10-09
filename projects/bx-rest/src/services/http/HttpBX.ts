@@ -14,7 +14,7 @@ import { serializeBitrixParams as stringifyBitrixParams } from '../../functions/
 export class HttpBXServices extends HttpServices {
 
   /**
-   * Это пиздец а не метод
+   * Не считайте этот метод образцом/финальным API.
    * TODO: Удалить данный метод после реализации его в разделе Navvy
    * @param param
    */
@@ -139,6 +139,42 @@ export class HttpBXServices extends HttpServices {
                 }
               }
             ).then((response) => response.data)
+          )
+        })
+      )
+    })
+  }
+
+  override httpGet<T>(url: string, params: any = {}): Observable<T | undefined> {
+    // Та же причина, что и у httpPost выше: откладываем чтение BXRestSettings
+    // до подписки, чтобы `get()` вёл себя так же "лениво", как и `post()`
+    // (симметрия, которой не было до этого — GET резолвил настройки в момент
+    // вызова, а не в момент subscribe()).
+    return defer(() => {
+      const paramsClone = clone(params)
+      const auth = this.session.getAuthParams()
+      const checkIsOn = this.session.getCheckAuthParamsIsOn()
+
+      if (checkIsOn) {
+        if (!auth) {
+          return throwError(() => this.session.getAuthError('get'))
+        }
+
+        paramsClone[this.session.getKeyAuth()] = auth
+      }
+
+      return this.session.getBaseUrl().pipe(
+        switchMap((baseUrl) => {
+          if (!baseUrl) {
+            return throwError(() => this.session.getBaseUrlError('get'))
+          }
+
+          const fullUrl = prepareBaseAddress(baseUrl) + url
+          const queryString = new URLSearchParams(paramsClone).toString()
+          const finalUrl = `${fullUrl}?${queryString}`
+
+          return from(
+            this.axiosInstance.get<T>(finalUrl).then((response) => response.data)
           )
         })
       )

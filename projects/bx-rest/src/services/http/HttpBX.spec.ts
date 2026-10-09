@@ -6,7 +6,7 @@ import { iBatchRequestAnswer } from '../../typification/rest/batch/batchRequestP
 
 describe('HttpBXServices', () => {
   afterEach(() => {
-    BXRestSettings.date = { ...DEFAULT_BX_REST_SETTINGS }
+    BXRestSettings.value = { ...DEFAULT_BX_REST_SETTINGS }
     vi.restoreAllMocks()
   })
 
@@ -162,6 +162,53 @@ describe('HttpBXServices', () => {
 
       const [url] = postSpy.mock.calls[0]
       expect(url).toContain('https://example.bitrix24.ru')
+    })
+  })
+
+  describe('httpGet (Bitrix-specific override)', () => {
+    describe('lazy settings resolution', () => {
+      it('a BXRestSettings change made after httpGet() is called, but before subscribe, is honored (not what was current at call time)', async () => {
+        let token = ''
+        BXRestSettings.update({
+          auth: { source: () => token, key: 'auth' },
+          urls: { source: 'string', key: 'https://example.bitrix24.ru', additional_part: 'rest' }
+        })
+        const http = new HttpBXServices()
+        const getSpy = vi
+          .spyOn((http as any).axiosInstance, 'get')
+          .mockResolvedValue({ data: { result: 'ok' } })
+
+        // Observable создан здесь, но ещё не подписан — та же проверка, что и
+        // для httpPost, но на httpGet.
+        const result$ = http.get(['crm', 'deal', 'list'])
+
+        token = 'REAL_TOKEN'
+
+        await firstValueFrom(result$)
+
+        const [url] = getSpy.mock.calls[0] as [string]
+        expect(url).toContain('auth=REAL_TOKEN')
+      })
+
+      it('a base URL set after httpGet() is called, but before subscribe, is honored', async () => {
+        BXRestSettings.update({
+          auth: { source: 'off', key: 'auth' },
+          urls: { source: 'string', key: '', additional_part: 'rest' }
+        })
+        const http = new HttpBXServices()
+        const getSpy = vi
+          .spyOn((http as any).axiosInstance, 'get')
+          .mockResolvedValue({ data: { result: 'ok' } })
+
+        const result$ = http.get(['crm', 'deal', 'list'])
+
+        BXRestSettings.update({ urls: { source: 'string', key: 'https://example.bitrix24.ru', additional_part: 'rest' } })
+
+        await firstValueFrom(result$)
+
+        const [url] = getSpy.mock.calls[0] as [string]
+        expect(url).toContain('https://example.bitrix24.ru')
+      })
     })
   })
 

@@ -6,13 +6,13 @@ const PLACE_HOLDER_REGEXP = new RegExp('(\\\\)?"@__(F|R|D|M|S|A|U|I|B|L)-' + UID
 const IS_NATIVE_CODE_REGEXP = /\{\s*\[native code]\s*}/g
 const IS_PURE_FUNCTION = /function.*?\(/
 const IS_ARROW_FUNCTION = /.*?=>.*?/
-const UNSAFE_CHARS_REGEXP = /[<>\/\u2028\u2029]/g
+const UNSAFE_CHARS_REGEXP = /[<>/\u2028\u2029]/g
 
 const RESERVED_SYMBOLS = ['*', 'async']
 
 // Mapping of unsafe HTML and invalid JavaScript line terminator chars to their
 // Unicode char counterparts which are safe to use in JavaScript strings.
-const ESCAPED_CHARS: {[key: string]: string}  = {
+const ESCAPED_CHARS: Record<string, string>  = {
   '<': '\\u003C',
   '>': '\\u003E',
   '/': '\\u002F',
@@ -21,14 +21,14 @@ const ESCAPED_CHARS: {[key: string]: string}  = {
 }
 
 function escapeUnsafeChars(unsafeChar: string): string {
-  return (ESCAPED_CHARS.hasOwnProperty(unsafeChar)) ? ESCAPED_CHARS[unsafeChar] : ''
+  return (Object.prototype.hasOwnProperty.call(ESCAPED_CHARS, unsafeChar)) ? ESCAPED_CHARS[unsafeChar] : ''
 }
 
 function generateUID() {
   let bytes = window.crypto.getRandomValues(new Uint32Array(UID_LENGTH))
   let result = ''
-  for (let i = 0; i < UID_LENGTH; ++i) {
-    result += bytes[i].toString(16)
+  for (const byte of bytes) {
+    result += byte.toString(16)
   }
   return result
 }
@@ -40,8 +40,8 @@ function deleteFunctions(obj: any) {
       functionKeys.push(key)
     }
   }
-  for (let i = 0; i < functionKeys.length; i++) {
-    delete obj[functionKeys[i]]
+  for (const key of functionKeys) {
+    delete obj[key]
   }
 }
 
@@ -51,7 +51,7 @@ function serialize(obj: any, options: any = {}): any {
     options = {space: options}
   }
 
-  let functions: Function[] = []
+  let functions: ((...args: any[]) => any)[] = []
   let regexps: any[] = []
   let dates: any[] = []
   let maps: any[] = []
@@ -118,7 +118,7 @@ function serialize(obj: any, options: any = {}): any {
     return value
   }
 
-  function serializeFunc(fn: Function) {
+  function serializeFunc(fn: (...args: any[]) => any) {
     let serializedFn = fn.toString()
     if (IS_NATIVE_CODE_REGEXP.test(serializedFn)) {
       throw new TypeError('Serializing native function: ' + fn.name)

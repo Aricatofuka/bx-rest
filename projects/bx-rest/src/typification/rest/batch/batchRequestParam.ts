@@ -7,8 +7,8 @@ export interface iBatchRequestParam <T>{
     param: T
 }
 
-export type iBatchRequestParamHttp = {[key:keyBatch]: string}
+export type iBatchRequestParamHttp = Record<keyBatch, string>;
 
-export type iBatchRequestParamArr<T> = {[key:keyBatch]: iBatchRequestParam <T>}
+export type iBatchRequestParamArr<T> = Record<keyBatch, iBatchRequestParam <T>>;
 
-export type iBatchRequestAnswer<T> = iBXRestAnswer<iBXRestAnswer<{[key:keyBatch]: T}>>
+export type iBatchRequestAnswer<T> = iBXRestAnswer<iBXRestAnswer<Record<keyBatch, T>>>

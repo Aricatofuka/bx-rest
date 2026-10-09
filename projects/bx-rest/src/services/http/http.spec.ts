@@ -1,15 +1,15 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { firstValueFrom } from 'rxjs'
 import { HttpServices } from './http'
 import { BXRestSettings, DEFAULT_BX_REST_SETTINGS } from '../../settings'
 import { SessionKeyError } from './sessionKey'
 
-// BXRestSettings.date is a module-level singleton (the library's real public
+// BXRestSettings.value is a module-level singleton (the library's real public
 // config surface, see settings.ts) — save/restore it around every test so
 // these tests don't leak configuration into other spec files.
 describe('HttpServices', () => {
   afterEach(() => {
-    BXRestSettings.date = { ...DEFAULT_BX_REST_SETTINGS }
+    BXRestSettings.value = { ...DEFAULT_BX_REST_SETTINGS }
     vi.restoreAllMocks()
   })
 

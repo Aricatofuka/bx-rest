@@ -1,5 +1,5 @@
 export interface iRestLib {
-    init: Function
+    init: (callback?: () => void) => void
     getAuth: () => iRestLibGetAuth
     placement: {
         info: () => {

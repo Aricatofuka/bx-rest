@@ -70,7 +70,7 @@ export interface iBXRestHttpTask extends iBXRestBaseTask {
   additionalData: any[] // TODO: разобраться позже
   creator: iBXRestHttpTaskPeople
   responsible: iBXRestHttpTaskPeople
-  accomplicesData: { [key: number]: iBXRestHttpTaskPeople }
+  accomplicesData: Record<number, iBXRestHttpTaskPeople>
   allowTimeTracking: iBXRestYesNo,
   tags: iBXRestTaskHttpTag
 }
@@ -80,12 +80,10 @@ export interface iBXRestTaskTag {
   title: string
 }
 
-export interface iBXRestTaskHttpTag {
-  [key: string]: {
+export type iBXRestTaskHttpTag = Record<string, {
     id: string,
     title: string
-  }
-}
+  }>;
 
 export interface iBXRestHttpTaskGroupHttp {
   id: string

@@ -7,9 +7,7 @@ export interface iBXRestParamTaskGetAccess {
 }
 
 export interface iBXRestTaskGetAccess {
-  allowedActions: {
-    [key: number]: iBXRestTaskGetAccessItem
-  }
+  allowedActions: Record<number, iBXRestTaskGetAccessItem>
 }
 
 export interface iBXRestTaskGetAccessItem {
