@@ -10,7 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.11.1, 22.x]
+        # Плавающий последний патч, а не точная версия: vitest -> vite ->
+        # rolldown требует Node ^20.19.0 || >=22.12.0, а project engines
+        # (^18.19.1 || ^20.11.1 || >=22.0.0) описывает минимум для
+        # потребителей опубликованного пакета, а не для тулчейна тестов —
+        # эти два требования не обязаны совпадать.
+        node-version: [20.x, 22.x]
     steps:
       - uses: actions/checkout@v4
 
