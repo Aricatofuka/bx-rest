@@ -11,14 +11,20 @@ import {
 /** React-обёртка над connection.ts из demo-shared: состояние формы + применение к BXRestSettings. */
 export function useConnection() {
   const [connection, setConnection] = useState<Connection>(() => loadConnection() ?? EMPTY_CONNECTION)
-  const [applied, setApplied] = useState(false)
+  // Валидное сохранённое подключение считается применённым с первого рендера —
+  // начальное значение вычисляем здесь, а не через setState в эффекте ниже
+  // (это дало бы лишний повторный рендер). EMPTY_CONNECTION всегда невалиден,
+  // так что без сохранённого подключения тут false.
+  const [applied, setApplied] = useState(() => isConnectionValid(connection))
 
+  // Само применение к BXRestSettings — синхронизация с внешней системой, ему
+  // место в эффекте: так возможный тост о сбое хранилища (applyConnection пишет
+  // токен в localStorage/cookie) не потеряется — эффект ToastHost, дочернего
+  // компонента, к этому моменту уже подписался. React выполняет эффект до
+  // обработки первого клика, поэтому «Запустить» не сработает раньше него.
   useEffect(() => {
     const saved = loadConnection()
-    if (saved && isConnectionValid(saved)) {
-      applyConnection(saved)
-      setApplied(true)
-    }
+    if (saved && isConnectionValid(saved)) applyConnection(saved)
   }, [])
 
   const connect = () => {

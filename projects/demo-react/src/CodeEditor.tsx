@@ -1,5 +1,11 @@
-import Editor, { type BeforeMount } from '@monaco-editor/react'
+import Editor, { loader, type BeforeMount } from '@monaco-editor/react'
+import * as monaco from 'monaco-editor'
 import { configureBxRestTypes, DEFAULT_EDITOR_OPTIONS } from 'bx-rest-demo-shared'
+
+// Грузим monaco-editor из локального node_modules (без обращения к CDN).
+// Модуль импортируется лениво (см. App.tsx), поэтому monaco попадает в
+// отдельный чанк, а не в стартовый бандл.
+loader.config({ monaco })
 
 interface Props {
   value: string

@@ -1,13 +1,16 @@
-import { useState } from 'react'
+import { lazy, Suspense, useState } from 'react'
 import { mergeSandboxResult, recipes, runSnippet, t, type SandboxResult } from 'bx-rest-demo-shared'
 import { bxRest } from './bxRest'
 import { useConnection } from './useConnection'
 import { ConnectionForm } from './ConnectionForm'
 import { RecipePicker } from './RecipePicker'
-import { CodeEditor } from './CodeEditor'
 import { ResultPanel } from './ResultPanel'
 import { ToastHost } from './ToastHost'
 import './App.css'
+
+// Редактор тянет за собой monaco-editor (несколько МБ) — грузим его отдельным
+// чанком, чтобы форма подключения появлялась, не дожидаясь Monaco.
+const CodeEditor = lazy(() => import('./CodeEditor').then(module => ({ default: module.CodeEditor })))
 
 export default function App() {
   const { connection, setConnection, applied, connect, isValid } = useConnection()
@@ -16,7 +19,7 @@ export default function App() {
 
   const run = () => {
     setResults([])
-    runSnippet(code, {
+    void runSnippet(code, {
       bxRest,
       onResult: result => {
         setResults(prev => mergeSandboxResult(prev, result))
@@ -42,7 +45,10 @@ export default function App() {
       <main className="app__main">
         <section className="app__editor">
           <RecipePicker onPick={recipe => setCode(recipe.code)} />
-          <CodeEditor value={code} onChange={setCode} />
+          {/* Заглушка той же высоты, что и редактор, — чтобы кнопка не прыгала после загрузки. */}
+          <Suspense fallback={<div style={{ height: '360px' }} />}>
+            <CodeEditor value={code} onChange={setCode} />
+          </Suspense>
           <button type="button" className="run-button" disabled={!applied} onClick={run}>
             {t.editor.runButton}
           </button>

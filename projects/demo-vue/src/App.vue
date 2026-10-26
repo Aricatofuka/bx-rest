@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, ref } from 'vue'
+import { computed, defineAsyncComponent, h, inject, onMounted, ref } from 'vue'
 import {
   applyConnection,
   EMPTY_CONNECTION,
@@ -15,9 +15,17 @@ import {
 import { BxRestKey } from './bxRestPlugin'
 import ConnectionForm from './ConnectionForm.vue'
 import RecipePicker from './RecipePicker.vue'
-import CodeEditor from './CodeEditor.vue'
 import ResultPanel from './ResultPanel.vue'
 import ToastHost from './ToastHost.vue'
+
+// Редактор тянет за собой monaco-editor (несколько МБ) — грузим его отдельным
+// чанком, чтобы форма подключения появлялась, не дожидаясь Monaco. Пока чанк
+// грузится — заглушка той же высоты, чтобы кнопка не прыгала после загрузки.
+const CodeEditor = defineAsyncComponent({
+  loader: () => import('./CodeEditor.vue'),
+  loadingComponent: { render: () => h('div', { style: { height: '360px' } }) },
+  delay: 0
+})
 
 const bxRest = inject(BxRestKey)
 if (!bxRest) throw new Error('bxRestPlugin не установлен — проверьте app.use(bxRestPlugin) в main.ts')
@@ -49,7 +57,7 @@ const results = ref<SandboxResult[]>([])
 
 function run() {
   results.value = []
-  runSnippet(code.value, {
+  void runSnippet(code.value, {
     bxRest,
     onResult: result => {
       results.value = mergeSandboxResult(results.value, result)

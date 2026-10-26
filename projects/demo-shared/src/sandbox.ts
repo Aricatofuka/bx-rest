@@ -3,7 +3,10 @@
 // ambient-переменные `bxRest`/`show`, объявленные для Monaco в
 // monacoSetup.ts. Так не нужно городить import maps/blob-модули в браузере —
 // достаточно ts.transpileModule (снять типы) + new Function (выполнить).
-import * as ts from 'typescript'
+//
+// Сам пакет typescript (~3 МБ) грузится через import() при первом запуске
+// кода, а не статическим импортом — иначе он целиком попадал бы в стартовый
+// бандл каждого демо, хотя до нажатия «Запустить» не нужен.
 import { locale } from './i18n'
 
 const NOT_OBSERVABLE_MESSAGE = {
@@ -70,8 +73,11 @@ export function mergeSandboxResult(results: SandboxResult[], incoming: SandboxRe
  * (BXRestApiError) приходят в onResult({ status: 'error' }) точно так же,
  * как в реальном приложении они пришли бы в колбэк `error` подписки —
  * это заодно демонстрирует раздел README «Обработка ошибок».
+ *
+ * Промис никогда не отклоняется: любая ошибка, включая сбой загрузки
+ * чанка с typescript, тоже приходит в onResult.
  */
-export function runSnippet(code: string, ctx: RunSnippetContext): void {
+export async function runSnippet(code: string, ctx: RunSnippetContext): Promise<void> {
   let callCounter = 0
 
   const show = (source: unknown): void => {
@@ -94,6 +100,11 @@ export function runSnippet(code: string, ctx: RunSnippetContext): void {
 
   let transpiled: string
   try {
+    // typescript — CommonJS-пакет, и сборщики по-разному отдают его через
+    // import(): Vite — с именованными экспортами, esbuild в Angular CLI —
+    // только как default. Берём default, если он есть.
+    const tsModule = await import('typescript')
+    const ts = tsModule.default ?? tsModule
     const result = ts.transpileModule(code, {
       compilerOptions: {
         target: ts.ScriptTarget.ES2022,

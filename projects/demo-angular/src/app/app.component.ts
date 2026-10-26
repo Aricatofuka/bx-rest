@@ -80,7 +80,7 @@ export class AppComponent implements OnInit {
 
   run(): void {
     this.results = []
-    runSnippet(this.code, {
+    void runSnippet(this.code, {
       bxRest: this.bxRest,
       onResult: result => {
         this.results = mergeSandboxResult(this.results, result)

@@ -3,7 +3,7 @@
 // Зависимость от monaco-editor — только типовая (import type), сам пакет
 // подключает и грузит конкретное демо-приложение (React/Vue/Angular).
 import type * as Monaco from 'monaco-editor'
-import { typeFiles } from './generated/typeFiles'
+import type { TypeFile } from './generated/typeFiles'
 
 // declare-объявления для двух ambient-имён, которые видит код в редакторе:
 // bxRest — уже настроенный клиент, show — вывод результата Observable в UI.
@@ -21,6 +21,8 @@ let configured = false
  * Регистрирует типы bx-rest (и нужный для его сигнатур кусок rxjs) в
  * Monaco как extra libs, плюс ambient-глобалы песочницы. Вызывать один раз
  * до создания редактора (повторные вызовы безопасны, но избыточны).
+ * Сами .d.ts догружаются асинхронно (см. registerTypeFiles) — Monaco
+ * подхватывает extra libs, добавленные и после создания редактора.
  */
 export function configureBxRestTypes(monaco: typeof Monaco): void {
   if (configured) return
@@ -43,6 +45,27 @@ export function configureBxRestTypes(monaco: typeof Monaco): void {
     noSyntaxValidation: false
   })
 
+  defaults.addExtraLib(SANDBOX_AMBIENT_LIB, 'file:///bx-rest-demo-sandbox.d.ts')
+
+  void registerTypeFiles(monaco)
+}
+
+/**
+ * Сгенерированные .d.ts (~1.5 МБ) грузятся через import() отдельным чанком:
+ * они нужны только редактору, и статический импорт затащил бы их в
+ * стартовый бандл — demo-shared импортируется и из корневых компонентов.
+ */
+async function registerTypeFiles(monaco: typeof Monaco): Promise<void> {
+  const defaults = monaco.languages.typescript.typescriptDefaults
+
+  let typeFiles: TypeFile[]
+  try {
+    ;({ typeFiles } = await import('./generated/typeFiles'))
+  } catch (error) {
+    console.error('[bx-rest-demo] Не удалось загрузить типы bx-rest для редактора — автодополнение работать не будет.', error)
+    return
+  }
+
   if (typeFiles.length === 0) {
     console.warn(
       '[bx-rest-demo] Типы bx-rest не сгенерированы (projects/demo-shared/src/generated/typeFiles.ts пуст). ' +
@@ -53,8 +76,6 @@ export function configureBxRestTypes(monaco: typeof Monaco): void {
   for (const file of typeFiles) {
     defaults.addExtraLib(file.content, `file:///node_modules/${file.path}`)
   }
-
-  defaults.addExtraLib(SANDBOX_AMBIENT_LIB, 'file:///bx-rest-demo-sandbox.d.ts')
 
   // Прогреваем TS-воркер сразу, а не откладываем это до первого набора текста
   // пользователем: ему придётся один раз проиндексировать ~1000 extra libs,

@@ -7,7 +7,7 @@ import { bxRestPlugin } from './bxRestPlugin'
 
 // Стандартная для Vite настройка воркеров monaco-editor — без неё
 // TypeScript-подсказки в редакторе не заработают. Сам monaco-editor
-// импортируется в CodeEditor.vue при монтировании редактора.
+// импортируется в CodeEditor.vue, который грузится лениво (см. App.vue).
 self.MonacoEnvironment = {
   getWorker(_workerId: string, label: string) {
     if (label === 'typescript' || label === 'javascript') return new tsWorker()

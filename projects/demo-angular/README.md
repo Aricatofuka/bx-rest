@@ -83,13 +83,18 @@ npm start
 
 ## Заметки для тех, кто будет это поддерживать
 
-- Бюджет размера бандла в `angular.json` (`configurations.production.budgets`)
-  сильно завышен относительно стандартного Angular-шаблона: в бандл попадает
-  весь сгенерированный `bx-rest-demo-shared/src/generated/typeFiles.ts`
-  (реальные `.d.ts` bx-rest и rxjs, нужны для автодополнения) и пакет
-  `typescript` (нужен для выполнения кода из редактора, см.
-  `bx-rest-demo-shared/src/sandbox.ts`). Для демо это нормально; для
-  боевого приложения так делать не нужно.
+- Самые тяжёлые части демо — сгенерированный
+  `bx-rest-demo-shared/src/generated/typeFiles.ts` (реальные `.d.ts` bx-rest
+  и rxjs для автодополнения, ~2 МБ) и пакет `typescript` (выполнение кода из
+  редактора, ~3.5 МБ, см. `bx-rest-demo-shared/src/sandbox.ts`) —
+  `bx-rest-demo-shared` грузит их через `import()`, поэтому они уходят в
+  ленивые чанки, а не в стартовый бандл. Бюджет `initial` в `angular.json`
+  (`configurations.production.budgets`) — 1 МБ / 1.5 МБ при фактических
+  ~0.8 МБ (Angular Material + bx-rest): если он сработал, скорее всего
+  что-то из этого снова попало в стартовый бандл статическим импортом.
+- `typescript` — CommonJS-пакет, поэтому он явно разрешён в
+  `allowedCommonJsDependencies` (`angular.json`); без этого `ng build`
+  предупреждает о возможном ухудшении оптимизаций.
 - `source-map-support` — пакет `typescript` лениво делает
   `require('source-map-support').install()`, но только в Node-окружении (в
   браузере эта ветка не выполняется); тем не менее и dev-сервер, и `ng build`
