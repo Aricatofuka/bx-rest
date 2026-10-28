@@ -39,10 +39,13 @@ function isSubscribable(value: unknown): value is SubscribableLike {
 
 function describeError(error: unknown): unknown {
   if (error instanceof Error) {
-    const withApiFields = error as Error & { error?: unknown; error_description?: unknown }
+    // Поля BXRestApiError; cause (исходная ошибка axios) не выводим — она огромная.
+    const withApiFields = error as Error & { error?: unknown; error_description?: unknown; status?: unknown; method?: unknown }
     const described: Record<string, unknown> = { name: error.name, message: error.message }
     if (withApiFields.error !== undefined) described.error = withApiFields.error
     if (withApiFields.error_description !== undefined) described.error_description = withApiFields.error_description
+    if (withApiFields.status !== undefined) described.status = withApiFields.status
+    if (withApiFields.method !== undefined) described.method = withApiFields.method
     return described
   }
   return error

@@ -156,16 +156,27 @@ BXRestSettings.update({
 
 ## Error handling
 
-`bx-rest` surfaces two different kinds of failure, and `.res()` only reacts to one of them.
+`.res()` can fail in three ways — which one depends on how the portal answered.
 
-| Failure | When it happens | How it surfaces on `.res()` |
-| --- | --- | --- |
-| Transport / configuration errors — network failure, missing auth, missing base URL | Before or during the HTTP call | The returned `Observable` errors. Handle it with RxJS `catchError` or the `error` callback of `subscribe()`. |
-| Bitrix API errors — `{ error, error_description }`, e.g. `INSUFFICIENT_SCOPE`, `expired_token` | HTTP 200 response whose body is not a success payload | By default, `.res()` resolves normally with `undefined` — **it does not throw**. Pass `{ throwOnApiError: true }` to make it throw a `BXRestApiError` instead. |
+| Failure | How it surfaces on `.res()` |
+| --- | --- |
+| Bitrix API error with a non-2xx HTTP status — this is how Bitrix sends most errors: `expired_token` (401), `ERROR_METHOD_NOT_FOUND` (404), `QUERY_LIMIT_EXCEEDED` (503), `Not found` from `crm.*.get` (400) | The returned `Observable` errors with a `BXRestApiError`, with or without `throwOnApiError`. |
+| Bitrix API error in the body of a 2xx response | By default, `.res()` resolves normally with `undefined` — **it does not throw**. Pass `{ throwOnApiError: true }` to make it throw a `BXRestApiError` instead. |
+| Transport / configuration errors — network failure, missing auth, missing base URL, a response that is not from Bitrix (e.g. a proxy's HTML error page) | The returned `Observable` errors with a plain `Error`. |
 
-Because a Bitrix-level error resolves as `undefined` rather than as an `Observable` error by default, don't rely on plain `.res()` alone to tell "no records" apart from "the call failed". You have two options.
+`BXRestApiError` fields:
 
-**Option 1 — opt in to throwing with `.res({ throwOnApiError: true })`.** The `Observable` errors with a `BXRestApiError`, exposing `error` and `error_description`, so it can be handled alongside transport errors in a single `catchError`/`error` callback:
+| Field | Value |
+| --- | --- |
+| `error` | Bitrix error code, e.g. `expired_token`. Can be an empty string: `crm.*.get` answers a missing ID with an empty code and `Not found` in the description. |
+| `error_description` | Bitrix error description; also used as `message`. |
+| `status` | HTTP status, e.g. `401`; `undefined` when the error came in the body of a 2xx response. |
+| `method` | REST method, e.g. `crm.deal.get`. |
+| `cause` | The original axios error when the status was non-2xx; the full response body is in `cause.response.data` (for REST v3 — including `validation`). |
+
+For REST v3 methods, `error` holds the error `code` and `error_description` its `message`.
+
+**Recommended — `.res({ throwOnApiError: true })`.** Every Bitrix error then arrives as a `BXRestApiError` whatever the HTTP status, and can be handled alongside transport errors in a single `catchError`/`error` callback:
 
 ```typescript
 import { BXRestNavvy, BXRestApiError } from 'bx-rest'
@@ -180,7 +191,10 @@ bxRest.crm.deal.list({
   next: deals => console.log(deals),
   error: err => {
     if (err instanceof BXRestApiError) {
-      console.error('Bitrix API error:', err.error, err.error_description)
+      console.error('Bitrix API error:', err.status, err.error, err.error_description)
+      if (err.error === 'expired_token') {
+        // refresh the token and retry the request
+      }
     } else {
       console.error('Request failed:', err.message)
     }
@@ -188,7 +202,9 @@ bxRest.crm.deal.list({
 })
 ```
 
-**Option 2 — keep the default and check the raw response.** Call `.resVanilla()` instead and check the response with the exported `isBXRestAnswerSuccess()` type guard:
+Without `throwOnApiError`, plain `.res()` can't tell "no records" apart from "an error in a 2xx response" — both resolve as `undefined`.
+
+**Alternative — check the raw response.** `.resVanilla()` returns the raw Bitrix body for 2xx responses; check it with the exported `isBXRestAnswerSuccess()` type guard. Note that `.resVanilla()`, `.mapForVanilla()` and `.resAll()` don't convert errors: on a Bitrix error with a non-2xx status they fail with the original axios error, with the response body in `err.response.data`.
 
 ```typescript
 import { firstValueFrom } from 'rxjs'
@@ -209,19 +225,6 @@ if (!answer || !isBXRestAnswerSuccess(answer)) {
 } else {
   console.log(answer.result)
 }
-```
-
-Regardless of `throwOnApiError`, transport-level failures always propagate as `Observable` errors and can be caught the usual RxJS way:
-
-```typescript
-bxRest.crm.deal.list({
-  select: ['ID', 'TITLE'],
-  filter: {},
-  start: 0
-}).res().subscribe({
-  next: deals => console.log(deals),
-  error: err => console.error('Request failed:', err.message)
-})
 ```
 
 ## Usage in Angular

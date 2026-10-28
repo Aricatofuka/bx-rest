@@ -78,14 +78,18 @@ const tasksPaginatedCode = {
 }
 
 const errorHandlingCode = {
-  ru: `// ID заведомо не существует — Bitrix ответит ошибкой уровня API.
-// Без throwOnApiError show() тихо получил бы next(undefined).
+  ru: `// ID заведомо не существует — Bitrix ответит ошибкой API (HTTP 400,
+// "Not found"), и show() покажет BXRestApiError с кодом, статусом и методом.
+// throwOnApiError нужен для ошибок, которые Bitrix присылает в ответе 200:
+// без него такие ошибки тихо резолвятся как undefined.
 show(
   bxRest.crm.deal.get({ id: 999999999 }).res({ throwOnApiError: true })
 )
 `,
-  en: `// This ID doesn't exist — Bitrix will respond with an API-level error.
-// Without throwOnApiError, show() would silently get next(undefined).
+  en: `// This ID doesn't exist — Bitrix will respond with an API error (HTTP 400,
+// "Not found"), and show() will display a BXRestApiError with code, status and method.
+// throwOnApiError covers errors Bitrix sends in a 200 response:
+// without it, those silently resolve as undefined.
 show(
   bxRest.crm.deal.get({ id: 999999999 }).res({ throwOnApiError: true })
 )

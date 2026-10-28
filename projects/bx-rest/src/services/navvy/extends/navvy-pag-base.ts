@@ -4,14 +4,17 @@ import { catchError, map } from 'rxjs/operators'
 import { BXRestMapResult, instanceOfiBXRestAnswerSuccess } from '../../../functions/mapResult'
 import { HttpBXServices } from '../../http/HttpBX'
 import { ReturnTypeNavvy } from '../navvy-support'
-import { BXRestApiError } from '../../../functions/errors'
+import { BXRestApiError, bxRestApiErrorFromHttp, parseBXRestErrorBody } from '../../../functions/errors'
 
 export interface BXRestResOptions {
   /**
-   * When `true`, a Bitrix-level API error (`{ error, error_description }`,
-   * e.g. `INSUFFICIENT_SCOPE`, `expired_token`) makes the `Observable`
-   * returned by `.res()` error out with a `BXRestApiError` instead of
-   * resolving with `undefined`.
+   * When `true`, a Bitrix-level API error that comes in the body of a 2xx
+   * response makes the `Observable` returned by `.res()` error out with a
+   * `BXRestApiError` instead of resolving with `undefined`.
+   *
+   * Errors that Bitrix sends with a non-2xx HTTP status (most of them, e.g.
+   * `expired_token`, `INSUFFICIENT_SCOPE`) fail with `BXRestApiError`
+   * regardless of this option.
    *
    * Default: `false` (preserves the historical `.res()` behaviour).
    */
@@ -63,10 +66,16 @@ export abstract class NavvyPagBase<T, R, P> {
     request: Observable<iBXRestAnswer<T> | undefined>,
     options?: BXRestResOptions
   ) {
+    const method = this.http.getNameMethod(this.url)
     return request.pipe(
       map(v => {
         if (options?.throwOnApiError && v && !instanceOfiBXRestAnswerSuccess(v)) {
-          throw new BXRestApiError(v.error, v.error_description)
+          const parsed = parseBXRestErrorBody(v)
+          throw new BXRestApiError(
+            parsed ? parsed.error : v.error,
+            parsed ? parsed.error_description : v.error_description,
+            { method }
+          )
         }
         return BXRestMapResult(v)
       }),
@@ -74,6 +83,13 @@ export abstract class NavvyPagBase<T, R, P> {
         console.error(err)
         if (err instanceof BXRestApiError) {
           throw err
+        }
+        // Большинство ошибок Bitrix приходит со статусом не 2xx, и axios
+        // отклоняет такой ответ — достаём из него код и описание ошибки,
+        // а не отдаём безликое "AxiosError: Request failed with status code 400".
+        const apiError = bxRestApiErrorFromHttp(err, method)
+        if (apiError) {
+          throw apiError
         }
         throw new Error((err.error) ? err.error : err)
       })

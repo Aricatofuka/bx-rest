@@ -149,7 +149,7 @@ const ru: Strings = {
     dealList: { title: 'Список сделок', description: 'crm.deal.list — типизированные select/filter, как в разделе «Быстрый старт»' },
     contactAdd: { title: 'Добавить контакт', description: 'crm.contact.add — создание записи, ответ — ID нового контакта' },
     tasksPaginated: { title: 'Пагинация задач (resAll)', description: 'tasks.task.list — resAll() сам склеит все страницы в один массив' },
-    errorHandling: { title: 'Обработка ошибок API', description: '{ throwOnApiError: true } — ошибка Bitrix попадёт в error, а не резолвится как undefined' }
+    errorHandling: { title: 'Обработка ошибок API', description: 'Ошибка Bitrix приходит в error как BXRestApiError с кодом, HTTP-статусом и методом' }
   },
   errors: {
     storageUnavailable:
@@ -225,7 +225,7 @@ const en: Strings = {
     dealList: { title: 'List deals', description: 'crm.deal.list — typed select/filter, same as in the "Quick Start" section' },
     contactAdd: { title: 'Add a contact', description: 'crm.contact.add — creates a record, returns the new contact ID' },
     tasksPaginated: { title: 'Paginated tasks (resAll)', description: 'tasks.task.list — resAll() stitches every page into one array for you' },
-    errorHandling: { title: 'API error handling', description: '{ throwOnApiError: true } — a Bitrix-level error lands in error instead of resolving as undefined' }
+    errorHandling: { title: 'API error handling', description: 'A Bitrix error lands in error as a BXRestApiError with code, HTTP status and method' }
   },
   errors: {
     storageUnavailable:
