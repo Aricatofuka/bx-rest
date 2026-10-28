@@ -69,7 +69,7 @@ export class NavvyPagNavResultKey<T, R, P extends iBXRestPagination, K extends s
                     return this.http.getNameMethod(this.url)
                       + '?' + serializeBitrixParams(param)
                   })
-                })
+                }, this.requestHeaders)
               })
 
               return from(batchRequests).pipe(

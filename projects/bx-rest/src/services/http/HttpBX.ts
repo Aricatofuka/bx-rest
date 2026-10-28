@@ -10,6 +10,7 @@ import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
 import { switchMap } from 'rxjs/operators'
 import { prepareBaseAddress } from '../base'
 import { serializeBitrixParams as stringifyBitrixParams } from '../../functions/serializeBitrixParams'
+import { iHttpParamSettings } from '../../typification/rest/settings'
 
 export class HttpBXServices extends HttpServices {
 
@@ -74,10 +75,12 @@ export class HttpBXServices extends HttpServices {
    *
    * @param name
    * @param params
+   * @param restApi
+   * @param headers заголовки только для этого запроса, поверх `BXRestSettings.headers`
    */
-  post<T>(name: string[], params: any = {}, restApi = false) {
+  post<T>(name: string[], params: any = {}, restApi = false, headers?: Record<string, string>) {
     const method = this.getNameMethod(name)
-    return this.httpPost<iBXRestAnswer<T>>(restApi ? `api/${method}` : method, params)
+    return this.httpPost<iBXRestAnswer<T>>(restApi ? `api/${method}` : method, params, undefined, headers)
   }
 
   /**
@@ -85,12 +88,20 @@ export class HttpBXServices extends HttpServices {
    *
    * @param name
    * @param params
+   * @param headers заголовки только для этого запроса, поверх `BXRestSettings.headers`
    */
-  get<T>(name: string[], params: any = {}) {
-    return this.httpGet<iBXRestAnswer<T>>(this.getNameMethod(name), params)
+  get<T>(name: string[], params: any = {}, headers?: Record<string, string>) {
+    return this.httpGet<iBXRestAnswer<T>>(this.getNameMethod(name), params, undefined, headers)
   }
 
-  override httpPost<T>(url: string, params: any = {}): Observable<T | undefined> {
+  // settings — только для совместимости сигнатуры с HttpServices: здесь тело
+  // уходит JSON-ом/urlencoded, и пересчёт дат из iHttpParamSettings не нужен.
+  override httpPost<T>(
+    url: string,
+    params: any = {},
+    settings?: iHttpParamSettings,
+    headers?: Record<string, string>
+  ): Observable<T | undefined> {
     // defer() откладывает всё содержимое (в том числе чтение BXRestSettings
     // через this.session.*) до реальной подписки — иначе даже с "живым"
     // геттером в SessionKeyServices настройки читались бы в момент вызова
@@ -125,7 +136,7 @@ export class HttpBXServices extends HttpServices {
             const bodyString = this.serializeBitrixParams(paramsClone)
             return from(
               this.axiosInstance.post<T>(fullUrl, bodyString, {
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                headers: this.buildHeaders(headers, {'Content-Type': 'application/x-www-form-urlencoded'}),
               }).then((response) => response.data)
             )
           }
@@ -134,9 +145,7 @@ export class HttpBXServices extends HttpServices {
             this.axiosInstance.post<T>(fullUrl, paramsClone,
               {
                 withCredentials: this.session.getWithCredentials(),
-                headers: {
-                  'Content-Type': 'application/json',
-                }
+                headers: this.buildHeaders(headers, {'Content-Type': 'application/json'}),
               }
             ).then((response) => response.data)
           )
@@ -145,7 +154,12 @@ export class HttpBXServices extends HttpServices {
     })
   }
 
-  override httpGet<T>(url: string, params: any = {}): Observable<T | undefined> {
+  override httpGet<T>(
+    url: string,
+    params: any = {},
+    settings?: iHttpParamSettings,
+    headers?: Record<string, string>
+  ): Observable<T | undefined> {
     // Та же причина, что и у httpPost выше: откладываем чтение BXRestSettings
     // до подписки, чтобы `get()` вёл себя так же "лениво", как и `post()`
     // (симметрия, которой не было до этого — GET резолвил настройки в момент
@@ -174,11 +188,23 @@ export class HttpBXServices extends HttpServices {
           const finalUrl = `${fullUrl}?${queryString}`
 
           return from(
-            this.axiosInstance.get<T>(finalUrl).then((response) => response.data)
+            this.axiosInstance.get<T>(finalUrl, {
+              headers: this.buildHeaders(headers),
+            }).then((response) => response.data)
           )
         })
       )
     })
+  }
+
+  /**
+   * Заголовки запроса: `BXRestSettings.headers`, поверх них — заголовки
+   * конкретного запроса, поверх всего — `required`. В `required` идёт
+   * `Content-Type`: от него зависит, как сервер разберёт тело, поэтому
+   * пользовательские заголовки его не перебивают.
+   */
+  private buildHeaders(headers?: Record<string, string>, required: Record<string, string> = {}) {
+    return { ...this.session.getHeaders(), ...headers, ...required }
   }
 
   serializeBitrixParams(params: unknown): string {

@@ -18,6 +18,7 @@
   - [Режимы результата](#режимы-результата)
 - [Аутентификация и OAuth2](#аутентификация-и-oauth2)
   - [`withCredentials`](#withcredentials)
+- [HTTP-заголовки](#http-заголовки)
 - [Обработка ошибок](#обработка-ошибок)
 - [Использование в Angular](#использование-в-angular)
 - [SessionKeyServices](#sessionkeyservices)
@@ -163,6 +164,34 @@ BXRestSettings.update({
   }
 })
 ```
+
+## HTTP-заголовки
+
+Статичные заголовки, которые нужны в каждом запросе, задайте в `BXRestSettings.headers`:
+
+```typescript
+BXRestSettings.update({
+  headers: {
+    'X-Bitrix-App': 'smart-process-pro'
+  }
+})
+```
+
+Они прикладываются ко всем запросам библиотеки, включая batch-запросы `.resAll()`, и, как и остальные настройки, читаются в момент подписки. `update()` сливает настройки только на верхнем уровне, поэтому `headers` заменяется целиком — чтобы добавить заголовок к уже заданным, передайте весь набор.
+
+Для одного запроса используйте `.withHeaders()`. Его заголовки добавляются поверх `BXRestSettings.headers`, при совпадении имени (без учёта регистра) побеждает значение из `.withHeaders()`. Действует на `.res()`, `.resAll()`, `.resVanilla()` и `.mapForVanilla()`:
+
+```typescript
+const deals = await firstValueFrom(
+  bxRest.crm.deal.list({ select: ['ID', 'TITLE'], filter: {}, start: 0 })
+    .withHeaders({ 'X-Request-Source': 'report' })
+    .resAll()
+)
+```
+
+`Content-Type` библиотека всегда выставляет сама (`application/json`, а для `auth.key: 'sessid'` — `application/x-www-form-urlencoded`): от него зависит, как сервер разберёт тело запроса, поэтому заголовками он не перебивается.
+
+Для запросов на другой домен сервер — портал или ваш прокси — должен разрешить нестандартный заголовок в `Access-Control-Allow-Headers` ответа на CORS preflight (`OPTIONS`), иначе браузер заблокирует запрос. Лишнего запроса заголовок не добавляет: JSON-запросы библиотеки и так проходят через preflight из-за `Content-Type: application/json`.
 
 ## Обработка ошибок
 

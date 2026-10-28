@@ -1,5 +1,5 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createServer, Server } from 'node:http'
+import { createServer, IncomingHttpHeaders, Server } from 'node:http'
 import { AddressInfo } from 'node:net'
 import { firstValueFrom, Observable } from 'rxjs'
 import { Navvy } from '../../navvy'
@@ -11,9 +11,11 @@ import { BXRestApiError } from '../../../functions/errors'
 // код и описание ошибки Bitrix.
 let server: Server
 let reply: { status: number, body: unknown }
+let received: { url?: string, headers: IncomingHttpHeaders }[] = []
 
 beforeAll(async () => {
-  server = createServer((_req, res) => {
+  server = createServer((req, res) => {
+    received.push({ url: req.url, headers: req.headers })
     const isJson = typeof reply.body !== 'string'
     res.writeHead(reply.status, { 'Content-Type': isJson ? 'application/json' : 'text/html' })
     res.end(isJson ? JSON.stringify(reply.body) : reply.body)
@@ -102,5 +104,42 @@ describe('NavvyPagBase.res() error handling', () => {
     reply = { status: 200, body: { result: { ID: '1' } } }
 
     await expect(firstValueFrom(dealGet().res())).resolves.toEqual({ ID: '1' })
+  })
+})
+
+describe('NavvyPagBase request headers', () => {
+  beforeEach(() => {
+    const { port } = server.address() as AddressInfo
+    BXRestSettings.update({
+      auth: { source: () => 'token', key: 'auth' },
+      urls: { source: 'string', key: `http://127.0.0.1:${port}`, additional_part: 'rest' },
+      headers: { 'X-Bitrix-App': 'smart-process-pro', 'X-Trace': 'global' }
+    })
+    received = []
+  })
+
+  afterEach(() => {
+    BXRestSettings.value = { ...DEFAULT_BX_REST_SETTINGS }
+  })
+
+  it('BXRestSettings.headers reach the server, .withHeaders() overrides them for one request', async () => {
+    reply = { status: 200, body: { result: { ID: '1' } } }
+
+    await firstValueFrom(new Navvy().simple(['crm', 'deal', 'get'], { ID: 1 }).res())
+    await firstValueFrom(new Navvy().simple(['crm', 'deal', 'get'], { ID: 1 }).withHeaders({ 'X-Trace': 'local' }).res())
+
+    expect(received.map(r => [r.headers['x-bitrix-app'], r.headers['x-trace']])).toEqual([
+      ['smart-process-pro', 'global'],
+      ['smart-process-pro', 'local'],
+    ])
+  })
+
+  it('.resAll() sends the .withHeaders() headers with its batch requests too', async () => {
+    reply = { status: 200, body: { result: [], total: 120 } }
+
+    await firstValueFrom(new Navvy().pagNav(['crm', 'deal', 'list'], {}).withHeaders({ 'X-Trace': 'local' }).resAll())
+
+    expect(received.map(r => r.url)).toEqual(['/rest/crm.deal.list', '/rest/batch'])
+    expect(received.map(r => r.headers['x-trace'])).toEqual(['local', 'local'])
   })
 })

@@ -17,4 +17,11 @@ export interface iBXRestSettings {
    * а браузер должен приложить cookie сессии этого прокси (не Bitrix24).
    */
   withCredentials?: boolean
+  /**
+   * Статичные HTTP-заголовки, которые прикладываются к каждому запросу,
+   * например `{ 'X-Bitrix-App': 'smart-process-pro' }`. Для одного запроса
+   * их можно дополнить или перебить через `.withHeaders()`. `Content-Type`
+   * библиотека всегда выставляет сама — от него зависит формат тела запроса.
+   */
+  headers?: Record<string, string>
 }

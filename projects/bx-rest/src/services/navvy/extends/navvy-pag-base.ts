@@ -24,6 +24,7 @@ export interface BXRestResOptions {
 export abstract class NavvyPagBase<T, R, P> {
 
   protected readonly http: HttpBXServices
+  protected requestHeaders?: Record<string, string>
   pageSize = 50 // стандартный размер страницы
 
   public constructor(
@@ -35,8 +36,22 @@ export abstract class NavvyPagBase<T, R, P> {
     this.http = new HttpBXServices()
   }
 
+  /**
+   * HTTP-заголовки только для этого запроса — поверх `BXRestSettings.headers`
+   * (при совпадении имени побеждает значение отсюда). Повторные вызовы
+   * дополняют уже заданные заголовки. Действует на `.res()`, `.resVanilla()`,
+   * `.mapForVanilla()` и на все batch-запросы `.resAll()`.
+   *
+   * @example
+   * bx.crm.deal.list({ ... }).withHeaders({ 'X-Request-Source': 'report' }).resAll()
+   */
+  withHeaders(headers: Record<string, string>): this {
+    this.requestHeaders = { ...this.requestHeaders, ...headers }
+    return this
+  }
+
   resVanilla() {
-    return this.http.post<T>(this.url, this.param, this.restApi)
+    return this.http.post<T>(this.url, this.param, this.restApi, this.requestHeaders)
   }
 
   mapForVanilla(): Observable<iBXRestAnswer<ReturnTypeNavvy<T, R>> | undefined> {

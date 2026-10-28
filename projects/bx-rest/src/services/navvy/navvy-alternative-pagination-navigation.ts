@@ -72,7 +72,7 @@ export class NavvyAlterPagNav<T, R, P extends iBXRestAlternativePagination> exte
                     return this.http.getNameMethod(this.url)
                       + '?' + serializeBitrixParams(param)
                   })
-                })
+                }, this.requestHeaders)
               })
 
               return from(batchRequests).pipe(

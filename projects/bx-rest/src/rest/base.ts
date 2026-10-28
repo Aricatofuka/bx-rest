@@ -35,7 +35,7 @@ export class BXRest {
     return this.http.post<iBXRestProfileHttp>(['profile'])
   }
 
-  public batch<T>(param: iBXRestParamBatch) {
-    return this.http.post<iBXRestBatch<T>>(['batch'], param)
+  public batch<T>(param: iBXRestParamBatch, headers?: Record<string, string>) {
+    return this.http.post<iBXRestBatch<T>>(['batch'], param, false, headers)
   }
 }

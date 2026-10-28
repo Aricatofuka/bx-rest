@@ -87,6 +87,14 @@ export class SessionKeyServices {
     return this.getKeyAuth() === 'OAuth2'
   }
 
+  /**
+   * Статичные заголовки из `BXRestSettings.headers` — копия, чтобы правка
+   * результата не меняла сами настройки.
+   */
+  getHeaders(): Record<string, string> {
+    return { ...this.BX_REST_SETTINGS.headers }
+  }
+
   getSessid() {
     const check = this.getSearchParam('sessid')
     if (check) {

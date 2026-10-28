@@ -58,7 +58,7 @@ export class NavvyPagNavTasks<T, R, P extends iBXRestPagination> extends NavvyPa
                     return this.http.getNameMethod(this.url)
                       + '?' + serializeBitrixParams(param)
                   })
-                })
+                }, this.requestHeaders)
               })
 
               return from(batchRequests).pipe(

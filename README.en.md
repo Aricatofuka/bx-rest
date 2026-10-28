@@ -20,6 +20,7 @@ Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix 
   - [Result modes](#result-modes)
 - [Authentication and OAuth2](#authentication-and-oauth2)
   - [`withCredentials`](#withcredentials)
+- [HTTP headers](#http-headers)
 - [Error handling](#error-handling)
 - [Usage in Angular](#usage-in-angular)
 - [SessionKeyServices](#sessionkeyservices)
@@ -155,6 +156,34 @@ BXRestSettings.update({
   }
 })
 ```
+
+## HTTP headers
+
+Put static headers that every request needs into `BXRestSettings.headers`:
+
+```typescript
+BXRestSettings.update({
+  headers: {
+    'X-Bitrix-App': 'smart-process-pro'
+  }
+})
+```
+
+They are attached to every request the library makes, including the `.resAll()` batch requests, and, like the other settings, are read at subscribe time. `update()` merges settings only at the top level, so `headers` is replaced as a whole — to add a header to the ones already set, pass the full set.
+
+For a single request, use `.withHeaders()`. Its headers are applied on top of `BXRestSettings.headers`; when a name matches (case-insensitively), the `.withHeaders()` value wins. It applies to `.res()`, `.resAll()`, `.resVanilla()` and `.mapForVanilla()`:
+
+```typescript
+const deals = await firstValueFrom(
+  bxRest.crm.deal.list({ select: ['ID', 'TITLE'], filter: {}, start: 0 })
+    .withHeaders({ 'X-Request-Source': 'report' })
+    .resAll()
+)
+```
+
+The library always sets `Content-Type` itself (`application/json`, or `application/x-www-form-urlencoded` for `auth.key: 'sessid'`): the server parses the request body based on it, so headers can't override it.
+
+For cross-origin requests, the server — the portal or your proxy — must allow a non-standard header in `Access-Control-Allow-Headers` of its CORS preflight (`OPTIONS`) response, or the browser will block the request. The header doesn't add an extra request: the library's JSON requests already go through a preflight because of `Content-Type: application/json`.
 
 ## Error handling
 

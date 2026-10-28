@@ -50,7 +50,7 @@ export class NavvyPagNavResultKeyObject<
           return bxRest.batch<KeyedObjectResult<K, T>[]>({
             halt: 1,
             cmd: [this.http.getNameMethod(this.url) + '?' + serializeBitrixParams(param)]
-          })
+          }, this.requestHeaders)
         })
 
         return from(commands).pipe(

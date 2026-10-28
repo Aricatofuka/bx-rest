@@ -266,4 +266,88 @@ describe('HttpBXServices', () => {
       })
     })
   })
+
+  describe('headers', () => {
+    it('BXRestSettings.headers are sent with a JSON POST', async () => {
+      BXRestSettings.update({ auth: { source: 'off', key: 'auth' }, headers: { 'X-Bitrix-App': 'smart-process-pro' } })
+      const http = new HttpBXServices()
+      const postSpy = vi
+        .spyOn((http as any).axiosInstance, 'post')
+        .mockResolvedValue({ data: { result: 'ok' } })
+
+      await firstValueFrom(http.post(['crm', 'deal', 'get'], { ID: 1 }))
+
+      const [, , config] = postSpy.mock.calls[0] as [string, unknown, any]
+      expect(config.headers).toEqual({ 'X-Bitrix-App': 'smart-process-pro', 'Content-Type': 'application/json' })
+    })
+
+    it('BXRestSettings.headers are sent with a sessid (urlencoded) POST', async () => {
+      BXRestSettings.update({ auth: { source: 'off', key: 'sessid' }, headers: { 'X-Bitrix-App': 'smart-process-pro' } })
+      const http = new HttpBXServices()
+      const postSpy = vi
+        .spyOn((http as any).axiosInstance, 'post')
+        .mockResolvedValue({ data: { result: 'ok' } })
+
+      await firstValueFrom(http.post(['crm', 'deal', 'get'], { ID: 1 }))
+
+      const [, , config] = postSpy.mock.calls[0] as [string, unknown, any]
+      expect(config.headers).toEqual({
+        'X-Bitrix-App': 'smart-process-pro',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      })
+    })
+
+    it('BXRestSettings.headers and per-request headers are sent with a GET', async () => {
+      BXRestSettings.update({ auth: { source: 'off', key: 'auth' }, headers: { 'X-Bitrix-App': 'smart-process-pro' } })
+      const http = new HttpBXServices()
+      const getSpy = vi
+        .spyOn((http as any).axiosInstance, 'get')
+        .mockResolvedValue({ data: { result: 'ok' } })
+
+      await firstValueFrom(http.get(['crm', 'deal', 'list'], {}, { 'X-Trace': '1' }))
+
+      const [, config] = getSpy.mock.calls[0] as [string, any]
+      expect(config.headers).toEqual({ 'X-Bitrix-App': 'smart-process-pro', 'X-Trace': '1' })
+    })
+
+    it('per-request headers win over BXRestSettings.headers, but never over the library Content-Type', async () => {
+      BXRestSettings.update({
+        auth: { source: 'off', key: 'auth' },
+        headers: { 'X-Bitrix-App': 'smart-process-pro', 'X-Trace': 'global' }
+      })
+      const http = new HttpBXServices()
+      const postSpy = vi
+        .spyOn((http as any).axiosInstance, 'post')
+        .mockResolvedValue({ data: { result: 'ok' } })
+
+      await firstValueFrom(http.post(['crm', 'deal', 'get'], { ID: 1 }, false, {
+        'X-Trace': 'local',
+        'Content-Type': 'text/plain',
+      }))
+
+      const [, , config] = postSpy.mock.calls[0] as [string, unknown, any]
+      expect(config.headers).toEqual({
+        'X-Bitrix-App': 'smart-process-pro',
+        'X-Trace': 'local',
+        'Content-Type': 'application/json',
+      })
+    })
+
+    it('BXRestSettings.headers set after post() is called, but before subscribe, are honored', async () => {
+      BXRestSettings.update({ auth: { source: 'off', key: 'auth' } })
+      const http = new HttpBXServices()
+      const postSpy = vi
+        .spyOn((http as any).axiosInstance, 'post')
+        .mockResolvedValue({ data: { result: 'ok' } })
+
+      const result$ = http.post(['crm', 'deal', 'get'], { ID: 1 })
+
+      BXRestSettings.update({ headers: { 'X-Bitrix-App': 'smart-process-pro' } })
+
+      await firstValueFrom(result$)
+
+      const [, , config] = postSpy.mock.calls[0] as [string, unknown, any]
+      expect(config.headers['X-Bitrix-App']).toBe('smart-process-pro')
+    })
+  })
 })

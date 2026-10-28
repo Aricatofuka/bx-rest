@@ -40,7 +40,7 @@ export class NavvyPagNavWithUselessKey<T, R, P extends iBXRestPagination> extend
                     return this.http.getNameMethod(this.url)
                       + '?' + serializeBitrixParams(param)
                   })
-                }).pipe(
+                }, this.requestHeaders).pipe(
                   map(v => {
                     if (v && instanceOfiBXRestAnswerSuccess(v) && v.result && v.result.result && items.result) {
                       return Object.assign({}, items.result, v.result.result) as Record<string, T>

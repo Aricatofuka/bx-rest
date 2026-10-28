@@ -46,7 +46,7 @@ export class NavvyPag<T, R, P extends iBXRestPagination> extends NavvyPagBase<T[
                     return this.http.getNameMethod(this.url)
                       + '?' + serializeBitrixParams(param)
                   })
-                }).pipe(
+                }, this.requestHeaders).pipe(
                 )
               })
 
