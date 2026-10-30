@@ -20,6 +20,11 @@ Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix 
   - [`withCredentials`](#withcredentials)
 - [HTTP headers](#http-headers)
 - [Error handling](#error-handling)
+- [Authorization refresh](#authorization-refresh)
+  - [A token from the portal without BX24.js](#a-token-from-the-portal-without-bx24js)
+  - [Recipe: straight to the portal](#recipe-straight-to-the-portal)
+  - [Recipe: through a backend proxy](#recipe-through-a-backend-proxy)
+- [Working in an iframe without BX24.js](#working-in-an-iframe-without-bx24js)
 - [Usage in Angular](#usage-in-angular)
 - [SessionKeyServices](#sessionkeyservices)
 - [Usage in Vue](#usage-in-vue)
@@ -191,7 +196,7 @@ For cross-origin requests, the server — the portal or your proxy — must allo
 | --- | --- |
 | Bitrix API error with a non-2xx HTTP status — this is how Bitrix sends most errors: `expired_token` (401), `ERROR_METHOD_NOT_FOUND` (404), `QUERY_LIMIT_EXCEEDED` (503), `Not found` from `crm.*.get` (400) | The returned `Observable` errors with a `BXRestApiError`, with or without `throwOnApiError`. |
 | Bitrix API error in the body of a 2xx response | By default, `.res()` resolves normally with `undefined` — **it does not throw**. Pass `{ throwOnApiError: true }` to make it throw a `BXRestApiError` instead. |
-| Transport / configuration errors — network failure, missing auth, missing base URL, a response that is not from Bitrix (e.g. a proxy's HTML error page) | The returned `Observable` errors with a plain `Error`. |
+| Transport / configuration errors — network failure, missing auth, missing base URL, a response that is not from Bitrix (e.g. a proxy's HTML error page) | The returned `Observable` errors with a plain `Error`. The original error is in its `cause`: for a response that is not from Bitrix it is the axios error, with the HTTP status in `cause.response.status`. |
 
 `BXRestApiError` fields:
 
@@ -222,7 +227,7 @@ bxRest.crm.deal.list({
     if (err instanceof BXRestApiError) {
       console.error('Bitrix API error:', err.status, err.error, err.error_description)
       if (err.error === 'expired_token') {
-        // refresh the token and retry the request
+        // auth.refresh is not set or did not help — see "Authorization refresh"
       }
     } else {
       console.error('Request failed:', err.message)
@@ -255,6 +260,205 @@ if (!answer || !isBXRestAnswerSuccess(answer)) {
   console.log(answer.result)
 }
 ```
+
+## Authorization refresh
+
+With `auth.refresh` set, the library refreshes an expired authorization by itself. When a request fails with an authorization error, the library calls `auth.refresh()` and retries the request, and your code just gets the result.
+
+```typescript
+BXRestSettings.update({
+  auth: {
+    source: () => accessToken,
+    key: 'auth',
+    // get a new authorization and put it where source reads it from
+    refresh: async () => {
+      accessToken = await getNewToken()
+    }
+  },
+  // ...
+})
+```
+
+| `auth` field | Value |
+| --- | --- |
+| `refresh` | `() => Promise<unknown>`. Gets a new authorization. The promise value is not used: the retry reads the token, the URL and the headers from the settings again — so the function has to put the new token where `auth.source` reads it from (or, through a proxy, hand it to the server). |
+| `isAuthError` | `(error: unknown) => boolean`, optional. Which request error counts as an authorization error. It gets the original HTTP request error — usually an `AxiosError`. Defaults to the exported `isBXRestAuthError`, which is easy to extend: `error => isBXRestAuthError(error) \|\| myCheck(error)`. |
+
+Without `auth.refresh` the library behaves as before: requests are not retried. `update()` merges settings at the top level only, so `BXRestSettings.update({ auth: {...} })` replaces the whole `auth` — `refresh` included. When you change `auth`, pass `refresh` again.
+
+How the retry works:
+
+- **What counts as an authorization error** (`isBXRestAuthError`): a response with the Bitrix error `expired_token` or `invalid_token`, whatever the HTTP status; a 401 response without a Bitrix error body — e.g. an empty 401 from a backend proxy that has no valid token. The other Bitrix system errors come with status 401 too (`insufficient_scope`, `NO_AUTH_FOUND`, `ACCESS_DENIED`, `INVALID_CREDENTIALS`, `user_access_error`, `OVERLOAD_LIMIT`), but a new token does not fix them — they are not retried.
+- **One retry.** If the retry fails as well, its error goes out; there is no second refresh.
+- **One refresh for everybody.** When several requests fail at once, `refresh()` is called once and all of them are retried. A request that was in flight while the token was being refreshed is retried without another refresh.
+- **The refresh failed** (`refresh()` rejected or threw) — the original request error goes out, and the reason the refresh failed is in its `authRefreshError` field. `getAuthRefreshError(err)` reads it from any error:
+
+  ```typescript
+  import { BXRestApiError, getAuthRefreshError } from 'bx-rest'
+
+  bxRest.crm.deal.get({ ID: 1 }).res().subscribe({
+    error: err => {
+      if (err instanceof BXRestApiError && err.error === 'expired_token') {
+        console.error('Could not refresh the authorization:', getAuthRefreshError(err))
+      }
+    }
+  })
+  ```
+
+- **Where it works.** In every library request: `.res()`, `.resAll()` (the first page and every batch request), `.resVanilla()`, `.mapForVanilla()`, `BXRestRequest.post()`/`.get()`, `BXRest.batch()`. The retry lives in the HTTP layer, so `.res()` already gets the result of the retry.
+- **What is not retried:** errors in the body of a 2xx response (Bitrix sends `expired_token` with status 401) and errors of single commands inside a successful batch response (`result_error`) — the whole HTTP request is what gets retried.
+
+### A token from the portal without BX24.js
+
+A browser cannot refresh a token through OAuth — that takes the `client_secret`. But the application is open in a portal iframe, the user is logged in to the portal, and the portal itself hands the application a token over postMessage — this is how `BX24.getAuth()` and `BX24.refreshAuth()` work. `BXRestFrame` does the same without loading BX24.js (the other BX24.js commands are in [Working in an iframe without BX24.js](#working-in-an-iframe-without-bx24js)):
+
+```typescript
+import { BXRestFrame } from 'bx-rest'
+
+const frame = new BXRestFrame()         // optional: { timeout: 10000 }
+
+const auth = await frame.getAuth()      // the current authorization — like BX24.getAuth()
+const fresh = await frame.refreshAuth() // a new authorization — like BX24.refreshAuth()
+// { access_token, refresh_token, expires_in, domain, member_id }
+```
+
+| Result field | Value |
+| --- | --- |
+| `access_token`, `refresh_token` | The application tokens. |
+| `expires_in` | When the `access_token` expires — **milliseconds** since January 1, 1970, as in `BX24.getAuth()`. Not the lifetime in seconds, as in the OAuth server response. |
+| `domain` | The portal address without the protocol, e.g. `mycompany.bitrix24.com`. |
+| `member_id` | The permanent portal identifier. |
+
+- **Tokens.** `BXRestFrame` does not log tokens and does not store them anywhere: every `getAuth()` and `refreshAuth()` call asks the portal again, and your code gets the result.
+- **Errors** — `BXRestFrameError` with a `code` field: `NOT_IN_FRAME` (the page is not opened in an application iframe — fails right away), `TIMEOUT` (the portal did not answer within `timeout`, 10 seconds by default), `NO_AUTH` (the portal answered without a token), `BAD_RESPONSE` (the answer could not be parsed). When the portal cannot issue a new token (e.g. the application trial or paid period is over), it shows the "Unable to get new token!" `alert` and does not answer at all — such a refusal comes as `TIMEOUT`.
+- **`getAuth()` and the expiry.** The portal gives the token lifetime at the moment of issue, not what is left of it, so on a page that has been open for a while `expires_in` from `getAuth()` points too far ahead (the same with BX24.js). Use `refreshAuth()` for a fresh token.
+- **The portal domain.** Like BX24.js, `BXRestFrame` cannot vouch for it — it is set by whoever embedded the page in an iframe. So a server must check a token that came from the browser with the portal before trusting it.
+
+### Recipe: straight to the portal
+
+The frontend keeps the token, requests go to `https://<portal>/rest/`. The refresh function gets a new token from the portal and puts it where `auth.source` reads it from — an in-memory variable here:
+
+```typescript
+import { BXRestSettings, BXRestFrame } from 'bx-rest'
+
+const frame = new BXRestFrame()
+const auth = await frame.getAuth()
+let accessToken = auth.access_token
+
+BXRestSettings.update({
+  auth: {
+    source: () => accessToken,
+    key: 'auth',
+    refresh: async () => {
+      accessToken = (await frame.refreshAuth()).access_token
+    }
+  },
+  urls: {
+    source: 'string',
+    key: `https://${auth.domain}`,
+    additional_part: 'rest'
+  }
+})
+```
+
+With `auth.source: 'localStorage'` the refresh function writes the token to `localStorage[auth.key]` in the same way.
+
+### Recipe: through a backend proxy
+
+The server keeps the token, and the browser authorizes with the proxy through a cookie session (`auth.source: 'off'`). A proxy without a valid token answers 401 with an empty body — an authorization error by default. The refresh function gets a new token from the portal and sends it to the server:
+
+```typescript
+import { BXRestSettings, BXRestFrame } from 'bx-rest'
+
+const APP = 'smart-process-pro'
+const frame = new BXRestFrame()
+
+BXRestSettings.update({
+  auth: {
+    source: 'off',
+    key: 'auth',
+    refresh: async () => {
+      const { access_token, refresh_token, expires_in } = await frame.refreshAuth()
+      const response = await fetch(`/api/bitrix/token/${APP}`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ access_token, refresh_token, expires_in })
+      })
+      if (!response.ok) {
+        // no request body in the message — it holds the tokens
+        throw new Error(`Token upload failed: HTTP ${response.status}`)
+      }
+    }
+  },
+  urls: {
+    source: 'string',
+    key: '/api/bitrix/rest/',
+    additional_part: '' // otherwise one more `rest/` is appended to the URL
+  },
+  headers: {
+    'X-Bitrix-App': APP
+  }
+})
+```
+
+Errors of the refresh function end up in `authRefreshError` of the original error, and `.res()` may print the original error to the console — so keep tokens out of the error messages of the refresh function.
+
+## Working in an iframe without BX24.js
+
+`BXRestFrame` is the commands an application in an iframe sends to the portal: the frame size, the selection dialogs, sliders, the messenger, placements, options, installation. The same commands and the same names as in BX24.js, but with promises instead of callbacks, and with no need to load BX24.js. bx-rest itself makes the REST requests, and `getAuth()`/`refreshAuth()` give the token for them (see [Authorization refresh](#authorization-refresh)).
+
+```typescript
+import { BXRestFrame } from 'bx-rest'
+
+const frame = new BXRestFrame()
+
+const { lang, isAdmin, placement } = await frame.init()
+await frame.fitWindow()
+const user = await frame.selectUser()
+const unsubscribe = frame.placement.bindEvent('Tab:onChange', data => console.log(data))
+```
+
+Create one instance per page, when the application starts: the portal parameters are read in the constructor, and the portal reports the first run only in its first answer per page load. For the same reason, do not use `BXRestFrame` and BX24.js on one page.
+
+| BX24.js | `BXRestFrame` | Answer |
+| --- | --- | --- |
+| `BX24.init()`, `isAdmin()`, `getLang()`, `getDomain()` | `init()` — `{ domain, lang, path, https, memberId, isAdmin, install, firstRun, placement, placementOptions, userOptions, appOptions }` | Asked once, without tokens |
+| `BX24.getAuth()`, `BX24.refreshAuth()` | `getAuth()`, `refreshAuth()` | Asked from the portal every time |
+| `BX24.installFinish()` | `installFinish()` | Only on the installer page (`install`); the portal reloads the page |
+| the end of the `BX24.install()` chain | `firstRunFinish()` | Marks the first run as done; without it `firstRun` stays `true` |
+| `BX24.resizeWindow(w, h)`, `BX24.fitWindow()` | `resizeWindow(w, h)`, `fitWindow()` | `{ width, height }` or `undefined` |
+| `BX24.setTitle(title)` | `setTitle(title)` | `{ title }` or `undefined` |
+| `BX24.scrollParentWindow(scroll)` | `scrollParentWindow(scroll)` | `{ scroll }` or `undefined` |
+| `BX24.reloadWindow()` | `reloadWindow()` | No answer |
+| `BX24.selectUser()`, `BX24.selectUsers()` | `selectUser({ title?, signal? })`, `selectUsers(...)` | An employee / an array of employees |
+| `BX24.selectAccess(value)` | `selectAccess({ value?, signal? })` — `value`: codes that cannot be selected | An array of `{ provider, id, name }` |
+| `BX24.selectCRM(params)` | `selectCRM({ entityType?, multiple?, value?, signal? })` | CRM items by type |
+| `BX24.openApplication(params, cb, settings)` | `openApplication(params?, settings?, { signal? })` | When the slider is closed |
+| `BX24.openPath(path)` | `openPath(path, { signal? })` | `{ result: 'close' }` or `{ result: 'error', errorCode }` |
+| `BX24.closeApplication()` | `closeApplication()` | No answer |
+| `BX24.im.callTo/phoneTo/openMessenger/openHistory` | `im.callTo/phoneTo/openMessenger/openHistory` | No answer |
+| `BX24.placement.info()` | `placement.info()` | `{ placement, options }` from `init()` |
+| `BX24.placement.getInterface()` | `placement.getInterface()` | `{ command, event }` |
+| `BX24.placement.call(cmd, params)` | `placement.call(cmd, params?, { timeout? })` | The command answer or `undefined` |
+| `BX24.placement.bindEvent(event, cb)` | `placement.bindEvent(event, handler)` | `handler` on every event; returns an unsubscribe function |
+| `BX24.userOption.get/set` | `userOption.get/set` | A user option |
+| `BX24.appOption.get/set` | `appOption.get/set` | `set` — administrators only, otherwise `ACCESS_DENIED` |
+
+How the portal answers a command decides when the promise settles:
+
+- **With an answer** (`init()`, `getAuth()`, `refreshAuth()`, `placement.getInterface()`, `appOption.set()`) — no answer within `timeout` (10 seconds by default) is a `TIMEOUT` error.
+- **With an acknowledgement** (`resizeWindow()`, `fitWindow()`, `setTitle()`, `scrollParentWindow()`, `userOption.set()`, `firstRunFinish()`, `placement.call()`) — in some placements the portal does not answer them, so without an answer within `timeout` the promise resolves with `undefined`, not with an error.
+- **Without an answer** (`reloadWindow()`, `closeApplication()`, `installFinish()`, `im.*`) — the promise resolves right after sending.
+- **Waiting for the user** (`select*()`, `openApplication()`, `openPath()`) — with no time limit. When the user closes a dialog without selecting anything, the portal does not answer at all. Cancel the wait with `signal` (`AbortController`); calling the same dialog again cancels the previous wait, because the portal keeps one handler per dialog. A cancelled wait is a `CANCELLED` error.
+
+`placement.bindEvent()` returns an unsubscribe function, but it only stops calling `handler`: the protocol has no way to cancel the subscription on the portal side.
+
+- **Where it looks for the portal.** Like BX24.js, in `window.name`: the portal names the application iframe `DOMAIN|PROTOCOL|APP_SID`. If it is empty — in the page query (`?DOMAIN=…&PROTOCOL=…&APP_SID=…`) the portal opens the application handler with.
+- **Security.** Commands go to the portal origin only (not `'*'`), answers are accepted only from `window.parent` and only from the portal origin.
+- **Errors** — `BXRestFrameError` with a `code` field: `NOT_IN_FRAME` (the page is not opened in an application iframe — fails right away), `TIMEOUT`, `NO_AUTH`, `BAD_RESPONSE`, `CANCELLED`, `ACCESS_DENIED`. Wrong arguments of `resizeWindow()` and `scrollParentWindow()` are a `TypeError`.
+
+> **The protocol is internal and undocumented.** The messages between an application and a Bitrix24 portal are not described in the documentation and may change without notice. `BXRestFrame` follows BX24.js — `https://api.bitrix24.com/api/v1/`, downloaded 2026-10-29, `Last-Modified: 2022-03-17`, SHA-256 `945ad491df8ffb7490b89f4914a439b5a3f575c950c3480562815716a3e07f23` — and is checked against the portal side, `/bitrix/js/rest/applayout.js` (`Last-Modified: 2024-05-15`, SHA-256 `3efd6ab57a4778493a26d10ae0987a82e19fc012ed9935f5c6afa78c4052fcb5`), and against the BX24.js documentation. It is tested against a fake portal, not against a live one.
 
 ## Usage in Angular
 

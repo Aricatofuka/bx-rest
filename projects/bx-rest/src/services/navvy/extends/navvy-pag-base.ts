@@ -4,7 +4,9 @@ import { catchError, map } from 'rxjs/operators'
 import { BXRestMapResult, instanceOfiBXRestAnswerSuccess } from '../../../functions/mapResult'
 import { HttpBXServices } from '../../http/HttpBX'
 import { ReturnTypeNavvy } from '../navvy-support'
-import { BXRestApiError, bxRestApiErrorFromHttp, parseBXRestErrorBody } from '../../../functions/errors'
+import {
+  BXRestApiError, bxRestApiErrorFromHttp, getAuthRefreshError, parseBXRestErrorBody,
+} from '../../../functions/errors'
 
 export interface BXRestResOptions {
   /**
@@ -106,7 +108,15 @@ export abstract class NavvyPagBase<T, R, P> {
         if (apiError) {
           throw apiError
         }
-        throw new Error((err.error) ? err.error : err)
+        // Сообщение прежнее, но исходная ошибка остаётся в cause — без неё
+        // терялся HTTP-статус ответа не от Bitrix (например, пустого 401 от
+        // бэкенд-прокси): он был только в тексте сообщения.
+        const error = new Error((err.error) ? err.error : err, { cause: err })
+        const authRefreshError = getAuthRefreshError(err)
+        if (authRefreshError !== undefined) {
+          Object.assign(error, { authRefreshError })
+        }
+        throw error
       })
     )
   }

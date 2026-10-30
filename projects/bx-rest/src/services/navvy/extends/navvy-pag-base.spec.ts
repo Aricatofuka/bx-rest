@@ -98,6 +98,8 @@ describe('NavvyPagBase.res() error handling', () => {
     expect(err).not.toBeInstanceOf(BXRestApiError)
     expect(err).toBeInstanceOf(Error)
     expect(err.message).toContain('status code 502')
+    // Статус ответа не теряется: исходная ошибка axios — в cause
+    expect((err.cause as { response?: { status?: number } }).response?.status).toBe(502)
   })
 
   it('a success response still resolves with result', async () => {

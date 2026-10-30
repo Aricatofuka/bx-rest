@@ -11,6 +11,7 @@ import { switchMap } from 'rxjs/operators'
 import { prepareBaseAddress } from '../base'
 import { serializeBitrixParams as stringifyBitrixParams } from '../../functions/serializeBitrixParams'
 import { iHttpParamSettings } from '../../typification/rest/settings'
+import { withAuthRefresh } from './authRefresh'
 
 export class HttpBXServices extends HttpServices {
 
@@ -107,7 +108,13 @@ export class HttpBXServices extends HttpServices {
     // геттером в SessionKeyServices настройки читались бы в момент вызова
     // .res(), а не в момент subscribe()/firstValueFrom(), что и обещано
     // в README как поведение "ленивого" REST-вызова.
-    return defer(() => {
+    //
+    // withAuthRefresh() повторяет запрос после BXRestSettings.auth.refresh —
+    // повторной подпиской на этот же defer(), поэтому повтор заново читает
+    // токен, адрес и заголовки. Через httpPost/httpGet идут все запросы
+    // библиотеки (post/get, batch, все виды Navvy-запросов), так что повтор
+    // встроен только здесь.
+    return withAuthRefresh(defer(() => {
       const paramsClone = clone(params)
       const key = this.session.getKeyAuth()
       const auth = this.session.getAuthParams()
@@ -151,7 +158,7 @@ export class HttpBXServices extends HttpServices {
           )
         })
       )
-    })
+    }))
   }
 
   override httpGet<T>(
@@ -163,8 +170,9 @@ export class HttpBXServices extends HttpServices {
     // Та же причина, что и у httpPost выше: откладываем чтение BXRestSettings
     // до подписки, чтобы `get()` вёл себя так же "лениво", как и `post()`
     // (симметрия, которой не было до этого — GET резолвил настройки в момент
-    // вызова, а не в момент subscribe()).
-    return defer(() => {
+    // вызова, а не в момент subscribe()). Повтор после продления
+    // авторизации — как в httpPost.
+    return withAuthRefresh(defer(() => {
       const paramsClone = clone(params)
       const auth = this.session.getAuthParams()
       const checkIsOn = this.session.getCheckAuthParamsIsOn()
@@ -194,7 +202,7 @@ export class HttpBXServices extends HttpServices {
           )
         })
       )
-    })
+    }))
   }
 
   /**

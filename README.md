@@ -20,6 +20,11 @@
   - [`withCredentials`](#withcredentials)
 - [HTTP-заголовки](#http-заголовки)
 - [Обработка ошибок](#обработка-ошибок)
+- [Продление авторизации](#продление-авторизации)
+  - [Токен от портала без BX24.js](#токен-от-портала-без-bx24js)
+  - [Рецепт: напрямую в портал](#рецепт-напрямую-в-портал)
+  - [Рецепт: через бэкенд-прокси](#рецепт-через-бэкенд-прокси)
+- [Работа в iframe без BX24.js](#работа-в-iframe-без-bx24js)
 - [Использование в Angular](#использование-в-angular)
 - [SessionKeyServices](#sessionkeyservices)
 - [Использование в Vue](#использование-в-vue)
@@ -201,7 +206,7 @@ const deals = await firstValueFrom(
 | --- | --- |
 | Ошибка API Bitrix с HTTP-статусом не 2xx — так Bitrix отдаёт большинство ошибок: `expired_token` (401), `ERROR_METHOD_NOT_FOUND` (404), `QUERY_LIMIT_EXCEEDED` (503), `Not found` у `crm.*.get` (400) | Возвращённый `Observable` завершается ошибкой `BXRestApiError` — с `throwOnApiError` и без него. |
 | Ошибка API Bitrix в теле ответа со статусом 2xx | По умолчанию `.res()` резолвится обычным образом со значением `undefined` — **исключение не выбрасывается**. Передайте `{ throwOnApiError: true }`, чтобы вместо этого выбрасывалось `BXRestApiError`. |
-| Ошибки транспорта / конфигурации — сбой сети, отсутствие авторизации, отсутствие базового URL, ответ не от Bitrix (например, HTML-страница ошибки прокси) | Возвращённый `Observable` завершается обычной ошибкой `Error`. |
+| Ошибки транспорта / конфигурации — сбой сети, отсутствие авторизации, отсутствие базового URL, ответ не от Bitrix (например, HTML-страница ошибки прокси) | Возвращённый `Observable` завершается обычной ошибкой `Error`. Исходная ошибка — в её `cause`: для ответа не от Bitrix это ошибка axios, HTTP-статус — в `cause.response.status`. |
 
 Поля `BXRestApiError`:
 
@@ -232,7 +237,7 @@ bxRest.crm.deal.list({
     if (err instanceof BXRestApiError) {
       console.error('Bitrix API error:', err.status, err.error, err.error_description)
       if (err.error === 'expired_token') {
-        // обновить токен и повторить запрос
+        // auth.refresh не задан или не помог — см. «Продление авторизации»
       }
     } else {
       console.error('Request failed:', err.message)
@@ -265,6 +270,205 @@ if (!answer || !isBXRestAnswerSuccess(answer)) {
   console.log(answer.result)
 }
 ```
+
+## Продление авторизации
+
+Если задать `auth.refresh`, библиотека сама продлевает истёкшую авторизацию. Запрос упал с ошибкой авторизации — библиотека вызывает `auth.refresh()` и повторяет запрос, а прикладной код получает обычный результат.
+
+```typescript
+BXRestSettings.update({
+  auth: {
+    source: () => accessToken,
+    key: 'auth',
+    // получить новую авторизацию и положить её туда, откуда её читает source
+    refresh: async () => {
+      accessToken = await getNewToken()
+    }
+  },
+  // ...
+})
+```
+
+| Поле `auth` | Значение |
+| --- | --- |
+| `refresh` | `() => Promise<unknown>`. Получает новую авторизацию. Значение промиса не используется: повтор заново читает токен, адрес и заголовки из настроек — поэтому функция должна положить новый токен туда, откуда его читает `auth.source` (или, при работе через прокси, передать его на сервер). |
+| `isAuthError` | `(error: unknown) => boolean`, необязательно. Какую ошибку запроса считать ошибкой авторизации. Получает исходную ошибку HTTP-запроса — обычно `AxiosError`. По умолчанию — экспортируемая `isBXRestAuthError`, её удобно дополнять: `error => isBXRestAuthError(error) \|\| myCheck(error)`. |
+
+Без `auth.refresh` библиотека ведёт себя как раньше: запросы не повторяются. `update()` сливает настройки только на верхнем уровне, поэтому `BXRestSettings.update({ auth: {...} })` заменяет `auth` целиком — вместе с `refresh`. Если меняете `auth`, передайте `refresh` снова.
+
+Как работает повтор:
+
+- **Что считается ошибкой авторизации** (`isBXRestAuthError`): ответ с ошибкой Bitrix `expired_token` или `invalid_token` — при любом HTTP-статусе; ответ 401 без тела ошибки Bitrix — например, пустой 401 от бэкенд-прокси, у которого нет действующего токена. Остальные системные ошибки Bitrix тоже приходят со статусом 401 (`insufficient_scope`, `NO_AUTH_FOUND`, `ACCESS_DENIED`, `INVALID_CREDENTIALS`, `user_access_error`, `OVERLOAD_LIMIT`), но новый токен их не исправит — они не повторяются.
+- **Один повтор.** Если и повтор упал — наружу уходит его ошибка, второго продления не будет.
+- **Одно продление на всех.** Если одновременно упало несколько запросов, `refresh()` вызывается один раз, а повторяются все. Запрос, который был в пути, пока токен продлевали, повторяется без нового продления.
+- **Продление упало** (`refresh()` отклонил промис или бросил исключение) — наружу уходит исходная ошибка запроса, а причина сбоя продления — в её поле `authRefreshError`. Достать её из любой ошибки — `getAuthRefreshError(err)`:
+
+  ```typescript
+  import { BXRestApiError, getAuthRefreshError } from 'bx-rest'
+
+  bxRest.crm.deal.get({ ID: 1 }).res().subscribe({
+    error: err => {
+      if (err instanceof BXRestApiError && err.error === 'expired_token') {
+        console.error('Авторизацию продлить не удалось:', getAuthRefreshError(err))
+      }
+    }
+  })
+  ```
+
+- **Где работает.** Во всех запросах библиотеки: `.res()`, `.resAll()` (и первая страница, и каждый batch-запрос), `.resVanilla()`, `.mapForVanilla()`, `BXRestRequest.post()`/`.get()`, `BXRest.batch()`. Повтор встроен в HTTP-слой, поэтому `.res()` получает уже результат повтора.
+- **Что не повторяется:** ошибки в теле ответа со статусом 2xx (Bitrix отдаёт `expired_token` со статусом 401) и ошибки отдельных команд внутри успешного batch-ответа (`result_error`) — повторяется HTTP-запрос целиком.
+
+### Токен от портала без BX24.js
+
+Обновить токен по OAuth прямо в браузере нельзя — для этого нужен `client_secret`. Но приложение открыто в iframe портала, пользователь в портале залогинен, и портал сам выдаёт приложению токен по postMessage — так работают `BX24.getAuth()` и `BX24.refreshAuth()`. `BXRestFrame` делает то же самое без подключения BX24.js (остальные команды BX24.js — в разделе [Работа в iframe без BX24.js](#работа-в-iframe-без-bx24js)):
+
+```typescript
+import { BXRestFrame } from 'bx-rest'
+
+const frame = new BXRestFrame()         // необязательно: { timeout: 10000 }
+
+const auth = await frame.getAuth()      // текущая авторизация — как BX24.getAuth()
+const fresh = await frame.refreshAuth() // новая авторизация — как BX24.refreshAuth()
+// { access_token, refresh_token, expires_in, domain, member_id }
+```
+
+| Поле результата | Значение |
+| --- | --- |
+| `access_token`, `refresh_token` | Токены приложения. |
+| `expires_in` | Момент истечения `access_token` — **миллисекунды** с 1 января 1970 года, как у `BX24.getAuth()`. Не срок жизни в секундах, как в ответе OAuth-сервера. |
+| `domain` | Адрес портала без протокола, например `mycompany.bitrix24.ru`. |
+| `member_id` | Постоянный идентификатор портала. |
+
+- **Токены** `BXRestFrame` не логирует и никуда не сохраняет: каждый вызов `getAuth()` и `refreshAuth()` спрашивает портал заново, результат получает ваш код.
+- **Ошибки** — `BXRestFrameError` с полем `code`: `NOT_IN_FRAME` (страница открыта не в iframe приложения — ошибка сразу), `TIMEOUT` (портал не ответил за `timeout`, по умолчанию 10 секунд), `NO_AUTH` (портал ответил без токена), `BAD_RESPONSE` (ответ не удалось разобрать). Если портал не может выдать новый токен (например, у приложения закончился пробный или платный период), он показывает `alert` «Unable to get new token!» и не отвечает вовсе — такой отказ приходит как `TIMEOUT`.
+- **`getAuth()` и срок действия.** Портал отдаёт срок жизни токена на момент выдачи, а не остаток, поэтому `expires_in` от `getAuth()` на давно открытой странице завышен (у BX24.js так же). Для свежего токена используйте `refreshAuth()`.
+- **Домен портала** `BXRestFrame`, как и BX24.js, удостоверить не может — его задаёт тот, кто встроил страницу в iframe. Поэтому токен, пришедший из браузера, сервер должен проверить у портала, прежде чем ему доверять.
+
+### Рецепт: напрямую в портал
+
+Токен хранит фронтенд, запросы идут в `https://<портал>/rest/`. Функция продления берёт новый токен у портала и кладёт его туда, откуда его читает `auth.source` — здесь это переменная в памяти:
+
+```typescript
+import { BXRestSettings, BXRestFrame } from 'bx-rest'
+
+const frame = new BXRestFrame()
+const auth = await frame.getAuth()
+let accessToken = auth.access_token
+
+BXRestSettings.update({
+  auth: {
+    source: () => accessToken,
+    key: 'auth',
+    refresh: async () => {
+      accessToken = (await frame.refreshAuth()).access_token
+    }
+  },
+  urls: {
+    source: 'string',
+    key: `https://${auth.domain}`,
+    additional_part: 'rest'
+  }
+})
+```
+
+С `auth.source: 'localStorage'` функция продления так же записывает токен в `localStorage[auth.key]`.
+
+### Рецепт: через бэкенд-прокси
+
+Токен хранит сервер, браузер авторизуется у прокси cookie-сессией (`auth.source: 'off'`). Прокси без действующего токена отвечает 401 с пустым телом — это ошибка авторизации по умолчанию. Функция продления берёт новый токен у портала и отправляет его на сервер:
+
+```typescript
+import { BXRestSettings, BXRestFrame } from 'bx-rest'
+
+const APP = 'smart-process-pro'
+const frame = new BXRestFrame()
+
+BXRestSettings.update({
+  auth: {
+    source: 'off',
+    key: 'auth',
+    refresh: async () => {
+      const { access_token, refresh_token, expires_in } = await frame.refreshAuth()
+      const response = await fetch(`/api/bitrix/token/${APP}`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ access_token, refresh_token, expires_in })
+      })
+      if (!response.ok) {
+        // без тела запроса в сообщении — в нём токены
+        throw new Error(`Token upload failed: HTTP ${response.status}`)
+      }
+    }
+  },
+  urls: {
+    source: 'string',
+    key: '/api/bitrix/rest/',
+    additional_part: '' // иначе к адресу добавится ещё один `rest/`
+  },
+  headers: {
+    'X-Bitrix-App': APP
+  }
+})
+```
+
+Ошибки функции продления попадают в `authRefreshError` исходной ошибки, а `.res()` может вывести исходную ошибку в консоль — поэтому не кладите токены в текст ошибок функции продления.
+
+## Работа в iframe без BX24.js
+
+`BXRestFrame` — команды, которые приложение из iframe отправляет порталу: размер фрейма, диалоги выбора, слайдеры, мессенджер, встраивания, настройки, установка. Те же команды и те же имена, что у BX24.js, но вместо колбэков — промисы, и подключать BX24.js не нужно. REST-запросы делает сама bx-rest, токен для них — `getAuth()`/`refreshAuth()` (см. [Продление авторизации](#продление-авторизации)).
+
+```typescript
+import { BXRestFrame } from 'bx-rest'
+
+const frame = new BXRestFrame()
+
+const { lang, isAdmin, placement } = await frame.init()
+await frame.fitWindow()
+const user = await frame.selectUser()
+const unsubscribe = frame.placement.bindEvent('Tab:onChange', data => console.log(data))
+```
+
+Создавайте один экземпляр на страницу и при старте приложения: параметры портала читаются в конструкторе, а признак первого запуска портал сообщает только в первом ответе за загрузку страницы. По той же причине не используйте `BXRestFrame` и BX24.js на одной странице.
+
+| BX24.js | `BXRestFrame` | Ответ |
+| --- | --- | --- |
+| `BX24.init()`, `isAdmin()`, `getLang()`, `getDomain()` | `init()` — `{ domain, lang, path, https, memberId, isAdmin, install, firstRun, placement, placementOptions, userOptions, appOptions }` | Запрашивается один раз, без токенов |
+| `BX24.getAuth()`, `BX24.refreshAuth()` | `getAuth()`, `refreshAuth()` | Каждый раз у портала |
+| `BX24.installFinish()` | `installFinish()` | Только на странице установщика (`install`); портал перезагружает страницу |
+| конец цепочки `BX24.install()` | `firstRunFinish()` | Отмечает, что первый запуск пройден; без него `firstRun` останется `true` |
+| `BX24.resizeWindow(w, h)`, `BX24.fitWindow()` | `resizeWindow(w, h)`, `fitWindow()` | `{ width, height }` или `undefined` |
+| `BX24.setTitle(title)` | `setTitle(title)` | `{ title }` или `undefined` |
+| `BX24.scrollParentWindow(scroll)` | `scrollParentWindow(scroll)` | `{ scroll }` или `undefined` |
+| `BX24.reloadWindow()` | `reloadWindow()` | Без ответа |
+| `BX24.selectUser()`, `BX24.selectUsers()` | `selectUser({ title?, signal? })`, `selectUsers(...)` | Сотрудник / массив сотрудников |
+| `BX24.selectAccess(value)` | `selectAccess({ value?, signal? })` — `value`: коды, которые нельзя выбрать | Массив `{ provider, id, name }` |
+| `BX24.selectCRM(params)` | `selectCRM({ entityType?, multiple?, value?, signal? })` | Объекты CRM по типам |
+| `BX24.openApplication(params, cb, settings)` | `openApplication(params?, settings?, { signal? })` | Когда слайдер закрыли |
+| `BX24.openPath(path)` | `openPath(path, { signal? })` | `{ result: 'close' }` или `{ result: 'error', errorCode }` |
+| `BX24.closeApplication()` | `closeApplication()` | Без ответа |
+| `BX24.im.callTo/phoneTo/openMessenger/openHistory` | `im.callTo/phoneTo/openMessenger/openHistory` | Без ответа |
+| `BX24.placement.info()` | `placement.info()` | `{ placement, options }` из `init()` |
+| `BX24.placement.getInterface()` | `placement.getInterface()` | `{ command, event }` |
+| `BX24.placement.call(cmd, params)` | `placement.call(cmd, params?, { timeout? })` | Ответ команды или `undefined` |
+| `BX24.placement.bindEvent(event, cb)` | `placement.bindEvent(event, handler)` | `handler` на каждое событие; возвращает функцию отписки |
+| `BX24.userOption.get/set` | `userOption.get/set` | Настройка пользователя |
+| `BX24.appOption.get/set` | `appOption.get/set` | `set` — только администратору, иначе `ACCESS_DENIED` |
+
+Как портал отвечает на команды — от этого зависит, когда завершается промис:
+
+- **С ответом** (`init()`, `getAuth()`, `refreshAuth()`, `placement.getInterface()`, `appOption.set()`) — нет ответа за `timeout` (по умолчанию 10 секунд) — ошибка `TIMEOUT`.
+- **С подтверждением** (`resizeWindow()`, `fitWindow()`, `setTitle()`, `scrollParentWindow()`, `userOption.set()`, `firstRunFinish()`, `placement.call()`) — в некоторых встраиваниях портал на них не отвечает, поэтому без ответа за `timeout` промис завершается с `undefined`, а не ошибкой.
+- **Без ответа** (`reloadWindow()`, `closeApplication()`, `installFinish()`, `im.*`) — промис завершается сразу после отправки.
+- **Ждут пользователя** (`select*()`, `openApplication()`, `openPath()`) — без ограничения по времени. Если пользователь закрыл диалог, ничего не выбрав, портал не отвечает вовсе. Отменить ожидание можно через `signal` (`AbortController`), а повторный вызов того же диалога отменяет прошлый: портал держит один обработчик на диалог. Отменённое ожидание — ошибка `CANCELLED`.
+
+`placement.bindEvent()` возвращает функцию отписки, но она только перестаёт вызывать `handler`: отменить подписку на стороне портала протокол не позволяет.
+
+- **Где ищет портал.** Как BX24.js — в `window.name`: портал называет iframe приложения `DOMAIN|PROTOCOL|APP_SID`. Если там пусто — в query страницы (`?DOMAIN=…&PROTOCOL=…&APP_SID=…`), с которым портал открывает обработчик приложения.
+- **Безопасность.** Команды уходят только на origin портала (не `'*'`), ответы принимаются только от `window.parent` и только с origin портала.
+- **Ошибки** — `BXRestFrameError` с полем `code`: `NOT_IN_FRAME` (страница открыта не в iframe приложения — ошибка сразу), `TIMEOUT`, `NO_AUTH`, `BAD_RESPONSE`, `CANCELLED`, `ACCESS_DENIED`. Неверные аргументы `resizeWindow()` и `scrollParentWindow()` — `TypeError`.
+
+> **Протокол внутренний и недокументированный.** Обмен сообщениями между приложением и порталом Bitrix24 не описан в документации и может измениться без предупреждения. `BXRestFrame` повторяет BX24.js — `https://api.bitrix24.com/api/v1/`, скачан 2026-10-29, `Last-Modified: 2022-03-17`, SHA-256 `945ad491df8ffb7490b89f4914a439b5a3f575c950c3480562815716a3e07f23` — и сверен с ответной стороной портала, `/bitrix/js/rest/applayout.js` (`Last-Modified: 2024-05-15`, SHA-256 `3efd6ab57a4778493a26d10ae0987a82e19fc012ed9935f5c6afa78c4052fcb5`) и с документацией BX24.js. Проверен на поддельном портале в тестах, но не на живом портале.
 
 ## Использование в Angular
 

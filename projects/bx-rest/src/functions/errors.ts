@@ -13,6 +13,26 @@ export interface BXRestApiErrorDetails {
    * the full response body (including REST v3 `validation`).
    */
   cause?: unknown
+  /**
+   * Why `BXRestSettings.auth.refresh` failed, when the request failed with
+   * an authorization error and the refresh could not fix it.
+   */
+  authRefreshError?: unknown
+}
+
+/**
+ * Why `BXRestSettings.auth.refresh` failed. When a request fails with an
+ * authorization error and the refresh fails too, the library rethrows the
+ * original request error and puts the refresh failure into its
+ * `authRefreshError` field — on the `AxiosError` of `.resVanilla()` and the
+ * like, and on the `BXRestApiError` / `Error` of `.res()`.
+ *
+ * Returns `undefined` when there was no refresh or it succeeded.
+ */
+export function getAuthRefreshError(error: unknown): unknown {
+  return (error && typeof error === 'object')
+    ? (error as { authRefreshError?: unknown }).authRefreshError
+    : undefined
 }
 
 /**
@@ -27,6 +47,8 @@ export interface BXRestApiErrorDetails {
 export class BXRestApiError extends Error {
   readonly status: number | undefined
   readonly method: string | undefined
+  /** See `getAuthRefreshError()`. */
+  readonly authRefreshError: unknown
 
   constructor(
     public error: string | undefined,
@@ -40,6 +62,7 @@ export class BXRestApiError extends Error {
     this.name = 'BXRestApiError'
     this.status = details?.status
     this.method = details?.method
+    this.authRefreshError = details?.authRefreshError
   }
 }
 
@@ -97,6 +120,7 @@ export function bxRestApiErrorFromHttp(err: unknown, method: string): BXRestApiE
   return new BXRestApiError(parsed.error, parsed.error_description, {
     status: err.response.status,
     method,
-    cause: err
+    cause: err,
+    authRefreshError: getAuthRefreshError(err)
   })
 }
