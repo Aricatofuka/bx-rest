@@ -12,6 +12,17 @@ import { BXRest } from '../../rest/base'
 export class NavvyPagNavTasks<T, R, P extends iBXRestPagination> extends NavvyPagBase<{tasks: T[] | undefined}, R[], P> {
 
   save: ReturnTypeNavvy<T, R>[] = []
+
+  constructor(
+    url: string[],
+    param: P,
+    map?: (param: { tasks: T[] | undefined } | undefined) => R[] | undefined,
+    restApi?: boolean
+  ) {
+    // Без своего map результат — массив задач, как и обещают типы `.res()` и `.resAll()`.
+    super(url, param, map ?? (result => (result?.tasks ?? []) as unknown as R[]), restApi)
+  }
+
   resAll() {
     let save: ReturnTypeNavvy<T, R>[] = []
     return this.resultAllEnd()
@@ -30,7 +41,7 @@ export class NavvyPagNavTasks<T, R, P extends iBXRestPagination> extends NavvyPa
 
   private resultAllEnd() {
     let BXRestClass = new BXRest()
-    return this.resVanilla().pipe(
+    return this.resFirstPage().pipe(
       mergeMap(
         items => {
           if (items && instanceOfiBXRestAnswerSuccess(items)) {

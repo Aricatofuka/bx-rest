@@ -36,7 +36,7 @@ export class NavvyAlterPagNav<T, R, P extends iBXRestAlternativePagination> exte
   private resultAllEnd() {
     let BXRestClass = new BXRest()
     // return  this.mapForVanillaEnd(this.func, this.param)
-    return this.resVanilla().pipe(
+    return this.resFirstPage().pipe(
       mergeMap(
         items => {
           if (items && instanceOfiBXRestAnswerSuccess(items)) {

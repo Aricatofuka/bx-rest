@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatResultValueHtml, t, type SandboxResult } from 'bx-rest-demo-shared'
+import { formatResultValueHtml, resultStatusLabel, t, type SandboxResult } from 'bx-rest-demo-shared'
 
 defineProps<{ results: SandboxResult[] }>()
 </script>
@@ -12,7 +12,7 @@ defineProps<{ results: SandboxResult[] }>()
     <div v-for="result in results" :key="result.callId" :class="['result-card', `result-card--${result.status}`]">
       <div class="result-card__header">
         <span>{{ t.results.callLabel(result.callId) }}</span>
-        <span>{{ t.results.status[result.status] }}</span>
+        <span>{{ resultStatusLabel(result) }}</span>
       </div>
       <!-- formatResultValueHtml сама экранирует данные ответа и оборачивает
            только JSON-токены в <span> — безопасно вставлять через v-html. -->

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs'
-import { iBXRestAnswer } from '../../../typification/rest/base/answer'
+import { iBXRestAnswer, iBXRestAnswerError } from '../../../typification/rest/base/answer'
 import { catchError, map } from 'rxjs/operators'
 import { BXRestMapResult, instanceOfiBXRestAnswerSuccess } from '../../../functions/mapResult'
 import { HttpBXServices } from '../../http/HttpBX'
@@ -87,12 +87,7 @@ export abstract class NavvyPagBase<T, R, P> {
     return request.pipe(
       map(v => {
         if (options?.throwOnApiError && v && !instanceOfiBXRestAnswerSuccess(v)) {
-          const parsed = parseBXRestErrorBody(v)
-          throw new BXRestApiError(
-            parsed ? parsed.error : v.error,
-            parsed ? parsed.error_description : v.error_description,
-            { method }
-          )
+          throw this.apiErrorFromBody(v)
         }
         return BXRestMapResult(v)
       }),
@@ -118,6 +113,30 @@ export abstract class NavvyPagBase<T, R, P> {
         }
         throw error
       })
+    )
+  }
+
+  /**
+   * Первая страница для `.resAll()`. Ошибка Bitrix в теле ответа 2xx становится `BXRestApiError`:
+   * страниц в таком ответе нет, и без этого `.resAll()` завершился бы безликим `EmptyError`.
+   */
+  protected resFirstPage(): Observable<iBXRestAnswer<T> | undefined> {
+    return this.resVanilla().pipe(
+      map(v => {
+        if (v && !instanceOfiBXRestAnswerSuccess(v)) {
+          throw this.apiErrorFromBody(v)
+        }
+        return v
+      })
+    )
+  }
+
+  private apiErrorFromBody(v: iBXRestAnswerError) {
+    const parsed = parseBXRestErrorBody(v)
+    return new BXRestApiError(
+      parsed ? parsed.error : v.error,
+      parsed ? parsed.error_description : v.error_description,
+      { method: this.http.getNameMethod(this.url) }
     )
   }
 

@@ -1,4 +1,4 @@
-import { formatResultValueHtml, t, type SandboxResult } from 'bx-rest-demo-shared'
+import { formatResultValueHtml, resultStatusLabel, t, type SandboxResult } from 'bx-rest-demo-shared'
 
 interface Props {
   results: SandboxResult[]
@@ -15,7 +15,7 @@ export function ResultPanel({ results }: Props) {
         <div key={result.callId} className={`result-card result-card--${result.status}`}>
           <div className="result-card__header">
             <span>{t.results.callLabel(result.callId)}</span>
-            <span>{t.results.status[result.status]}</span>
+            <span>{resultStatusLabel(result)}</span>
           </div>
           {result.status !== 'pending' && (
             // formatResultValueHtml сама экранирует данные ответа и оборачивает

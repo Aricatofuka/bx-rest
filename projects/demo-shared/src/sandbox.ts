@@ -7,7 +7,7 @@
 // Сам пакет typescript (~3 МБ) грузится через import() при первом запуске
 // кода, а не статическим импортом — иначе он целиком попадал бы в стартовый
 // бандл каждого демо, хотя до нажатия «Запустить» не нужен.
-import { locale } from './i18n'
+import { locale, t } from './i18n'
 
 const NOT_OBSERVABLE_MESSAGE = {
   ru: 'show() ожидает RxJS Observable — например, результат вызова .res() или .resAll()',
@@ -69,6 +69,16 @@ export function mergeSandboxResult(results: SandboxResult[], incoming: SandboxRe
 
   const next = index === -1 ? [...results, merged] : results.map((r, i) => (i === index ? merged : r))
   return next.sort((a, b) => a.callId - b.callId)
+}
+
+/**
+ * Подпись статуса для карточки результата. У массива добавляем количество
+ * элементов: .resAll() отдаёт сразу все записи, и считать их в панели глазами
+ * неудобно.
+ */
+export function resultStatusLabel({ status, value }: SandboxResult): string {
+  const label = t.results.status[status]
+  return Array.isArray(value) ? `${label} · ${t.results.itemCount(value.length)}` : label
 }
 
 /**

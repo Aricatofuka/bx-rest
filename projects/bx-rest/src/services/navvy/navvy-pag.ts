@@ -15,7 +15,7 @@ export class NavvyPag<T, R, P extends iBXRestPagination> extends NavvyPagBase<T[
 
   resAll() {
     let BXRestClass = new BXRest()
-    return this.resVanilla().pipe(
+    return this.resFirstPage().pipe(
       mergeMap(
         items => {
           if (items && instanceOfiBXRestAnswerSuccess(items)) {

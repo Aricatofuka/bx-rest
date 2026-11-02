@@ -14,7 +14,7 @@ export class NavvyPagNavWithUselessKey<T, R, P extends iBXRestPagination> extend
 
   resAll() {
     let BXRestClass = new BXRest()
-    return this.resVanilla().pipe(
+    return this.resFirstPage().pipe(
       mergeMap(
         items => {
           if (items && instanceOfiBXRestAnswerSuccess(items)) {

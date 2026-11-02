@@ -1,6 +1,8 @@
 import { Navvy } from '../../services/navvy'
 import {
   iBXRestCrmObject,
+  iBXRestCrmType,
+  iBXRestCrmTypeResult,
   iBXRestParamCrmEntityType,
   iBXRestParamCrmTypeAdd,
   iBXRestParamCrmTypeId,
@@ -16,7 +18,7 @@ export class BXRestNavvyCrmType {
    * Создаёт новый смарт-процесс.
    */
   add(param: iBXRestParamCrmTypeAdd) {
-    return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmTypeAdd>(
+    return this.Navvy.simple<iBXRestCrmTypeResult, iBXRestCrmTypeResult, iBXRestParamCrmTypeAdd>(
       [$crm, $type, $add], param
     )
   }
@@ -41,7 +43,7 @@ export class BXRestNavvyCrmType {
    * Возвращает смарт-процесс по идентификатору.
    */
   get(param: iBXRestParamCrmTypeId) {
-    return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmTypeId>(
+    return this.Navvy.simple<iBXRestCrmTypeResult, iBXRestCrmTypeResult, iBXRestParamCrmTypeId>(
       [$crm, $type, $get], param
     )
   }
@@ -50,7 +52,7 @@ export class BXRestNavvyCrmType {
    * Возвращает смарт-процесс по entityTypeId.
    */
   getByEntityTypeId(param: iBXRestParamCrmEntityType) {
-    return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmEntityType>(
+    return this.Navvy.simple<iBXRestCrmTypeResult, iBXRestCrmTypeResult, iBXRestParamCrmEntityType>(
       [$crm, $type, $getByEntityTypeId], param
     )
   }
@@ -60,8 +62,8 @@ export class BXRestNavvyCrmType {
    */
   list(param: iBXRestParamCrmTypeList = {}) {
     return this.Navvy.pagNavResultKey<
-      iBXRestCrmObject,
-      iBXRestCrmObject,
+      iBXRestCrmType,
+      iBXRestCrmType,
       iBXRestParamCrmTypeList,
       'types'
     >([$crm, $type, $list], param, 'types')
@@ -71,7 +73,7 @@ export class BXRestNavvyCrmType {
    * Обновляет смарт-процесс.
    */
   update(param: iBXRestParamCrmTypeUpdate) {
-    return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmTypeUpdate>(
+    return this.Navvy.simple<iBXRestCrmTypeResult, iBXRestCrmTypeResult, iBXRestParamCrmTypeUpdate>(
       [$crm, $type, $update], param
     )
   }

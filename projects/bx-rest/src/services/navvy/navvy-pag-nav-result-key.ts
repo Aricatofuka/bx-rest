@@ -22,7 +22,10 @@ export class NavvyPagNavResultKey<T, R, P extends iBXRestPagination, K extends s
     private readonly key: K,
     map?: (param: KeyedResult<K, T> | undefined) => R[] | undefined
   ) {
-    super(url, param, map)
+    // Без своего map результат — массив по ключу, как и обещают типы `.res()` и `.resAll()`.
+    // Иначе `.res()` отдал бы весь объект `{ items: [...] }`, а `.resAll()` упал бы на нём
+    // при 50 записях и меньше: первая страница разворачивается через `save.push(...v)`.
+    super(url, param, map ?? (result => (result?.[key] ?? []) as unknown as R[]))
   }
 
   resAll() {
@@ -43,7 +46,7 @@ export class NavvyPagNavResultKey<T, R, P extends iBXRestPagination, K extends s
 
   private resultAllEnd() {
     let BXRestClass = new BXRest()
-    return this.resVanilla().pipe(
+    return this.resFirstPage().pipe(
       mergeMap(
         items => {
           if (items && instanceOfiBXRestAnswerSuccess(items)) {

@@ -1,5 +1,8 @@
 import { Navvy } from '../../services/navvy'
 import {
+  iBXRestCrmItem,
+  iBXRestCrmItemFieldsResult,
+  iBXRestCrmItemResult,
   iBXRestCrmObject,
   iBXRestParamCrmEntityType,
   iBXRestParamCrmItemBatchImport,
@@ -38,7 +41,7 @@ export class BXRestNavvyCrmItem {
    * Создаёт элемент CRM.
    */
   add(param: iBXRestParamCrmItemFields) {
-    return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmItemFields>(
+    return this.Navvy.simple<iBXRestCrmItemResult, iBXRestCrmItemResult, iBXRestParamCrmItemFields>(
       [$crm, $item, $add], param
     )
   }
@@ -67,7 +70,7 @@ export class BXRestNavvyCrmItem {
    * Возвращает описание полей элемента CRM.
    */
   fields(param: iBXRestParamCrmEntityType) {
-    return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmEntityType>(
+    return this.Navvy.simple<iBXRestCrmItemFieldsResult, iBXRestCrmItemFieldsResult, iBXRestParamCrmEntityType>(
       [$crm, $item, $fields], param
     )
   }
@@ -76,7 +79,7 @@ export class BXRestNavvyCrmItem {
    * Возвращает данные элемента CRM по идентификатору.
    */
   get(param: iBXRestParamCrmItemId) {
-    return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmItemId>(
+    return this.Navvy.simple<iBXRestCrmItemResult, iBXRestCrmItemResult, iBXRestParamCrmItemId>(
       [$crm, $item, $get], param
     )
   }
@@ -95,8 +98,8 @@ export class BXRestNavvyCrmItem {
    */
   list(param: iBXRestParamCrmItemList) {
     return this.Navvy.pagNavResultKey<
-      iBXRestCrmObject,
-      iBXRestCrmObject,
+      iBXRestCrmItem,
+      iBXRestCrmItem,
       iBXRestParamCrmItemList,
       'items'
     >([$crm, $item, $list], param, 'items')
@@ -106,7 +109,7 @@ export class BXRestNavvyCrmItem {
    * Изменяет поля элемента CRM.
    */
   update(param: iBXRestParamCrmItemUpdate) {
-    return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmItemUpdate>(
+    return this.Navvy.simple<iBXRestCrmItemResult, iBXRestCrmItemResult, iBXRestParamCrmItemUpdate>(
       [$crm, $item, $update], param
     )
   }

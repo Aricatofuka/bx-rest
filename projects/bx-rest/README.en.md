@@ -238,7 +238,7 @@ bxRest.crm.deal.list({
 
 Without `throwOnApiError`, plain `.res()` can't tell "no records" apart from "an error in a 2xx response" — both resolve as `undefined`.
 
-**Alternative — check the raw response.** `.resVanilla()` returns the raw Bitrix body for 2xx responses; check it with the exported `isBXRestAnswerSuccess()` type guard. Note that `.resVanilla()`, `.mapForVanilla()` and `.resAll()` don't convert errors: on a Bitrix error with a non-2xx status they fail with the original axios error, with the response body in `err.response.data`.
+**Alternative — check the raw response.** `.resVanilla()` returns the raw Bitrix body for 2xx responses; check it with the exported `isBXRestAnswerSuccess()` type guard. Note that `.resVanilla()`, `.mapForVanilla()` and `.resAll()` don't convert errors: on a Bitrix error with a non-2xx status they fail with the original axios error, with the response body in `err.response.data`. An error in the body of a 2xx response comes back as is from `.resVanilla()` and `.mapForVanilla()`, while `.resAll()` fails with a `BXRestApiError` — it has no `throwOnApiError` option.
 
 ```typescript
 import { firstValueFrom } from 'rxjs'

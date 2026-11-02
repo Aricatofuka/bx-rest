@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core'
 import { MatCardModule } from '@angular/material/card'
-import { formatResultValueHtml, t, type SandboxResult } from 'bx-rest-demo-shared'
+import { formatResultValueHtml, resultStatusLabel, t, type SandboxResult } from 'bx-rest-demo-shared'
 
 @Component({
   selector: 'app-result-panel',
@@ -15,7 +15,7 @@ import { formatResultValueHtml, t, type SandboxResult } from 'bx-rest-demo-share
           <mat-card class="result-card" [class]="'result-card--' + result.status">
             <mat-card-header>
               <mat-card-title>{{ t.results.callLabel(result.callId) }}</mat-card-title>
-              <mat-card-subtitle>{{ t.results.status[result.status] }}</mat-card-subtitle>
+              <mat-card-subtitle>{{ statusLabel(result) }}</mat-card-subtitle>
             </mat-card-header>
             @if (result.status !== 'pending') {
               <mat-card-content>
@@ -37,5 +37,9 @@ export class ResultPanelComponent {
 
   format(value: unknown): string {
     return formatResultValueHtml(value)
+  }
+
+  statusLabel(result: SandboxResult): string {
+    return resultStatusLabel(result)
   }
 }

@@ -27,6 +27,13 @@ afterAll(() => {
   server.close()
 })
 
+// Ошибка, с которой завершился Observable; если он резолвился — тест падает.
+const failureOf = (source$: Observable<unknown>) =>
+  firstValueFrom(source$).then(
+    value => { throw new Error(`expected an error, got ${JSON.stringify(value)}`) },
+    (error: Error) => error
+  )
+
 describe('NavvyPagBase.res() error handling', () => {
   beforeEach(() => {
     const { port } = server.address() as AddressInfo
@@ -43,13 +50,6 @@ describe('NavvyPagBase.res() error handling', () => {
   })
 
   const dealGet = () => new Navvy().simple<unknown, unknown, { ID: number }>(['crm', 'deal', 'get'], { ID: 1 })
-
-  // Ошибка, с которой завершился Observable; если он резолвился — тест падает.
-  const failureOf = (source$: Observable<unknown>) =>
-    firstValueFrom(source$).then(
-      value => { throw new Error(`expected an error, got ${JSON.stringify(value)}`) },
-      (error: Error) => error
-    )
 
   for (const options of [undefined, { throwOnApiError: true }]) {
     it(`HTTP 400 with a Bitrix body fails with BXRestApiError (options: ${JSON.stringify(options)})`, async () => {
@@ -106,6 +106,55 @@ describe('NavvyPagBase.res() error handling', () => {
     reply = { status: 200, body: { result: { ID: '1' } } }
 
     await expect(firstValueFrom(dealGet().res())).resolves.toEqual({ ID: '1' })
+  })
+})
+
+describe('.resAll() error handling', () => {
+  beforeEach(() => {
+    const { port } = server.address() as AddressInfo
+    BXRestSettings.update({
+      auth: { source: () => 'token', key: 'auth' },
+      urls: { source: 'string', key: `http://127.0.0.1:${port}`, additional_part: 'rest' }
+    })
+    vi.spyOn(console, 'error').mockImplementation(() => undefined)
+  })
+
+  afterEach(() => {
+    BXRestSettings.value = { ...DEFAULT_BX_REST_SETTINGS }
+    vi.restoreAllMocks()
+  })
+
+  const url = ['crm', 'deal', 'list']
+  const resAll: [string, () => Observable<unknown>][] = [
+    ['pagNav', () => new Navvy().pagNav(url, {}).resAll()],
+    ['pagNavTasks', () => new Navvy().pagNavTasks(url, {}).resAll()],
+    ['pagNavResultKey', () => new Navvy().pagNavResultKey(url, {}, 'items').resAll()],
+    ['pagNavResultKeyObject', () => new Navvy().pagNavResultKeyObject(url, {}, 'items').resAll()],
+    ['pagNavWithUselessKey', () => new Navvy().pagNavWithUselessKey(url, {}).resAll()],
+    ['alterPagNav', () => new Navvy().alterPagNav(url, {}).resAll()],
+  ]
+
+  it.each(resAll)('%s: a Bitrix error in a 2xx body fails with BXRestApiError', async (_, request) => {
+    reply = { status: 200, body: { error: 'INSUFFICIENT_SCOPE', error_description: 'Not enough scope' } }
+
+    const err = await failureOf(request())
+
+    expect(err).toBeInstanceOf(BXRestApiError)
+    expect(err).toMatchObject({
+      error: 'INSUFFICIENT_SCOPE',
+      error_description: 'Not enough scope',
+      status: undefined,
+      method: 'crm.deal.list',
+    })
+  })
+
+  it.each(resAll)('%s: a Bitrix error with a non-2xx status stays the original axios error', async (_, request) => {
+    reply = { status: 400, body: { error: 'INSUFFICIENT_SCOPE', error_description: 'Not enough scope' } }
+
+    const err = await failureOf(request())
+
+    expect(err).not.toBeInstanceOf(BXRestApiError)
+    expect((err as Error & { response?: { data?: unknown } }).response?.data).toEqual(reply.body)
   })
 })
 

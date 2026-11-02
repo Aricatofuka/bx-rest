@@ -1,6 +1,6 @@
 {
   "name": "bx-rest",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Bitrix24 REST API client and TypeScript SDK for Angular, Vue and browser apps",
   "keywords": [
     "bitrix",
@@ -76,6 +76,9 @@
     },
     "./typification/common": {
       "types": "./typification/rest/common.d.ts"
+    },
+    "./typification/crm": {
+      "types": "./typification/rest/crm/index.d.ts"
     },
     "./typification/department": {
       "types": "./typification/rest/department.d.ts"

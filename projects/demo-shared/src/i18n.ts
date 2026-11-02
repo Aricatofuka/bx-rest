@@ -60,6 +60,7 @@ export interface Strings {
     empty: string
     status: Record<'pending' | 'next' | 'error' | 'complete', string>
     callLabel: (id: number) => string
+    itemCount: (count: number) => string
   }
   recipes: {
     dealList: { title: string; description: string }
@@ -143,7 +144,8 @@ const ru: Strings = {
       error: '✕ Ошибка',
       complete: '✓ Готово'
     },
-    callLabel: id => `Результат #${id}`
+    callLabel: id => `Результат #${id}`,
+    itemCount: count => `элементов: ${count}`
   },
   recipes: {
     dealList: { title: 'Список сделок', description: 'crm.deal.list — типизированные select/filter, как в разделе «Быстрый старт»' },
@@ -219,7 +221,8 @@ const en: Strings = {
       error: '✕ Error',
       complete: '✓ Done'
     },
-    callLabel: id => `Result #${id}`
+    callLabel: id => `Result #${id}`,
+    itemCount: count => `items: ${count}`
   },
   recipes: {
     dealList: { title: 'List deals', description: 'crm.deal.list — typed select/filter, same as in the "Quick Start" section' },

@@ -23,7 +23,8 @@ export class NavvyPagNavResultKeyObject<
     private readonly key: K,
     mapResult?: (param: KeyedObjectResult<K, T> | undefined) => R[] | undefined
   ) {
-    super(url, param, mapResult)
+    // Без своего map результат — значения объекта по ключу, как и обещают типы `.res()` и `.resAll()`.
+    super(url, param, mapResult ?? (result => Object.values(result?.[key] ?? {}) as unknown as R[]))
   }
 
   resAll() {
@@ -33,7 +34,7 @@ export class NavvyPagNavResultKeyObject<
   private resultAllEnd() {
     const bxRest = new BXRest()
 
-    return this.resVanilla().pipe(
+    return this.resFirstPage().pipe(
       mergeMap(items => {
         if (!items || !instanceOfiBXRestAnswerSuccess(items)) {
           return from([])
@@ -67,7 +68,7 @@ export class NavvyPagNavResultKeyObject<
               }
             }
 
-            return this.mapResult({ [this.key]: merged } as KeyedObjectResult<K, T>)
+            return this.mapResult({ result: { [this.key]: merged } as KeyedObjectResult<K, T> })
           })
         )
       }),
@@ -84,9 +85,7 @@ export class NavvyPagNavResultKeyObject<
     }
 
     return from([items.result]).pipe(
-      map(value => this.map
-        ? this.map(value)
-        : Object.values(value?.[this.key] ?? {}) as unknown as R[])
+      map(value => this.map?.(value))
     )
   }
 }

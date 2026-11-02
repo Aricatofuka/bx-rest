@@ -43,6 +43,7 @@ export function getAuthRefreshError(error: unknown): unknown {
  * the error comes in the body of a 2xx response, `.res()` resolves as
  * `undefined` by default and fails with it only with
  * `{ throwOnApiError: true }` — see the "Error handling" section of the README.
+ * `.resAll()` always fails with it on an error in the body of a 2xx response.
  */
 export class BXRestApiError extends Error {
   readonly status: number | undefined

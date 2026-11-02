@@ -7,6 +7,49 @@
 История до версии 1.0.0 здесь не восстанавливалась — смотрите `git log` для
 более ранних изменений.
 
+## [1.5.0] - 2026-11-02
+
+### Added
+
+- Типы для универсальных методов CRM, раньше здесь было `Record<string, unknown>`:
+  - теперь `iBXRestCrmItem` — элемент в `crm.item.list`, с ответом `iBXRestCrmItemResult`
+    и в `crm.item.add`, `crm.item.get`, `crm.item.update`. Описаны поля, общие
+    для типов объектов; `parentId<entityTypeId>` и `ufCrm...` доступны по индексу.
+    В `crm.item.list` при заданном `select` поле `id` приходит, только если
+    указано в нём, поэтому там оно необязательное;
+  - `iBXRestCrmItemField`, `iBXRestCrmItemFieldType`,
+    `iBXRestCrmItemFieldSettings` и `iBXRestCrmItemFieldsResult` — ответ
+    `crm.item.fields`;
+  - `iBXRestCrmType` — смарт-процесс в `crm.type.list`, а через
+    `iBXRestCrmTypeResult` и в `crm.type.add`, `crm.type.get`,
+    `crm.type.getByEntityTypeId`, `crm.type.update`.
+- Подпуть `bx-rest/typification/crm`: типы CRM теперь можно импортировать, как и
+  остальные разделы `typification`.
+
+### Fixed
+
+- Списки на `Navvy.pagNavResultKey` без своего `map` (`crm.item.list`,
+  `crm.type.list`, `crm.category.list`, `socialnetwork.api.workgroup.list`):
+  - `.resAll()` падал с `TypeError: Spread syntax requires ...iterable`, если
+    записей было 50 или меньше;
+  - `.res()` и `.mapForVanilla()` отдавали весь объект `{ items: [...] }`, хотя
+    по типу возвращали массив. Теперь они отдают массив. Код, который читал
+    `result.items` в обход типов, нужно поправить.
+- То же при прямом вызове `Navvy` без своего `map`. Методов SDK это не касается,
+  они передают свой `map`:
+  - `Navvy.pagNavTasks`: `.resAll()` падал с тем же `TypeError`, а `.res()` и
+    `.mapForVanilla()` отдавали весь объект `{ tasks: [...] }`;
+  - `Navvy.pagNavResultKeyObject`: `.res()` и `.mapForVanilla()` отдавали весь
+    объект `{ ключ: { id: значение } }`. Теперь они отдают массив значений.
+- `crm.documentgenerator.template.list` и другие списки на
+  `Navvy.pagNavResultKeyObject`: `.resAll()` падал с `EmptyError`, если записей
+  было больше 50.
+- `.resAll()` при ошибке Bitrix в теле ответа 2xx теперь завершается ошибкой
+  `BXRestApiError` с кодом и описанием. Раньше код терялся: `pagNav` завершался
+  без значения, `pagNavWithUselessKey` (`lists.field.get`) отдавал `undefined`,
+  а остальные падали с `EmptyError`. Ошибки со статусом не 2xx `.resAll()`
+  по-прежнему отдаёт исходной ошибкой axios.
+
 ## [1.4.0] - 2026-10-29
 
 ### Added
