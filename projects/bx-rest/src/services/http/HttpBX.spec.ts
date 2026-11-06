@@ -166,6 +166,34 @@ describe('HttpBXServices', () => {
   })
 
   describe('httpGet (Bitrix-specific override)', () => {
+    const portal = { source: 'string', key: 'https://example.bitrix24.ru', additional_part: 'rest' } as const
+
+    it('serializes nested params in the bracket notation Bitrix expects', async () => {
+      BXRestSettings.update({ auth: { source: 'off', key: 'auth' }, urls: portal })
+      const http = new HttpBXServices()
+      const getSpy = vi
+        .spyOn((http as any).axiosInstance, 'get')
+        .mockResolvedValue({ data: { result: 'ok' } })
+
+      await firstValueFrom(http.get(['crm', 'deal', 'list'], { filter: { ID: 1 }, select: ['ID', 'TITLE'] }))
+
+      const [url] = getSpy.mock.calls[0] as [string]
+      expect(decodeURIComponent(url)).toContain('crm.deal.list?filter[ID]=1&select[0]=ID&select[1]=TITLE')
+    })
+
+    it('key === "OAuth2": does not put the token into the URL, as post() does not', async () => {
+      BXRestSettings.update({ auth: { source: () => 'SECRET_TOKEN', key: 'OAuth2' }, urls: portal })
+      const http = new HttpBXServices()
+      const getSpy = vi
+        .spyOn((http as any).axiosInstance, 'get')
+        .mockResolvedValue({ data: { result: 'ok' } })
+
+      await firstValueFrom(http.get(['crm', 'deal', 'list'], { start: 0 }))
+
+      const [url] = getSpy.mock.calls[0] as [string]
+      expect(url).not.toContain('SECRET_TOKEN')
+    })
+
     describe('lazy settings resolution', () => {
       it('a BXRestSettings change made after httpGet() is called, but before subscribe, is honored (not what was current at call time)', async () => {
         let token = ''
@@ -213,6 +241,32 @@ describe('HttpBXServices', () => {
   })
 
   describe('withCredentials', () => {
+      it('the explicit setting applies to sessid POST requests', async () => {
+        BXRestSettings.update({ auth: { source: 'off', key: 'sessid' }, withCredentials: true })
+        const http = new HttpBXServices()
+        const postSpy = vi
+          .spyOn((http as any).axiosInstance, 'post')
+          .mockResolvedValue({ data: { result: 'ok' } })
+
+        await firstValueFrom(http.post(['crm', 'deal', 'get'], { ID: 1 }))
+
+        const [, , config] = postSpy.mock.calls[0] as [string, unknown, any]
+        expect(config.withCredentials).toBe(true)
+      })
+
+      it('the explicit setting applies to GET requests', async () => {
+        BXRestSettings.update({ auth: { source: 'off', key: 'auth' }, withCredentials: true })
+        const http = new HttpBXServices()
+        const getSpy = vi
+          .spyOn((http as any).axiosInstance, 'get')
+          .mockResolvedValue({ data: { result: 'ok' } })
+
+        await firstValueFrom(http.get(['crm', 'deal', 'list']))
+
+        const [, config] = getSpy.mock.calls[0] as [string, any]
+        expect(config.withCredentials).toBe(true)
+      })
+
       it('no explicit setting, key !== "OAuth2" -> false (historical default)', async () => {
         BXRestSettings.update({ auth: { source: 'off', key: 'auth' } })
         const http = new HttpBXServices()

@@ -240,7 +240,7 @@ bxRest.crm.deal.list({
 
 Without `throwOnApiError`, plain `.res()` can't tell "no records" apart from "an error in a 2xx response" — both resolve as `undefined`.
 
-**Alternative — check the raw response.** `.resVanilla()` returns the raw Bitrix body for 2xx responses; check it with the exported `isBXRestAnswerSuccess()` type guard. Note that `.resVanilla()`, `.mapForVanilla()` and `.resAll()` don't convert errors: on a Bitrix error with a non-2xx status they fail with the original axios error, with the response body in `err.response.data`. An error in the body of a 2xx response comes back as is from `.resVanilla()` and `.mapForVanilla()`, while `.resAll()` fails with a `BXRestApiError` — it has no `throwOnApiError` option.
+**Alternative — check the raw response.** `.resVanilla()` returns the raw Bitrix body for 2xx responses; check it with the exported `isBXRestAnswerSuccess()` type guard. Note that `.resVanilla()`, `.mapForVanilla()` and `.resAll()` don't convert errors: on a Bitrix error with a non-2xx status they fail with the original axios error, with the response body in `err.response.data`. An error in the body of a 2xx response comes back as is from `.resVanilla()` and `.mapForVanilla()`, while `.resAll()` fails with a `BXRestApiError` — it has no `throwOnApiError` option. It fails the same way when any page inside a batch request returns an error (`result_error`): `.resAll()` never gives a partial list.
 
 ```typescript
 import { firstValueFrom } from 'rxjs'
@@ -307,7 +307,7 @@ How the retry works:
   })
   ```
 
-- **Where it works.** In every library request: `.res()`, `.resAll()` (the first page and every batch request), `.resVanilla()`, `.mapForVanilla()`, `BXRestRequest.post()`/`.get()`, `BXRest.batch()`. The retry lives in the HTTP layer, so `.res()` already gets the result of the retry.
+- **Where it works.** In every library request: `.res()`, `.resAll()` (the first page and every batch request), `.resVanilla()`, `.mapForVanilla()`, `BXRestRequest.post()`/`.get()`. The retry lives in the HTTP layer, so `.res()` already gets the result of the retry.
 - **What is not retried:** errors in the body of a 2xx response (Bitrix sends `expired_token` with status 401) and errors of single commands inside a successful batch response (`result_error`) — the whole HTTP request is what gets retried.
 
 ### A token from the portal without BX24.js
@@ -404,7 +404,7 @@ BXRestSettings.update({
 })
 ```
 
-Errors of the refresh function end up in `authRefreshError` of the original error, and `.res()` may print the original error to the console — so keep tokens out of the error messages of the refresh function.
+Errors of the refresh function end up in `authRefreshError` of the original error, and your app may print that error to the console or send it to an error tracker — so keep tokens out of the error messages of the refresh function.
 
 ## Working in an iframe without BX24.js
 

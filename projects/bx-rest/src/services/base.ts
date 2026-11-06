@@ -177,8 +177,13 @@ function parseDateWithFormat(val: string, format: string): Date | null {
     return null
   }
 
+  return buildDate(year, month, day, hour, minute, second)
+}
+
+/** Собирает дату, отбрасывая несуществующие дни месяца: new Date() превратил бы 31 февраля в 3 марта. */
+function buildDate(year: number, month: number, day: number, hour: number, minute: number, second: number): Date | null {
   const date = new Date(year, month - 1, day, hour, minute, second)
-  return isNaN(date.getTime()) ? null : date
+  return (isNaN(date.getTime()) || date.getMonth() !== month - 1 || date.getDate() !== day) ? null : date
 }
 
 /**
@@ -226,8 +231,7 @@ function parseDateHeuristically(val: string): Date | null {
     return null
   }
 
-  const date = new Date(year, month - 1, day, hour, minute, second)
-  return isNaN(date.getTime()) ? null : date
+  return buildDate(year, month, day, hour, minute, second)
 }
 
 /**

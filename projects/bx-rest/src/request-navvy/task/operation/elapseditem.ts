@@ -55,6 +55,10 @@ export class BXRestNavvyOperationElapsedItem {
    * Возвращает список записей о затраченном времени по задаче.
    */
   getListByIDTask(ids: number[]) {
+    // Пустой batch завершается без значения, и вызывающий код получил бы EmptyError
+    if (!ids.length) {
+      return of([])
+    }
     // Работает только потому что "nPageSize: 99999"
     return this.http.branch<iBXRestParamElapseditemGet, iBXRestTaskElapsedItemHttp>
     (
@@ -184,12 +188,6 @@ export class BXRestNavvyOperationElapsedItem {
    * @param userCurrent
    */
   checkPermissionAddElapsedTimeToTask(idTask: number, userCurrent: iBXRestUser | undefined = undefined) {
-    // let permission = Permission.get()
-    // if (permission?.tasks?.length) {
-    //   let findTask = permission.tasks.find(i => i.id === idTask)
-    //   if (findTask?.permission) {
-    //     return of(findTask.permission['ELAPSEDTIME.ADD'])
-    //   }
     return ((userCurrent) ? of(userCurrent) : this.BXRestNavvyUser.current().res()).pipe(
       mergeMap(self => {
         if (self) {
@@ -198,13 +196,6 @@ export class BXRestNavvyOperationElapsedItem {
               id: idTask,
               users: [self.ID]
             }).res().pipe(
-            // tap(v => {
-            //   if (v && v[self.ID]) {
-            //     Permission.set({
-            //       tasks: [{id: idTask, permission: v[self.ID], elapsedItem: []}]
-            //     })
-            //   }
-            // }),
             map(v => {
               return (v && v[self.ID]) ? v[self.ID]['ELAPSEDTIME.ADD'] : false
             }),
@@ -213,9 +204,6 @@ export class BXRestNavvyOperationElapsedItem {
         return of(undefined)
       })
     )
-    // }
-
-    // return of(undefined)
   }
 
   /**
@@ -225,13 +213,6 @@ export class BXRestNavvyOperationElapsedItem {
    * @param userCurrent
    */
   checkPermissionReadTask(idTask: number, userCurrent: iBXRestUser | undefined = undefined) {
-    // let permission = Permission.get()
-    // if (permission?.tasks?.length) {
-    //   let findTask = permission.tasks.find(i => i.id === idTask)
-    //   if (findTask?.permission) {
-    //     return of(findTask.permission.ACCEPT)
-    //   }
-    //   console.log('idTask', idTask)
     return ((userCurrent) ? of(userCurrent) : this.BXRestNavvyUser.current().res()).pipe(
       mergeMap(self => {
         if (self) {
@@ -240,13 +221,6 @@ export class BXRestNavvyOperationElapsedItem {
               id: idTask,
               users: [self.ID]
             }).res().pipe(
-            // tap(v => {
-            //   if (v && v[self.ID]) {
-            //     Permission.set({
-            //       tasks: [{id: idTask, permission: v[self.ID], elapsedItem: []}]
-            //     })
-            //   }
-            // }),
             map(v => {
               return (v && v[self.ID]) ? !!v[self.ID] : false // отдельного флага на чтение нет, выходит что если права отдались то и права есть
             }),
@@ -255,9 +229,6 @@ export class BXRestNavvyOperationElapsedItem {
         return of(undefined)
       })
     )
-    // }
-    //
-    // return of(undefined)
   }
 
   /**
@@ -275,7 +246,7 @@ export class BXRestNavvyOperationElapsedItem {
               if (allowed) {
                 return this.BXRestNavvyElapsedItem.add(param).res()
               } else {
-                return throwError(() => new Error('Отсутствуют права добавление записи затраченного времени'))
+                return throwError(() => new Error('Отсутствуют права на добавление записи затраченного времени'))
               }
             }))
         } else {
@@ -306,43 +277,15 @@ export class BXRestNavvyOperationElapsedItem {
       }))
   }
 
-  // TODO: разобраться что это за ебатня в комментах и вписать нормальной комент если она нужна
   /**
    * Проверяет право на изменение записи о затраченном времени.
    */
   isAllowedModify(idTask: number, idItem: number) {
-    // let permission = Permission.get()
-    // if (permission?.tasks?.length) {
-    //   let findTask = permission.tasks.find(i => i.id === idTask)
-    //   if (findTask) {
-    //     let find = findTask.elapsedItem.find(i => i.id === idItem)
-    //     if (find && find.verified.edit) {
-    //       return of(find.edit)
-    //     }
-    //   }
-    // }
-
     return this.BXRestNavvyElapsedItem.isActionAllowed({
       TASKID: idTask,
       ITEMID: idItem,
       ACTIONID: 2
     }).res()
-    //   .pipe(
-    //   tap(v => {
-    //     if (v !== undefined) {
-    //       Permission.setTaskElapsedItem(idTask,
-    //         {
-    //           id: idItem,
-    //           edit: v,
-    //           del: false,
-    //           verified: {
-    //             edit: true,
-    //             del: false,
-    //           }
-    //         })
-    //     }
-    //   })
-    // )
   }
 
   /**

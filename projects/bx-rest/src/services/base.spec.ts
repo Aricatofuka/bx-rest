@@ -130,6 +130,25 @@ describe('toDate', () => {
     expect(() => toDate('05.13.2024', 'dd.MM.yyyy')).toThrow('Wrong date format')
   })
 
+  it.each([
+    ['31.02.2024', 'dd.MM.yyyy'],
+    ['31.04.2024', 'dd.MM.yyyy'],
+    ['29.02.2023', 'dd.MM.yyyy'],
+    // Позиционная эвристика: разделитель не из формата
+    ['31/02/2024', 'dd.MM.yyyy'],
+  ])('rejects %s: this day does not exist in the month', (value, format) => {
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+
+    expect(() => toDate(value, format)).toThrow('Wrong date format')
+
+    vi.restoreAllMocks()
+  })
+
+  it('accepts the last day of a leap February', () => {
+    const date = toDate('29.02.2024', 'dd.MM.yyyy')
+    expect([date.getFullYear(), date.getMonth(), date.getDate()]).toEqual([2024, 1, 29])
+  })
+
   it('unparseable string throws by default', () => {
     expect(() => toDate('not-a-date-at-all', 'dd.MM.yyyy')).toThrow('Wrong date format')
   })

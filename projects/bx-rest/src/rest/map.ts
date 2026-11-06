@@ -2,7 +2,7 @@ import { BXRestMapLists } from '../map/lists'
 import { BXRestMapUser } from '../map/user'
 import { BXRestMapSonetGroup } from '../map/sonet_group'
 import { BXRestMapServer } from '../map/server'
-import { BXRestDisk } from '../request/disk'
+import { BXRestMapDisk } from '../map/disk'
 import { BXRestMapCalendar } from '../map/calendar'
 import { BXRestMapLog } from '../map/log'
 import { BXRestMapTask } from '../map/task'
@@ -26,7 +26,7 @@ export class BXRestMap {
   }
 
   public get disk() {
-    return BXRestDisk;
+    return BXRestMapDisk;
   }
 
   public get calendar() {

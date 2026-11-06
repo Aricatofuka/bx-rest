@@ -1,12 +1,19 @@
-import { Observable } from 'rxjs'
-import { iBXRestAnswer, iBXRestAnswerError } from '../../../typification/rest/base/answer'
+import { concatMap, from, Observable, toArray } from 'rxjs'
+import { iBXRestAnswer, iBXRestAnswerError, iBXRestAnswerSuccess } from '../../../typification/rest/base/answer'
 import { catchError, map } from 'rxjs/operators'
+import clone from 'just-clone'
 import { BXRestMapResult, instanceOfiBXRestAnswerSuccess } from '../../../functions/mapResult'
 import { HttpBXServices } from '../../http/HttpBX'
 import { ReturnTypeNavvy } from '../navvy-support'
 import {
   BXRestApiError, bxRestApiErrorFromHttp, getAuthRefreshError, parseBXRestErrorBody,
 } from '../../../functions/errors'
+import { iBXRestPagination } from '../../../typification/rest/base/api-pagination-bx'
+import { iBXRestBatch } from '../../../typification/rest/batch'
+import { serializeBitrixParams } from '../../../functions/serializeBitrixParams'
+
+/** Больше команд в одном запросе `batch` Bitrix не принимает. */
+const BATCH_COMMANDS_LIMIT = 50
 
 export interface BXRestResOptions {
   /**
@@ -21,6 +28,18 @@ export interface BXRestResOptions {
    * Default: `false` (preserves the historical `.res()` behaviour).
    */
   throwOnApiError?: boolean
+}
+
+/**
+ * Параметры остальных страниц для методов с постраничной навигацией через `start`.
+ * Отсчёт идёт от `start` самого запроса: первая страница уже получена именно с него.
+ */
+export function offsetPageParams<P extends iBXRestPagination>(param: P, total: number | undefined, pageSize: number): P[] {
+  const pages: P[] = []
+  for (let start = (Number(param?.start) || 0) + pageSize; start < (total ?? 0); start += pageSize) {
+    pages.push({ ...clone(param), start })
+  }
+  return pages
 }
 
 export abstract class NavvyPagBase<T, R, P> {
@@ -85,14 +104,7 @@ export abstract class NavvyPagBase<T, R, P> {
   ) {
     const method = this.http.getNameMethod(this.url)
     return request.pipe(
-      map(v => {
-        if (options?.throwOnApiError && v && !instanceOfiBXRestAnswerSuccess(v)) {
-          throw this.apiErrorFromBody(v)
-        }
-        return BXRestMapResult(v)
-      }),
       catchError((err: any) => {
-        console.error(err)
         if (err instanceof BXRestApiError) {
           throw err
         }
@@ -112,6 +124,15 @@ export abstract class NavvyPagBase<T, R, P> {
           Object.assign(error, { authRefreshError })
         }
         throw error
+      }),
+      map(v => {
+        if (v && typeof v !== 'object') {
+          throw this.notRestAnswerError()
+        }
+        if (options?.throwOnApiError && v && !instanceOfiBXRestAnswerSuccess(v)) {
+          throw this.apiErrorFromBody(v)
+        }
+        return BXRestMapResult(v)
       })
     )
   }
@@ -120,15 +141,61 @@ export abstract class NavvyPagBase<T, R, P> {
    * Первая страница для `.resAll()`. Ошибка Bitrix в теле ответа 2xx становится `BXRestApiError`:
    * страниц в таком ответе нет, и без этого `.resAll()` завершился бы безликим `EmptyError`.
    */
-  protected resFirstPage(): Observable<iBXRestAnswer<T> | undefined> {
+  protected resFirstPage(): Observable<iBXRestAnswerSuccess<T>> {
     return this.resVanilla().pipe(
       map(v => {
-        if (v && !instanceOfiBXRestAnswerSuccess(v)) {
+        if (!v || typeof v !== 'object') {
+          throw this.notRestAnswerError()
+        }
+        if (!instanceOfiBXRestAnswerSuccess<T>(v)) {
           throw this.apiErrorFromBody(v)
         }
         return v
       })
     )
+  }
+
+  /**
+   * Остальные страницы для `.resAll()`, в порядке `params`. Команды уходят через `batch`,
+   * пакеты — по очереди. Ошибка любой страницы завершает весь запрос: неполный список
+   * выглядел бы для вызывающего кода как полный.
+   */
+  protected resPages<Page>(params: P[]): Observable<Page[]> {
+    const method = this.http.getNameMethod(this.url)
+    const commands = params.map(param => method + '?' + serializeBitrixParams(param))
+    const batches: string[][] = []
+
+    for (let i = 0; i < commands.length; i += BATCH_COMMANDS_LIMIT) {
+      batches.push(commands.slice(i, i + BATCH_COMMANDS_LIMIT))
+    }
+
+    return from(batches).pipe(
+      concatMap(cmd => this.http.post<iBXRestBatch<Page[]>>(['batch'], { halt: 1, cmd }, false, this.requestHeaders)),
+      map(answer => this.batchPages<Page>(answer)),
+      toArray(),
+      map(pages => pages.flat() as Page[])
+    )
+  }
+
+  private batchPages<Page>(answer: iBXRestAnswer<iBXRestBatch<Page[]>> | undefined): Page[] {
+    if (!answer || typeof answer !== 'object') {
+      throw this.notRestAnswerError()
+    }
+    if (!instanceOfiBXRestAnswerSuccess<iBXRestBatch<Page[]>>(answer)) {
+      throw this.apiErrorFromBody(answer)
+    }
+    // Портал отдаёт result_error массивом, когда ошибок нет, и объектом с ключами команд, когда есть
+    const failed = Object.values(answer.result?.result_error ?? {})[0]
+    if (failed) {
+      const parsed = parseBXRestErrorBody(failed)
+      throw new BXRestApiError(parsed?.error, parsed?.error_description, { method: this.http.getNameMethod(this.url) })
+    }
+    return Object.values(answer.result?.result ?? {}).filter(Boolean) as Page[]
+  }
+
+  // В тексте ошибки — только метод, без тела ответа: это может быть целая HTML-страница
+  private notRestAnswerError() {
+    return new Error(`Bitrix24 answered ${this.http.getNameMethod(this.url)} with a body that is not a REST response.`)
   }
 
   private apiErrorFromBody(v: iBXRestAnswerError) {

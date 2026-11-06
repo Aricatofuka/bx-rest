@@ -10,5 +10,7 @@ export function BXRestMapResult<T>(v: iBXRestAnswer<T> | undefined) {
   return undefined
 }
 export function instanceOfiBXRestAnswerSuccess<T>(object: any): object is iBXRestAnswerSuccess<T> {
-  return 'result' in object
+  // Без проверки типа `in` бросает TypeError на строке, числе и null вместо false.
+  // Строка приходит, если вместо Bitrix ответил прокси: HTML axios отдаёт текстом
+  return typeof object === 'object' && object !== null && 'result' in object
 }

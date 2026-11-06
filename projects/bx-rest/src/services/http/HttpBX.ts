@@ -143,6 +143,7 @@ export class HttpBXServices extends HttpServices {
             const bodyString = this.serializeBitrixParams(paramsClone)
             return from(
               this.axiosInstance.post<T>(fullUrl, bodyString, {
+                withCredentials: this.session.getWithCredentials(),
                 headers: this.buildHeaders(headers, {'Content-Type': 'application/x-www-form-urlencoded'}),
               }).then((response) => response.data)
             )
@@ -174,6 +175,7 @@ export class HttpBXServices extends HttpServices {
     // авторизации — как в httpPost.
     return withAuthRefresh(defer(() => {
       const paramsClone = clone(params)
+      const key = this.session.getKeyAuth()
       const auth = this.session.getAuthParams()
       const checkIsOn = this.session.getCheckAuthParamsIsOn()
 
@@ -182,7 +184,9 @@ export class HttpBXServices extends HttpServices {
           return throwError(() => this.session.getAuthError('get'))
         }
 
-        paramsClone[this.session.getKeyAuth()] = auth
+        if (key !== 'OAuth2') {
+          paramsClone[key] = auth
+        }
       }
 
       return this.session.getBaseUrl().pipe(
@@ -192,11 +196,12 @@ export class HttpBXServices extends HttpServices {
           }
 
           const fullUrl = prepareBaseAddress(baseUrl) + url
-          const queryString = new URLSearchParams(paramsClone).toString()
+          const queryString = this.serializeBitrixParams(paramsClone)
           const finalUrl = `${fullUrl}?${queryString}`
 
           return from(
             this.axiosInstance.get<T>(finalUrl, {
+              withCredentials: this.session.getWithCredentials(),
               headers: this.buildHeaders(headers),
             }).then((response) => response.data)
           )

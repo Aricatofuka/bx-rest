@@ -7,11 +7,9 @@ import {
   iBXRestImDialogRecentList,
   iBXRestImDialogRecentListHttp
 } from '../../typification/rest/im/dialog/recent/list'
-import { CatchError } from '../../functions/errorHandler'
 
 export class BXRestMapImRecent {
 
-  @CatchError({ rethrow: true })
   static get(value: iBXRestImDialogRecentGetHttp[] | undefined): iBXRestImDialogRecentGet[] | undefined {
 
       return value
@@ -28,7 +26,6 @@ export class BXRestMapImRecent {
 
   }
 
-  @CatchError({ rethrow: true })
   static list(value: iBXRestImDialogRecentListHttp | undefined): iBXRestImDialogRecentList | undefined {
     return (value)
       ? {

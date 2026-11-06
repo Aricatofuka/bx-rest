@@ -39,7 +39,7 @@ export class BXRestNavvyBizProc {
     // Не понимаю почему DATE_CREATE указывается не на сервере
     // но если пользователь не указал, надо указать
     const value: any = parametersElement['DATE_CREATE']
-    if (value === null || value === undefined || (typeof value === 'string' || value.trim() === '')) {
+    if (value === null || value === undefined || (typeof value === 'string' && value.trim() === '')) {
       parametersElement['DATE_CREATE'] = new Date()
     }
 

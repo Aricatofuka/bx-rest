@@ -13,7 +13,9 @@ import values from 'just-values'
 import { toDate, toNum } from '../../services/base'
 
 export class BXRestMapTasksTask {
-  public readonly result = BXRestMapTasksTaskResult
+  public static get result() {
+    return BXRestMapTasksTaskResult
+  }
 
   static getAccess(v: iBXRestTaskGetAccess | undefined) {
     return (v && v.allowedActions) ? v.allowedActions : undefined

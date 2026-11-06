@@ -3,8 +3,8 @@ import { iBXRestYesNo } from '../base/yes-no'
 export interface iBXRestUser extends iBXRestUserBase {
     ID: number,
     IS_ONLINE: boolean,
-    DATE_REGISTER: Date,
-    PERSONAL_BIRTHDAY: Date,
+    DATE_REGISTER?: Date,
+    PERSONAL_BIRTHDAY?: Date,
     LAST_LOGIN?: Date
 }
 
@@ -25,7 +25,7 @@ interface iBXRestUserBase {
     PERSONAL_GENDER?: iAllBXGender,
     PERSONAL_PROFESSION?: string,
     PERSONAL_WWW?: string,
-    PERSONAL_BIRTHDAY: string | Date,
+    PERSONAL_BIRTHDAY?: string | Date,
     PERSONAL_PHOTO: string | null,
     PERSONAL_ICQ: string | null,
     PERSONAL_PHONE: string | null,

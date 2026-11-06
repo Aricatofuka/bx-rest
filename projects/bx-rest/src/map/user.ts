@@ -17,8 +17,9 @@ export class BXRestMapUser {
       clone(user), {
         ID: toNum(user.ID),
         IS_ONLINE: toBool(user.IS_ONLINE),
-        DATE_REGISTER: toDate(user.DATE_REGISTER),
-        PERSONAL_BIRTHDAY: toDate(user.PERSONAL_BIRTHDAY),
+        // Дня рождения может не быть вовсе (пустая строка), а при урезанном scope нет и самих полей
+        DATE_REGISTER: user.DATE_REGISTER ? toDate(user.DATE_REGISTER) : undefined,
+        PERSONAL_BIRTHDAY: user.PERSONAL_BIRTHDAY ? toDate(user.PERSONAL_BIRTHDAY) : undefined,
       })
     if (user.LAST_LOGIN) {
       res.LAST_LOGIN = toDate(user.LAST_LOGIN)
@@ -31,7 +32,7 @@ export class BXRestMapUser {
     return Object.assign(clone(user), {
       ID: toStr(user.ID),
       IS_ONLINE: toBXYorN(user.IS_ONLINE),
-      DATE_REGISTER: toISOStringWithTimezone(user.DATE_REGISTER),
+      DATE_REGISTER: user.DATE_REGISTER ? toISOStringWithTimezone(user.DATE_REGISTER) : '',
       PERSONAL_BIRTHDAY: toStr(user.PERSONAL_BIRTHDAY),
       LAST_LOGIN: toStr(user.LAST_LOGIN)
     })

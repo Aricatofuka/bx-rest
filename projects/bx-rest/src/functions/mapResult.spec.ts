@@ -9,6 +9,10 @@ describe('instanceOfiBXRestAnswerSuccess', () => {
   it('object without a "result" key -> false', () => {
     expect(instanceOfiBXRestAnswerSuccess({ error: 'INSUFFICIENT_SCOPE' })).toBe(false)
   })
+
+  it.each([undefined, null, '', '<html></html>', 200, true])('%j is not an answer -> false, not a TypeError', value => {
+    expect(instanceOfiBXRestAnswerSuccess(value)).toBe(false)
+  })
 })
 
 describe('BXRestMapResult', () => {

@@ -1,91 +1,19 @@
-import { concatMap, from, mergeMap, toArray} from 'rxjs'
+import { mergeMap } from 'rxjs'
 import { map } from 'rxjs/operators'
-import clone from 'just-clone'
 import { iBXRestPagination } from '../../typification/rest/base/api-pagination-bx'
 import { ReturnTypeNavvy } from './navvy-support'
-import { iBXRestAnswer } from '../../typification/rest/base/answer'
-import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
-import { BXRest } from '../../rest/base'
-import { NavvyPagBase } from './extends/navvy-pag-base'
-import { serializeBitrixParams } from '../../functions/serializeBitrixParams'
+import { NavvyPagBase, offsetPageParams } from './extends/navvy-pag-base'
 
 export class NavvyPag<T, R, P extends iBXRestPagination> extends NavvyPagBase<T[], R[], P> {
 
-  save: ReturnTypeNavvy<T, R>[] = []
-
   resAll() {
-    let BXRestClass = new BXRest()
     return this.resFirstPage().pipe(
-      mergeMap(
-        items => {
-          if (items && instanceOfiBXRestAnswerSuccess(items)) {
-            this.save = []
-            // TODO: проверить будет ли быстрее работать метод в случаях когда total < 100 (то есть можно обойтись двумя прямыми запросами)
-            if (items.total && items.total > this.pageSize) {
-              const mathFloor = Math.floor(items.total / this.pageSize)
-              const count = (mathFloor === items.total / this.pageSize) // если mathFloor равен обычному делению, значит один запрос будет лишним, так как результат первой страницы уже есть, а последняя в данном случаи будет пустая (или с мусорными аднными)
-                ? [...Array(mathFloor - 1).keys()]
-                : [...Array(mathFloor).keys()]
-
-              // Разделяем массив на блоки
-              const chunks = []
-
-              for (let i = 0; i < count.length; i += this.pageSize) {
-                chunks.push(count.slice(i, i + this.pageSize))
-              }
-
-              const batchRequests = chunks.map(chunk => {
-                return BXRestClass.batch<T[][]>({
-                  halt: 1,
-                  cmd: chunk.map(i => {
-                    const param = clone(this.param)
-                    // Устанавливаем start в зависимости от индекса
-                    param.start = (i + 1) * this.pageSize
-
-                    // Формируем строку запроса
-                    return this.http.getNameMethod(this.url)
-                      + '?' + serializeBitrixParams(param)
-                  })
-                }, this.requestHeaders).pipe(
-                )
-              })
-
-              return from(batchRequests).pipe(
-                concatMap(request => request), // Выполняет запросы по очереди
-                toArray(), // Собирает все результаты в массив
-                map(results => {
-                  const res = items.result as T[]
-                  for(let result of results){
-                    if (result && instanceOfiBXRestAnswerSuccess(result) && result.result && result.result.result) {
-                      res.push(...result.result.result.map(i => i).flat())
-                    }
-                  }
-
-                  return (this.map) ?
-                    this.map(res)
-                    : res
-                }),
-              )
-            }
-
-            return this.mapResForGetAll(items)
-          }
-          return this.mapResForGetAll(items)
-        }
-      ),
-      map(v => {
-        if (v) {
-          this.save.push(... v as ReturnTypeNavvy<T, R>[])
-        }
-
-        return this.save
-      })
+      mergeMap(first => this.resPages<T[]>(offsetPageParams(this.param, first.total, this.pageSize)).pipe(
+        map(pages => {
+          const items = [first.result ?? [], ...pages].flat() as T[]
+          return ((this.map ? this.map(items) : items) ?? []) as ReturnTypeNavvy<T, R>[]
+        })
+      ))
     )
-  }
-
-  private mapResForGetAll(items: iBXRestAnswer<T[]> | undefined) {
-    return (instanceOfiBXRestAnswerSuccess(items)) ? from([items.result]).pipe(
-      map(v => (v && this.map) ? this.map(v) : v)
-    ) : from([])
   }
 }

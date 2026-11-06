@@ -1,119 +1,37 @@
-import { concatMap, from, last, mergeMap, shareReplay, throwError, toArray } from 'rxjs'
-import { catchError, map } from 'rxjs/operators'
-import clone from 'just-clone'
+import { mergeMap, shareReplay } from 'rxjs'
+import { map } from 'rxjs/operators'
 import { iBXRestPagination } from '../../typification/rest/base/api-pagination-bx'
 import { ReturnTypeNavvy } from './navvy-support'
-import { iBXRestAnswer } from '../../typification/rest/base/answer'
-import { instanceOfiBXRestAnswerSuccess } from '../../functions/mapResult'
-import { NavvyPagBase } from './extends/navvy-pag-base'
-import { serializeBitrixParams } from '../../functions/serializeBitrixParams'
-import { BXRest } from '../../rest/base'
+import { NavvyPagBase, offsetPageParams } from './extends/navvy-pag-base'
 
 type KeyedResult<K extends string, T> = Record<K, T[] | undefined>
 
 export class NavvyPagNavResultKey<T, R, P extends iBXRestPagination, K extends string>
   extends NavvyPagBase<KeyedResult<K, T>, R[], P> {
 
-  save: ReturnTypeNavvy<T, R>[] = []
-
   constructor(
     url: string[],
     param: P,
     private readonly key: K,
-    map?: (param: KeyedResult<K, T> | undefined) => R[] | undefined
+    map?: (param: KeyedResult<K, T> | undefined) => R[] | undefined,
+    restApi?: boolean
   ) {
     // Без своего map результат — массив по ключу, как и обещают типы `.res()` и `.resAll()`.
-    // Иначе `.res()` отдал бы весь объект `{ items: [...] }`, а `.resAll()` упал бы на нём
-    // при 50 записях и меньше: первая страница разворачивается через `save.push(...v)`.
-    super(url, param, map ?? (result => (result?.[key] ?? []) as unknown as R[]))
+    // Иначе `.res()` отдал бы весь объект `{ items: [...] }`.
+    super(url, param, map ?? (result => (result?.[key] ?? []) as unknown as R[]), restApi)
   }
 
   resAll() {
-    let save: ReturnTypeNavvy<T, R>[] = []
-    return this.resultAllEnd()
-      .pipe(
-        map(v => {
-            if (v) {
-              save.push(...v as ReturnTypeNavvy<T, R>[])
-            }
-            return save
-          }
-        ),
-        last(),
-        shareReplay(1)
-      )
-  }
-
-  private resultAllEnd() {
-    let BXRestClass = new BXRest()
     return this.resFirstPage().pipe(
-      mergeMap(
-        items => {
-          if (items && instanceOfiBXRestAnswerSuccess(items)) {
-            this.save = []
-            if (items.total && items.total > 50) {
-              const mathFloor = Math.floor(items.total / this.pageSize)
-              const count = (mathFloor === items.total / this.pageSize)
-                ? [...Array(mathFloor - 1).keys()]
-                : [...Array(mathFloor).keys()]
-              const chunks = []
-
-              for (let i = 0; i < count.length; i += this.pageSize) {
-                chunks.push(count.slice(i, i + this.pageSize))
-              }
-
-              const batchRequests = chunks.map(chunk => {
-                return BXRestClass.batch<KeyedResult<K, T>[]>({
-                  halt: 1,
-                  cmd: chunk.map(i => {
-                    const param = clone(this.param)
-                    param.start = (i + 1) * this.pageSize
-
-                    return this.http.getNameMethod(this.url)
-                      + '?' + serializeBitrixParams(param)
-                  })
-                }, this.requestHeaders)
-              })
-
-              return from(batchRequests).pipe(
-                concatMap(request => request),
-                toArray(),
-                map(results => {
-                  const firstPage = items.result?.[this.key]
-                  if (firstPage) {
-                    const res = firstPage as T[]
-
-                    for (let result of results) {
-                      if (result && instanceOfiBXRestAnswerSuccess(result) && result.result && result.result.result) {
-                        res.push(...result.result.result.filter(i => i).map(i => i[this.key]).flat() as T[])
-                      }
-                    }
-
-                    return (this.map) ?
-                      this.map({ [this.key]: res } as KeyedResult<K, T>)
-                      : res
-                  }
-
-                  throw new Error('wrong batch')
-                })
-              )
-            }
-
-            return this.mapResForGetAll(items)
-          }
-          return this.mapResForGetAll(items)
-        }
-      ),
-      catchError(err => {
-        console.error(err)
-        return throwError(() => err)
-      })
+      mergeMap(first => this.resPages<KeyedResult<K, T>>(offsetPageParams(this.param, first.total, this.pageSize)).pipe(
+        map(pages => {
+          const items = [first.result, ...pages].flatMap(page => page?.[this.key] ?? []) as T[]
+          const joined = { ...first.result, [this.key]: items } as KeyedResult<K, T>
+          return (this.map?.(joined) ?? []) as ReturnTypeNavvy<T, R>[]
+        })
+      )),
+      // refCount: без подписчиков оставшиеся страницы запрашивать незачем
+      shareReplay({ bufferSize: 1, refCount: true })
     )
-  }
-
-  private mapResForGetAll(items: iBXRestAnswer<KeyedResult<K, T>> | undefined) {
-    return (instanceOfiBXRestAnswerSuccess(items)) ? from([items.result]).pipe(
-      map(v => (v && this.map) ? this.map(v) : v)
-    ) : from([])
   }
 }
