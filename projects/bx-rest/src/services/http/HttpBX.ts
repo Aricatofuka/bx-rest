@@ -159,7 +159,7 @@ export class HttpBXServices extends HttpServices {
           )
         })
       )
-    }))
+    }), this.session.ctx)
   }
 
   httpGet<T>(
@@ -207,7 +207,7 @@ export class HttpBXServices extends HttpServices {
           )
         })
       )
-    }))
+    }), this.session.ctx)
   }
 
   /**

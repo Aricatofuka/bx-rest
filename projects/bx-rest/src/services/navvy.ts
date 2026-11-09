@@ -6,6 +6,7 @@ import { NavvyPagNavTasks } from './navvy/navvy-pag-nav-tasks'
 import { NavvyPag } from './navvy/navvy-pag'
 import { NavvyPagNavResultKey } from './navvy/navvy-pag-nav-result-key'
 import { NavvyPagNavResultKeyObject } from './navvy/navvy-pag-nav-result-key-object'
+import { currentContext, runInContext } from './context'
 
 export * from './navvy/navvy-simple'
 export * from './navvy/navvy-alternative-pagination-navigation'
@@ -18,16 +19,20 @@ export * from './navvy/navvy-support'
 
 export class Navvy {
 
+  // Контекст, в котором создан Navvy. Запросы создаются позже, при вызове
+  // метода, поэтому их HTTP-объекты получают этот контекст явно, а не текущий.
+  private readonly ctx = currentContext()
+
   simple<T, R = T, A = undefined>(
     url: string[],
     arg?: A,
     map?: (param: T | undefined) => R | undefined
   ) {
-    return new NavvySimple(
+    return runInContext(this.ctx, () => new NavvySimple(
       url,
       arg !== undefined ? arg : undefined,
       map
-    )
+    ))
   }
 
   simpleV3<T, R = T, A = undefined>(
@@ -35,12 +40,12 @@ export class Navvy {
     arg?: A,
     map?: (param: T | undefined) => R | undefined
   ) {
-    return new NavvySimple(
+    return runInContext(this.ctx, () => new NavvySimple(
       url,
       arg !== undefined ? arg : undefined,
       map,
       true
-    )
+    ))
   }
 
   /**
@@ -56,7 +61,7 @@ export class Navvy {
     arg: A,
     map?: (param: T[] | undefined) => R[] | undefined
   ) {
-    return new NavvyPag(url, arg, map)
+    return runInContext(this.ctx, () => new NavvyPag(url, arg, map))
   }
 
   pagNavTasks<T, R, A extends iBXRestPagination>(
@@ -64,7 +69,7 @@ export class Navvy {
     arg: A,
     map?: (param: { tasks: T[] | undefined } | undefined) => R[] | undefined
   ) {
-    return new NavvyPagNavTasks(url, arg, map)
+    return runInContext(this.ctx, () => new NavvyPagNavTasks(url, arg, map))
   }
 
   pagNavResultKey<T, R, A extends iBXRestPagination, K extends string>(
@@ -73,7 +78,7 @@ export class Navvy {
     key: K,
     map?: (param: Record<K, T[] | undefined> | undefined) => R[] | undefined
   ) {
-    return new NavvyPagNavResultKey(url, arg, key, map)
+    return runInContext(this.ctx, () => new NavvyPagNavResultKey(url, arg, key, map))
   }
 
   pagNavResultKeyObject<T, R, A extends iBXRestPagination, K extends string>(
@@ -82,7 +87,7 @@ export class Navvy {
     key: K,
     map?: (param: Record<K, Record<string, T> | undefined> | undefined) => R[] | undefined
   ) {
-    return new NavvyPagNavResultKeyObject(url, arg, key, map)
+    return runInContext(this.ctx, () => new NavvyPagNavResultKeyObject(url, arg, key, map))
   }
 
   pagNavWithUselessKey<T, R, A extends iBXRestPagination>(
@@ -90,7 +95,7 @@ export class Navvy {
     arg: A,
     map?: (param: Record<string, T> | undefined) => R[] | undefined
   ) {
-    return new NavvyPagNavWithUselessKey(url, arg, map)
+    return runInContext(this.ctx, () => new NavvyPagNavWithUselessKey(url, arg, map))
   }
 
   alterPagNav<T, R, A extends iBXRestAlternativePagination>(
@@ -98,6 +103,6 @@ export class Navvy {
     arg: A,
     map?: (param: T[] | undefined) => R[] | undefined
   ) {
-    return new NavvyAlterPagNav(url, arg, map)
+    return runInContext(this.ctx, () => new NavvyAlterPagNav(url, arg, map))
   }
 }

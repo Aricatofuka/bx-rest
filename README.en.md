@@ -26,6 +26,7 @@ Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix 
   - [A token from the portal without BX24.js](#a-token-from-the-portal-without-bx24js)
   - [Recipe: straight to the portal](#recipe-straight-to-the-portal)
   - [Recipe: through a backend proxy](#recipe-through-a-backend-proxy)
+- [Several portals](#several-portals)
 - [Working in an iframe without BX24.js](#working-in-an-iframe-without-bx24js)
 - [Usage in Angular](#usage-in-angular)
 - [SessionKeyServices](#sessionkeyservices)
@@ -405,6 +406,51 @@ BXRestSettings.update({
 ```
 
 Errors of the refresh function end up in `authRefreshError` of the original error, and your app may print that error to the console or send it to an error tracker — so keep tokens out of the error messages of the refresh function.
+
+## Several portals
+
+`BXRestSettings` are shared by the whole app. To work with several portals in one process, for example on a server that serves different customers, pass the settings to the `BXRestNavvy` constructor. Such a client has its own settings: all its requests go to its portal with its token, and `BXRestSettings` do not affect it.
+
+```typescript
+import { BXRestNavvy } from 'bx-rest'
+import { firstValueFrom } from 'rxjs'
+
+const portalA = new BXRestNavvy({
+  auth: { source: () => tokenA, key: 'auth' },
+  urls: { source: 'string', key: 'https://a.bitrix24.com', additional_part: 'rest' }
+})
+const portalB = new BXRestNavvy({
+  auth: { source: () => tokenB, key: 'auth' },
+  urls: { source: 'string', key: 'https://b.bitrix24.com', additional_part: 'rest' }
+})
+
+const deals = await firstValueFrom(
+  portalA.crm.deal.list({ select: ['ID'], filter: {}, start: 0 }).resAll()
+)
+```
+
+- **Without an argument** `new BXRestNavvy()` uses the global `BXRestSettings`, as before.
+- **The format** is the same as for `BXRestSettings.update()`, but the settings are passed in full: `auth` and `urls` are required and are not merged with the global settings.
+- **Changing the token of an existing client.** The library calls `auth.source` before every request, at subscribe time. To change the token, change the value the function returns. Requests created earlier but not started yet get the new token too:
+
+  ```typescript
+  let token = await getToken()
+  const portal = new BXRestNavvy({
+    auth: {
+      source: () => token,
+      key: 'auth',
+      refresh: async () => { token = await getNewToken() } // optional
+    },
+    urls: { source: 'string', key: 'https://a.bitrix24.com', additional_part: 'rest' }
+  })
+
+  token = newToken // the next request goes out with the new token
+  ```
+
+- **Another portal or other headers** — create a new client, it takes a fraction of a millisecond.
+- **Authorization refresh** is per client: a client's `auth.refresh` is called only for its own requests.
+- **`auth.source: 'cookies'` and `'localStorage'`** read the shared browser storage, so two clients with the same key get the same token. For several portals, set `source` to a function.
+- **Objects created directly** — `new Navvy()`, `new BXRestRequest()`, `new SessionKeyServices()` — use the global `BXRestSettings`. Only `BXRestNavvy` and everything created through it get the client's own settings.
 
 ## Working in an iframe without BX24.js
 

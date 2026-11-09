@@ -2,9 +2,10 @@ import Cookies from '../../services/vanilla/cookies'
 import { Observable, of, Subscription } from 'rxjs'
 import { prepareBaseAddress } from '../base'
 import { LocalStorageServices as LocalStorage } from '../../services/vanilla/localStorage'
-import { BXRestSettings, DEFAULT_BX_REST_SETTINGS } from '../../settings'
+import { DEFAULT_BX_REST_SETTINGS } from '../../settings'
 import { iBXRestAuth } from '../../typification/auth/save'
 import { SessionStorage } from '../vanilla/sessionStorage'
+import { BXRestContext, currentContext } from '../context'
 
 type IKeyAuth = 'sessid' | 'auth' | string
 type StorageKind = 'localStorage' | 'sessionStorage'
@@ -18,6 +19,13 @@ export class SessionKeyError extends Error {
 
 export class SessionKeyServices {
 
+  /**
+   * Контекст клиента, в котором создан объект: внутри `new BXRestNavvy(settings)`
+   * — контекст этого клиента, в остальных случаях — глобальные настройки.
+   * Объявлен первым: конструктор ниже уже читает настройки.
+   */
+  readonly ctx: BXRestContext = currentContext()
+
   authHave = false
   authData: iBXRestAuth | undefined
   subscribe = {
@@ -28,10 +36,10 @@ export class SessionKeyServices {
   // НОВЫЙ объект (this.value = {...this.value, ...}), а не мутирует старый —
   // поэтому `= BXRestSettings.value` в виде обычного поля навсегда
   // "заморозил" бы то, что было на момент создания SessionKeyServices.
-  // Геттер вместо этого читает актуальный BXRestSettings.value при каждом
-  // обращении.
+  // Геттер вместо этого читает актуальные настройки при каждом обращении:
+  // свои настройки клиента или глобальные BXRestSettings.value.
   private get BX_REST_SETTINGS() {
-    return BXRestSettings.value
+    return this.ctx.settings
   }
 
   constructor(

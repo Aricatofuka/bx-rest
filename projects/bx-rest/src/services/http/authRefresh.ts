@@ -1,8 +1,8 @@
 import { defer, from, Observable, throwError } from 'rxjs'
 import { catchError, switchMap } from 'rxjs/operators'
 import axios from 'axios'
-import { BXRestSettings } from '../../settings'
 import { parseBXRestErrorBody } from '../../functions/errors'
+import { BXRestContext, globalContext } from '../context'
 
 /**
  * Коды ошибок Bitrix, которые лечатся продлением токена. `expired_token` —
@@ -36,26 +36,24 @@ export function isBXRestAuthError(error: unknown): boolean {
   return error.response.status === 401
 }
 
-// Общее на всю библиотеку состояние продления — как и сами BXRestSettings.
-// pendingRefresh — идущее сейчас продление, его ждут все упавшие запросы;
-// refreshCount — сколько продлений уже завершилось успешно.
-let pendingRefresh: Promise<void> | undefined
-let refreshCount = 0
-
-function sharedRefresh(refresh: () => Promise<unknown>): Promise<void> {
-  if (!pendingRefresh) {
-    pendingRefresh = Promise.resolve()
+// Состояние продления живёт в контексте клиента (BXRestContext): у глобальных
+// настроек оно одно на всю библиотеку, у каждого new BXRestNavvy(settings) —
+// своё. pendingRefresh — идущее сейчас продление, его ждут все упавшие
+// запросы клиента; refreshCount — сколько продлений уже завершилось успешно.
+function sharedRefresh(refresh: () => Promise<unknown>, ctx: BXRestContext): Promise<void> {
+  if (!ctx.pendingRefresh) {
+    ctx.pendingRefresh = Promise.resolve()
       // Через then, чтобы синхронное исключение в refresh() тоже стало
       // отклонённым промисом, а не вылетело из catchError
       .then(() => refresh())
       .then(() => {
-        refreshCount++
+        ctx.refreshCount++
       })
       .finally(() => {
-        pendingRefresh = undefined
+        ctx.pendingRefresh = undefined
       })
   }
-  return pendingRefresh
+  return ctx.pendingRefresh
 }
 
 /**
@@ -65,15 +63,18 @@ function sharedRefresh(refresh: () => Promise<unknown>): Promise<void> {
  * `defer()` в HttpBXServices): повтор — это повторная подписка, поэтому
  * токен, адрес и заголовки берутся уже новые. На второй попытке ошибка не
  * перехватывается — запрос повторяется не больше одного раза.
+ *
+ * `ctx` — контекст клиента, из которого берутся `refresh`, `isAuthError` и
+ * общее состояние продления.
  */
-export function withAuthRefresh<T>(request$: Observable<T>): Observable<T> {
+export function withAuthRefresh<T>(request$: Observable<T>, ctx: BXRestContext = globalContext): Observable<T> {
   return defer(() => {
-    const { refresh, isAuthError = isBXRestAuthError } = BXRestSettings.value.auth
+    const { refresh, isAuthError = isBXRestAuthError } = ctx.settings.auth
     if (!refresh) {
       return request$
     }
 
-    const refreshCountAtStart = refreshCount
+    const refreshCountAtStart = ctx.refreshCount
     return request$.pipe(
       catchError((error: unknown) => {
         if (!isAuthError(error)) {
@@ -81,9 +82,9 @@ export function withAuthRefresh<T>(request$: Observable<T>): Observable<T> {
         }
         // Пока этот запрос был в пути, токен уже продлили по ошибке другого
         // запроса — повторяем без нового продления
-        const refreshed = (refreshCount !== refreshCountAtStart)
+        const refreshed = (ctx.refreshCount !== refreshCountAtStart)
           ? Promise.resolve()
-          : sharedRefresh(refresh)
+          : sharedRefresh(refresh, ctx)
 
         return from(refreshed).pipe(
           catchError((refreshError: unknown) => {

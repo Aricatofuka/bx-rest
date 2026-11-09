@@ -24,6 +24,7 @@
   - [Токен от портала без BX24.js](#токен-от-портала-без-bx24js)
   - [Рецепт: напрямую в портал](#рецепт-напрямую-в-портал)
   - [Рецепт: через бэкенд-прокси](#рецепт-через-бэкенд-прокси)
+- [Несколько порталов](#несколько-порталов)
 - [Работа в iframe без BX24.js](#работа-в-iframe-без-bx24js)
 - [Использование в Angular](#использование-в-angular)
 - [SessionKeyServices](#sessionkeyservices)
@@ -413,6 +414,51 @@ BXRestSettings.update({
 ```
 
 Ошибки функции продления попадают в `authRefreshError` исходной ошибки, а приложение может вывести эту ошибку в консоль или отправить в систему сбора ошибок — поэтому не кладите токены в текст ошибок функции продления.
+
+## Несколько порталов
+
+`BXRestSettings` — общие настройки на всё приложение. Если в одном процессе нужно работать с несколькими порталами, например на сервере, который обслуживает разных клиентов, передайте настройки в конструктор `BXRestNavvy`. У такого клиента настройки свои: все его запросы идут на его портал с его токеном, а `BXRestSettings` на него не влияют.
+
+```typescript
+import { BXRestNavvy } from 'bx-rest'
+import { firstValueFrom } from 'rxjs'
+
+const portalA = new BXRestNavvy({
+  auth: { source: () => tokenA, key: 'auth' },
+  urls: { source: 'string', key: 'https://a.bitrix24.ru', additional_part: 'rest' }
+})
+const portalB = new BXRestNavvy({
+  auth: { source: () => tokenB, key: 'auth' },
+  urls: { source: 'string', key: 'https://b.bitrix24.ru', additional_part: 'rest' }
+})
+
+const deals = await firstValueFrom(
+  portalA.crm.deal.list({ select: ['ID'], filter: {}, start: 0 }).resAll()
+)
+```
+
+- **Без аргумента** `new BXRestNavvy()` работает с глобальными `BXRestSettings`, как и раньше.
+- **Формат** тот же, что у `BXRestSettings.update()`, но настройки передаются целиком: `auth` и `urls` обязательны, с глобальными настройками они не смешиваются.
+- **Смена токена у готового клиента.** Функцию `auth.source` библиотека вызывает перед каждым запросом, в момент подписки. Чтобы сменить токен, поменяйте значение, которое она возвращает. Новый токен получат и запросы, созданные раньше, но ещё не запущенные:
+
+  ```typescript
+  let token = await getToken()
+  const portal = new BXRestNavvy({
+    auth: {
+      source: () => token,
+      key: 'auth',
+      refresh: async () => { token = await getNewToken() } // необязательно
+    },
+    urls: { source: 'string', key: 'https://a.bitrix24.ru', additional_part: 'rest' }
+  })
+
+  token = newToken // следующий запрос уйдёт с новым токеном
+  ```
+
+- **Другой портал или другие заголовки** — создайте новый клиент, это занимает доли миллисекунды.
+- **Продление авторизации** у каждого клиента своё: `auth.refresh` клиента вызывается только для его запросов.
+- **`auth.source: 'cookies'` и `'localStorage'`** читают общее хранилище браузера, поэтому два клиента с одним ключом получат один и тот же токен. Для нескольких порталов задавайте `source` функцией.
+- **Объекты, созданные напрямую**, — `new Navvy()`, `new BXRestRequest()`, `new SessionKeyServices()` — работают с глобальными `BXRestSettings`. Свои настройки получает только `BXRestNavvy` и всё, что создаётся через него.
 
 ## Работа в iframe без BX24.js
 
