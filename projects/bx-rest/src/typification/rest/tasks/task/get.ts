@@ -38,8 +38,6 @@ type iBXRestHttpTasksTaskGet<S extends iBXRestTaskFieldsName[], CustomFields> = 
   [K in SnakeToCamelCase<Lowercase<S[number]>>]: iBXRestHttpTask[K]
 } & CustomFields
 
-// export interface iBXRestHttpTasksTaskGet extends iBXRestHttpTask {}
-
 
 /**
  * Если при запросе tasks.task.get не указывать выводимые поля (select) отдаст этот набор

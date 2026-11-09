@@ -53,15 +53,6 @@ export class BXRestNavvyRestCalendarEvent {
     )
   }
 
-  // /** Возвращает список событий календаря, всегда весь список, паганации в методе нет да и не нужна */
-  // get(param: iBXRestCalendarEventGetParam) {
-  //   return this.Navvy.simple(
-  //     this.url.get,
-  //     param,
-  //     BXRestMapCalendarEvent.get
-  //   )
-  // }
-
   get = Object.assign(
     /**
      * Возвращает список событий календаря, всегда весь список, паганации в методе нет да и не нужна.

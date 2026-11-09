@@ -52,12 +52,6 @@ export class BXRestNavvyTasksTask {
      * Переводит задачу в статус «завершена»
      */
     complete: [$tasks, $task, $complete],
-    // counters: {
-    //   /**
-    //    * Получает счетчики пользователя
-    //    */
-    //   get: [$tasks, $task, $counters, $get],
-    // },
     /**
      * Переводит задачу в статус «отложена»
      */
@@ -70,30 +64,6 @@ export class BXRestNavvyTasksTask {
      * Возвращает информацию о конкретной задаче
      */
     get: [$tasks, $task, $get],
-    // /**
-    //  * Удаляет задачу
-    //  */
-    // delete: [$tasks, $task, $delete],
-    // /**
-    //  * Позволяет отклонить задачу
-    //  */
-    // disapprove: [$tasks, $task, $disapprove],
-    // favorite: {
-    //   /**
-    //    * Добавляет задачи в "Избранное"
-    //    */
-    //   add: [$tasks, $task, $favorite, $add],
-    //   /**
-    //    * Удаляет задачи из "Избранного"
-    //    */
-    //   delete: [$tasks, $task, $favorite, $delete],
-    // },
-    // files: {
-    //   /**
-    //    * Прикрепляет загруженный на диск файл к задаче
-    //    */
-    //   attach: [$tasks, $task, $files, $attach],
-    // },
     /**
      * Возвращает все доступные поля
      */
@@ -102,36 +72,10 @@ export class BXRestNavvyTasksTask {
      * Метод для проверки доступа к задаче
      */
     getAccess: [$tasks, $task, $getaccess],
-    // history: {
-    //   /**
-    //    * Получает историю задачи
-    //    */
-    //   list: [$tasks, $task, $history, $list],
-    // },
     /**
      * Возвращает массив задач, каждая из которых содержит массив полей
      */
     list: [$tasks, $task, $list],
-    // /**
-    //  * Останавливает выполнение задачи, переводя ее в статус "ждет выполнения"
-    //  */
-    // pause: [$tasks, $task, $pause],
-    // /**
-    //  * Возобновляет задачу после ее завершения
-    //  */
-    // renew: [$tasks, $task, $renew],
-    // /**
-    //  * Переводит задачу в статус «выполняется»
-    //  */
-    // start: [$tasks, $task, $start],
-    // /**
-    //  * Позволяет наблюдать за задачей
-    //  */
-    // startWatch: [$tasks, $task, 'startwatch'],
-    // /**
-    //  * Останавливает наблюдение за задачей
-    //  */
-    // stopwatch: [$tasks, $task, 'stopwatch'],
     /**
      * Обновляет задачу
      */
@@ -287,69 +231,6 @@ export class BXRestNavvyTasksTask {
       BXRestMapTasksTask.list<S, CustomFields>
     )
   }
-
-  /*
-  listArray(requestArray: RequestApiTaskListBX = {}) {
-    return this.list(requestArray).pipe(
-      map(v => this.http.mapResult(v)),
-      map(v => (v && v.tasks) ? v.tasks : [])
-    )
-  }
-
-  listAll(requestArray: RequestApiTaskListBX = {}, cache = false): Observable<TaskBX[]> {
-    if (!requestArray.select) {
-      requestArray.select = this.def.select
-      if (cache) {
-        return this.storeTask$.pipe(
-          take(1),
-          mergeMap(tasks => {
-            if (tasks && tasks.data.http.list && requestArray.filter && requestArray.filter.ID) {
-              const ids = (typeof requestArray.filter.ID === 'number') ? [requestArray.filter.ID] : requestArray.filter.ID
-              let filter = tasks.data.http.list.filter(i => (i.id) ? ids.includes(i.id) : false)
-              if (filter.length === ids.length) {
-                return of(filter)
-              }
-            }
-            return this.getEndListArray(requestArray)
-          })
-        )
-      }
-      return this.getEndListArray(requestArray)
-    }
-    return this.getEndListArray(requestArray)
-  }
-
-  getEndListArray(requestArray: RequestApiTaskListBX): Observable<TaskBX[]> {
-    return this.list(requestArray).pipe(
-      mergeMap((items: AnswerApiTaskBX | undefined): ObservableInput<any> | Observable<AnswerApiTaskBX[]> => {
-        if (items && items.result && typeof items.result.tasks === 'object') {
-          const items$ = of(items.result.tasks)
-          if (items.next) {
-            this.nowLoad$.next({
-              total: (items.total) ? items.total : 0,
-              next: items.next
-            })
-            requestArray.start = items.next
-            return this.getEndListArray(requestArray).pipe(
-              map(vEnd => {
-                if (vEnd && items.result.tasks) {
-                  return [...items.result.tasks, ...vEnd]
-                }
-                return (items.result.tasks) ? items.result.tasks : []
-              }))
-          }
-          this.nowLoad$.next({
-            total: 0,
-            next: 0
-          })
-          return items$
-        } else {
-          return of([])
-        }
-      })
-    )
-  }
-  */
 
   /**
    * Возвращает список полей задачи.

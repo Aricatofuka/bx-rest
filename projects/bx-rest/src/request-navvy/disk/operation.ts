@@ -61,15 +61,6 @@ export class BXRestNavvyDiskOperation {
    * Возвращает список папок и файлов в общем хранилище приложения.
    */
   getRootFoldersApp() {
-    // return this.BXDiskFolder$.pipe(
-    //   take(1),
-    //   mergeMap(
-    //     saveData => {
-    //       if (saveData.content.root.app) {
-    //         return of(saveData.content.root.app)
-    //       }
-
-
     return this.storage.getForApp().res().pipe(
       mergeMap(v => {
         if (v && v.ID) {

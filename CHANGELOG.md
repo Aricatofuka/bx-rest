@@ -9,6 +9,29 @@
 История до версии 1.0.0 здесь не восстанавливалась — смотрите `git log` для
 более ранних изменений.
 
+## [Unreleased]
+
+### Removed
+
+- У `BXRestRequest` удалены публичные члены, которые библиотека не
+  использовала: `defSettings`, `getHttpParamsPost()`, `sliceArrayIntoChunks()`
+  и `removingMultipleSlashes()`. Они достались от внутреннего базового класса
+  и запросы не отправляли. `post()`, `get()`, `httpPost()` и `httpGet()` не
+  изменились. Код, который обращался к удалённым членам, перестанет
+  компилироваться.
+- Из `bx-rest/services/navvy` удалён абстрактный класс `NavvySupport`:
+  библиотека его не использовала. Тип `ReturnTypeNavvy` остался.
+- Из `bx-rest` удалён класс `HttpNavvyServices` вместе с его типами
+  `iBXRestParams` и `iBXRestAnswers`. Он отправлял запросы с типами для
+  небольшого набора методов, сама библиотека его не использовала, а в README
+  он не описан. Вместо него используйте `BXRestNavvy` или
+  `BXRestRequest.post()`.
+- Из исходников удалены 63 модуля, недостижимых из точек входа пакета (старый
+  слой `request/*`, `rest/base`, `functions/errorHandler`, `isDate`, `isEqual`,
+  `isValidDate`, `serializeJavascript`, `services/permission` и другие), и
+  закомментированный код. В собранный пакет эти модули не попадали и раньше,
+  поэтому для приложений ничего не меняется.
+
 ## [1.5.1] - 2026-11-05
 
 ### Added

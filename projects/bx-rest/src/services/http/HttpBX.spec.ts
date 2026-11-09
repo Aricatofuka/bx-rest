@@ -3,6 +3,7 @@ import { firstValueFrom } from 'rxjs'
 import { HttpBXServices } from './HttpBX'
 import { BXRestSettings, DEFAULT_BX_REST_SETTINGS } from '../../settings'
 import { iBatchRequestAnswer } from '../../typification/rest/batch/batchRequestParam'
+import { SessionKeyError } from './sessionKey'
 
 describe('HttpBXServices', () => {
   afterEach(() => {
@@ -77,8 +78,34 @@ describe('HttpBXServices', () => {
     })
   })
 
-  describe('httpPost (Bitrix-specific override)', () => {
-    it('sessid: serializes params as a real x-www-form-urlencoded body (unlike the base HttpServices bug)', async () => {
+  describe('missing token or base URL', () => {
+    // Default settings: auth.source = 'cookies'. In a Node test environment
+    // there is no `document`, so no cookie can ever be read — this is the
+    // real "you forgot to configure auth" scenario a consumer would hit.
+    it('post() rejects with SessionKeyError when auth is required but no token is available', async () => {
+      await expect(firstValueFrom(new HttpBXServices().post(['crm', 'deal', 'get'])))
+        .rejects.toBeInstanceOf(SessionKeyError)
+    })
+
+    it('get() rejects with SessionKeyError when auth is required but no token is available', async () => {
+      await expect(firstValueFrom(new HttpBXServices().get(['crm', 'deal', 'list'])))
+        .rejects.toBeInstanceOf(SessionKeyError)
+    })
+
+    it('post() and get() reject with SessionKeyError when the base URL cannot be resolved', async () => {
+      BXRestSettings.update({
+        auth: { source: 'off', key: 'auth' },
+        urls: { source: 'string', key: '', additional_part: '' },
+      })
+      const http = new HttpBXServices()
+
+      await expect(firstValueFrom(http.post(['crm', 'deal', 'get']))).rejects.toBeInstanceOf(SessionKeyError)
+      await expect(firstValueFrom(http.get(['crm', 'deal', 'list']))).rejects.toBeInstanceOf(SessionKeyError)
+    })
+  })
+
+  describe('httpPost', () => {
+    it('sessid: serializes params as a real x-www-form-urlencoded body', async () => {
       BXRestSettings.update({ auth: { source: 'off', key: 'sessid' } })
       const http = new HttpBXServices()
       const postSpy = vi
@@ -165,7 +192,7 @@ describe('HttpBXServices', () => {
     })
   })
 
-  describe('httpGet (Bitrix-specific override)', () => {
+  describe('httpGet', () => {
     const portal = { source: 'string', key: 'https://example.bitrix24.ru', additional_part: 'rest' } as const
 
     it('serializes nested params in the bracket notation Bitrix expects', async () => {

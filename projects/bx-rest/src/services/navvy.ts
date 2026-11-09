@@ -59,24 +59,8 @@ export class Navvy {
     return new NavvyPag(url, arg, map)
   }
 
-  // old PagNav
-  // PagNav<T, R, A extends iBXRestPagination>(
-  //   func: (param: A) => Observable<iBXRestAnswer<T[]> | undefined>,
-  //   arg: A,
-  //   map: ((param: T[] | undefined) => R[] | undefined) | undefined) {
-  //   return new NavvyPagNav(this.requestClass, this.mapClass, func, arg, map)
-  // }
-
-  // Batch<T, R, A extends iBXRestPagination>(
-  //   func: (param: A) => Observable<iBXRestAnswer<T[]> | undefined>,
-  //   arg: A,
-  //   map: ((param: T[] | undefined) => R[] | undefined) | undefined) {
-  //   return new NavvyBatch(this.requestClass, this.mapClass, func, arg, map)
-  // }
-
   pagNavTasks<T, R, A extends iBXRestPagination>(
     url: string[],
-    // func: (param: A) => Observable<iBXRestAnswer<{tasks: T[] | undefined}> | undefined>,
     arg: A,
     map?: (param: { tasks: T[] | undefined } | undefined) => R[] | undefined
   ) {
@@ -103,7 +87,6 @@ export class Navvy {
 
   pagNavWithUselessKey<T, R, A extends iBXRestPagination>(
     url: string[],
-    // func: (param: A) => Observable<iBXRestAnswer<{ [key: string]: T }> | undefined>,
     arg: A,
     map?: (param: Record<string, T> | undefined) => R[] | undefined
   ) {
@@ -112,7 +95,6 @@ export class Navvy {
 
   alterPagNav<T, R, A extends iBXRestAlternativePagination>(
     url: string[],
-    // func: (param: A) => Observable<iBXRestAnswer<T[]> | undefined>,
     arg: A,
     map?: (param: T[] | undefined) => R[] | undefined
   ) {

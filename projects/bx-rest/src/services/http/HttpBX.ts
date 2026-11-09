@@ -95,9 +95,9 @@ export class HttpBXServices extends HttpServices {
     return this.httpGet<iBXRestAnswer<T>>(this.getNameMethod(name), params, undefined, headers)
   }
 
-  // settings — только для совместимости сигнатуры с HttpServices: здесь тело
-  // уходит JSON-ом/urlencoded, и пересчёт дат из iHttpParamSettings не нужен.
-  override httpPost<T>(
+  // settings не используется и оставлен ради прежней сигнатуры: headers
+  // остаётся четвёртым параметром у httpPost и httpGet.
+  httpPost<T>(
     url: string,
     params: any = {},
     settings?: iHttpParamSettings,
@@ -162,7 +162,7 @@ export class HttpBXServices extends HttpServices {
     }))
   }
 
-  override httpGet<T>(
+  httpGet<T>(
     url: string,
     params: any = {},
     settings?: iHttpParamSettings,

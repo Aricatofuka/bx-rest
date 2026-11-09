@@ -5,7 +5,6 @@ import axios from 'axios'
 import { firstValueFrom, Observable } from 'rxjs'
 import { Navvy } from '../navvy'
 import { HttpBXServices } from './HttpBX'
-import { BXRest } from '../../rest/base'
 import { BXRestSettings, DEFAULT_BX_REST_SETTINGS } from '../../settings'
 import { BXRestApiError, getAuthRefreshError } from '../../functions/errors'
 import { isBXRestAuthError } from './authRefresh'
@@ -99,7 +98,7 @@ describe('auth.refresh: direct portal mode', () => {
     ['.mapForVanilla()', () => dealGet().mapForVanilla()],
     ['BXRestRequest.post()', () => new HttpBXServices().post(['crm', 'deal', 'get'], { ID: 1 })],
     ['BXRestRequest.get()', () => new HttpBXServices().get(['crm', 'deal', 'get'], { ID: 1 })],
-    ['BXRest.batch()', () => new BXRest().batch({ halt: 0, cmd: { deal: 'crm.deal.get?ID=1' } })],
+    ['BXRestRequest.post([\'batch\'])', () => new HttpBXServices().post(['batch'], { halt: 0, cmd: { deal: 'crm.deal.get?ID=1' } })],
   ]
   for (const [name, request] of requests) {
     it(`${name} is retried after the refresh`, async () => {
