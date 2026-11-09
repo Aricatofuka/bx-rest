@@ -166,11 +166,13 @@
 
 ## 3. Архитектура
 
-Фабрику и транспорт логично делать вместе: транспорт живёт в том же контексте клиента. Старый API остаётся, поэтому это `1.6.0`, а не мажорная версия.
+Клиента со своими настройками и транспорт логично делать вместе: транспорт живёт в том же контексте клиента. Старый API остаётся, поэтому это `1.6.0`, а не мажорная версия.
 
-### 3.1 Фабрика клиента
+### 3.1 Клиент со своими настройками
 
 Настройки глобальные, поэтому один процесс обслуживает один портал. Запрос, созданный для портала A, уходит на портал B с токеном B, если настройки успели смениться. На сервере с несколькими порталами это риск смешать токены клиентов.
+
+Решено: настройки передаются в конструктор `BXRestNavvy`. Отдельной функции `createBXRest` не будет, чтобы у библиотеки осталась одна точка входа.
 
 Как будет выглядеть в приложении:
 
@@ -180,11 +182,11 @@ BXRestSettings.update({ auth: { /* ... */ }, urls: { /* ... */ } })
 const bx = new BXRestNavvy()
 
 // Новое: несколько порталов в одном процессе.
-const portalA = createBXRest({
+const portalA = new BXRestNavvy({
   auth: { source: () => tokenA, key: 'auth' },
   urls: { source: 'string', key: 'https://a.bitrix24.ru', additional_part: 'rest' }
 })
-const portalB = createBXRest({
+const portalB = new BXRestNavvy({
   auth: { source: () => tokenB, key: 'auth' },
   urls: { source: 'string', key: 'https://b.bitrix24.ru', additional_part: 'rest' }
 })
@@ -227,11 +229,42 @@ export function runInContext<T>(ctx: BXRestContext, build: () => T): T {
   }
 }
 
-// rest/client.ts (новый файл)
-export function createBXRest(settings: iBXRestSettings): BXRestNavvy {
-  return runInContext(new BXRestContext(settings), () => new BXRestNavvy())
+// Для конструктора BXRestNavvy: там контекст включается и сбрасывается в разных местах
+const previousContexts: BXRestContext[] = []
+
+export function enterContext(ctx: BXRestContext): void {
+  previousContexts.push(current)
+  current = ctx
+}
+
+export function leaveContext(): void {
+  current = previousContexts.pop() ?? globalContext
 }
 ```
+
+`BXRestNavvy` включает контекст через базовый класс. Поля с разделами (`crm`, `tasks` и остальные) создаются сразу после `super()`, раньше тела конструктора, поэтому к этому моменту контекст клиента уже должен быть включён. Набросок:
+
+```ts
+// rest/navvy.ts
+class BXRestNavvyContext {
+  constructor(settings?: iBXRestSettings) {
+    // Без настроек — явно глобальный контекст, а не текущий: см. «Что учесть»
+    enterContext(settings ? new BXRestContext(settings) : globalContext)
+  }
+}
+
+export class BXRestNavvy extends BXRestNavvyContext {
+  public readonly crm = new BXRestNavvyCrm()   // создаётся уже в контексте клиента
+  // ... остальные поля без изменений
+
+  constructor(settings?: iBXRestSettings) {
+    super(settings)
+    leaveContext()                              // поля уже созданы
+  }
+}
+```
+
+Такой порядок проверен на небольшом примере при обоих значениях `useDefineForClassFields`: вложенные объекты получают настройки клиента, а после конструктора контекст возвращается к прежнему. На коде библиотеки этот вариант ещё не запускался.
 
 ```diff
  // services/http/sessionKey.ts
@@ -257,13 +290,13 @@ export function createBXRest(settings: iBXRestSettings): BXRestNavvy {
 
 Файлы методов не меняются. [pull/config.ts](projects/bx-rest/src/request-navvy/pull/config.ts) остаётся как есть: его `new Navvy()` выполняется во время `new BXRestNavvy()` и сам подхватывает контекст клиента. Поэтому массовая правка 354 файлов не нужна.
 
-**Логика вывода не меняется.** Мапперы и разбор ответа настроек не читают. Меняется только то, откуда `SessionKeyServices` берёт токен и адрес. Это проверено на прототипе вне репозитория:
+**Логика вывода не меняется.** Мапперы и разбор ответа настроек не читают. Меняется только то, откуда `SessionKeyServices` берёт токен и адрес. Это проверено на прототипе вне репозитория. В прототипе контекст включала отдельная функция `createBXRest`, а не конструктор, но внутренняя часть та же: контекст, `SessionKeyServices`, `Navvy` и `authRefresh`.
 
 | Проверка | Результат |
 | --- | --- |
 | Существующие 364 теста | Все прошли без правок |
 | Инвентаризация методов: REST-имя, вид запроса, наличие маппера | 1553 строки, различий нет |
-| `.res()`, `.resAll()`, `.resVanilla()`, `.mapForVanilla()` и `user.get` с маппером через `new BXRestNavvy()` и через `createBXRest()` | JSON совпадает полностью |
+| `.res()`, `.resAll()`, `.resVanilla()`, `.mapForVanilla()` и `user.get` с маппером через глобальные настройки и через клиента со своими настройками | JSON совпадает полностью |
 | Два клиента и глобальный клиент одновременно | Каждый запрос ушёл на свой адрес со своим токеном |
 | `BXRestSettings.update()` между созданием запроса и подпиской | Применяется, как и раньше |
 | Истёкший токен у одного из двух клиентов | `refresh` вызван один раз и только у него |
@@ -276,8 +309,10 @@ export function createBXRest(settings: iBXRestSettings): BXRestNavvy {
 
 - `auth.source: 'localStorage'` и `'cookies'` читают общее хранилище браузера, поэтому два клиента с одним ключом получат один токен. Для нескольких порталов нужен `source` в виде функции.
 - Объект, созданный вне `new BXRestNavvy()`, получает глобальный контекст. Для собственного `new Navvy()` у пользователя так и должно быть. Но если в методе библиотеки появится ленивый `new X()`, этот метод молча уйдёт на глобальные настройки. Поэтому обход всех методов надо добавить в тесты как обязательный.
+- Контекст сбрасывается в конструкторе после создания полей, а не в `finally`: вокруг инициализаторов полей `try` не поставить. Если вложенный конструктор бросит исключение, контекст клиента останется текущим. Сейчас вложенные конструкторы только создают объекты и не падают. Чтобы такой сбой не увёл на чужой портал следующий клиент, `new BXRestNavvy()` без настроек явно включает глобальный контекст. Нужен тест: вложенный раздел падает при создании, а следующий `new BXRestNavvy()` всё равно идёт на глобальные настройки.
+- Настройки получает только `BXRestNavvy`. Созданные пользователем напрямую `new Navvy()` и `new BXRestRequest()` работают с глобальными настройками. При необходимости им можно позже добавить такой же параметр.
 
-Что решить: имя `createBXRest` и нужен ли метод для смены настроек у готового клиента. Токен и так можно менять через функцию `source`.
+Что решить: нужен ли метод для смены настроек у готового клиента. Токен и так можно менять через функцию `source`.
 
 ### 3.2 Транспорт: axios остаётся по умолчанию
 
@@ -296,7 +331,7 @@ export interface BXRestRequestConfig {
 export type BXRestSend = <T>(config: BXRestRequestConfig) => Promise<T>
 export type BXRestMiddleware = <T>(config: BXRestRequestConfig, next: BXRestSend) => Promise<T>
 
-const bx = createBXRest({
+const bx = new BXRestNavvy({
   ...settings,
   // Необязательно. Без этого запросы идут напрямую через axios, как сейчас
   middleware: [retryOnQueryLimit({ attempts: 3 }), timeout(30_000)]
