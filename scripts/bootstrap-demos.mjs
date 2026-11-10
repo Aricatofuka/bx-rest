@@ -1,11 +1,12 @@
-// Готовит все три демо-приложения (projects/demo-angular|vue|react) к запуску:
+// Готовит все демо к запуску (projects/demo-angular|vue|react и demo-node):
 // 1. собирает bx-rest (dist/bx-rest) — демо подключают его как file:-зависимость;
 // 2. ставит зависимости и собирает projects/demo-shared (включая генерацию
 //    типов bx-rest/rxjs для Monaco — см. demo-shared/scripts/generate-typings.mjs);
 // 3. ставит зависимости в каждом demo-* приложении.
 //
 // После этого в любом из projects/demo-* можно запускать его обычный dev-скрипт
-// (npm run dev для Vue/React, npm start для Angular).
+// (npm run dev для Vue/React, npm start для Angular, npm run mock или npm start
+// для demo-node).
 import { spawnSync } from 'node:child_process'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -36,11 +37,12 @@ const demoShared = join(repoRoot, 'projects', 'demo-shared')
 run(npmCmd, ['install'], demoShared)
 run(npmCmd, ['run', 'build'], demoShared)
 
-for (const demo of ['demo-react', 'demo-vue', 'demo-angular']) {
+for (const demo of ['demo-react', 'demo-vue', 'demo-angular', 'demo-node']) {
   run(npmCmd, ['install'], join(repoRoot, 'projects', demo))
 }
 
 console.log(
   '\n[demo:bootstrap] Готово. Дальше в любой из projects/demo-react|demo-vue|demo-angular: ' +
-    '`npm run dev` (Angular — `npm start`).'
+    '`npm run dev` (Angular — `npm start`). В projects/demo-node: `npm run mock` ' +
+    '(без портала) или `npm start` с BX_WEBHOOK_A.'
 )

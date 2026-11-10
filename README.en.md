@@ -772,6 +772,12 @@ npm run demo:bootstrap
 Then, in any of `projects/demo-angular|demo-vue|demo-react`: `npm run dev`
 (for Angular, `npm start`). See each demo's own README for details.
 
+`projects/demo-node` is a Node.js demo without a UI. It shows two portals in
+one process, `retryOnQueryLimit`, `throttle`, `timeout`, your own `middleware`
+for logging and handling `BXRestApiError`. `npm run mock` runs it against a
+built-in mock portal, `npm start` against a real portal using the incoming
+webhook address from `BX_WEBHOOK_A`. On a portal the demo only reads data.
+
 ## Custom REST methods
 
 `Navvy` is exported from `bx-rest`. In Angular, register the `NavvyProvider` shown above and inject `Navvy` into your custom API service. A method URL is represented as an array and is joined with dots before the request is sent.

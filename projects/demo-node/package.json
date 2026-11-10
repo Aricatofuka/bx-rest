@@ -1,0 +1,19 @@
+{
+  "name": "demo-node",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs",
+    "mock": "node index.mjs --mock",
+    "check": "tsc -p jsconfig.json"
+  },
+  "dependencies": {
+    "bx-rest": "file:../../dist/bx-rest",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "typescript": "~6.0.2"
+  }
+}

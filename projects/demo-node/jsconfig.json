@@ -1,0 +1,22 @@
+{
+  // Проверка типов для index.mjs и mock-portal.mjs (// @ts-check): npm run check.
+  // paths: bx-rest подключён через file:, и без этого TypeScript увидел бы две
+  // копии rxjs — из корня репозитория и из этой папки. После установки из npm
+  // копия одна, и такая настройка не нужна.
+  "compilerOptions": {
+    "checkJs": true,
+    "strict": true,
+    "noEmit": true,
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "skipLibCheck": true,
+    "maxNodeModuleJsDepth": 0,
+    "types": ["node"],
+    "paths": {
+      "rxjs": ["./node_modules/rxjs"],
+      "rxjs/*": ["./node_modules/rxjs/*"]
+    }
+  },
+  "include": ["*.mjs"]
+}

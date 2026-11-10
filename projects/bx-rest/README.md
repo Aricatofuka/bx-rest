@@ -780,6 +780,13 @@ npm run demo:bootstrap
 Дальше в любой из `projects/demo-angular|demo-vue|demo-react`: `npm run dev`
 (для Angular — `npm start`). Подробности — в README каждого демо.
 
+`projects/demo-node` — демо для Node.js, без интерфейса. Показывает два
+портала в одном процессе, `retryOnQueryLimit`, `throttle`, `timeout`, свой
+`middleware` для логирования и обработку `BXRestApiError`. `npm run mock`
+запускает его со встроенной заглушкой портала, `npm start` — с настоящим
+порталом по адресу входящего вебхука из `BX_WEBHOOK_A`. На портале демо только
+читает данные.
+
 ## Кастомные REST-методы
 
 `Navvy` экспортируется из `bx-rest`. В Angular зарегистрируйте показанный выше `NavvyProvider` и внедрите `Navvy` в ваш кастомный API-сервис. URL метода представлен массивом и перед отправкой запроса соединяется точками.
