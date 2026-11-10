@@ -215,7 +215,7 @@ For cross-origin requests, the server — the portal or your proxy — must allo
 
 For REST v3 methods, `error` holds the error `code` and `error_description` its `message`.
 
-**Secrets in errors.** An axios error keeps the whole request, including the token and the webhook secret. So the library replaces the token (`auth`, `sessid`) and the webhook secret with `***` in the error's `config.url` and `config.data` and removes the `request` object from it. This applies both to `err.cause` in `.res()` and to the error itself in `.resVanilla()`. `response.status` and `response.data` are unchanged, so `console.error(err)` and sending the error to an error tracker do not reveal the token. Headers from `headers` and `.withHeaders()` are not masked: the library does not know which of them are secret.
+**The token in errors.** An axios error keeps the whole request that was sent: `config.url` holds the address, and with it the webhook secret, and `config.data` holds the body with the token. The library passes this error on as is — in `err.cause` for `.res()` and as the error itself for `.resVanilla()`. So `console.error(err)` or sending the error to an error tracker passes the token along too. If errors go to logs, pick the fields you need, for example `err.status`, `err.error` and `err.cause?.response?.data`.
 
 **Recommended — `.res({ throwOnApiError: true })`.** Every Bitrix error then arrives as a `BXRestApiError` whatever the HTTP status, and can be handled alongside transport errors in a single `catchError`/`error` callback:
 

@@ -1,4 +1,7 @@
-import { CountryCode, TimezoneName } from 'countries-and-timezones'
+// resolution-mode: 'import' — иначе под moduleResolution nodenext TypeScript
+// берёт типы по условию `require`, а у countries-and-timezones там указан
+// несуществующий файл, и проверка падает с TS1479. Типы те же самые.
+import type { CountryCode, TimezoneName } from 'countries-and-timezones' with { 'resolution-mode': 'import' }
 import { iBXRestCalendarTypeEvent } from '../base/type'
 import { iBXRestYesNo } from '../../base/yes-no'
 

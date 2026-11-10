@@ -1,7 +1,6 @@
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 import { createServer, IncomingMessage, Server, ServerResponse } from 'node:http'
 import { AddressInfo } from 'node:net'
-import { inspect } from 'node:util'
 import { firstValueFrom } from 'rxjs'
 import axios from 'axios'
 import { BXRestNavvy } from '../../rest/navvy'
@@ -439,62 +438,38 @@ describe('defaults and order (fake timers)', () => {
   })
 })
 
-describe('masking secrets in errors', () => {
-  const leaks = (err: unknown, secret: string) => ({
-    inspect: inspect(err, { depth: null }).includes(secret),
-    json: JSON.stringify(err).includes(secret),
-    jsonCause: JSON.stringify((err as any)?.cause ?? null).includes(secret),
-  })
-  const fail401 = answer(401, { error: 'expired_token', error_description: 'expired' })
-  const hookSettings = (): iBXRestSettings => ({
-    auth: { source: 'off', key: 'auth' },
-    urls: { source: 'string', key: `${base}/rest/1/WEBHOOK-SECRET-456/`, additional_part: '' },
-  })
+describe('transport errors reach the caller unchanged, as in 1.5.1', () => {
+  // Секреты в ошибках не маскируются (решение 2026-11-10): ошибка axios
+  // доходит как есть, и обработчики по образцу из документации axios
+  // (err.response / err.request) работают как раньше.
+  const kindOf = (err: any) => err.response ? 'response' : err.request ? 'no response' : 'setup'
 
-  it('OAuth token: .res() (BXRestApiError.cause) and .resVanilla() (raw error) carry no token, the response stays', async () => {
-    handler = fail401
+  it('a non-2xx answer: .resVanilla() gives the axios error, .res() keeps it in cause', async () => {
+    handler = answer(401, { error: 'expired_token', error_description: 'expired' })
     const bx = new BXRestNavvy(settings())
+
+    const vanilla = await errorOf(firstValueFrom(bx.crm.deal.list(list).resVanilla()))
     const viaRes = await errorOf(firstValueFrom(bx.crm.deal.list(list).res()))
-    const viaVanilla = await errorOf(firstValueFrom(bx.crm.deal.list(list).resVanilla()))
-    BXRestSettings.update(settings())
-    const viaGet = await errorOf(firstValueFrom(new HttpBXServices().get(['crm', 'deal', 'list'])))
 
-    expect(leaks(viaRes, TOKEN)).toEqual({ inspect: false, json: false, jsonCause: false })
-    expect(leaks(viaVanilla, TOKEN)).toEqual({ inspect: false, json: false, jsonCause: false })
-    expect(leaks(viaGet, TOKEN)).toEqual({ inspect: false, json: false, jsonCause: false })
+    expect(axios.isAxiosError(vanilla)).toBe(true)
+    expect(kindOf(vanilla)).toBe('response')
+    expect(vanilla.config.url).toBe(`${base}/rest/crm.deal.list`)
+    expect(JSON.parse(vanilla.config.data).auth).toBe(TOKEN)
+    expect(viaRes).toBeInstanceOf(BXRestApiError)
+    expect(axios.isAxiosError(viaRes.cause)).toBe(true)
     expect(viaRes.cause.response).toMatchObject({ status: 401, data: { error: 'expired_token' } })
-    expect(viaRes.cause.config.data).toContain('"auth":"***"')
-    expect(viaGet.config.url).toBe(`${base}/rest/crm.deal.list?auth=***`)
   })
 
-  it('webhook secret in the url is masked too', async () => {
-    handler = fail401
-    const err = await errorOf(firstValueFrom(new BXRestNavvy(hookSettings()).crm.deal.list(list).res()))
-
-    expect(leaks(err, 'WEBHOOK-SECRET-456')).toEqual({ inspect: false, json: false, jsonCause: false })
-    expect(err.cause.config.url).toBe(`${base}/rest/1/***/crm.deal.list`)
-  })
-
-  it('a network error carries no secrets either', async () => {
+  it('a network error keeps err.request, so it is told apart from a setup error', async () => {
     const closed = createServer()
     await new Promise<void>(r => closed.listen(0, '127.0.0.1', () => r()))
     const port = (closed.address() as AddressInfo).port
     await new Promise(r => closed.close(r))
-    const hook = { ...hookSettings(), urls: { source: 'string', key: `http://127.0.0.1:${port}/rest/1/WEBHOOK-SECRET-456/`, additional_part: '' } } as iBXRestSettings
-
-    const err = await errorOf(firstValueFrom(new BXRestNavvy(hook).crm.deal.list(list).resVanilla()))
-
-    expect(err.code).toBe('ECONNREFUSED')
-    expect(leaks(err, 'WEBHOOK-SECRET-456')).toEqual({ inspect: false, json: false, jsonCause: false })
-  })
-
-  it('the session id (sessid) is masked in the urlencoded body', async () => {
-    handler = fail401
-    const bx = new BXRestNavvy({ auth: { source: () => 'SESSID-789', key: 'sessid' }, urls: { source: 'string', key: base, additional_part: 'rest' } })
+    const bx = new BXRestNavvy(settings({}, `http://127.0.0.1:${port}`))
 
     const err = await errorOf(firstValueFrom(bx.crm.deal.list(list).resVanilla()))
 
-    expect(leaks(err, 'SESSID-789')).toEqual({ inspect: false, json: false, jsonCause: false })
-    expect(err.config.data).toContain('sessid=***')
+    expect(err.code).toBe('ECONNREFUSED')
+    expect(kindOf(err)).toBe('no response')
   })
 })

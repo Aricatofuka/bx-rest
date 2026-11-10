@@ -13,7 +13,6 @@ import { serializeBitrixParams as stringifyBitrixParams } from '../../functions/
 import { iHttpParamSettings } from '../../typification/rest/settings'
 import { withAuthRefresh } from './authRefresh'
 import { BXRestRequestConfig, composeMiddleware } from './transport'
-import { maskSecrets } from './mask'
 import { builtInMiddleware } from './middleware'
 
 export class HttpBXServices extends HttpServices {
@@ -151,7 +150,7 @@ export class HttpBXServices extends HttpServices {
             headers: this.buildHeaders(headers, {
               'Content-Type': urlencoded ? 'application/x-www-form-urlencoded' : 'application/json'
             }),
-          }, auth)
+          })
         })
       )
     }), this.session.ctx)
@@ -199,7 +198,7 @@ export class HttpBXServices extends HttpServices {
             url: finalUrl,
             withCredentials: this.session.getWithCredentials(),
             headers: this.buildHeaders(headers),
-          }, auth)
+          })
         })
       )
     }), this.session.ctx)
@@ -209,10 +208,10 @@ export class HttpBXServices extends HttpServices {
    * Отправка через шаги из настроек: `retryOnQueryLimit`, `throttle`,
    * `timeout`, затем `middleware`; последним идёт axios клиента. Настройки
    * читаются при подписке. Отписка отменяет HTTP-запрос (AbortSignal).
-   * Секреты (`token` и секрет вебхука в адресе) вычищаются из ошибки,
-   * прежде чем она уйдёт дальше.
+   * Ошибка транспорта уходит дальше как есть: у axios в ней весь запрос,
+   * вместе с токеном и секретом вебхука (см. README, «Обработка ошибок»).
    */
-  private send<T>(config: BXRestRequestConfig, token: string | undefined): Observable<T | undefined> {
+  private send<T>(config: BXRestRequestConfig): Observable<T | undefined> {
     return new Observable<T | undefined>(subscriber => {
       const controller = new AbortController()
       const ctx = this.session.ctx
@@ -225,7 +224,7 @@ export class HttpBXServices extends HttpServices {
           subscriber.next(data as T | undefined)
           subscriber.complete()
         },
-        (error: unknown) => subscriber.error(maskSecrets(error, token))
+        (error: unknown) => subscriber.error(error)
       )
       return () => controller.abort()
     })
