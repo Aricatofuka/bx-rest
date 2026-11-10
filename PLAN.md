@@ -50,7 +50,7 @@
 
 [operation.ts:103](projects/bx-rest/src/request-navvy/disk/operation.ts#L103). Если `getOfCreateRootFolderApp()` не получил хранилище приложения, он сообщает: «Отсутствуют права добавление записи затраченного времени». Текст скопирован из учёта времени ([elapseditem.ts:249](projects/bx-rest/src/request-navvy/task/operation/elapseditem.ts#L249), там в 1.5.1 исправлено «права на добавление»), к диску он не относится и уводит в сторону при разборе ошибки.
 
-Что сделать: заменить на «Не удалось получить хранилище приложения».
+Сделано: текст заменён на `Could not get the app storage`. 2026-11-10 все сообщения ошибок, которые библиотека создаёт сама, переведены на английский.
 
 ### Токен внутри `BXRestApiError.cause` (решено: не маскировать)
 
@@ -470,7 +470,7 @@ const bx = new BXRestNavvy({
 
 Предложение: получать пользователя и ответ `getaccess` один раз и брать из него оба права, а в `del()` вызывать `isActionAllowed` без повторной проверки, как это уже делает `update()`. Тогда `add()` обойдётся тремя запросами, `del()` — четырьмя, а результат останется тем же. Заодно объединить почти одинаковые `checkPermissionReadTask` и `checkPermissionAddElapsedTimeToTask` ([строки 190–232](projects/bx-rest/src/request-navvy/task/operation/elapseditem.ts#L190-L232)).
 
-**Ошибка без пользователя.** Если `user.current` не вернул пользователя, `add()`, `update()` и `del()` сообщают «Отсутствуют права на чтение задачи». Причина другая, и текст уводит в сторону. Кроме того, `checkPermissionAddElapsedTimeToTask` в этом случае отдаёт `undefined`, а при отсутствии права — `false`. Предложение: отдельная ошибка. Это меняет текст ошибки.
+**Ошибка без пользователя.** Если `user.current` не вернул пользователя, `add()`, `update()` и `del()` сообщают `No permission to read the task`. Причина другая, и текст уводит в сторону. Кроме того, `checkPermissionAddElapsedTimeToTask` в этом случае отдаёт `undefined`, а при отсутствии права — `false`. Предложение: отдельная ошибка. Это меняет текст ошибки.
 
 **Формат даты в `getByInterval`** ([строка 42](projects/bx-rest/src/request-navvy/task/operation/elapseditem.ts#L42)). Фильтр уходит строкой из `toLocaleString('ru-RU')`, на этой машине это `01.11.2026, 0:00:00 GMT+3`. Строка зависит от часового пояса и версии ICU в браузере или Node, а разбирает ли её портал, не проверялось. Предложение: ISO 8601 со смещением через уже существующий `toISOStringWithTimezone` ([base.ts:295](projects/bx-rest/src/services/base.ts#L295)).
 

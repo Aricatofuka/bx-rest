@@ -88,7 +88,7 @@ export class BXRestNavvyBizProc {
               return of(true)
             }
           }
-          return throwError(() => new Error('Не удалось запустить бизнес процесс'))
+          return throwError(() => new Error('Could not start the business process: the list element was not created'))
         })
       )
   }

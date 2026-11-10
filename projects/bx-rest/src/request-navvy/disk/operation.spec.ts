@@ -20,7 +20,7 @@ describe('BXRestNavvyDiskOperation.getOfCreateRootFolderApp', () => {
     const err = await firstValueFrom(bx.disk.operation.getOfCreateRootFolderApp('Reports'))
       .then(() => { throw new Error('expected a failure') }, (e: Error) => e)
 
-    expect(err.message).toBe('Не удалось получить хранилище приложения')
+    expect(err.message).toBe('Could not get the app storage')
     expect(methods.map(m => m.toLowerCase())).toEqual(['disk.storage.getforapp', 'disk.storage.getforapp'])
   })
 })

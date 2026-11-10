@@ -37,7 +37,7 @@ export class BXRestNavvyDiskOperation {
                 generateUniqueName: true
               }).res()
           }
-          return throwError(() => new Error('Отсутствует общее хранилище для приложения'))
+          return throwError(() => new Error('Could not get the app storage'))
         })
       )
   }
@@ -91,7 +91,7 @@ export class BXRestNavvyDiskOperation {
             if (v && v.ID) {
               return this.storage.addFolder({id: v.ID, data: {NAME: folderName}}).res()
             }
-            return throwError(() => new Error('Не удалось получить хранилище приложения'))
+            return throwError(() => new Error('Could not get the app storage'))
           })
         )
         }

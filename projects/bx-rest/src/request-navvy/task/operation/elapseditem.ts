@@ -246,11 +246,11 @@ export class BXRestNavvyOperationElapsedItem {
               if (allowed) {
                 return this.BXRestNavvyElapsedItem.add(param).res()
               } else {
-                return throwError(() => new Error('Отсутствуют права на добавление записи затраченного времени'))
+                return throwError(() => new Error('No permission to add an elapsed time record to the task'))
               }
             }))
         } else {
-          return throwError(() => new Error('Отсутствуют права на чтение задачи'))
+          return throwError(() => new Error('No permission to read the task'))
         }
       }))
   }
@@ -270,10 +270,10 @@ export class BXRestNavvyOperationElapsedItem {
               if (allowed) {
                 return this.BXRestNavvyElapsedItem.update(param).res()
               }
-              return throwError(() => new Error('Отсутствуют права на изменение записи затраченного времени'))
+              return throwError(() => new Error('No permission to update the elapsed time record'))
             }))
         }
-        return throwError(() => new Error('Отсутствуют права на чтение задачи'))
+        return throwError(() => new Error('No permission to read the task'))
       }))
   }
 
@@ -304,7 +304,7 @@ export class BXRestNavvyOperationElapsedItem {
         if (canRead) {
           return this.BXRestNavvyElapsedItem.isActionAllowed(param).res()
         }
-        return throwError(() => new Error('Отсутствуют права на чтение задачи'))
+        return throwError(() => new Error('No permission to read the task'))
       })
     )
   }
@@ -324,11 +324,11 @@ export class BXRestNavvyOperationElapsedItem {
               if (allowed) {
                 return this.BXRestNavvyElapsedItem.delete(param).res()
               } else {
-                return throwError(() => new Error('Отсутствуют права на удаление записи затраченного времени'))
+                return throwError(() => new Error('No permission to delete the elapsed time record'))
               }
             }))
         } else {
-          return throwError(() => new Error('Отсутствуют права на чтение задачи'))
+          return throwError(() => new Error('No permission to read the task'))
         }
       })
     )
