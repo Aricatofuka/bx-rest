@@ -1,3 +1,5 @@
+import type { BXRestMiddleware } from '../services/http/transport'
+
 export interface iBXRestSettings {
   auth: {
     source: 'cookies' | 'localStorage' | 'off' | (() => string)
@@ -41,4 +43,32 @@ export interface iBXRestSettings {
    * библиотека всегда выставляет сама — от него зависит формат тела запроса.
    */
   headers?: Record<string, string>
+  /**
+   * Повтор запроса, когда портал отвечает `QUERY_LIMIT_EXCEEDED` (превышен
+   * лимит частоты запросов, HTTP 503). `attempts` — сколько всего попыток
+   * вместе с первой, `delay` — пауза перед второй попыткой в мс, дальше она
+   * растёт вдвое. `true` — значения по умолчанию: `{ attempts: 3, delay: 1000 }`.
+   * Если не задано — запрос не повторяется.
+   */
+  retryOnQueryLimit?: boolean | { attempts?: number, delay?: number }
+  /**
+   * Предельное время одного HTTP-запроса, мс: дольше — запрос отменяется
+   * с ошибкой `BXRestTimeoutError`. Ожидание очереди `throttle` и паузы
+   * `retryOnQueryLimit` сюда не входят, у каждой попытки повтора своё время.
+   * `true` — 60 000 мс. Если не задано — время не ограничено.
+   */
+  timeout?: boolean | number
+  /**
+   * Не больше `perSecond` запросов в секунду: лишние ждут своей очереди.
+   * Очередь своя у каждого клиента `new BXRestNavvy(settings)` и общая у
+   * всех, кто работает с глобальными `BXRestSettings`. `true` — 2 запроса
+   * в секунду, лимит Bitrix24 на обычных тарифах. Если не задано — без очереди.
+   */
+  throttle?: boolean | { perSecond?: number }
+  /**
+   * Свои шаги перед отправкой каждого запроса: логирование, подмена
+   * заголовков, свой транспорт вместо axios. Первый в списке — внешний.
+   * Идут после `retryOnQueryLimit`, `throttle` и `timeout`, перед axios.
+   */
+  middleware?: BXRestMiddleware[]
 }

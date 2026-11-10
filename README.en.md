@@ -27,6 +27,8 @@ Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix 
   - [Recipe: straight to the portal](#recipe-straight-to-the-portal)
   - [Recipe: through a backend proxy](#recipe-through-a-backend-proxy)
 - [Several portals](#several-portals)
+- [Retry, timeout and request queue](#retry-timeout-and-request-queue)
+  - [Your own middleware](#your-own-middleware)
 - [Working in an iframe without BX24.js](#working-in-an-iframe-without-bx24js)
 - [Usage in Angular](#usage-in-angular)
 - [SessionKeyServices](#sessionkeyservices)
@@ -96,7 +98,7 @@ Do not hardcode or commit a production access token. Pass it from your applicati
 
 ### Result modes
 
-REST calls are lazy: the request starts when the returned `Observable` is subscribed to or passed to `firstValueFrom`.
+REST calls are lazy: the request starts when the returned `Observable` is subscribed to or passed to `firstValueFrom`. Unsubscribing before the response aborts the HTTP request — this is what `switchMap`, `takeUntil` and the RxJS `timeout` operator rely on. Aborting does not undo what the portal has already done: if `crm.deal.add` reached the server, the deal may be created.
 
 | Method | Result |
 | --- | --- |
@@ -199,7 +201,7 @@ For cross-origin requests, the server — the portal or your proxy — must allo
 | --- | --- |
 | Bitrix API error with a non-2xx HTTP status — this is how Bitrix sends most errors: `expired_token` (401), `ERROR_METHOD_NOT_FOUND` (404), `QUERY_LIMIT_EXCEEDED` (503), `Not found` from `crm.*.get` (400) | The returned `Observable` errors with a `BXRestApiError`, with or without `throwOnApiError`. |
 | Bitrix API error in the body of a 2xx response | By default, `.res()` resolves normally with `undefined` — **it does not throw**. Pass `{ throwOnApiError: true }` to make it throw a `BXRestApiError` instead. |
-| Transport / configuration errors — network failure, missing auth, missing base URL, a response that is not from Bitrix (e.g. a proxy's HTML error page) | The returned `Observable` errors with a plain `Error`. The original error is in its `cause`: for a response that is not from Bitrix it is the axios error, with the HTTP status in `cause.response.status`. |
+| Transport / configuration errors — network failure, [`timeout`](#retry-timeout-and-request-queue) exceeded, missing auth, missing base URL, a response that is not from Bitrix (e.g. a proxy's HTML error page) | The returned `Observable` errors with a plain `Error`. The original error is in its `cause`: for a response that is not from Bitrix it is the axios error, with the HTTP status in `cause.response.status`; for `timeout` it is `BXRestTimeoutError`. |
 
 `BXRestApiError` fields:
 
@@ -212,6 +214,8 @@ For cross-origin requests, the server — the portal or your proxy — must allo
 | `cause` | The original axios error when the status was non-2xx; the full response body is in `cause.response.data` (for REST v3 — including `validation`). |
 
 For REST v3 methods, `error` holds the error `code` and `error_description` its `message`.
+
+**Secrets in errors.** An axios error keeps the whole request, including the token and the webhook secret. So the library replaces the token (`auth`, `sessid`) and the webhook secret with `***` in the error's `config.url` and `config.data` and removes the `request` object from it. This applies both to `err.cause` in `.res()` and to the error itself in `.resVanilla()`. `response.status` and `response.data` are unchanged, so `console.error(err)` and sending the error to an error tracker do not reveal the token. Headers from `headers` and `.withHeaders()` are not masked: the library does not know which of them are secret.
 
 **Recommended — `.res({ throwOnApiError: true })`.** Every Bitrix error then arrives as a `BXRestApiError` whatever the HTTP status, and can be handled alongside transport errors in a single `catchError`/`error` callback:
 
@@ -451,6 +455,59 @@ const deals = await firstValueFrom(
 - **Authorization refresh** is per client: a client's `auth.refresh` is called only for its own requests.
 - **`auth.source: 'cookies'` and `'localStorage'`** read the shared browser storage, so two clients with the same key get the same token. For several portals, set `source` to a function.
 - **Objects created directly** — `new Navvy()`, `new BXRestRequest()`, `new SessionKeyServices()` — use the global `BXRestSettings`. Only `BXRestNavvy` and everything created through it get the client's own settings.
+
+## Retry, timeout and request queue
+
+Three optional settings protect against the Bitrix24 request rate limit and against hanging requests. Set them in `BXRestSettings.update()` for the whole app or in the settings of a `new BXRestNavvy(settings)` client. `true` turns on the defaults, a number or an object sets your own values. While a setting is not set, requests go as before.
+
+```typescript
+BXRestSettings.update({
+  retryOnQueryLimit: true,      // 3 attempts, pause from 1000 ms
+  timeout: 30_000,              // ms
+  throttle: { perSecond: 2 },
+})
+```
+
+| Setting | `true` means | What it does |
+| --- | --- | --- |
+| `retryOnQueryLimit` | `{ attempts: 3, delay: 1000 }` | Retries the request when the portal answers `QUERY_LIMIT_EXCEEDED` (HTTP 503, request rate limit exceeded). `attempts` is the total number of attempts including the first one, `delay` is the pause before the second attempt in ms, then it doubles: 1000, 2000, 4000... Other errors are not retried. When the attempts run out, the error of the last one goes out; in `.res()` it is a `BXRestApiError` with `error: 'QUERY_LIMIT_EXCEEDED'`. |
+| `timeout` | `60000` | Time limit for one HTTP request in ms. A request that takes longer is aborted with `BXRestTimeoutError` (its `timeout` field is the limit). In `.res()` it is in `cause`; `.resVanilla()`, `.mapForVanilla()` and `.resAll()` error with it directly. |
+| `throttle` | `{ perSecond: 2 }` | At most `perSecond` requests per second, the rest wait in a queue. 2 requests per second is the Bitrix24 limit on regular plans. |
+
+An object may set only some fields: `retryOnQueryLimit: { attempts: 5 }` keeps `delay: 1000`.
+
+- **Order:** retry, queue, timeout, [your own middleware](#your-own-middleware), axios. Every retry attempt queues again and gets its own `timeout`. Waiting in the queue and pauses before a retry do not count towards `timeout`.
+- **The queue** belongs to each `new BXRestNavvy(settings)` client and is shared by everything that uses the global `BXRestSettings`. Every request goes through it, including every batch request of `.resAll()`.
+- **`throttle` is stricter than the portal.** Bitrix24 lets short bursts above the limit through, while `throttle` spreads all requests evenly. If short bursts of requests need to be fast, `retryOnQueryLimit` alone is enough.
+- **Unsubscribing** stops both the wait in the queue and the pause before a retry: such a request is never sent.
+- **Settings are read at subscribe time**, like the rest.
+- **An invalid value** — for example `throttle: { perSecond: 0 }` or a negative `timeout` — fails the request with a `TypeError` that describes it; nothing is sent to the portal.
+
+### Your own middleware
+
+A middleware is a function every request passes through before it is sent: logging, metrics, changing headers, your own transport instead of axios. Set it in `middleware`, globally or per client in the same way:
+
+```typescript
+import { BXRestMiddleware, BXRestSettings } from 'bx-rest'
+
+const logDuration: BXRestMiddleware = async (config, next) => {
+  const started = Date.now()
+  try {
+    return await next(config)
+  } finally {
+    console.debug(config.method, Date.now() - started, 'ms')
+  }
+}
+
+BXRestSettings.update({ middleware: [logDuration] })
+```
+
+- **`config`** is the request: `method` (`'GET'` or `'POST'`), `url` (with the parameters for GET), `data` (the POST body), `headers`, `withCredentials`, `signal`. `next(config)` sends it on and returns the response body.
+- **Order:** the first in the list is the outermost one: it sees the request first and the response last. All your middleware run after `retryOnQueryLimit`, `throttle` and `timeout`, so they see every retry attempt. The retry after `auth.refresh` wraps all the steps: on an authorization refresh the request passes through them again.
+- **To change the request**, pass a new object on: `next({ ...config, headers: { ...config.headers, 'X-Trace': id } })`.
+- **Your own transport** is a middleware that does not call `next`: it sends the request itself and returns the response body. For a non-2xx response it must reject with an error that has a `response: { status, data }` field, as axios does. The library uses that field to recognize Bitrix errors (`BXRestApiError`) and authorization errors (`auth.refresh`).
+- **Pass `config.signal`** to your transport: it aborts the request on unsubscribe and on `timeout`.
+- **`config.url` and `config.data`** contain the token and the webhook secret — do not log them as they are.
 
 ## Working in an iframe without BX24.js
 

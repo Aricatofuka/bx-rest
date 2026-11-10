@@ -7,10 +7,14 @@ import { SessionKeyServices } from './sessionKey'
  */
 export class HttpServices {
 
-  protected readonly axiosInstance: AxiosInstance
   public readonly session = new SessionKeyServices()
 
-  constructor() {
-    this.axiosInstance = axios.create()
+  /**
+   * Экземпляр axios клиента. Один на контекст (клиента со своими настройками
+   * или глобальные настройки) и создаётся при первом запросе — раньше каждый
+   * объект запроса создавал свой.
+   */
+  protected get axiosInstance(): AxiosInstance {
+    return this.session.ctx.axios ??= axios.create()
   }
 }

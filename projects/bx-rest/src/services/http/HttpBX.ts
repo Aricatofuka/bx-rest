@@ -1,4 +1,4 @@
-import { Observable, throwError, forkJoin, from, defer } from 'rxjs'
+import { Observable, throwError, forkJoin, defer } from 'rxjs'
 import clone from 'just-clone'
 import { HttpServices } from './http'
 import {
@@ -12,6 +12,9 @@ import { prepareBaseAddress } from '../base'
 import { serializeBitrixParams as stringifyBitrixParams } from '../../functions/serializeBitrixParams'
 import { iHttpParamSettings } from '../../typification/rest/settings'
 import { withAuthRefresh } from './authRefresh'
+import { BXRestRequestConfig, composeMiddleware } from './transport'
+import { maskSecrets } from './mask'
+import { builtInMiddleware } from './middleware'
 
 export class HttpBXServices extends HttpServices {
 
@@ -137,26 +140,18 @@ export class HttpBXServices extends HttpServices {
           }
 
           const fullUrl = prepareBaseAddress(baseUrl) + url
+          // sessid — тело x-www-form-urlencoded, остальные ключи — JSON
+          const urlencoded = key === 'sessid'
 
-          if (key === 'sessid') {
-            // Преобразуем параметры в формат x-www-form-urlencoded
-            const bodyString = this.serializeBitrixParams(paramsClone)
-            return from(
-              this.axiosInstance.post<T>(fullUrl, bodyString, {
-                withCredentials: this.session.getWithCredentials(),
-                headers: this.buildHeaders(headers, {'Content-Type': 'application/x-www-form-urlencoded'}),
-              }).then((response) => response.data)
-            )
-          }
-
-          return from(
-            this.axiosInstance.post<T>(fullUrl, paramsClone,
-              {
-                withCredentials: this.session.getWithCredentials(),
-                headers: this.buildHeaders(headers, {'Content-Type': 'application/json'}),
-              }
-            ).then((response) => response.data)
-          )
+          return this.send<T>({
+            method: 'POST',
+            url: fullUrl,
+            data: urlencoded ? this.serializeBitrixParams(paramsClone) : paramsClone,
+            withCredentials: this.session.getWithCredentials(),
+            headers: this.buildHeaders(headers, {
+              'Content-Type': urlencoded ? 'application/x-www-form-urlencoded' : 'application/json'
+            }),
+          }, auth)
         })
       )
     }), this.session.ctx)
@@ -199,15 +194,50 @@ export class HttpBXServices extends HttpServices {
           const queryString = this.serializeBitrixParams(paramsClone)
           const finalUrl = `${fullUrl}?${queryString}`
 
-          return from(
-            this.axiosInstance.get<T>(finalUrl, {
-              withCredentials: this.session.getWithCredentials(),
-              headers: this.buildHeaders(headers),
-            }).then((response) => response.data)
-          )
+          return this.send<T>({
+            method: 'GET',
+            url: finalUrl,
+            withCredentials: this.session.getWithCredentials(),
+            headers: this.buildHeaders(headers),
+          }, auth)
         })
       )
     }), this.session.ctx)
+  }
+
+  /**
+   * Отправка через шаги из настроек: `retryOnQueryLimit`, `throttle`,
+   * `timeout`, затем `middleware`; последним идёт axios клиента. Настройки
+   * читаются при подписке. Отписка отменяет HTTP-запрос (AbortSignal).
+   * Секреты (`token` и секрет вебхука в адресе) вычищаются из ошибки,
+   * прежде чем она уйдёт дальше.
+   */
+  private send<T>(config: BXRestRequestConfig, token: string | undefined): Observable<T | undefined> {
+    return new Observable<T | undefined>(subscriber => {
+      const controller = new AbortController()
+      const ctx = this.session.ctx
+      const send = composeMiddleware(
+        [...builtInMiddleware(ctx.settings, ctx), ...this.session.getMiddleware()],
+        request => this.axiosSend(request)
+      )
+      send({ ...config, signal: controller.signal }).then(
+        data => {
+          subscriber.next(data as T | undefined)
+          subscriber.complete()
+        },
+        (error: unknown) => subscriber.error(maskSecrets(error, token))
+      )
+      return () => controller.abort()
+    })
+  }
+
+  /** Транспорт по умолчанию: axios клиента, как и раньше через post()/get(). */
+  private axiosSend(config: BXRestRequestConfig): Promise<unknown> {
+    const options = { headers: config.headers, withCredentials: config.withCredentials, signal: config.signal }
+    const request = (config.method === 'GET')
+      ? this.axiosInstance.get(config.url, options)
+      : this.axiosInstance.post(config.url, config.data, options)
+    return request.then(response => response.data)
   }
 
   /**

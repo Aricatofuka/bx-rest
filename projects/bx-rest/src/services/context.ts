@@ -1,8 +1,10 @@
 import { BXRestSettings } from '../settings'
 import { iBXRestSettings } from '../typification/settings'
+import type { AxiosInstance } from 'axios'
 
 /**
- * Контекст клиента: его настройки и общее состояние продления авторизации.
+ * Контекст клиента: его настройки, экземпляр axios и общее состояние
+ * продления авторизации и очереди `throttle`.
  *
  * Объекты библиотеки запоминают контекст в момент создания
  * (`currentContext()`), поэтому все запросы клиента `new BXRestNavvy(settings)`
@@ -13,6 +15,10 @@ export class BXRestContext {
   pendingRefresh: Promise<void> | undefined
   /** Сколько продлений уже завершилось успешно. */
   refreshCount = 0
+  /** Экземпляр axios клиента: один на контекст, создаётся при первом запросе. */
+  axios: AxiosInstance | undefined
+  /** Очередь `throttle`: когда можно отправить следующий запрос клиента (мс, Date.now()). */
+  throttleNextSlot = 0
 
   constructor(private readonly own?: iBXRestSettings) {}
 

@@ -1,7 +1,6 @@
 import { defer, from, Observable, throwError } from 'rxjs'
 import { catchError, switchMap } from 'rxjs/operators'
-import axios from 'axios'
-import { parseBXRestErrorBody } from '../../functions/errors'
+import { httpErrorResponse, parseBXRestErrorBody } from '../../functions/errors'
 import { BXRestContext, globalContext } from '../context'
 
 /**
@@ -26,14 +25,15 @@ const AUTH_ERROR_CODES = ['expired_token', 'invalid_token']
  * Ответ 401 с другим кодом Bitrix ошибкой авторизации не считается.
  */
 export function isBXRestAuthError(error: unknown): boolean {
-  if (!axios.isAxiosError(error) || !error.response) {
+  const response = httpErrorResponse(error)
+  if (!response) {
     return false
   }
-  const parsed = parseBXRestErrorBody(error.response.data)
+  const parsed = parseBXRestErrorBody(response.data)
   if (parsed) {
     return AUTH_ERROR_CODES.includes(parsed.error)
   }
-  return error.response.status === 401
+  return response.status === 401
 }
 
 // Состояние продления живёт в контексте клиента (BXRestContext): у глобальных

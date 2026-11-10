@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 export interface BXRestApiErrorDetails {
   /**
    * HTTP status of the portal response. `undefined` when the error came in
@@ -111,17 +109,31 @@ export function parseBXRestErrorBody(body: unknown)
  * Bitrix error body, so the caller can keep its own handling for them.
  */
 export function bxRestApiErrorFromHttp(err: unknown, method: string): BXRestApiError | undefined {
-  if (!axios.isAxiosError(err) || !err.response) {
+  const response = httpErrorResponse(err)
+  if (!response) {
     return undefined
   }
-  const parsed = parseBXRestErrorBody(err.response.data)
+  const parsed = parseBXRestErrorBody(response.data)
   if (!parsed) {
     return undefined
   }
   return new BXRestApiError(parsed.error, parsed.error_description, {
-    status: err.response.status,
+    status: response.status,
     method,
     cause: err,
     authRefreshError: getAuthRefreshError(err)
   })
+}
+
+/**
+ * HTTP-ответ из ошибки транспорта: `response: { status, data }`. Так устроен
+ * `AxiosError`, и так же должны отклоняться свои транспорты (middleware).
+ * Для сетевых ошибок, отмены и прочих ошибок — `undefined`.
+ */
+export function httpErrorResponse(error: unknown): { status: number, data: unknown } | undefined {
+  const response = (error && typeof error === 'object') ? (error as { response?: unknown }).response : undefined
+  if (!response || typeof response !== 'object' || typeof (response as { status?: unknown }).status !== 'number') {
+    return undefined
+  }
+  return response as { status: number, data: unknown }
 }

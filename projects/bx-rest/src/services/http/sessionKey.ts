@@ -6,6 +6,7 @@ import { DEFAULT_BX_REST_SETTINGS } from '../../settings'
 import { iBXRestAuth } from '../../typification/auth/save'
 import { SessionStorage } from '../vanilla/sessionStorage'
 import { BXRestContext, currentContext } from '../context'
+import type { BXRestMiddleware } from './transport'
 
 type IKeyAuth = 'sessid' | 'auth' | string
 type StorageKind = 'localStorage' | 'sessionStorage'
@@ -101,6 +102,11 @@ export class SessionKeyServices {
    */
   getHeaders(): Record<string, string> {
     return { ...this.BX_REST_SETTINGS.headers }
+  }
+
+  /** Свои middleware из настроек (`middleware`), читаются при каждом запросе — как и остальные настройки. */
+  getMiddleware(): readonly BXRestMiddleware[] {
+    return this.BX_REST_SETTINGS.middleware ?? []
   }
 
   getSessid() {
