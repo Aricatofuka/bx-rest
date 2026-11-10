@@ -91,7 +91,7 @@ export class BXRestNavvyDiskOperation {
             if (v && v.ID) {
               return this.storage.addFolder({id: v.ID, data: {NAME: folderName}}).res()
             }
-            return throwError(() => new Error('Отсутствуют права добавление записи затраченного времени'))
+            return throwError(() => new Error('Не удалось получить хранилище приложения'))
           })
         )
         }

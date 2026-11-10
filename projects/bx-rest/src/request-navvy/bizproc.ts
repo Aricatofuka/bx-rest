@@ -1,10 +1,15 @@
 import { BXRestNavvyLists } from './lists'
-import { forkJoin, mergeMap, Observable, of, throwError } from 'rxjs'
+import { catchError, forkJoin, mergeMap, Observable, of, throwError } from 'rxjs'
 import { BXRestNavvyBizProcTask } from './bizproc/task'
 import { BXRestNavvyBXRestBizProcWorkflow } from './bizproc/workflow'
 import { BXRestNavvyBizProcActivity } from './bizproc/activity'
 import { BXRestNavvyBizProcEvent } from './bizproc/event'
 import { BXRestNavvyBizProcRobot } from './bizproc/robot'
+import { BXRestApiError } from '../functions/errors'
+import { uniqueElementCode } from '../functions/uniqueElementCode'
+
+/** Сколько раз пробуем новый `ELEMENT_CODE`, если такой код в списке уже занят. */
+const ELEMENT_CODE_ATTEMPTS = 3
 
 /** Бизнес-процессы, задания, действия и роботы (`bizproc.*`). */
 export class BXRestNavvyBizProc {
@@ -43,20 +48,29 @@ export class BXRestNavvyBizProc {
       parametersElement['DATE_CREATE'] = new Date()
     }
 
-    return this.BXRestNavvyLists.element.add(
-        {
-          IBLOCK_TYPE_ID: 'bitrix_processes',
-          IBLOCK_ID: id,
-          ELEMENT_CODE: 'trace_studio_' + Date.now() + '_' + Math.random(),
-          // тут должно быть уникально значение (генерация уникальных значений на фронте лол),
-          // как ещё уникальнее сделать я просто не знаю
-          // это поле обязательно без него не работает
-          FIELDS: {
-            NAME: String(parametersElement['NAME']),
-            ...parametersElement
-          }
+    // ELEMENT_CODE обязателен и должен быть уникальным в списке. Занятые коды
+    // знает только портал, поэтому на совпадение создаём новый код и повторяем.
+    // throwOnApiError: иначе ошибка в ответе 2xx пришла бы как undefined.
+    const addElement = (attempt: number): Observable<number | undefined> =>
+      this.BXRestNavvyLists.element.add({
+        IBLOCK_TYPE_ID: 'bitrix_processes',
+        IBLOCK_ID: id,
+        ELEMENT_CODE: uniqueElementCode(),
+        FIELDS: {
+          NAME: String(parametersElement['NAME']),
+          ...parametersElement
         }
-      ).res().pipe(
+      }).res({ throwOnApiError: true }).pipe(
+        catchError((error: unknown) =>
+          (attempt < ELEMENT_CODE_ATTEMPTS
+            && error instanceof BXRestApiError
+            && error.error === 'ERROR_ELEMENT_ALREADY_EXISTS')
+            ? addElement(attempt + 1)
+            : throwError(() => error)
+        )
+      )
+
+    return addElement(1).pipe(
         mergeMap(v => {
           if (v) {
             if (Object.keys(parametersBizProc).length && templateIDs.length) {
