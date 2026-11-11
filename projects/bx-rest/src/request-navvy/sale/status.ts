@@ -49,11 +49,11 @@ export class BXRestNavvySaleStatus  {
    * Возвращает список статусов.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $status, $list], param)
+    >([$sale, $status, $list], param, 'statuses')
   }
   /**
    * Обновляет статус.

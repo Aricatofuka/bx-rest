@@ -9,15 +9,33 @@ export interface iBXRestPullConfigGet extends iBXRestPullConfigGetBase<
 export interface iBXRestPullConfigGetHttp extends iBXRestPullConfigGetBase<
   iBXRestPullConfigGetChannelsSharedHttp,
   iBXRestPullConfigGetChannelsPrivateHttp,
-  iBXRestPullConfigPublicChannelsGetHttp
+  iBXRestPullConfigPublicChannelsGetHttp,
+  false
 > {
   serverTime: string
 }
 
+/**
+ * Параметры `pull.config.get` и `pull.application.config.get`.
+ */
+export interface iBXRestParamPullConfigGet {
+  /** `N` — не брать настройки из кэша. По документации сейчас ни на что не влияет. */
+  CACHE?: string
+  /** `N` — не выдавать новый канал вместо истёкшего. По документации сейчас ни на что не влияет. */
+  REOPEN?: string
+}
+
+/**
+ * Настройки подключения к серверу Push & Pull.
+ *
+ * @see https://apidocs.bitrix24.com/settings/interactivity/pull-application-config-get.html
+ */
 export interface iBXRestPullConfigGetBase<
   channelsShared = iBXRestPullConfigGetChannelsSharedBase,
   channelsPrivate = iBXRestPullConfigGetChannelsPrivateBase,
-  publicChannels = iBXRestPullConfigPublicChannelsGetBase
+  publicChannels = iBXRestPullConfigPublicChannelsGetBase,
+  /** Что приходит в `publicChannels`, если каналов нет: портал отдаёт `false` при версии сервера ниже 4. */
+  noPublicChannels = never
 > {
   server: {
     version: number
@@ -42,7 +60,16 @@ export interface iBXRestPullConfigGetBase<
     shared: channelsShared
     private: channelsPrivate
   }
-  publicChannels: Record<string, publicChannels>
+  publicChannels: Record<string, publicChannels> | noPublicChannels
+  /**
+   * До какого времени действуют настройки, Unix timestamp в секундах. Приходит не всегда:
+   * если поля нет, ориентируйтесь на `end` каналов.
+   */
+  exp?: number
+  /** Идентификатор портала на общем сервере Push & Pull. Приходит, когда `server.mode` равен `shared`. */
+  clientId?: string
+  /** JWT для подключения к серверу. Приходит при `server.version` 5 и выше. */
+  jwt?: string
 }
 
 export interface iBXRestPullConfigGetChannelsShared extends iBXRestPullConfigGetChannelsSharedBase {

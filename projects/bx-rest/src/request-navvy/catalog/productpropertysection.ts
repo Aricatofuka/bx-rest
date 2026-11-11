@@ -19,11 +19,11 @@ export class BXRestNavvyCatalogProductPropertySection  {
    * Возвращает список секционных настроек свойств.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $productPropertySection, $list], param)
+    >([$catalog, $productPropertySection, $list], param, 'productPropertySections')
   }
   /**
    * Устанавливает секционные настройки свойства.

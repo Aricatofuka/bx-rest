@@ -29,11 +29,11 @@ export class BXRestNavvyCatalogRatio  {
    * Возвращает список коэффициентов единиц измерения.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $ratio, $list], param)
+    >([$catalog, $ratio, $list], param, 'ratios')
   }
 }
 

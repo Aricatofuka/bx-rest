@@ -39,11 +39,11 @@ export class BXRestNavvySalePropertyRelation  {
    * Возвращает список привязок свойств заказа.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $propertyRelation, $list], param)
+    >([$sale, $propertyRelation, $list], param, 'propertyRelations')
   }
 }
 

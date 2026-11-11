@@ -41,11 +41,11 @@ export class BXRestNavvySaleBusinessValuePersonDomain  {
    * Возвращает список соответствий типов плательщиков.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $businessValuePersonDomain, $list], param)
+    >([$sale, $businessValuePersonDomain, $list], param, 'businessValuePersonDomains')
   }
 }
 

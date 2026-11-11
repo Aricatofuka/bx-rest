@@ -61,11 +61,11 @@ export class BXRestNavvyCatalogProductSku  {
    * Возвращает список товаров с вариациями.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $product, $sku, $list], param)
+    >([$catalog, $product, $sku, $list], param, 'units')
   }
   /**
    * Обновляет товар с вариациями.

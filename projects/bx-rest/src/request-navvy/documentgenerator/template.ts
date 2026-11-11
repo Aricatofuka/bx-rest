@@ -53,11 +53,11 @@ export class BXRestNavvyDocumentGeneratorTemplate  {
    * Возвращает список шаблонов документов по фильтру.
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$documentgenerator, $template, $list], param)
+    >([$documentgenerator, $template, $list], param, 'templates')
   }
 
   /**

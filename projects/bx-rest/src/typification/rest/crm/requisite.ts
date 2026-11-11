@@ -347,7 +347,7 @@ export interface iBXRestParamCrmRequisiteLinkGet {
 export type iBXRestParamCrmRequisiteLinkUnregister =
   iBXRestParamCrmRequisiteLinkGet
 
-export interface iBXRestParamCrmRequisiteLinkList {
+export interface iBXRestParamCrmRequisiteLinkList extends iBXRestPagination {
   filter?: Record<string, any>
   order?: Record<string, iBXRestCrmRequisiteSortDirection>
 }

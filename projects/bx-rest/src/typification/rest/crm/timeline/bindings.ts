@@ -1,4 +1,5 @@
 import { iBXRestCrmFieldDescription } from '../enum'
+import { iBXRestPagination } from '../../base/api-pagination-bx'
 
 /** Связь записи таймлайна с элементом CRM. */
 export interface iBXRestCrmTimelineBinding {
@@ -27,7 +28,7 @@ export interface iBXRestParamCrmTimelineBindingChange {
 }
 
 /** Параметры получения связей записи таймлайна. */
-export interface iBXRestParamCrmTimelineBindingList {
+export interface iBXRestParamCrmTimelineBindingList extends iBXRestPagination {
   /** Фильтр с обязательным идентификатором записи таймлайна. */
   filter: {
     OWNER_ID: number

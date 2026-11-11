@@ -49,11 +49,11 @@ export class BXRestNavvySaleShipment  {
    * Возвращает список отгрузок.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $shipment, $list], param)
+    >([$sale, $shipment, $list], param, 'shipments')
   }
   /**
    * Обновляет отгрузку.

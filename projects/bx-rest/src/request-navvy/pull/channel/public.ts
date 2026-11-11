@@ -1,4 +1,4 @@
-import { $add, $blogpost, $channel, $get, $log, $public, $pull } from '../../../consts/part-name-methods'
+import { $channel, $get, $public, $pull } from '../../../consts/part-name-methods'
 import { Navvy } from '../../../services/navvy'
 import {
   iBXRestPullChannelPublicGet,
@@ -8,7 +8,7 @@ import { BXRestMapPullChannelPublic } from '../../../map/channel/public'
 
 export class BXRestNavvyPullChannelPublic {
   url = {
-    get: [$log, $blogpost, $add]
+    get: [$pull, $channel, $public, $get]
   }
 
   private Navvy = new Navvy()
@@ -18,6 +18,6 @@ export class BXRestNavvyPullChannelPublic {
    */
   get() {
     return this.Navvy.simple<iBXRestPullChannelPublicGetHttp,
-      iBXRestPullChannelPublicGet>([$pull, $channel, $public, $get], undefined, BXRestMapPullChannelPublic.get)
+      iBXRestPullChannelPublicGet>(this.url.get, undefined, BXRestMapPullChannelPublic.get)
   }
 }

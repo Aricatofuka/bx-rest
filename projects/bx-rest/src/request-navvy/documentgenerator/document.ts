@@ -64,11 +64,11 @@ export class BXRestNavvyDocumentGeneratorDocument  {
    * Возвращает список документов.
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$documentgenerator, $document, $list], param)
+    >([$documentgenerator, $document, $list], param, 'documents')
   }
 
   /**

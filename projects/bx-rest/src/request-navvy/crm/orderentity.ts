@@ -34,9 +34,11 @@ export class BXRestNavvyCrmOrderEntity {
    * Возвращает список привязок заказов к объектам CRM.
    */
   list(param: iBXRestCrmParams = {}) {
-    return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>(
-      [$crm, $orderentity, $list], param
-    )
+    return this.Navvy.pagNavKeyed<
+      { orderEntity?: iBXRestCrmObject[] },
+      { orderEntity?: iBXRestCrmObject[] },
+      iBXRestCrmParams
+    >([$crm, $orderentity, $list], param, 'orderEntity')
   }
 }
 

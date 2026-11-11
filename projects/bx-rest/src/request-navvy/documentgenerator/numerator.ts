@@ -42,11 +42,11 @@ export class BXRestNavvyDocumentGeneratorNumerator  {
    * Возвращает список нумераторов.
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$documentgenerator, $numerator, $list], param)
+    >([$documentgenerator, $numerator, $list], param, 'numerators')
   }
 
   /**

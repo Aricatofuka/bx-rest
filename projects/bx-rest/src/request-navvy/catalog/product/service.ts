@@ -61,11 +61,11 @@ export class BXRestNavvyCatalogProductService  {
    * Возвращает список услуг.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $product, $service, $list], param)
+    >([$catalog, $product, $service, $list], param, 'services')
   }
   /**
    * Обновляет услугу.

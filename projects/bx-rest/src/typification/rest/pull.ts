@@ -1,3 +1,5 @@
 export * from './pull/config/get'
 export * from './pull/channel/get'
 export * from './pull/application/config/get'
+export * from './pull/application/event/add'
+export * from './pull/application/push/add'

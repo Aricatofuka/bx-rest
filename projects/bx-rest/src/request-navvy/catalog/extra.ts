@@ -29,11 +29,11 @@ export class BXRestNavvyCatalogExtra  {
    * Возвращает список наценок.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $extra, $list], param)
+    >([$catalog, $extra, $list], param, 'extras')
   }
 }
 

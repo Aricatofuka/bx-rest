@@ -59,11 +59,11 @@ export class BXRestNavvyCatalogCatalog  {
    * Возвращает список торговых каталогов.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $catalog, $list], param)
+    >([$catalog, $catalog, $list], param, 'catalogs')
   }
   /**
    * Обновляет параметры торгового каталога.

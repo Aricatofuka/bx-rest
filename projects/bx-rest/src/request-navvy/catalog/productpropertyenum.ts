@@ -49,11 +49,11 @@ export class BXRestNavvyCatalogProductPropertyEnum  {
    * Возвращает список значений списочного свойства.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $productPropertyEnum, $list], param)
+    >([$catalog, $productPropertyEnum, $list], param, 'productPropertyEnums')
   }
   /**
    * Обновляет значение списочного свойства товара.

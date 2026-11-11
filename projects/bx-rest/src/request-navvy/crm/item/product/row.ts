@@ -44,7 +44,11 @@ export class BXRestNavvyCrmItemProductRow {
    * Возвращает список товарных позиций.
    */
   list(param: iBXRestCrmParams) {
-    return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>([$crm, $item, $productrow, $list], param)
+    return this.Navvy.pagNavKeyed<
+      { productRows?: iBXRestCrmObject[] },
+      { productRows?: iBXRestCrmObject[] },
+      iBXRestCrmParams
+    >([$crm, $item, $productrow, $list], param, 'productRows')
   }
 
   /**

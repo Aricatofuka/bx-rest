@@ -14,5 +14,6 @@ export type iBXRestPullApplicationConfigGet = iBXRestPullConfigGetBase<
 export type iBXRestPullApplicationConfigGetHttp = iBXRestPullConfigGetBase<
   iBXRestPullConfigGetChannelsSharedHttp,
   iBXRestPullConfigGetChannelsPrivateHttp,
-  iBXRestPullConfigPublicChannelsGetHttp
+  iBXRestPullConfigPublicChannelsGetHttp,
+  false
 >

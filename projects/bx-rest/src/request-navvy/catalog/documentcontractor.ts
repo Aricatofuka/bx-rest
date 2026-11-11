@@ -39,11 +39,11 @@ export class BXRestNavvyCatalogDocumentContractor  {
    * Возвращает список поставщиков документов складского учёта.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $documentcontractor, $list], param)
+    >([$catalog, $documentcontractor, $list], param, 'documentContractor')
   }
 }
 

@@ -66,9 +66,9 @@ export class BXRestNavvyCrmRequisiteLink {
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/links/crm-requisite-link-list.html
    */
   list(param: iBXRestParamCrmRequisiteLinkList = {}) {
-    return this.Navvy.simple<
-      iBXRestCrmRequisiteLinkFields[],
-      iBXRestCrmRequisiteLinkFields[],
+    return this.Navvy.pagNav<
+      iBXRestCrmRequisiteLinkFields,
+      iBXRestCrmRequisiteLinkFields,
       iBXRestParamCrmRequisiteLinkList
     >(this.url.list, param)
   }

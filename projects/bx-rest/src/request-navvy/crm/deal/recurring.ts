@@ -28,7 +28,7 @@ export class BXRestNavvyCrmDealRecurring {
   /**
    * Возвращает список шаблонов регулярных сделок.
    */
-  list(param: iBXRestCrmParams = {}) { return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>([$crm, $deal, $recurring, $list], param) }
+  list(param: iBXRestCrmParams = {}) { return this.Navvy.pagNav<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $deal, $recurring, $list], param) }
   /**
    * Изменяет настройки шаблона регулярной сделки.
    */

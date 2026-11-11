@@ -49,11 +49,11 @@ export class BXRestNavvyCatalogRoundingRule  {
    * Возвращает список правил округления цен.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $roundingRule, $list], param)
+    >([$catalog, $roundingRule, $list], param, 'roundingRules')
   }
   /**
    * Обновляет правило округления цен.

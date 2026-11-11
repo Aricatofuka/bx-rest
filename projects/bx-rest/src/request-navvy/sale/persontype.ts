@@ -49,11 +49,11 @@ export class BXRestNavvySalePersonType  {
    * Возвращает список типов плательщиков.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $personType, $list], param)
+    >([$sale, $personType, $list], param, 'personTypes')
   }
   /**
    * Обновляет тип плательщика.

@@ -39,11 +39,11 @@ export class BXRestNavvySaleShipmentPropertyValue  {
    * Возвращает список значений свойств отгрузки.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $shipmentPropertyValue, $list], param)
+    >([$sale, $shipmentPropertyValue, $list], param, 'propertyValues')
   }
   /**
    * Устанавливает или изменяет значение свойства отгрузки.

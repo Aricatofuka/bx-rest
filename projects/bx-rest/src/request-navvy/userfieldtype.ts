@@ -29,7 +29,7 @@ export class BXRestNavvyUserFieldType {
    * Возвращает список типов пользовательских полей, зарегистрированных приложением.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNav<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams

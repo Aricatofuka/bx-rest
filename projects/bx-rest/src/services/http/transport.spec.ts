@@ -5,11 +5,13 @@ import { firstValueFrom } from 'rxjs'
 import axios from 'axios'
 import { BXRestNavvy } from '../../rest/navvy'
 import { BXRestSettings, DEFAULT_BX_REST_SETTINGS } from '../../settings'
-import { iBXRestSettings } from '../../typification/settings'
+import { BXRestRequestLogEntry, iBXRestSettings } from '../../typification/settings'
 import { BXRestMiddleware, BXRestRequestConfig, BXRestSend, composeMiddleware } from './transport'
 import { builtInMiddleware, BXRestTimeoutError, ThrottleState } from './middleware'
 import { BXRestApiError } from '../../functions/errors'
 import { HttpBXServices } from './HttpBX'
+import { BXRestHttpError } from './fetch'
+import { Navvy } from '../navvy'
 
 // Настоящий локальный сервер, поведение задаёт handler
 type Handler = (req: IncomingMessage, body: any, res: ServerResponse) => void
@@ -471,5 +473,226 @@ describe('transport errors reach the caller unchanged, as in 1.5.1', () => {
 
     expect(err.code).toBe('ECONNREFUSED')
     expect(kindOf(err)).toBe('no response')
+  })
+})
+
+describe('logRequests', () => {
+  const journal = () => {
+    const entries: BXRestRequestLogEntry[] = []
+    return { entries, logRequests: (entry: BXRestRequestLogEntry) => { entries.push(entry) } }
+  }
+
+  it('one entry per request: method, full url, duration; status and Bitrix code for a failure', async () => {
+    const { entries, logRequests } = journal()
+    // Адрес вебхука: секрет в пути. По решению 2026-11-11 в журнале он не прячется.
+    const hook = new BXRestNavvy({
+      auth: { source: 'off', key: 'auth' },
+      urls: { source: 'string', key: `${base}/rest/1/WEBHOOK-SECRET/`, additional_part: '' },
+      logRequests,
+    })
+
+    await firstValueFrom(hook.crm.deal.list(list).res())
+    handler = answer(400, { error: 'NOT_FOUND', error_description: 'Not found' })
+    await errorOf(firstValueFrom(hook.crm.deal.list(list).res()))
+
+    expect(entries).toEqual([
+      { method: 'POST', url: `${base}/rest/1/WEBHOOK-SECRET/crm.deal.list`, duration: expect.any(Number), failed: false },
+      { method: 'POST', url: `${base}/rest/1/WEBHOOK-SECRET/crm.deal.list`, duration: expect.any(Number), failed: true, status: 400, error: 'NOT_FOUND' },
+    ])
+    expect(entries[0].duration).toBeGreaterThanOrEqual(0)
+    expect(JSON.stringify(entries)).not.toContain(TOKEN)
+  })
+
+  it('each retry attempt is its own entry', async () => {
+    const { entries, logRequests } = journal()
+    handler = limitThen(1)
+    const bx = new BXRestNavvy(settings({ logRequests, retryOnQueryLimit: { delay: 0 } }))
+
+    await firstValueFrom(bx.crm.deal.list(list).res())
+
+    expect(entries.map(e => [e.failed, e.status, e.error])).toEqual([
+      [true, 503, 'QUERY_LIMIT_EXCEEDED'],
+      [false, undefined, undefined],
+    ])
+  })
+
+  it('a Bitrix error in the body of a 2xx answer is in error, the request is not failed', async () => {
+    const { entries, logRequests } = journal()
+    handler = answer(200, { error: 'ACCESS_DENIED', error_description: 'No access' })
+    const bx = new BXRestNavvy(settings({ logRequests }))
+
+    await firstValueFrom(bx.crm.deal.list(list).res())
+
+    expect(entries).toMatchObject([{ failed: false, error: 'ACCESS_DENIED' }])
+  })
+
+  it('a network error: failed, without status, with the error message', async () => {
+    const { entries, logRequests } = journal()
+    const closed = createServer()
+    await new Promise<void>(r => closed.listen(0, '127.0.0.1', () => r()))
+    const port = (closed.address() as AddressInfo).port
+    await new Promise(r => closed.close(r))
+    const bx = new BXRestNavvy(settings({ logRequests }, `http://127.0.0.1:${port}`))
+
+    await errorOf(firstValueFrom(bx.crm.deal.list(list).res()))
+
+    expect(entries).toHaveLength(1)
+    expect(entries[0]).toMatchObject({ failed: true })
+    expect(entries[0].status).toBeUndefined()
+    expect(entries[0].error).toEqual(expect.any(String))
+  })
+
+  it('an exception in logRequests does not affect the request', async () => {
+    const bx = new BXRestNavvy(settings({ logRequests: () => { throw new Error('log is down') } }))
+
+    await expect(firstValueFrom(bx.crm.deal.list(list).res())).resolves.toHaveLength(1)
+  })
+
+  it('works from global BXRestSettings', async () => {
+    const { entries, logRequests } = journal()
+    BXRestSettings.update(settings({ logRequests }))
+
+    await firstValueFrom(new BXRestNavvy().crm.deal.list(list).res())
+
+    expect(entries).toHaveLength(1)
+  })
+
+  it('invalid logRequests and transport values are rejected with a clear message', () => {
+    const check = (own: Partial<iBXRestSettings>) => () => builtInMiddleware(settings(own), { throttleNextSlot: 0 })
+    expect(check({ logRequests: 'yes' as never })).toThrow('bx-rest settings: logRequests must be a function, got yes')
+    expect(check({ transport: 'xhr' as never })).toThrow("bx-rest settings: transport must be 'axios' or 'fetch', got xhr")
+    expect(check({ transport: 'fetch' })).not.toThrow()
+    expect(check({ transport: 'axios' })).not.toThrow()
+  })
+})
+
+describe("transport: 'fetch'", () => {
+  const viaFetch = (extra: Partial<iBXRestSettings> = {}) => new BXRestNavvy(settings({ transport: 'fetch', ...extra }))
+
+  it('gives the same output as axios', async () => {
+    const run = async (bx: BXRestNavvy) => ({
+      res: await firstValueFrom(bx.crm.deal.list(list).res()),
+      resAll: await firstValueFrom(bx.crm.deal.list(list).resAll()),
+      vanilla: await firstValueFrom(bx.crm.deal.list(list).resVanilla()),
+      user: await firstValueFrom(bx.user.current().res()),
+    })
+
+    const axiosResult = await run(new BXRestNavvy(settings()))
+    const fetchResult = await run(viaFetch())
+
+    expect(JSON.stringify(fetchResult)).toBe(JSON.stringify(axiosResult))
+  })
+
+  it('sends the same request as axios', async () => {
+    await firstValueFrom(new BXRestNavvy(settings({ headers: { 'X-App': '1' } })).crm.deal.list(list).res())
+    await firstValueFrom(viaFetch({ headers: { 'X-App': '1' } }).crm.deal.list(list).res())
+
+    expect(seen).toHaveLength(2)
+    expect(seen[1]).toMatchObject({ method: seen[0].method, url: seen[0].url, body: seen[0].body })
+  })
+
+  it('does not use axios', async () => {
+    const create = vi.spyOn(axios, 'create')
+
+    await firstValueFrom(viaFetch().crm.deal.list(list).res())
+
+    expect(create).not.toHaveBeenCalled()
+  })
+
+  it('a non-2xx answer: BXRestHttpError with response in .resVanilla(), BXRestApiError in .res()', async () => {
+    handler = answer(400, { error: 'NOT_FOUND', error_description: 'Not found' })
+    const bx = viaFetch()
+
+    const vanilla = await errorOf(firstValueFrom(bx.crm.deal.get({ ID: 1 } as never).resVanilla()))
+    const viaRes = await errorOf(firstValueFrom(bx.crm.deal.get({ ID: 1 } as never).res()))
+
+    expect(vanilla).toBeInstanceOf(BXRestHttpError)
+    expect(vanilla.message).toBe('Request failed with status code 400')
+    expect(vanilla.response).toEqual({ status: 400, data: { error: 'NOT_FOUND', error_description: 'Not found' } })
+    expect(viaRes).toBeInstanceOf(BXRestApiError)
+    expect(viaRes).toMatchObject({ error: 'NOT_FOUND', error_description: 'Not found', status: 400, method: 'crm.deal.get' })
+    expect(viaRes.cause).toBeInstanceOf(BXRestHttpError)
+  })
+
+  it('a body that is not JSON comes as text, as with axios', async () => {
+    handler = (req, _, res) => { res.writeHead(502, { 'Content-Type': 'text/html' }); res.end('<html>Bad gateway</html>') }
+
+    const err = await errorOf(firstValueFrom(viaFetch().crm.deal.list(list).resVanilla()))
+
+    expect(err.response).toEqual({ status: 502, data: '<html>Bad gateway</html>' })
+  })
+
+  it('the token is refreshed after expired_token, as with axios', async () => {
+    let token = 'old'
+    handler = (req, body, res) => (body.auth === 'old')
+      ? answer(401, { error: 'expired_token', error_description: 'expired' })(req, body, res)
+      : ok(req, body, res)
+    const bx = new BXRestNavvy({
+      auth: { source: () => token, key: 'auth', refresh: async () => { token = 'new' } },
+      urls: { source: 'string', key: base, additional_part: 'rest' },
+      transport: 'fetch',
+    })
+
+    await expect(firstValueFrom(bx.crm.deal.list(list).res())).resolves.toHaveLength(1)
+    expect(seen.map(s => s.body.auth)).toEqual(['old', 'new'])
+  })
+
+  it('GET requests work', async () => {
+    const request = new HttpBXServices(settings({ transport: 'fetch' }))
+
+    const answer = await firstValueFrom(request.get<unknown[]>(['crm', 'deal', 'list']))
+
+    expect(answer).toMatchObject({ result: [{ ID: '1' }] })
+    expect(seen[0]).toMatchObject({ method: 'GET', url: `/rest/crm.deal.list?auth=${TOKEN}` })
+  })
+
+  it('unsubscribing aborts the request', async () => {
+    handler = () => { /* не отвечаем */ }
+    const sub = viaFetch().crm.deal.list(list).res().subscribe()
+    await vi.waitFor(() => expect(seen).toHaveLength(1))
+
+    sub.unsubscribe()
+
+    await vi.waitFor(() => expect(closedEarly).toEqual(['/rest/crm.deal.list']))
+  })
+})
+
+describe('own settings for new Navvy() and new BXRestRequest()', () => {
+  it('new Navvy(settings) sends to its own portal with its own token, ignoring BXRestSettings', async () => {
+    BXRestSettings.update(settings({}, 'http://127.0.0.1:1'))
+    const navvy = new Navvy(settings())
+
+    await firstValueFrom(navvy.pagNav(['crm', 'deal', 'list'], {}).resAll())
+
+    expect(seen).toHaveLength(1)
+    expect(seen[0].body.auth).toBe(TOKEN)
+  })
+
+  it('new BXRestRequest(settings) sends to its own portal, ignoring BXRestSettings', async () => {
+    BXRestSettings.update(settings({}, 'http://127.0.0.1:1'))
+    const request = new HttpBXServices(settings())
+
+    await firstValueFrom(request.post(['crm', 'deal', 'list'], list))
+
+    expect(seen).toHaveLength(1)
+    expect(seen[0].url).toBe('/rest/crm.deal.list')
+  })
+
+  it('their own transport settings apply too', async () => {
+    const { entries, logRequests } = { entries: [] as BXRestRequestLogEntry[], logRequests: (e: BXRestRequestLogEntry) => { entries.push(e) } }
+
+    await firstValueFrom(new Navvy(settings({ logRequests })).simple(['crm', 'deal', 'get'], { ID: 1 }).res())
+    await firstValueFrom(new HttpBXServices(settings({ logRequests })).post(['crm', 'deal', 'get'], { ID: 1 }))
+
+    expect(entries.map(e => e.url)).toEqual([`${base}/rest/crm.deal.get`, `${base}/rest/crm.deal.get`])
+  })
+
+  it('without settings they keep using BXRestSettings, as before', async () => {
+    BXRestSettings.update(settings())
+
+    await firstValueFrom(new Navvy().simple(['crm', 'deal', 'get'], { ID: 1 }).res())
+    await firstValueFrom(new HttpBXServices().post(['crm', 'deal', 'get'], { ID: 1 }))
+
+    expect(seen.map(s => s.body.auth)).toEqual([TOKEN, TOKEN])
   })
 })

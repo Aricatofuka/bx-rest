@@ -26,6 +26,8 @@ Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix 
   - [Recipe: through a backend proxy](#recipe-through-a-backend-proxy)
 - [Several portals](#several-portals)
 - [Retry, timeout and request queue](#retry-timeout-and-request-queue)
+  - [Request log](#request-log)
+  - [The fetch transport](#the-fetch-transport)
   - [Your own middleware](#your-own-middleware)
 - [Working in an iframe without BX24.js](#working-in-an-iframe-without-bx24js)
 - [Usage in Angular](#usage-in-angular)
@@ -39,6 +41,7 @@ Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix 
   - [A paginated custom method with `pagNav()`](#a-paginated-custom-method-with-pagnav)
 - [Specific methods](#specific-methods)
   - [`tasks.task.list`](#taskstasklist)
+  - [Push & Pull](#push--pull)
 - [Date parsing](#date-parsing)
 - [Future features](#future-features)
 - [License](#license)
@@ -101,7 +104,7 @@ REST calls are lazy: the request starts when the returned `Observable` is subscr
 | Method | Result |
 | --- | --- |
 | `.res(options?)` | Unwraps the Bitrix response and applies the configured mapper. For paginated methods it returns the current page. |
-| `.resAll()` | Loads and combines every page. Available on paginated Navvy helpers. |
+| `.resAll()` | Loads and combines every page. Available on paged list methods, see below. |
 | `.resVanilla()` | Returns the raw Bitrix response, including fields such as `result`, `total` and `next`. |
 | `.mapForVanilla()` | Keeps the raw response envelope but applies the mapper to its `result`. |
 
@@ -110,6 +113,13 @@ REST calls are lazy: the request starts when the returned `Observable` is subscr
 | Option | Default | Effect |
 | --- | --- | --- |
 | `throwOnApiError` | `false` | When `true`, a Bitrix-level API error makes the returned `Observable` error out with a `BXRestApiError` instead of resolving with `undefined`. See [Error handling](#error-handling). |
+
+`.resAll()` exists on list methods that page through `start`. It requests the first page itself and the rest in packs through `batch`. The result has the same shape as `.res()`:
+
+- if the method returns an array (`crm.deal.list`, `crm.activity.list`), `.resAll()` returns an array of all records;
+- if `result` is an object with the list under a key, as with `catalog.product.list` (`{ products: [...] }`) or `sale.order.list` (`{ orders: [...] }`), `.resAll()` returns the same object with the records of all pages under that key.
+
+Methods that return the whole list in one response or page in another way (`OFFSET`/`LIMIT`, a page number, the REST v3 `pagination` object) have no `.resAll()`. They are listed with reasons in [list-pagination.spec.ts](https://github.com/Aricatofuka/bx-rest/blob/main/projects/bx-rest/src/rest/list-pagination.spec.ts).
 
 ## Authentication and OAuth2
 
@@ -454,7 +464,7 @@ const deals = await firstValueFrom(
 - **Another portal or other headers** — create a new client, it takes a fraction of a millisecond.
 - **Authorization refresh** is per client: a client's `auth.refresh` is called only for its own requests.
 - **`auth.source: 'cookies'` and `'localStorage'`** read the shared browser storage, so two clients with the same key get the same token. For several portals, set `source` to a function.
-- **Objects created directly** — `new Navvy()`, `new BXRestRequest()`, `new SessionKeyServices()` — use the global `BXRestSettings`. Only `BXRestNavvy` and everything created through it get the client's own settings.
+- **Objects created directly** — `new Navvy()` and `new BXRestRequest()` — use the global `BXRestSettings` when called without an argument. They also accept their own settings: `new Navvy(settings)`, `new BXRestRequest(settings)`. Such an object has its own `throttle` queue and authorization refresh, even if a `BXRestNavvy` client has the same settings. `new SessionKeyServices()` always uses the global settings.
 
 ## Retry, timeout and request queue
 
@@ -476,12 +486,48 @@ BXRestSettings.update({
 
 An object may set only some fields: `retryOnQueryLimit: { attempts: 5 }` keeps `delay: 1000`.
 
-- **Order:** retry, queue, timeout, [your own middleware](#your-own-middleware), axios. Every retry attempt queues again and gets its own `timeout`. Waiting in the queue and pauses before a retry do not count towards `timeout`.
+- **Order:** retry, queue, timeout, [log](#request-log), [your own middleware](#your-own-middleware), [transport](#the-fetch-transport). Every retry attempt queues again and gets its own `timeout`. Waiting in the queue and pauses before a retry do not count towards `timeout`.
 - **The queue** belongs to each `new BXRestNavvy(settings)` client and is shared by everything that uses the global `BXRestSettings`. Every request goes through it, including every batch request of `.resAll()`.
 - **`throttle` is stricter than the portal.** Bitrix24 lets short bursts above the limit through, while `throttle` spreads all requests evenly. If short bursts of requests need to be fast, `retryOnQueryLimit` alone is enough.
 - **Unsubscribing** stops both the wait in the queue and the pause before a retry: such a request is never sent.
 - **Settings are read at subscribe time**, like the rest.
 - **An invalid value** — for example `throttle: { perSecond: 0 }` or a negative `timeout` — fails the request with a `TypeError` that describes it; nothing is sent to the portal.
+
+### Request log
+
+`logRequests` is a function that receives an entry for every HTTP request once it finishes. It is set the same way, globally or per client:
+
+```typescript
+BXRestSettings.update({
+  logRequests: entry => console.debug(entry.method, entry.url, `${entry.duration} ms`, entry.failed ? entry.error : 'ok'),
+})
+```
+
+| Field | What it holds |
+| --- | --- |
+| `method` | `'GET'` or `'POST'`. |
+| `url` | The full request address. |
+| `duration` | Time from sending to the response or error, ms. |
+| `failed` | `true` if the request failed: a non-2xx response, a network failure, a timeout or a cancel. |
+| `status` | The HTTP status of a failed response. The transport does not report the status of a successful one. |
+| `error` | The Bitrix error code from the response body, such as `QUERY_LIMIT_EXCEEDED`, including one from a 2xx response. If the portal sent no code, the error message. |
+
+- **One entry per HTTP request:** every `retryOnQueryLimit` attempt and every batch request of `.resAll()` is its own entry. Waiting in the `throttle` queue does not count towards `duration`.
+- **The address is as is.** The request body is not in the entry, but a webhook keeps its secret in the address, and a GET request keeps the token there. If the log goes to a third-party system, remove them yourself.
+- **An exception from the function** does not affect the request.
+
+### The fetch transport
+
+By default axios sends the requests. With `transport: 'fetch'` the global `fetch` of the browser or Node 18+ sends them:
+
+```typescript
+const portal = new BXRestNavvy({ ...settings, transport: 'fetch' })
+```
+
+The result is the same as with axios; only transport errors differ:
+
+- on a non-2xx response `.resVanilla()` fails with a `BXRestHttpError` that has `response: { status, data }`, like `AxiosError`; in `.res()` it is in the `cause` of `BXRestApiError`;
+- a network failure comes as the error of `fetch` itself (usually a `TypeError`), without the `request` field axios has.
 
 ### Your own middleware
 
@@ -503,7 +549,7 @@ BXRestSettings.update({ middleware: [logDuration] })
 ```
 
 - **`config`** is the request: `method` (`'GET'` or `'POST'`), `url` (with the parameters for GET), `data` (the POST body), `headers`, `withCredentials`, `signal`. `next(config)` sends it on and returns the response body.
-- **Order:** the first in the list is the outermost one: it sees the request first and the response last. All your middleware run after `retryOnQueryLimit`, `throttle` and `timeout`, so they see every retry attempt. The retry after `auth.refresh` wraps all the steps: on an authorization refresh the request passes through them again.
+- **Order:** the first in the list is the outermost one: it sees the request first and the response last. All your middleware run after `retryOnQueryLimit`, `throttle`, `timeout` and `logRequests`, so they see every retry attempt. The retry after `auth.refresh` wraps all the steps: on an authorization refresh the request passes through them again.
 - **To change the request**, pass a new object on: `next({ ...config, headers: { ...config.headers, 'X-Trace': id } })`.
 - **Your own transport** is a middleware that does not call `next`: it sends the request itself and returns the response body. For a non-2xx response it must reject with an error that has a `response: { status, data }` field, as axios does. The library uses that field to recognize Bitrix errors (`BXRestApiError`) and authorization errors (`auth.refresh`).
 - **Pass `config.signal`** to your transport: it aborts the request on unsubscribe and on `timeout`.
@@ -888,6 +934,18 @@ export class BXRestNavvyCustomApiBlogList {
 
 The returned helper additionally supports `.resAll()` for loading and combining all pages.
 
+If the method's `result` is an object with the list under a key, such as `{ items: [...] }`, use `pagNavKeyed()`: its third argument is the list key. `.res()` returns the object as is, `.resAll()` the same object with the records of all pages under the key:
+
+```typescript
+type BlogItems = { items?: iBXRestCustomBlogGetHttp[] }
+
+this.navvy.pagNavKeyed<BlogItems, BlogItems, iBXRestCustomParamBlogList>(
+  ['blog', 'item', PNM.$list],
+  param,
+  'items'
+)
+```
+
 ## Specific methods
 
 ### `tasks.task.list`
@@ -938,6 +996,40 @@ const tasks$ = bxRest.tasks.task.list<
   start: 0
 }).res()
 ```
+
+### Push & Pull
+
+The `pull` section returns the settings for connecting to the Push & Pull server and sends application events. The library has no websocket client: connect with your own client following the [protocol description](https://apidocs.bitrix24.com/settings/interactivity/custom-push-and-pull-client.html) or with `PullClient` from [b24jssdk](https://github.com/bitrix24/b24jssdk).
+
+```typescript
+import { firstValueFrom } from 'rxjs'
+import { BXRestNavvy } from 'bx-rest'
+
+const bxRest = new BXRestNavvy()
+
+// Server addresses and channels for the client to connect
+const config = await firstValueFrom(bxRest.pull.application.config.get().res())
+console.log(config?.server.websocket_secure, config?.channels.private.id, config?.exp)
+
+// An event in the shared channel of the application: every subscribed client gets it
+await firstValueFrom(bxRest.pull.application.event.add({
+  COMMAND: 'grid:update',
+  PARAMS: { grid_id: 15 },
+}).res())
+```
+
+| Method | What it does |
+| --- | --- |
+| `pull.application.config.get(param?)` | Connection settings for the application: server addresses, the `shared` and `private` channels, public channels, `exp`, and with the right server version `clientId` or `jwt`. Channel dates are `Date`. |
+| `pull.application.event.add(param)` | An event in the application channel: without `USER_ID` in the shared `shared` channel, with it in the users' personal channels. |
+| `pull.application.push.add(param)` | A push notification to the Bitrix24 mobile app. For portal administrators only. |
+| `pull.config.get(param?)` | Connection settings for a user. The method is not in the Bitrix24 documentation, so it is marked `@experimental`. |
+| `pull.channel.public.get()` | A public Push & Pull channel. |
+
+- **`pull.application.*` methods** work only in an application context, with its OAuth token. Through a webhook the portal answers `WRONG_AUTH_TYPE`.
+- **`true` in the response** of `event.add` and `push.add` means "accepted for sending", not "delivered".
+- **`USER_ID` for a non-administrator.** They can send an event only to themselves, and `USER_ID` must then be a string: `'577'`. The portal rejects a number or an array with `USER_ID_ACCESS_ERROR`.
+- **The settings are personal:** the `private` channel belongs to the user whose token makes the request. Request them again when `exp` or the channels' `end` expires.
 
 ## Date parsing
 

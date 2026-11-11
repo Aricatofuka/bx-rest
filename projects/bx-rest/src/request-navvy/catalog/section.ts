@@ -49,11 +49,11 @@ export class BXRestNavvyCatalogSection  {
    * Возвращает список разделов каталога.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $section, $list], param)
+    >([$catalog, $section, $list], param, 'sections')
   }
   /**
    * Обновляет раздел каталога.

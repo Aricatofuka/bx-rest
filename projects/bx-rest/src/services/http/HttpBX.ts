@@ -14,6 +14,7 @@ import { iHttpParamSettings } from '../../typification/rest/settings'
 import { withAuthRefresh } from './authRefresh'
 import { BXRestRequestConfig, composeMiddleware } from './transport'
 import { builtInMiddleware } from './middleware'
+import { fetchSend } from './fetch'
 
 export class HttpBXServices extends HttpServices {
 
@@ -206,18 +207,20 @@ export class HttpBXServices extends HttpServices {
 
   /**
    * Отправка через шаги из настроек: `retryOnQueryLimit`, `throttle`,
-   * `timeout`, затем `middleware`; последним идёт axios клиента. Настройки
-   * читаются при подписке. Отписка отменяет HTTP-запрос (AbortSignal).
-   * Ошибка транспорта уходит дальше как есть: у axios в ней весь запрос,
-   * вместе с токеном и секретом вебхука (см. README, «Обработка ошибок»).
+   * `timeout`, `logRequests`, затем `middleware`; последним идёт транспорт
+   * клиента — axios или `fetch` (`transport`). Настройки читаются при
+   * подписке. Отписка отменяет HTTP-запрос (AbortSignal). Ошибка транспорта
+   * уходит дальше как есть: у axios в ней весь запрос, вместе с токеном и
+   * секретом вебхука (см. README, «Обработка ошибок»).
    */
   private send<T>(config: BXRestRequestConfig): Observable<T | undefined> {
     return new Observable<T | undefined>(subscriber => {
       const controller = new AbortController()
       const ctx = this.session.ctx
+      const settings = ctx.settings
       const send = composeMiddleware(
-        [...builtInMiddleware(ctx.settings, ctx), ...this.session.getMiddleware()],
-        request => this.axiosSend(request)
+        [...builtInMiddleware(settings, ctx), ...this.session.getMiddleware()],
+        (settings.transport === 'fetch') ? fetchSend : request => this.axiosSend(request)
       )
       send({ ...config, signal: controller.signal }).then(
         data => {

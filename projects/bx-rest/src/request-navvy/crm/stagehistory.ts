@@ -9,9 +9,11 @@ export class BXRestNavvyCrmStageHistory {
    * Возвращает историю движения элемента по стадиям.
    */
   list(param: iBXRestCrmParams = {}) {
-    return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>(
-      [$crm, $stagehistory, $list], param
-    )
+    return this.Navvy.pagNavKeyed<
+      { items?: iBXRestCrmObject[] },
+      { items?: iBXRestCrmObject[] },
+      iBXRestCrmParams
+    >([$crm, $stagehistory, $list], param, 'items')
   }
 }
 

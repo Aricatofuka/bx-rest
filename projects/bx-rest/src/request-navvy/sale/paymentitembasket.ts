@@ -49,11 +49,11 @@ export class BXRestNavvySalePaymentItemBasket  {
    * Возвращает список привязок элементов корзины к оплатам.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $paymentItemBasket, $list], param)
+    >([$sale, $paymentItemBasket, $list], param, 'paymentItemsBasket')
   }
   /**
    * Обновляет привязку элемента корзины к оплате.

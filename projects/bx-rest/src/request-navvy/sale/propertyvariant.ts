@@ -49,11 +49,11 @@ export class BXRestNavvySalePropertyVariant  {
    * Возвращает список значений списочного свойства заказа.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $propertyVariant, $list], param)
+    >([$sale, $propertyVariant, $list], param, 'propertyVariants')
   }
   /**
    * Обновляет значение списочного свойства заказа.

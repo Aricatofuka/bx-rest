@@ -49,11 +49,11 @@ export class BXRestNavvyCatalogVat  {
    * Возвращает список ставок НДС.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $vat, $list], param)
+    >([$catalog, $vat, $list], param, 'vats')
   }
   /**
    * Обновляет ставку НДС.

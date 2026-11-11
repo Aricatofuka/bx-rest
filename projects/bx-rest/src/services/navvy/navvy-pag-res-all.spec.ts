@@ -1,7 +1,7 @@
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createServer, Server } from 'node:http'
 import { AddressInfo } from 'node:net'
-import { firstValueFrom, Observable, of, Subscription } from 'rxjs'
+import { firstValueFrom, map, Observable, of, Subscription } from 'rxjs'
 import { Navvy } from '../navvy'
 import { HttpBXServices } from '../http/HttpBX'
 import { BXRestSettings, DEFAULT_BX_REST_SETTINGS } from '../../settings'
@@ -39,6 +39,16 @@ const cases: Case[] = [
     offset: byStart,
   },
   { name: 'alterPagNav', request: () => new Navvy().alterPagNav(url, {}), page: list => list, offset: byPageNumber },
+  {
+    name: 'pagNavKeyed',
+    // .resAll() отдаёт объект { items: [...] }, а общие проверки сравнивают массивы
+    request: () => {
+      const request = new Navvy().pagNavKeyed<{ items?: Row[] }, { items?: Row[] }, { start?: number }>(url, {}, 'items')
+      return { resAll: () => request.resAll().pipe(map(result => result.items)) }
+    },
+    page: list => ({ items: list }),
+    offset: byStart,
+  },
 ]
 
 // Настоящий локальный HTTP-сервер: первая страница на сам метод, остальные через batch.

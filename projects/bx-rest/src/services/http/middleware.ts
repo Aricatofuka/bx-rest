@@ -1,6 +1,6 @@
 import { BXRestMiddleware } from './transport'
 import { httpErrorResponse, parseBXRestErrorBody } from '../../functions/errors'
-import { iBXRestSettings } from '../../typification/settings'
+import { BXRestRequestLogEntry, iBXRestSettings } from '../../typification/settings'
 
 /** `retryOnQueryLimit: true`: всего 3 попытки, пауза перед второй — 1000 мс, дальше вдвое больше. */
 export const DEFAULT_RETRY_ON_QUERY_LIMIT = { attempts: 3, delay: 1000 }
@@ -26,9 +26,10 @@ export interface ThrottleState {
 }
 
 /**
- * Встроенные шаги из настроек, в этом порядке: повтор, очередь, таймаут.
+ * Встроенные шаги из настроек, в этом порядке: повтор, очередь, таймаут, журнал.
  * Повтор — снаружи: каждая попытка заново встаёт в очередь и получает свой
  * таймаут. Таймаут — внутри очереди: ожидание своей очереди его не тратит.
+ * Журнал — внутри всех: каждая попытка — своя запись, без времени в очереди.
  */
 export function builtInMiddleware(settings: iBXRestSettings, state: ThrottleState): BXRestMiddleware[] {
   const steps: BXRestMiddleware[] = []
@@ -59,6 +60,15 @@ export function builtInMiddleware(settings: iBXRestSettings, state: ThrottleStat
       throw invalid('timeout', ms, 'a number of milliseconds from 1 to 2147483647')
     }
     steps.push(timeout(ms))
+  }
+  if (settings.logRequests !== undefined) {
+    if (typeof settings.logRequests !== 'function') {
+      throw invalid('logRequests', settings.logRequests, 'a function')
+    }
+    steps.push(logRequests(settings.logRequests))
+  }
+  if (settings.transport !== undefined && settings.transport !== 'axios' && settings.transport !== 'fetch') {
+    throw invalid('transport', settings.transport, "'axios' or 'fetch'")
   }
   return steps
 }
@@ -135,6 +145,50 @@ function throttle(perSecond: number, state: ThrottleState): BXRestMiddleware {
         throw error
       }
     )
+  }
+}
+
+/** Код ошибки Bitrix из тела ответа или, если его нет, текст ошибки запроса. */
+function errorText(body: unknown, error?: unknown): string | undefined {
+  const code = parseBXRestErrorBody(body)?.error
+  if (code) {
+    return code
+  }
+  return (error instanceof Error) ? error.message : undefined
+}
+
+/**
+ * Пишет в журнал запись о каждом HTTP-запросе. Исключение из `log` проглатывается:
+ * журнал не должен ломать запрос.
+ */
+function logRequests(log: (entry: BXRestRequestLogEntry) => void): BXRestMiddleware {
+  const write = (entry: BXRestRequestLogEntry) => {
+    try {
+      log(entry)
+    } catch {
+      // Сбой журнала — не ошибка запроса
+    }
+  }
+  return async (config, next) => {
+    const started = Date.now()
+    try {
+      const data = await next(config)
+      const error = errorText(data)
+      write({ method: config.method, url: config.url, duration: Date.now() - started, failed: false, ...(error ? { error } : {}) })
+      return data
+    } catch (cause) {
+      const response = httpErrorResponse(cause)
+      const error = errorText(response?.data, cause)
+      write({
+        method: config.method,
+        url: config.url,
+        duration: Date.now() - started,
+        failed: true,
+        ...(response ? { status: response.status } : {}),
+        ...(error ? { error } : {}),
+      })
+      throw cause
+    }
   }
 }
 

@@ -19,11 +19,11 @@ export class BXRestNavvySaleTradePlatform  {
    * Возвращает список источников заказов.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $tradePlatform, $list], param)
+    >([$sale, $tradePlatform, $list], param, 'tradePlatforms')
   }
 }
 

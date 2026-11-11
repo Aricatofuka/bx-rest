@@ -49,11 +49,11 @@ export class BXRestNavvySalePaymentItemShipment  {
    * Возвращает список привязок оплат к отгрузкам.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $paymentItemShipment, $list], param)
+    >([$sale, $paymentItemShipment, $list], param, 'paymentItemsShipment')
   }
   /**
    * Обновляет привязку оплаты к отгрузке.

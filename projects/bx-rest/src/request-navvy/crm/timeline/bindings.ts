@@ -47,9 +47,9 @@ export class BXRestNavvyCrmTimelineBindings {
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/bindings/crm-timeline-bindings-list.html
    */
   list(param: iBXRestParamCrmTimelineBindingList) {
-    return this.Navvy.simple<
-      iBXRestCrmTimelineBinding[],
-      iBXRestCrmTimelineBinding[],
+    return this.Navvy.pagNav<
+      iBXRestCrmTimelineBinding,
+      iBXRestCrmTimelineBinding,
       iBXRestParamCrmTimelineBindingList
     >(this.url.list, param)
   }

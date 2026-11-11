@@ -49,11 +49,11 @@ export class BXRestNavvySalePayment  {
    * Возвращает список оплат.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $payment, $list], param)
+    >([$sale, $payment, $list], param, 'payments')
   }
   /**
    * Обновляет оплату.

@@ -49,11 +49,11 @@ export class BXRestNavvySaleOrder  {
    * Возвращает список заказов.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $order, $list], param)
+    >([$sale, $order, $list], param, 'orders')
   }
   /**
    * Обновляет заказ.

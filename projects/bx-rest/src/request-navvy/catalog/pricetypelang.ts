@@ -59,11 +59,11 @@ export class BXRestNavvyCatalogPriceTypeLang  {
    * Возвращает список переводов названий типов цен.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $priceTypeLang, $list], param)
+    >([$catalog, $priceTypeLang, $list], param, 'priceTypeLangs')
   }
   /**
    * Обновляет перевод названия типа цены.

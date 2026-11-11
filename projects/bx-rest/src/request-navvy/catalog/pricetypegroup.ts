@@ -39,11 +39,11 @@ export class BXRestNavvyCatalogPriceTypeGroup  {
    * Возвращает список привязок типов цен к группам покупателей.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $priceTypeGroup, $list], param)
+    >([$catalog, $priceTypeGroup, $list], param, 'priceTypeGroups')
   }
 }
 

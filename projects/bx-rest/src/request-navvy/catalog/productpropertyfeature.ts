@@ -51,11 +51,11 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
    * Возвращает список параметров свойств товаров.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $productPropertyFeature, $list], param)
+    >([$catalog, $productPropertyFeature, $list], param, 'productPropertyFeatures')
   }
   /**
    * Обновляет параметр свойства товара.

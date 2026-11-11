@@ -49,11 +49,11 @@ export class BXRestNavvyCatalogPriceType  {
    * Возвращает список типов цен.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $priceType, $list], param)
+    >([$catalog, $priceType, $list], param, 'priceTypes')
   }
   /**
    * Обновляет тип цены.

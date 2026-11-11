@@ -9,11 +9,11 @@ export class BXRestNavvyCatalogUserfieldDocument  {
    * Возвращает список пользовательских полей документов складского учёта.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $userfield, $document, $list], param)
+    >([$catalog, $userfield, $document, $list], param, 'documents')
   }
   /**
    * Обновляет пользовательское поле документа складского учёта.

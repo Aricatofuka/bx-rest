@@ -49,11 +49,11 @@ export class BXRestNavvySaleStatusLang  {
    * Возвращает список локализаций статусов.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $statusLang, $list], param)
+    >([$sale, $statusLang, $list], param, 'statusLangs')
   }
 }
 

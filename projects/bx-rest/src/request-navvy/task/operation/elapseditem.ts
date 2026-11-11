@@ -12,12 +12,32 @@ import { HttpBXServices } from '../../../services/http/HttpBX'
 import { $elapseditem, $getaccess, $getlist, $isactionallowed, $task, $tasks } from '../../../consts/part-name-methods'
 import { map, take } from 'rxjs/operators'
 import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
-import { mergeMap, of, throwError } from 'rxjs'
+import { mergeMap, Observable, of, throwError } from 'rxjs'
 import { BXRestNavvyUser } from '../../user'
 import { BXRestNavvyTasks } from '../../tasks'
 import { BXRestNavvyDelegateElapsedItem } from '../delegate/elapseditem'
 import { iBXRestUser } from '../../../typification/rest/user'
 import { BXRestNavvyElapsedItem } from '../elapseditem'
+import { iBatchRequestAnswer } from '../../../typification/rest/batch/batchRequestParam'
+import { instanceOfiBXRestAnswerSuccess } from '../../../functions/mapResult'
+
+interface BatchValues<T> {
+  result: Record<string, T | undefined>
+  total: Record<string, number | undefined>
+}
+
+/** Результаты и `total` команд из ответов batch по ключам команд. Команды с ошибкой пропускаются. */
+function batchValues<T>(answers: iBatchRequestAnswer<T>[] | undefined): BatchValues<T> {
+  const values: BatchValues<T> = { result: {}, total: {} }
+  for (const answer of answers ?? []) {
+    if (instanceOfiBXRestAnswerSuccess(answer) && answer.result && typeof answer.result === 'object') {
+      const batch = answer.result as { result?: Record<string, T>, result_total?: Record<string, number> }
+      Object.assign(values.result, batch.result)
+      Object.assign(values.total, batch.result_total)
+    }
+  }
+  return values
+}
 
 export class BXRestNavvyOperationElapsedItem {
 
@@ -50,39 +70,48 @@ export class BXRestNavvyOperationElapsedItem {
     return this.delegate.getList(param)
   }
 
-  // TODO: Сделать нормально
   /**
-   * Возвращает список записей о затраченном времени по задаче.
+   * Возвращает все записи о затраченном времени по задачам `ids`: сначала записи первой задачи,
+   * затем второй и так далее.
+   *
+   * Портал отдаёт не больше 50 записей на страницу. Первые страницы всех задач уходят одним
+   * batch, остальные страницы запрашиваются только у задач, где записей больше 50.
    */
   getListByIDTask(ids: number[]) {
     // Пустой batch завершается без значения, и вызывающий код получил бы EmptyError
     if (!ids.length) {
       return of([])
     }
-    // Работает только потому что "nPageSize: 99999"
-    return this.http.branch<iBXRestParamElapseditemGet, iBXRestTaskElapsedItemHttp>
-    (
-      ids.map(i => {
-        return {
-          name: this.http.getNameMethod([$task, $elapseditem, $getlist]),
-          param: {
-            TASKID: i,
-            PARAMS: {
-              NAV_PARAMS: {
-                nPageSize: 99999,
-                iNumPage: 1
-              }
-            }
+    const pageSize = 50
+    const key = (index: number, page: number) => `${index}_${page}`
+    const commands = (pages: { index: number, page: number }[]) => Object.fromEntries(pages.map(({ index, page }) => [
+      key(index, page),
+      {
+        name: this.http.getNameMethod([$task, $elapseditem, $getlist]),
+        param: { TASKID: ids[index], PARAMS: { NAV_PARAMS: { nPageSize: pageSize, iNumPage: page } } }
+      }
+    ]))
+    const load = (pages: { index: number, page: number }[]): Observable<BatchValues<iBXRestTaskElapsedItemHttp[]>> => pages.length
+      ? this.http.branch<iBXRestParamElapseditemGet, iBXRestTaskElapsedItemHttp[]>(commands(pages)).pipe(map(v => batchValues(v)))
+      : of({ result: {}, total: {} })
+
+    return load(ids.map((_, index) => ({ index, page: 1 }))).pipe(
+      mergeMap(first => {
+        const rest = ids.flatMap((_, index) => {
+          const pages = Math.ceil((Number(first.total[key(index, 1)]) || 0) / pageSize)
+          return Array.from({ length: Math.max(pages - 1, 0) }, (_, i) => ({ index, page: i + 2 }))
+        })
+        return load(rest).pipe(map(more => ({ ...first.result, ...more.result })))
+      }),
+      map(result => {
+        const items = ids.flatMap((_, index) => {
+          const list: iBXRestTaskElapsedItemHttp[] = []
+          for (let page = 1; result[key(index, page)]; page++) {
+            list.push(...result[key(index, page)]!)
           }
-        }
-      })
-    ).pipe(
-      map(v => {
-        if (v && v.length) {
-          const res = this.http.mapBranchResultWithoutKey(v)
-          return BXRestMapTaskElapsedItem.getList(res)
-        }
-        return undefined
+          return list
+        })
+        return BXRestMapTaskElapsedItem.getList(items)
       })
     )
   }

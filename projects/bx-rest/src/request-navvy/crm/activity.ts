@@ -80,7 +80,7 @@ export class BXRestNavvyCrmActivity  {
    * Возвращает список дел всех типов по фильтру.
    */
   list(param: iBXRestCrmParams = {}) {
-    return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>([$crm, $activity, $list], param)
+    return this.Navvy.pagNav<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $activity, $list], param)
   }
 
   /**

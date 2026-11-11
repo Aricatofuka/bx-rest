@@ -53,11 +53,11 @@ export class BXRestNavvyDocumentGeneratorRole  {
    * Возвращает список ролей без детального состава прав.
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$documentgenerator, $role, $list], param)
+    >([$documentgenerator, $role, $list], param, 'roles')
   }
 
   /**

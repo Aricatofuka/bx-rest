@@ -9,6 +9,75 @@
 История до версии 1.0.0 здесь не восстанавливалась — смотрите `git log` для
 более ранних изменений.
 
+## [Unreleased]
+
+### Added
+
+- `.resAll()` у 59 списочных методов, которые листаются через `start`:
+  `catalog.*.list` (25 методов), `sale.*.list` (20),
+  `documentgenerator.{document,numerator,role,template}.list`,
+  `booking.v1.resource.list`, `booking.v1.resourcetype.list`,
+  `crm.activity.list`, `crm.item.productrow.list`, `crm.orderentity.list`,
+  `crm.stagehistory.list`, `crm.timeline.bindings.list`,
+  `crm.requisite.link.list`, `crm.deal.recurring.list` и `userfieldtype.list`.
+  Список сверен с документацией Bitrix24. `.res()` у этих методов не
+  изменился. Если `result` метода — объект со списком под ключом, как у
+  `catalog.product.list` (`{ products: [...] }`), `.resAll()` отдаёт такой же
+  объект, где под ключом собраны записи всех страниц. Подробнее — в разделе
+  README «Режимы результата».
+- `Navvy.pagNavKeyed()` и класс `NavvyPagNavKeyed` — пагинация для своих
+  методов, у которых `result` — объект со списком под ключом.
+- `pull.application.event.add()` — событие в канал приложения, и
+  `pull.application.push.add()` — push-уведомление в мобильное приложение.
+  Типы параметров: `iBXRestParamPullApplicationEventAdd`,
+  `iBXRestParamPullApplicationPushAdd`.
+- `pull.application.config.get()` и `pull.config.get()` принимают
+  необязательные параметры `CACHE` и `REOPEN` (тип `iBXRestParamPullConfigGet`).
+  В типах ответа появились поля `exp`, `clientId` и `jwt`. Подробнее — в
+  разделе README «Push & Pull».
+- Настройка `logRequests` — журнал запросов: функция получает запись о каждом
+  HTTP-запросе (метод, адрес, длительность, статус, код ошибки Bitrix). Тип
+  записи `BXRestRequestLogEntry`. Адрес в записи не маскируется. Подробнее — в
+  разделе README «Журнал запросов».
+- Настройка `transport: 'fetch'` — отправка запросов через глобальный `fetch`
+  вместо axios. Ответ не 2xx приходит ошибкой `BXRestHttpError` с полем
+  `response: { status, data }`. Подробнее — в разделе README «Транспорт fetch».
+- `new Navvy(settings)` и `new BXRestRequest(settings)` — свои настройки, как у
+  `new BXRestNavvy(settings)`. Без аргумента оба работают с глобальными
+  `BXRestSettings`, как раньше.
+
+### Changed
+
+- Тип результата `.res()` у `crm.item.productrow.list`, `crm.orderentity.list`
+  и `crm.stagehistory.list` исправлен на объект: `{ productRows }`,
+  `{ orderEntity }` и `{ items }`. Раньше тип обещал массив, хотя портал
+  отдаёт объект, и само значение не изменилось. Код, который работал с
+  результатом как с массивом, перестанет компилироваться: во время выполнения
+  он и раньше не работал.
+- Тип результата `userfieldtype.list().res()` исправлен на массив: портал
+  отдаёт массив.
+- Типы параметров `crm.timeline.bindings.list` и `crm.requisite.link.list`
+  принимают `start`.
+- В сырых типах ответа `iBXRestPullConfigGetHttp` и
+  `iBXRestPullApplicationConfigGetHttp` поле `publicChannels` может быть
+  `false`: так портал отвечает при версии сервера Push & Pull ниже 4. После
+  маппера `.res()` такое значение становится пустым объектом.
+
+### Fixed
+
+- `task.elapsedItem.operation.getListByIDTask()` загружает все записи каждой
+  задачи. Раньше метод запрашивал одну страницу с `nPageSize: 99999`, а по
+  документации портал отдаёт не больше 50 записей на страницу, поэтому у
+  задачи с большим числом записей часть могла пропасть без ошибки. Теперь
+  первые страницы всех задач уходят одним batch, как раньше, а остальные
+  страницы догружаются только для задач, где записей больше 50.
+- Публичное поле `pull.channel.public.url.get` указывало на `log.blogpost.add`.
+  Теперь там `pull.channel.public.get`, сам запрос и раньше шёл на этот метод.
+- Мапперы `pull.application.config.get()` и `pull.config.get()` больше не
+  падают с `TypeError`, если в ответе нет `publicChannels` или одного из
+  каналов, и с `Wrong date format`, если в ответе `pull.config.get` нет
+  `serverTime`.
+
 ## [1.6.0] - 2026-11-10
 
 ### Added

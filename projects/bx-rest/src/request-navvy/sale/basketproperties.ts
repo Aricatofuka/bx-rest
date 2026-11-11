@@ -49,11 +49,11 @@ export class BXRestNavvySaleBasketProperties  {
    * Возвращает список свойств элементов корзины.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $basketProperties, $list], param)
+    >([$sale, $basketProperties, $list], param, 'basketProperties')
   }
   /**
    * Обновляет свойство элемента корзины.

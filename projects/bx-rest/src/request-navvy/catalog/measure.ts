@@ -49,11 +49,11 @@ export class BXRestNavvyCatalogMeasure  {
    * Возвращает список единиц измерения.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $measure, $list], param)
+    >([$catalog, $measure, $list], param, 'measures')
   }
   /**
    * Обновляет единицу измерения.

@@ -48,11 +48,11 @@ export class BXRestNavvyBookingV1Resource  {
    * Возвращает список ресурсов.
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$booking, $v1, $resource, $list], param)
+    >([$booking, $v1, $resource, $list], param, 'resource')
   }
 
   /**

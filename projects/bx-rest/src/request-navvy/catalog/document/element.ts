@@ -39,11 +39,11 @@ export class BXRestNavvyCatalogDocumentElement  {
    * Возвращает список товарных позиций документа складского учёта.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $document, $element, $list], param)
+    >([$catalog, $document, $element, $list], param, 'documentElements')
   }
   /**
    * Обновляет товарную позицию документа складского учёта.

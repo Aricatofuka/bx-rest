@@ -5,37 +5,34 @@ import {
 import { toDate } from '../../../services/base'
 import { iBXRestPullConfigPublicChannelsGet } from '../../../typification/rest/pull/config/get'
 
+/** Поля `start` и `end` канала — в `Date`. Канал, которого нет в ответе, так и остаётся пустым. */
+function withDates<T extends { start: string, end: string }>(channel: T | undefined) {
+  return channel
+    ? { ...channel, start: toDate(channel.start), end: toDate(channel.end) }
+    : undefined
+}
+
 export class BXRestMapPullApplicationConfig {
+  /**
+   * Даты каналов — в `Date`. `publicChannels: false` (сервер версии ниже 4) становится пустым объектом.
+   */
   static get(value: iBXRestPullApplicationConfigGetHttp | undefined): iBXRestPullApplicationConfigGet | undefined {
-    return value ?
-      {
-        ...value,
-        ...{
-          channels:
-            {
-              shared: {
-                ...value.channels.shared, ...{
-                  start: toDate(value.channels.shared.start),
-                  end: toDate(value.channels.shared.end),
-                }
-              },
-              private: {
-                ...value.channels.private, ...{
-                  start: toDate(value.channels.private.start),
-                  end: toDate(value.channels.private.end),
-                }
-              }
-            },
-          publicChannels: Object.fromEntries(Object.entries(value.publicChannels).map(([key, val]) => (
-            [key,
-              {
-                ...val,
-                start: toDate(val.start),
-                end: toDate(val.end)
-              } as iBXRestPullConfigPublicChannelsGet
-            ]))) as Record<string, iBXRestPullConfigPublicChannelsGet>,
-        }
-      }
-      : undefined
+    if (!value) {
+      return undefined
+    }
+    const publicChannels = value.publicChannels && typeof value.publicChannels === 'object'
+      ? value.publicChannels
+      : {}
+    return {
+      ...value,
+      channels: {
+        ...value.channels,
+        shared: withDates(value.channels?.shared),
+        private: withDates(value.channels?.private),
+      },
+      publicChannels: Object.fromEntries(
+        Object.entries(publicChannels).map(([key, channel]) => [key, withDates(channel)])
+      ) as Record<string, iBXRestPullConfigPublicChannelsGet>,
+    } as iBXRestPullApplicationConfigGet
   }
 }

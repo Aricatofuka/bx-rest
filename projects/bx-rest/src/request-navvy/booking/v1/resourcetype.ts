@@ -42,11 +42,11 @@ export class BXRestNavvyBookingV1ResourceType  {
    * Возвращает список типов ресурсов.
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$booking, $v1, $resourcetype, $list], param)
+    >([$booking, $v1, $resourcetype, $list], param, 'resourceType')
   }
 
   /**

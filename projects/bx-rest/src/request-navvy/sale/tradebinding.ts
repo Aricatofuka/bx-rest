@@ -19,11 +19,11 @@ export class BXRestNavvySaleTradeBinding  {
    * Возвращает список привязок источников заказов.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$sale, $tradeBinding, $list], param)
+    >([$sale, $tradeBinding, $list], param, 'tradeBindings')
   }
 }
 

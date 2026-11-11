@@ -29,11 +29,11 @@ export class BXRestNavvyCatalogStoreProduct  {
    * Возвращает список остатков товаров на складах.
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$catalog, $storeProduct, $list], param)
+    >([$catalog, $storeProduct, $list], param, 'storeProducts')
   }
 }
 
