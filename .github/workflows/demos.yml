@@ -1,0 +1,50 @@
+name: Demos
+
+# Выкладывает демо на GitHub Pages: https://aricatofuka.github.io/bx-rest/
+# Запускается тегом выпуска (v1.8.0 и т. п.), чтобы демо совпадали с версией
+# в npm, и вручную: Actions -> Demos -> Run workflow.
+# Сайт собирает npm run demo:pages, локально он собирается так же.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Одна выкладка за раз. Начатую не отменяем, чтобы сайт не остался
+# выложенным наполовину.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: npm
+
+      - run: npm ci
+      - run: npm run demo:bootstrap
+      - run: npm run demo:pages
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/demo-pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

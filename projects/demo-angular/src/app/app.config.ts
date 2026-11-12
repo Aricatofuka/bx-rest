@@ -21,8 +21,10 @@ export const appConfig: ApplicationConfig = {
     // скрипта уже не от адреса страницы, а от собственного (непрозрачного)
     // base — даже путь от корня вида '/assets/...' там падает с
     // "Failed to parse URL", помогает только абсолютный URL.
+    // Строим его от document.baseURI (<base href>), а не от корня домена:
+    // на GitHub Pages демо лежит в подпапке (--base-href /bx-rest/angular/).
     provideMonacoEditor({
-      baseUrl: `${window.location.origin}/assets/monaco/min/vs`,
+      baseUrl: new URL('assets/monaco/min/vs', document.baseURI).href,
       onMonacoLoad: () => configureBxRestTypes((window as unknown as { monaco: typeof Monaco }).monaco)
     })
   ]

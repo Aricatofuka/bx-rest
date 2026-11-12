@@ -102,7 +102,7 @@ const ru: Strings = {
     connectButton: 'Подключить',
     reconnectButton: 'Переподключить',
     privacyHint:
-      'Данные сохраняются только в localStorage вашего браузера и используются исключительно для запросов к указанному порталу.',
+      'Подключение вместе с токеном или вебхуком сохраняется в localStorage этого браузера и используется только для запросов к указанному порталу. Подключайте тестовый портал: хранилище браузера доступно всем страницам этого домена.',
     appliedStatus: '✓ Настройки применены',
     modes: {
       'token-function': {
@@ -179,7 +179,8 @@ const en: Strings = {
     noValueNeeded: 'No additional value needed',
     connectButton: 'Connect',
     reconnectButton: 'Reconnect',
-    privacyHint: "Stored only in your browser's localStorage and used solely for requests to the portal above.",
+    privacyHint:
+      "The connection, including the token or webhook, is saved in this browser's localStorage and used only for requests to the portal above. Connect a test portal: browser storage is shared by every page on this domain.",
     appliedStatus: '✓ Settings applied',
     modes: {
       'token-function': {

@@ -7,7 +7,7 @@
 | Раздел | Статус |
 | --- | --- |
 | [1. Проверки на портале](#1-проверки-на-портале) | Ждут доступа к порталу |
-| [2. CI и публикация демо](#2-ci-и-публикация-демо) | Предложение |
+| [2. CI и публикация демо](#2-ci-и-публикация-демо) | Pages: код готов (2026-11-12), нужно включить в настройках репозитория. CI — предложение |
 | [3. Пагинация: оставшиеся методы](#3-пагинация-оставшиеся-методы) | Нужны свои классы пагинации |
 | [4. Веб-сокеты: клиент pull](#4-веб-сокеты-клиент-pull) | Нужно решение после проверки на портале |
 | [5. Учёт времени в задачах](#5-учёт-времени-в-задачах) | Предложения, меняют поведение |
@@ -44,83 +44,31 @@
 
 ### Куда выкладывать демо: GitHub Pages
 
-Репозиторий публичный, Pages пока не включён. Это бесплатно, с HTTPS и без своего сервера, а демо полностью статические. Адреса будут такими:
+Код готов 2026-11-12, Pages в настройках репозитория ещё не включён. Адреса:
 
-- `https://aricatofuka.github.io/bx-rest/vue/`
-- `https://aricatofuka.github.io/bx-rest/react/`
-- `https://aricatofuka.github.io/bx-rest/angular/`
+- `https://aricatofuka.github.io/bx-rest/` — стартовая страница ([projects/demo-pages/index.html](projects/demo-pages/index.html));
+- `https://aricatofuka.github.io/bx-rest/vue/`, `/react/`, `/angular/` — демо.
 
-Проверено локально: демо собраны под этими подпутями и открыты в Chrome. Страница, редактор Monaco и его воркеры загружаются без ошибок, общий размер около 135 МБ. Запросы к порталу с такой страницы и сам workflow ниже ещё не запускались.
+Что сделано:
 
-Что сделать:
+- [demos.yml](.github/workflows/demos.yml) выкладывает сайт по тегу `v*` и вручную (Actions, Demos, Run workflow). По тегу, а не на каждый пуш, чтобы демо совпадали с версией в npm.
+- Сайт собирает `npm run demo:pages` ([build-demo-pages.mjs](scripts/build-demo-pages.mjs)) в `dist/demo-pages`, после `npm run demo:bootstrap`. Локально — та же команда.
+- Angular-демо строит путь к Monaco от `<base href>`, а не от корня домена ([app.config.ts:27](projects/demo-angular/src/app/app.config.ts#L27)).
+- Подсказка под формой подключения во всех трёх демо предупреждает: подключать тестовый портал, хранилище браузера общее для домена.
 
-1. Исправить Angular-демо. [app.config.ts:25](projects/demo-angular/src/app/app.config.ts#L25) строит путь к Monaco от корня домена, поэтому под подпутём редактор не загружается. Правка в одну строку, проверена на копии:
+Проверено локально 2026-11-12: сайт под `/bx-rest/` открыт в Chrome, сервер отвечал 404 на всё вне `/bx-rest/`. Стартовая страница и три демо загружаются без ошибок и без запросов в обход подпути. Пример по умолчанию выполняется на заглушке портала, воркер TypeScript в Monaco подчёркивает опечатку. Размер сайта — 130 МБ. Сам workflow на GitHub и запросы к настоящему порталу со страницы на `github.io` ещё не запускались.
 
-   ```ts
-   baseUrl: new URL('assets/monaco/min/vs', document.baseURI).href,
-   ```
+Что осталось:
 
-2. Включить в настройках репозитория: Settings, Pages, Source: GitHub Actions.
-3. Добавить `.github/workflows/demos.yml` и простую `index.html` со ссылками на три демо в корень `_site`:
-
-   ```yaml
-   name: Demos
-
-   on:
-     push:
-       branches: [main]
-     workflow_dispatch:
-
-   permissions:
-     contents: read
-     pages: write
-     id-token: write
-
-   concurrency:
-     group: pages
-     cancel-in-progress: true
-
-   jobs:
-     build:
-       runs-on: ubuntu-latest
-       steps:
-         - uses: actions/checkout@v4
-         - uses: actions/setup-node@v4
-           with:
-             node-version: 22.x
-             cache: npm
-         - run: npm ci
-         - run: npm run demo:bootstrap
-         - run: npm run build -- --base=/bx-rest/vue/
-           working-directory: projects/demo-vue
-         - run: npm run build -- --base=/bx-rest/react/
-           working-directory: projects/demo-react
-         - run: npm run build -- --base-href /bx-rest/angular/
-           working-directory: projects/demo-angular
-         - run: |
-             mkdir -p _site
-             cp -r projects/demo-vue/dist _site/vue
-             cp -r projects/demo-react/dist _site/react
-             cp -r projects/demo-angular/dist/demo-angular/browser _site/angular
-         - uses: actions/upload-pages-artifact@v3
-           with:
-             path: _site
-
-     deploy:
-       needs: build
-       runs-on: ubuntu-latest
-       environment:
-         name: github-pages
-         url: ${{ steps.deployment.outputs.page_url }}
-       steps:
-         - id: deployment
-           uses: actions/deploy-pages@v4
-   ```
+1. Включить Pages: Settings, Pages, Source: GitHub Actions.
+2. Разрешить выкладку из тегов: Settings, Environments, `github-pages`, Deployment branches and tags, добавить правило для тегов `v*`. По умолчанию окружение принимает только `main`, и запуск по тегу упадёт на шаге deploy.
+3. Первый запуск — вручную из `main`. Тег `v1.7.0` стоит на коммите без workflow, по нему ничего не запустится.
+4. После первой выкладки добавить ссылки на демо в README.
 
 Ограничения:
 
 - Установить такую страницу в портал как приложение не получится: Bitrix24 открывает приложение POST-запросом, а Pages отвечает на POST кодом 405 (проверено). Как отдельная страница с формой подключения демо работает, `BXRestFrame` оно не использует.
-- Демо сохраняет подключение вместе с токеном в `localStorage` ([connection.ts:92](projects/demo-shared/src/connection.ts#L92)). На `aricatofuka.github.io` это хранилище общее для всех проектов Pages этого аккаунта. На странице стоит предупредить, что подключать нужно тестовый портал.
+- Демо сохраняет подключение вместе с токеном в `localStorage` ([connection.ts:92](projects/demo-shared/src/connection.ts#L92)). На `aricatofuka.github.io` это хранилище общее для всех проектов Pages этого аккаунта. Об этом предупреждают стартовая страница и подсказка в каждом демо.
 
 ## 3. Пагинация: оставшиеся методы
 
