@@ -6,7 +6,7 @@ export class BXRestNavvyImNotifyRead {
   private readonly Navvy = new Navvy()
 
   /**
-   * Отмечает прочитанным уведомление.
+   * Отмечает прочитанным уведомление
    */
   one(param: iBXRestParamImNotifyRead = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImNotifyRead>(
@@ -16,14 +16,14 @@ export class BXRestNavvyImNotifyRead {
   }
 
   /**
-   * Отмечает прочитанными все уведомления.
+   * Отмечает прочитанными все уведомления
    */
   all() {
     return this.Navvy.simple<iBXRestImObject>([$im, $notify, $read, $all])
   }
 
   /**
-   * Отмечает прочитанными несколько уведомлений.
+   * Отмечает прочитанными несколько уведомлений
    */
   list(param: iBXRestParamImNotifyReadList) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImNotifyReadList>(

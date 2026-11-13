@@ -12,7 +12,7 @@ export class BXRestNavvyImBotV2ChatMessage  {
   public readonly reaction = new BXRestNavvyImBotV2ChatMessageReaction()
 
   /**
-   * Удаляет сообщение бота.
+   * Удаляет сообщение бота
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -23,7 +23,7 @@ export class BXRestNavvyImBotV2ChatMessage  {
   }
 
   /**
-   * Возвращает сообщение по идентификатору.
+   * Возвращает сообщение по идентификатору
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -34,7 +34,7 @@ export class BXRestNavvyImBotV2ChatMessage  {
   }
 
   /**
-   * Возвращает окно сообщений вокруг указанного.
+   * Возвращает окно сообщений вокруг указанного
    */
   getContext(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -45,7 +45,7 @@ export class BXRestNavvyImBotV2ChatMessage  {
   }
 
   /**
-   * Отмечает сообщения как прочитанные.
+   * Отмечает сообщения как прочитанные
    */
   read(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvyImBotV2ChatMessage  {
   }
 
   /**
-   * Отправляет сообщение в чат.
+   * Отправляет сообщение в чат
    */
   send(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -67,7 +67,7 @@ export class BXRestNavvyImBotV2ChatMessage  {
   }
 
   /**
-   * Обновляет сообщение бота.
+   * Обновляет сообщение бота
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<

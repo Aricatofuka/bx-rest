@@ -6,7 +6,7 @@ export class BXRestNavvyUserConsentConsent {
   private readonly Navvy = new Navvy()
 
   /**
-   * Сохраняет полученное согласие пользователя.
+   * Сохраняет полученное согласие пользователя
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(

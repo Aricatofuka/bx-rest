@@ -12,7 +12,7 @@ export class BXRestNavvyVoxImplantSip  {
   public readonly connector = new BXRestNavvyVoxImplantSipConnector()
 
   /**
-   * Создаёт SIP-подключение с привязкой к приложению.
+   * Создаёт SIP-подключение с привязкой к приложению
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -23,14 +23,14 @@ export class BXRestNavvyVoxImplantSip  {
   }
 
   /**
-   * Удаляет существующее SIP-подключение.
+   * Удаляет существующее SIP-подключение
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$voximplant, $sip, $delete], param)
   }
 
   /**
-   * Возвращает список SIP-подключений, созданных приложением.
+   * Возвращает список SIP-подключений, созданных приложением
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -41,7 +41,7 @@ export class BXRestNavvyVoxImplantSip  {
   }
 
   /**
-   * Возвращает статус SIP-регистрации для облачной АТС.
+   * Возвращает статус SIP-регистрации для облачной АТС
    */
   status(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -52,7 +52,7 @@ export class BXRestNavvyVoxImplantSip  {
   }
 
   /**
-   * Обновляет существующее SIP-подключение.
+   * Обновляет существующее SIP-подключение
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$voximplant, $sip, $update], param)

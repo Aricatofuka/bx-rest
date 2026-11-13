@@ -6,7 +6,7 @@ export class BXRestNavvyImOpenLinesBotSessionMessage  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Отправляет автоматическое сообщение в диалог.
+   * Отправляет автоматическое сообщение в диалог
    */
   send(param: iBXRestGenericParams) {
     return this.Navvy.simple<

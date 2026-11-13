@@ -6,7 +6,7 @@ export class BXRestNavvyImNotifySchema {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает схему типов уведомлений.
+   * Возвращает схему типов уведомлений
    */
   get() {
     return this.Navvy.simple<iBXRestImObject[]>([$im, $notify, $schema, $get])

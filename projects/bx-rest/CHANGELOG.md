@@ -7,6 +7,56 @@
 История до версии 1.0.0 здесь не восстанавливалась — смотрите `git log` для
 более ранних изменений.
 
+## [Unreleased]
+
+### Added
+
+- `.resAll()` у 16 списочных методов, которые листаются не через `start`.
+  Список и правила обхода сверены с документацией Bitrix24, на живом портале
+  не проверялись.
+  - `OFFSET`/`LIMIT` с `total` в ответе: `im.dialog.users.list`,
+    `im.department.colleagues.list`, `im.search.chat.list`,
+    `im.search.department.list`, `im.search.user.list`. Как и у методов со
+    `start`, остальные страницы уходят пакетами через `batch`.
+  - Без `total`, по одной странице: `im.recent.list` и `imbot.v2.Bot.list`
+    (по флагу следующей страницы), `sign.b2e.company.provider.list` и
+    `biconnector.{connector,dataset,source}.list` (до неполной страницы),
+    `mail.mailbox.list`, `mail.message.list`, `main.eventlog.list` и
+    `timeman.record.list` (объект `pagination` REST v3),
+    `note.collection.list` (курсор REST v3).
+
+  Размер страницы `.resAll()` передаёт явно: из запроса, а без него — умолчание
+  метода. Больше, чем принимает метод, он не просит. `.res()` у этих методов
+  отдаёт одну страницу, как раньше. Подробнее — в разделе README «Режимы
+  результата».
+- `Navvy.pagNavOffset()`, `Navvy.pagNavSequential()` и
+  `Navvy.pagNavSequentialV3()` — пагинация для своих методов, которые
+  листаются по смещению с `total` или по одной странице. Типы настроек
+  обхода: `BXRestOffsetNav` и `BXRestSequentialNav`.
+
+### Changed
+
+- Тип результата `im.dialog.users.list` исправлен на массив участников, а тип
+  результата `im.search.user.list` — на объект, где ключ — идентификатор
+  пользователя. Так их и отдаёт портал. Тип результата
+  `sign.b2e.company.provider.list` исправлен на массив.
+- Типы параметров: `im.dialog.users.list` принимает `LIMIT`, `OFFSET` и
+  `LAST_ID`, а `SKIP_EXTERNAL` и `SKIP_EXTERNAL_EXCEPT_TYPES` в нём
+  необязательны; `im.recent.list` принимает `OFFSET` и `LIMIT`. В типе
+  результата `im.recent.list` появились поля `hasMore` и `hasMorePages`.
+
+### Fixed
+
+- `im.dialog.users.list().res()` на любой успешный ответ завершался ошибкой
+  `Wrong date format`. Портал отдаёт в `result` массив участников, а маппер
+  ждал одного участника и искал поле `last_activity_date` у самого массива.
+  Поля там нет, и преобразование даты падало. Теперь маппер преобразует даты
+  у каждого участника.
+- `main.eventlog.{get,list,tail}`, `main.eventlog.field.{get,list}`,
+  `timeman.record.list` и `timeman.record.field.{get,list}` уходят на адрес
+  REST v3 `rest/api/`. По документации эти методы есть только в REST v3, а по
+  старому адресу портал отвечает `ERROR_METHOD_NOT_FOUND`.
+
 ## [1.7.0] - 2026-11-11
 
 ### Added

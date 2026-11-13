@@ -31,7 +31,7 @@ export class BXRestNavvyImNotify {
   public readonly system = new BXRestNavvyImNotifySystem()
 
   /**
-   * Отправляет уведомление.
+   * Отправляет уведомление
    */
   send(param: iBXRestParamImNotifySend) {
     return this.Navvy.simple<number, number, iBXRestParamImNotifySend>(
@@ -41,7 +41,7 @@ export class BXRestNavvyImNotify {
   }
 
   /**
-   * Отвечает на уведомление с быстрым ответом.
+   * Отвечает на уведомление с быстрым ответом
    */
   answer(param: iBXRestParamImNotifyAnswer) {
     return this.Navvy.simple<
@@ -52,7 +52,7 @@ export class BXRestNavvyImNotify {
   }
 
   /**
-   * Обрабатывает нажатие кнопки уведомления.
+   * Обрабатывает нажатие кнопки уведомления
    */
   confirm(param: iBXRestParamImNotifyConfirm) {
     return this.Navvy.simple<
@@ -63,7 +63,7 @@ export class BXRestNavvyImNotify {
   }
 
   /**
-   * Удаляет уведомления.
+   * Удаляет уведомления
    */
   delete(param: iBXRestParamImNotifyDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImNotifyDelete>(
@@ -73,7 +73,7 @@ export class BXRestNavvyImNotify {
   }
 
   /**
-   * Возвращает уведомления пользователя.
+   * Возвращает уведомления пользователя
    */
   get(param: iBXRestParamImNotifyGet = {}) {
     return this.Navvy.simple<

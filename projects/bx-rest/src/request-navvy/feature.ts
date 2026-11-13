@@ -12,7 +12,7 @@ export class BXRestNavvyFeature {
    * Проверяет доступность указанной возможности на текущем портале.
    *
    * Поддерживаемые коды: `rest_offline_extended` и `rest_auth_connector`.
-   * В поле `value` сервер возвращает `Y` или `N`.
+   * В поле `value` сервер возвращает `Y` или `N`
    */
   get(param: iBXRestParamFeatureGet) {
     return this.Navvy.simple<

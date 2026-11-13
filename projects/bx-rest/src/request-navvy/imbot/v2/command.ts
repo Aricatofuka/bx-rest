@@ -6,7 +6,7 @@ export class BXRestNavvyImBotV2Command  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Отвечает на вызов слэш-команды.
+   * Отвечает на вызов слэш-команды
    */
   answer(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyImBotV2Command  {
   }
 
   /**
-   * Возвращает список команд бота.
+   * Возвращает список команд бота
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyImBotV2Command  {
   }
 
   /**
-   * Регистрирует слэш-команду.
+   * Регистрирует слэш-команду
    */
   register(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -39,7 +39,7 @@ export class BXRestNavvyImBotV2Command  {
   }
 
   /**
-   * Удаляет слэш-команду.
+   * Удаляет слэш-команду
    */
   unregister(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -50,7 +50,7 @@ export class BXRestNavvyImBotV2Command  {
   }
 
   /**
-   * Обновляет слэш-команду.
+   * Обновляет слэш-команду
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<

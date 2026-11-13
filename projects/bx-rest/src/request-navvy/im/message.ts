@@ -6,7 +6,7 @@ export class BXRestNavvyImMessage {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет сообщение в чат.
+   * Добавляет сообщение в чат
    */
   add(param: iBXRestParamImMessageAdd) {
     return this.Navvy.simple<number, number, iBXRestParamImMessageAdd>(
@@ -16,7 +16,7 @@ export class BXRestNavvyImMessage {
   }
 
   /**
-   * Выполняет команду чат-бота.
+   * Выполняет команду чат-бота
    */
   command(param: iBXRestParamImMessageCommand) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImMessageCommand>(
@@ -26,7 +26,7 @@ export class BXRestNavvyImMessage {
   }
 
   /**
-   * Удаляет сообщение.
+   * Удаляет сообщение
    */
   delete(param: iBXRestParamImMessageDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImMessageDelete>(
@@ -36,7 +36,7 @@ export class BXRestNavvyImMessage {
   }
 
   /**
-   * Изменяет статус «Мне нравится» у сообщения.
+   * Изменяет статус «Мне нравится» у сообщения
    */
   like(param: iBXRestParamImMessageLike) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImMessageLike>(
@@ -46,7 +46,7 @@ export class BXRestNavvyImMessage {
   }
 
   /**
-   * Создаёт чат, задачу или сообщение Ленты новостей из сообщения.
+   * Создаёт чат, задачу или сообщение Ленты новостей из сообщения
    */
   share(param: iBXRestParamImMessageShare) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImMessageShare>(
@@ -56,7 +56,7 @@ export class BXRestNavvyImMessage {
   }
 
   /**
-   * Изменяет отправленное сообщение.
+   * Изменяет отправленное сообщение
    */
   update(param: iBXRestParamImMessageUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImMessageUpdate>(

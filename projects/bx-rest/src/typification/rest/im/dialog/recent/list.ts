@@ -14,6 +14,12 @@ export interface iBXRestImDialogRecentListParam {
 
   /** Дата из последнего элемента предыдущей выборки */
   LAST_MESSAGE_DATE?: Date
+
+  /** Смещение от начала списка. По умолчанию 0. Следующая страница — `OFFSET` плюс `LIMIT` */
+  OFFSET?: number
+
+  /** Число записей на странице. По умолчанию 50, не больше 200 */
+  LIMIT?: number
 }
 
 
@@ -224,4 +230,8 @@ export interface iBXRestImDialogRecentListHttp extends iBXRestImDialogRecentList
 // Общий формат ответа API
 export interface iBXRestImDialogRecentListBase {
   items: iBXRestImDialogRecentListChatListItemBase[]
+  /** Есть ли следующая страница */
+  hasMore?: boolean
+  /** Устаревшее название `hasMore` */
+  hasMorePages?: boolean
 }

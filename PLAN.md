@@ -1,13 +1,13 @@
 # План развития bx-rest
 
-Обновлён 2026-11-13. Здесь только открытые пункты и принятые решения. Что уже выпущено, описано в [CHANGELOG](projects/bx-rest/CHANGELOG.md).
+Обновлён 2026-11-13 (раздел 2 сделан). Здесь только открытые пункты и принятые решения. Что уже выпущено, описано в [CHANGELOG](projects/bx-rest/CHANGELOG.md).
 
 Последний выпуск — 1.7.0 (2026-11-11, коммит `e25ed81`, опубликован в npm).
 
 | Раздел | Статус |
 | --- | --- |
 | [1. Проверки на портале](#1-проверки-на-портале) | Тестируется |
-| [2. Пагинация: оставшиеся методы](#2-пагинация-оставшиеся-методы) | Нужны свои классы пагинации |
+| [2. Пагинация: оставшиеся методы](#2-пагинация-оставшиеся-методы) | Сделано, не выпущено |
 | [3. Веб-сокеты: клиент pull](#3-веб-сокеты-клиент-pull) | Нужно решение после проверки на портале |
 | [4. Учёт времени в задачах](#4-учёт-времени-в-задачах) | Предложения, меняют поведение |
 | [5. Отложено](#5-отложено) | Публичный batch, типизация |
@@ -26,20 +26,26 @@
 | Ответ `pull.channel.public.get` | Метода тоже нет в документации |
 | Приходит ли `total` у `booking.v1.booking.list`, `crm.calllist.list`, `sale.propertyGroup.list`, `tasks.task.history.list` | `start` описан, но в примере ответа нет `total`. Если приходит, перевести на `pagNav` и убрать из исключений в [list-pagination.spec.ts](projects/bx-rest/src/rest/list-pagination.spec.ts) |
 | Код ошибки `ERROR_ELEMENT_ALREADY_EXISTS` у `lists.element.add` | На него `startProcFormNewsFeed` повторяет запрос с новым `ELEMENT_CODE`. Код взят из документации |
+| `.resAll()` у методов без `start`, хотя бы по одному из каждой группы: `im.dialog.users.list`, `im.recent.list`, `biconnector.dataset.list`, `mail.message.list`, `note.collection.list` | Обход написан по документации и проверен только на заглушке, см. [раздел 2](#2-пагинация-оставшиеся-методы). Особо: шаг по `next` у `im.*`, перекрытие страниц `im.recent.list`, размер страницы `biconnector` |
+| `main.eventlog.list` и `timeman.record.list` по адресу `rest/api/` | По документации методы есть только в REST v3, и клиент перевели на этот адрес. По старому адресу они не проверялись |
 
 ## 2. Пагинация: оставшиеся методы
 
-В 1.7.0 `.resAll()` получили 59 методов. Тест [list-pagination.spec.ts](projects/bx-rest/src/rest/list-pagination.spec.ts) обходит все методы клиента: у каждого `*.list`, `*.getlist` и `*.items` либо есть `.resAll()`, либо он стоит в списке исключений с причиной. Когда метод получает `.resAll()`, тест требует убрать его из исключений.
+Сделано 2026-11-13, в CHANGELOG — `[Unreleased]`. `.resAll()` получили 16 методов, которые листаются не через `start`:
 
-Эти методы листаются не через `start`, для них нужны свои классы:
-
-| Как листается | Методы | Что нужно |
+| Как листается | Методы | Класс |
 | --- | --- | --- |
-| `OFFSET`/`LIMIT` | `im.dialog.users.list`, `im.department.colleagues.list`, `im.recent.list`, `im.search.*.list`, `imbot.v2.Bot.list`, `sign.b2e.company.provider.list` | Отдельный класс пагинации |
-| Номер страницы без `total` | `biconnector.{connector,dataset,source}.list` | Последовательный обход до неполной страницы |
-| Объект `pagination` REST v3 без `total` | `mail.mailbox.list`, `mail.message.list`, `main.eventlog.list`, `note.collection.list` (курсор), `note.document.search.list`, `timeman.record.list` | Последовательный обход, отдельно — курсор |
+| `OFFSET`/`LIMIT` с `total` | `im.dialog.users.list`, `im.department.colleagues.list`, `im.search.{chat,department,user}.list` | `NavvyPagOffset`: остальные страницы через `batch` |
+| `OFFSET`/`LIMIT` или номер страницы без `total` | `im.recent.list`, `imbot.v2.Bot.list`, `sign.b2e.company.provider.list`, `biconnector.{connector,dataset,source}.list` | `NavvyPagSequential`: по одной странице |
+| Объект `pagination` REST v3 | `mail.mailbox.list`, `mail.message.list`, `main.eventlog.list`, `timeman.record.list`, `note.collection.list` (курсор) | `NavvyPagSequential` |
 
-Ещё 4 метода ждут проверки на портале, см. [раздел 1](#1-проверки-на-портале). Остальные исключения — методы без пагинации (отдают весь список одним ответом) и описания полей `*.field.list`, там менять нечего.
+Способы обхода конкретных методов лежат в [sequential-navs.ts](projects/bx-rest/src/services/navvy/sequential-navs.ts), тесты на заглушке портала — в [list-pagination-methods.spec.ts](projects/bx-rest/src/rest/list-pagination-methods.spec.ts). Попутно исправлены `.res()` у `im.dialog.users.list` (маппер падал на массиве) и адрес REST v3 у `main.eventlog.*` и `timeman.record.*`.
+
+Открыто:
+
+- Проверка на портале, см. [раздел 1](#1-проверки-на-портале). Там же ещё 4 метода, у которых не подтверждён `start`.
+- `note.document.search.list` листать нельзя: в ответе есть `hasMore`, но нет курсора. Он остаётся в исключениях.
+- Остальные исключения — методы без пагинации (отдают весь список одним ответом) и описания полей `*.field.list`, там менять нечего.
 
 ## 3. Веб-сокеты: клиент pull
 
@@ -126,4 +132,6 @@ REST-методы раздела доведены в 1.7.0. Клиента ве�
   - комментарий к `parseDateHeuristically` ([base.ts:200](projects/bx-rest/src/services/base.ts#L200)) обещает не угадывать порядок день/месяц, а код угадывает: `03/04/2026` в американском порядке станет 3 апреля. Поправить комментарий.
 - **Уязвимости демо** (на 2026-11-05). Vue: 1 высокая (`source-map-js`). Angular: 4 высокие и 5 средних.
 - **Сверка с документацией.** Параметры и типы результатов 1402 методов не сверялись, только имена.
+- **Методы только из REST v3 по старому адресу** (найдено 2026-11-13). По документации 11 методов `tasks.*` есть только в REST v3, а клиент вызывает их по адресу `rest/`, где портал отвечает `ERROR_METHOD_NOT_FOUND`: `tasks.task.access.get`, `tasks.task.chat.message.send`, `tasks.task.chat.message.field.{get,list}`, `tasks.task.field.{get,list}`, `tasks.task.file.attach`, `tasks.task.result.{add,addfromchatmessage,delete,update}`. Исправление — `simpleV3` вместо `simple`. Заодно можно добавить тест, который сверяет адрес методов со списком REST v3 из документации. `main.eventlog.*` и `timeman.record.*` уже исправлены вместе с [разделом 2](#2-пагинация-оставшиеся-методы).
+  - **Адрес REST v3 у вебхука.** `simpleV3` дописывает `api/` в конец базового адреса. У приложения выходит верно (`rest/api/<метод>`), а у вебхука из README получается `rest/1/CODE/api/<метод>`. Документация и b24jssdk (`hook/auth.ts`) ставят `api` перед данными вебхука: `rest/api/1/CODE/<метод>`. На портале не проверялось. Предложение: при `restApi` вставлять `api/` сразу после сегмента `rest/` и добавить тест на оба вида адреса.
 - **Документация** (низкий приоритет, 2026-11-13). README — около 1100 строк, руководство и справочник в одном файле. 2026-11-12 разделы переставлены и упрощены без сокращения. Дальше можно вынести справочные части (таблица команд `BXRestFrame`, подробности продления авторизации, middleware) в `docs/` и оставить в README руководство с короткими примерами. Ещё вопрос: пункт «Автоматическое получение токена авторизации» в «Планах на будущее» README частично закрыт `BXRestFrame.getAuth()` и `auth.refresh`.

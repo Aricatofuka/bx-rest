@@ -17,7 +17,7 @@ export class BXRestNavvyImOpenLinesConfig  {
   public readonly path = new BXRestNavvyImOpenLinesConfigPath()
 
   /**
-   * Добавляет новую открытую линию.
+   * Добавляет новую открытую линию
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyImOpenLinesConfig  {
   }
 
   /**
-   * Удаляет открытую линию.
+   * Удаляет открытую линию
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -39,7 +39,7 @@ export class BXRestNavvyImOpenLinesConfig  {
   }
 
   /**
-   * Возвращает открытую линию по идентификатору.
+   * Возвращает открытую линию по идентификатору
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -50,7 +50,7 @@ export class BXRestNavvyImOpenLinesConfig  {
   }
 
   /**
-   * Изменяет настройки открытой линии.
+   * Изменяет настройки открытой линии
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<

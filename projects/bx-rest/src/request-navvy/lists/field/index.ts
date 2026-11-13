@@ -19,7 +19,7 @@ export default class BXRestNavvyListsField {
   public readonly type = new BXRestNavvyListsFieldType()
 
   /**
-   * Создаёт поле списка.
+   * Создаёт поле списка
    */
   add(param: iBXRestParamListsFieldAdd) {
     return this.Navvy.simple<string, string, iBXRestParamListsFieldAdd>(
@@ -29,7 +29,7 @@ export default class BXRestNavvyListsField {
   }
 
   /**
-   * Удаляет поле списка.
+   * Удаляет поле списка
    */
   delete(param: iBXRestParamListsFieldDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsFieldDelete>(
@@ -39,7 +39,7 @@ export default class BXRestNavvyListsField {
   }
 
   /**
-   * Возвращает данные поля.
+   * Возвращает данные поля
    */
   get(param: iBXRestParamListField) {
     return this.Navvy.pagNavWithUselessKey<
@@ -50,7 +50,7 @@ export default class BXRestNavvyListsField {
   }
 
   /**
-   * Обновляет поле списка.
+   * Обновляет поле списка
    */
   update(param: iBXRestParamListsFieldUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsFieldUpdate>(

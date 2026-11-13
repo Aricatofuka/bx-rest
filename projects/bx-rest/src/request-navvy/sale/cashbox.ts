@@ -16,7 +16,7 @@ export class BXRestNavvySaleCashbox  {
    */
   public readonly handler = new BXRestNavvySaleCashboxHandler()
   /**
-   * Добавляет кассу.
+   * Добавляет кассу
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySaleCashbox  {
     >([$sale, $cashbox, $add], param)
   }
   /**
-   * Удаляет кассу.
+   * Удаляет кассу
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySaleCashbox  {
     >([$sale, $cashbox, $delete], param)
   }
   /**
-   * Возвращает список касс.
+   * Возвращает список касс
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvySaleCashbox  {
     >([$sale, $cashbox, $list], param)
   }
   /**
-   * Обновляет кассу.
+   * Обновляет кассу
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

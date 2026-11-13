@@ -32,7 +32,7 @@ export class BXRestNavvyImBotV2Chat  {
   public readonly user = new BXRestNavvyImBotV2ChatUser()
 
   /**
-   * Создаёт групповой чат.
+   * Создаёт групповой чат
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -43,7 +43,7 @@ export class BXRestNavvyImBotV2Chat  {
   }
 
   /**
-   * Возвращает информацию о чате.
+   * Возвращает информацию о чате
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -54,7 +54,7 @@ export class BXRestNavvyImBotV2Chat  {
   }
 
   /**
-   * Выводит бота из чата.
+   * Выводит бота из чата
    */
   leave(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -65,7 +65,7 @@ export class BXRestNavvyImBotV2Chat  {
   }
 
   /**
-   * Назначает нового владельца чата.
+   * Назначает нового владельца чата
    */
   setOwner(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -76,7 +76,7 @@ export class BXRestNavvyImBotV2Chat  {
   }
 
   /**
-   * Обновляет свойства чата.
+   * Обновляет свойства чата
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<

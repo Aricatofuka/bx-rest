@@ -15,7 +15,7 @@ export class BXRestNavvyServer {
    *
    * Исходный ответ REST API имеет формат ISO 8601
    * `YYYY-MM-DDThh:mm:ss±hh:mm`; получить его без преобразования можно через
-   * `resVanilla()` у возвращаемого навигатора.
+   * `resVanilla()` у возвращаемого навигатора
    */
   time() {
     return this.Navvy.simple<string, Date, undefined>(

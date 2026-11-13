@@ -87,7 +87,7 @@ export class SessionKeyServices {
   /**
    * Стоит ли прикладывать браузерные cookie к запросу (axios `withCredentials`).
    * Явный `BXRestSettings.withCredentials` имеет приоритет; если не задан —
-   * сохраняется историческое поведение: включаем только для `auth.key === 'OAuth2'`.
+   * сохраняется историческое поведение: включаем только для `auth.key === 'OAuth2'`
    */
   getWithCredentials(): boolean {
     if (typeof this.BX_REST_SETTINGS.withCredentials === 'boolean') {
@@ -98,13 +98,13 @@ export class SessionKeyServices {
 
   /**
    * Статичные заголовки из `BXRestSettings.headers` — копия, чтобы правка
-   * результата не меняла сами настройки.
+   * результата не меняла сами настройки
    */
   getHeaders(): Record<string, string> {
     return { ...this.BX_REST_SETTINGS.headers }
   }
 
-  /** Свои middleware из настроек (`middleware`), читаются при каждом запросе — как и остальные настройки. */
+  /** Свои middleware из настроек (`middleware`), читаются при каждом запросе — как и остальные настройки */
   getMiddleware(): readonly BXRestMiddleware[] {
     return this.BX_REST_SETTINGS.middleware ?? []
   }

@@ -6,7 +6,7 @@ export class BXRestNavvySignB2EDocument  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает информацию о документе и участниках подписания.
+   * Возвращает информацию о документе и участниках подписания
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySignB2EDocument  {
     >([$sign, $b2e, $document, $get], param)
   }
   /**
-   * Отправляет документ на подписание.
+   * Отправляет документ на подписание
    */
   public send(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

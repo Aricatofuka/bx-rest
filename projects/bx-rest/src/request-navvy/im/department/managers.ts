@@ -6,7 +6,7 @@ export class BXRestNavvyImDepartmentManagers {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список руководителей подразделений.
+   * Возвращает список руководителей подразделений
    */
   get(param: iBXRestParamImDepartmentManagersGet) {
     return this.Navvy.simple<

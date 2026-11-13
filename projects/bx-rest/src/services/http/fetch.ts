@@ -15,7 +15,7 @@ export class BXRestHttpError extends Error {
 /**
  * Транспорт `transport: 'fetch'`: глобальный `fetch` браузера или Node 18+.
  * Тело ответа разбирается как JSON, а если это не JSON (например, HTML от
- * прокси) — отдаётся строкой, как это делает axios.
+ * прокси) — отдаётся строкой, как это делает axios
  */
 export async function fetchSend(config: BXRestRequestConfig): Promise<unknown> {
   let body: string | undefined

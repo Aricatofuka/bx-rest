@@ -6,7 +6,7 @@ export class BXRestNavvySignB2EMySafe  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список подписанных документов в сейфе компании.
+   * Возвращает список подписанных документов в сейфе компании
    */
   public tail(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

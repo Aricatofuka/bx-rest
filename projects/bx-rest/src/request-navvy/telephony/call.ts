@@ -6,7 +6,7 @@ export class BXRestNavvyTelephonyCall  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет расшифровку записи к звонку.
+   * Добавляет расшифровку записи к звонку
    */
   attachTranscription(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$telephony, $call, $attachTranscription], param)

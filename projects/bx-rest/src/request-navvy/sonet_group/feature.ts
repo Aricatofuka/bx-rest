@@ -13,7 +13,7 @@ export class BXRestNavvySonetGroupFeature {
   }
 
   /**
-   * Проверяет права текущего пользователя на функциональность группы.
+   * Проверяет права текущего пользователя на функциональность группы
    */
   access(param: iBXRestParamSonetGroupFeatureAccess) {
     return this.Navvy.simple<

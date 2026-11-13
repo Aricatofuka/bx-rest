@@ -6,7 +6,7 @@ export class BXRestNavvyDocumentGeneratorRole  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет роль и возвращает её данные вместе с правами.
+   * Добавляет роль и возвращает её данные вместе с правами
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyDocumentGeneratorRole  {
   }
 
   /**
-   * Удаляет роль по идентификатору.
+   * Удаляет роль по идентификатору
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyDocumentGeneratorRole  {
   }
 
   /**
-   * Полностью перезаписывает привязки роли к кодам доступа.
+   * Полностью перезаписывает привязки роли к кодам доступа
    */
   fillAccesses(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -39,7 +39,7 @@ export class BXRestNavvyDocumentGeneratorRole  {
   }
 
   /**
-   * Возвращает роль по идентификатору вместе с правами.
+   * Возвращает роль по идентификатору вместе с правами
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -50,7 +50,7 @@ export class BXRestNavvyDocumentGeneratorRole  {
   }
 
   /**
-   * Возвращает список ролей без детального состава прав.
+   * Возвращает список ролей без детального состава прав
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -61,7 +61,7 @@ export class BXRestNavvyDocumentGeneratorRole  {
   }
 
   /**
-   * Обновляет роль и возвращает актуальные данные.
+   * Обновляет роль и возвращает актуальные данные
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<

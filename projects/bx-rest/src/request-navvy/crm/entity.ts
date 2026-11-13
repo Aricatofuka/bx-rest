@@ -15,9 +15,9 @@ export class BXRestNavvyCrmEntity {
   /**
    * Объединяет несколько CRM-объектов одного типа.
    * Первый идентификатор определяет главный объект; остальные объекты удаляются после успеха.
-   * При статусе `CONFLICT` конфликтующие значения необходимо объединить вручную в интерфейсе Bitrix24.
+   * При статусе `CONFLICT` конфликтующие значения необходимо объединить вручную в интерфейсе Bitrix24
    *
-   * @param param Тип объекта и идентификаторы как минимум двух объединяемых элементов.
+   * @param param Тип объекта и идентификаторы как минимум двух объединяемых элементов
    * @see https://apidocs.bitrix24.ru/api-reference/crm/duplicates/crm-entity-merge-batch.html
    */
   mergeBatch(param: iBXRestParamCrmEntityMergeBatch) {

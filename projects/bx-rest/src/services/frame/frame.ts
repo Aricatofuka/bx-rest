@@ -123,7 +123,7 @@ export class BXRestFrame {
   /**
    * Данные запуска приложения — аналог `BX24.init()`: язык, домен, права,
    * встраивание, настройки, признаки установки. Запрашиваются у портала
-   * один раз, дальше берутся из памяти. Токенов здесь нет — см. `getAuth()`.
+   * один раз, дальше берутся из памяти. Токенов здесь нет — см. `getAuth()`
    */
   init(): Promise<iBXRestFrameInit> {
     if (this.initValue) {
@@ -145,7 +145,7 @@ export class BXRestFrame {
    *
    * `expires_in` портал считает от срока жизни токена в момент выдачи, а не
    * от остатка: если страница открыта давно, значение будет завышено (так
-   * же и у BX24.js). Для свежего токена используйте `refreshAuth()`.
+   * же и у BX24.js). Для свежего токена используйте `refreshAuth()`
    */
   async getAuth(): Promise<iBXRestFrameAuth> {
     const data = await this.getInitData()
@@ -156,7 +156,7 @@ export class BXRestFrame {
    * Новая авторизация приложения — аналог `BX24.refreshAuth()`: портал
    * выпускает новую пару `access_token`/`refresh_token`. Если портал не может
    * выдать токен, он показывает `alert` «Unable to get new token!» и не
-   * отвечает — тогда ошибка `TIMEOUT`.
+   * отвечает — тогда ошибка `TIMEOUT`
    */
   async refreshAuth(): Promise<iBXRestFrameAuth> {
     // member_id приходит только в getInitData — refreshAuth его не возвращает
@@ -168,7 +168,7 @@ export class BXRestFrame {
   /**
    * Завершить установку — аналог `BX24.installFinish()`: портал отмечает
    * приложение установленным и перезагружает страницу. Делает что-то только
-   * на странице установщика (`init().install`), иначе — ничего, как и BX24.js.
+   * на странице установщика (`init().install`), иначе — ничего, как и BX24.js
    */
   async installFinish(): Promise<void> {
     if ((await this.init()).install) {
@@ -180,7 +180,7 @@ export class BXRestFrame {
    * Отметить, что первый запуск у этого пользователя пройден, — то, что
    * BX24.js делает после последнего обработчика `BX24.install()`. Без этого
    * `init().firstRun` останется `true` и при следующих запусках. Делает
-   * что-то только при первом запуске.
+   * что-то только при первом запуске
    */
   async firstRunFinish(): Promise<void> {
     const init = await this.init()
@@ -190,7 +190,7 @@ export class BXRestFrame {
     }
   }
 
-  /** Задать размер фрейма — `BX24.resizeWindow()`. Возвращает размер, который выставил портал. */
+  /** Задать размер фрейма — `BX24.resizeWindow()`. Возвращает размер, который выставил портал */
   async resizeWindow(width: number | string, height: number | string): Promise<iBXRestFrameSize | undefined> {
     const w = Number.parseInt(String(width), 10)
     const h = Number.parseInt(String(height), 10)
@@ -200,7 +200,7 @@ export class BXRestFrame {
     return await this.ack('resizeWindow', { width: w, height: h }) as iBXRestFrameSize | undefined
   }
 
-  /** Подогнать высоту фрейма под содержимое — `BX24.fitWindow()`. */
+  /** Подогнать высоту фрейма под содержимое — `BX24.fitWindow()` */
   async fitWindow(): Promise<iBXRestFrameSize | undefined> {
     const root = document.documentElement
     const height = Math.max(root.scrollHeight, root.offsetHeight)
@@ -209,18 +209,18 @@ export class BXRestFrame {
 
   /**
    * Перезагрузить страницу портала с приложением — `BX24.reloadWindow()`.
-   * Портал на эту команду не отвечает.
+   * Портал на эту команду не отвечает
    */
   async reloadWindow(): Promise<void> {
     this.transport.post('reloadWindow', {})
   }
 
-  /** Заголовок страницы портала — `BX24.setTitle()`. */
+  /** Заголовок страницы портала — `BX24.setTitle()` */
   async setTitle(title: string): Promise<{ title: string } | undefined> {
     return await this.ack('setTitle', { title: String(title) }) as { title: string } | undefined
   }
 
-  /** Прокрутить страницу портала — `BX24.scrollParentWindow()`. */
+  /** Прокрутить страницу портала — `BX24.scrollParentWindow()` */
   async scrollParentWindow(scroll: number | string): Promise<{ scroll: number } | undefined> {
     const value = Number.parseInt(String(scroll), 10)
     if (Number.isNaN(value)) {
@@ -233,26 +233,26 @@ export class BXRestFrame {
    * Диалог выбора одного сотрудника — `BX24.selectUser()`. Ждёт выбора без
    * ограничения по времени: если пользователь закрыл диалог, портал не
    * отвечает вовсе. Отменить ожидание — `signal` или новый вызов
-   * `selectUser()`/`selectUsers()` (ошибка `CANCELLED`).
+   * `selectUser()`/`selectUsers()` (ошибка `CANCELLED`)
    */
   selectUser(options: { title?: string, signal?: AbortSignal } = {}): Promise<iBXRestFrameUser> {
     return this.dialog('user', 'selectUser', { title: options.title ?? '', mult: false }, options.signal) as Promise<iBXRestFrameUser>
   }
 
-  /** Диалог выбора нескольких сотрудников — `BX24.selectUsers()`. Ожидание — как у `selectUser()`. */
+  /** Диалог выбора нескольких сотрудников — `BX24.selectUsers()`. Ожидание — как у `selectUser()` */
   selectUsers(options: { title?: string, signal?: AbortSignal } = {}): Promise<iBXRestFrameUser[]> {
     return this.dialog('user', 'selectUser', { title: options.title ?? '', mult: true }, options.signal) as Promise<iBXRestFrameUser[]>
   }
 
   /**
    * Диалог выбора прав доступа — `BX24.selectAccess()`. `value` — коды,
-   * которые нельзя выбрать. Ожидание — как у `selectUser()`.
+   * которые нельзя выбрать. Ожидание — как у `selectUser()`
    */
   selectAccess(options: { value?: string[], signal?: AbortSignal } = {}): Promise<iBXRestFrameAccess[]> {
     return this.dialog('access', 'selectAccess', { value: options.value ?? [] }, options.signal) as Promise<iBXRestFrameAccess[]>
   }
 
-  /** Диалог выбора объектов CRM — `BX24.selectCRM()`. Ожидание — как у `selectUser()`. */
+  /** Диалог выбора объектов CRM — `BX24.selectCRM()`. Ожидание — как у `selectUser()` */
   selectCRM(options: iBXRestFrameCrmSelectOptions = {}): Promise<iBXRestFrameCrmSelection> {
     const { entityType, multiple, value, signal } = options
     return this.dialog('crm', 'selectCRM', { entityType, multiple, value }, signal) as Promise<iBXRestFrameCrmSelection>
@@ -261,7 +261,7 @@ export class BXRestFrame {
   /**
    * Открыть приложение в слайдере — `BX24.openApplication()`. Промис
    * завершается, когда слайдер закрыли. `settings` — настройки слайдера
-   * (уходят как `bx24_<ключ>`, как в BX24.js).
+   * (уходят как `bx24_<ключ>`, как в BX24.js)
    */
   async openApplication(
     params: Record<string, unknown> = {},
@@ -278,7 +278,7 @@ export class BXRestFrame {
   /**
    * Открыть страницу портала в слайдере — `BX24.openPath()`. Промис
    * завершается, когда слайдер закрыли (`{ result: 'close' }`), или сразу,
-   * если путь не открылся (`{ result: 'error', errorCode }`).
+   * если путь не открылся (`{ result: 'error', errorCode }`)
    */
   async openPath(path: string, options: { signal?: AbortSignal } = {}): Promise<iBXRestFrameOpenPathResult> {
     return await this.transport.request('openPath', { path }, { timeout: false, signal: options.signal }) as iBXRestFrameOpenPathResult
@@ -287,7 +287,7 @@ export class BXRestFrame {
   /**
    * Закрыть слайдер с приложением — `BX24.closeApplication()`. Если
    * приложение открыто не в слайдере, ничего не происходит. Узнать о
-   * закрытии может открывший слайдер — через `openApplication()`.
+   * закрытии может открывший слайдер — через `openApplication()`
    */
   async closeApplication(): Promise<void> {
     this.transport.post('closeApplication', null)
@@ -296,7 +296,7 @@ export class BXRestFrame {
   /**
    * Команда, на которую портал отвечает подтверждением. В некоторых
    * встраиваниях портал на такие команды не отвечает (так считает и
-   * b24jssdk) — тогда промис завершается с `undefined`, а не ошибкой.
+   * b24jssdk) — тогда промис завершается с `undefined`, а не ошибкой
    */
   private ack(command: string, params: unknown): Promise<unknown> {
     return this.transport.request(command, params, { timeout: this.timeout, onTimeout: 'resolve' })
@@ -306,7 +306,7 @@ export class BXRestFrame {
    * Диалоги ждут пользователя без таймаута. Портал держит один обработчик
    * на диалог (у выбора сотрудников он общий для `selectUser` и
    * `selectUsers`) и на прошлый вызов уже не ответит — поэтому новый вызов
-   * отменяет ожидание прошлого.
+   * отменяет ожидание прошлого
    */
   private dialog(kind: 'user' | 'access' | 'crm', command: string, params: unknown, signal?: AbortSignal): Promise<unknown> {
     this.dialogs.get(kind)?.abort()

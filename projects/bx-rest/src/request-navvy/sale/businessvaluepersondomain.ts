@@ -6,7 +6,7 @@ export class BXRestNavvySaleBusinessValuePersonDomain  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет соответствие типа плательщика и типа пользовательского поля.
+   * Добавляет соответствие типа плательщика и типа пользовательского поля
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySaleBusinessValuePersonDomain  {
     >([$sale, $businessValuePersonDomain, $add], param)
   }
   /**
-   * Удаляет соответствия типа плательщика по фильтру.
+   * Удаляет соответствия типа плательщика по фильтру
    */
   public deleteByFilter(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvySaleBusinessValuePersonDomain  {
   ], param)
   }
   /**
-   * Возвращает описание полей соответствия типа плательщика.
+   * Возвращает описание полей соответствия типа плательщика
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -38,7 +38,7 @@ export class BXRestNavvySaleBusinessValuePersonDomain  {
     >([$sale, $businessValuePersonDomain, $getFieldsExact], param)
   }
   /**
-   * Возвращает список соответствий типов плательщиков.
+   * Возвращает список соответствий типов плательщиков
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<

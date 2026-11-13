@@ -29,7 +29,7 @@ export class BXRestNavvyCrmEnum {
   public readonly settings = new BXRestNavvyCrmEnumSettings()
 
   /**
-   * Возвращает описание полей элементов перечислений CRM.
+   * Возвращает описание полей элементов перечислений CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/enum/crm-enum-fields.html
    */
@@ -38,7 +38,7 @@ export class BXRestNavvyCrmEnum {
   }
 
   /**
-   * Возвращает типы объектов CRM.
+   * Возвращает типы объектов CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/enum/crm-enum-owner-type.html
    */
@@ -47,7 +47,7 @@ export class BXRestNavvyCrmEnum {
   }
 
   /**
-   * Возвращает типы адресов CRM.
+   * Возвращает типы адресов CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/enum/crm-enum-address-type.html
    */
@@ -56,9 +56,9 @@ export class BXRestNavvyCrmEnum {
   }
 
   /**
-   * Возвращает значения поля `TYPE_ID` дел CRM.
+   * Возвращает значения поля `TYPE_ID` дел CRM
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-type.html
    */
   activitytype() {
@@ -66,9 +66,9 @@ export class BXRestNavvyCrmEnum {
   }
 
   /**
-   * Возвращает приоритеты дел CRM.
+   * Возвращает приоритеты дел CRM
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-priority.html
    */
   activitypriority() {
@@ -76,9 +76,9 @@ export class BXRestNavvyCrmEnum {
   }
 
   /**
-   * Возвращает направления активности: входящее и исходящее.
+   * Возвращает направления активности: входящее и исходящее
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-direction.html
    */
   activitydirection() {
@@ -86,9 +86,9 @@ export class BXRestNavvyCrmEnum {
   }
 
   /**
-   * Возвращает типы уведомлений о начале активности.
+   * Возвращает типы уведомлений о начале активности
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-notify-type.html
    */
   activitynotifytype() {
@@ -96,9 +96,9 @@ export class BXRestNavvyCrmEnum {
   }
 
   /**
-   * Возвращает статусы активности.
+   * Возвращает статусы активности
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/enum/outdated/crm-enum-activity-status.html
    */
   activitystatus() {
@@ -106,9 +106,9 @@ export class BXRestNavvyCrmEnum {
   }
 
   /**
-   * Возвращает типы описания дел: plain text, bbCode и HTML.
+   * Возвращает типы описания дел: plain text, bbCode и HTML
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.activity.todo.*`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/enum/outdated/crm-enum-content-type.html
    */
   contenttype() {
@@ -117,7 +117,7 @@ export class BXRestNavvyCrmEnum {
 
   /**
    * Возвращает типы объектов, к которым можно привязать заказ.
-   * Идентификатор результата передаётся как `ownerTypeId` в `crm.orderentity.*`.
+   * Идентификатор результата передаётся как `ownerTypeId` в `crm.orderentity.*`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/enum/crm-enum-get-order-owner-types.html
    */
@@ -126,7 +126,7 @@ export class BXRestNavvyCrmEnum {
   }
 
   /**
-   * Выполняет запрос перечисления CRM без параметров.
+   * Выполняет запрос перечисления CRM без параметров
    */
   private enumItems(url: string[]) {
     return this.Navvy.simple<iBXRestCrmEnumItem[]>(url)

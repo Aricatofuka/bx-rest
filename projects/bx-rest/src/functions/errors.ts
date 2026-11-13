@@ -25,7 +25,7 @@ export interface BXRestApiErrorDetails {
  * `authRefreshError` field — on the `AxiosError` of `.resVanilla()` and the
  * like, and on the `BXRestApiError` / `Error` of `.res()`.
  *
- * Returns `undefined` when there was no refresh or it succeeded.
+ * Returns `undefined` when there was no refresh or it succeeded
  */
 export function getAuthRefreshError(error: unknown): unknown {
   return (error && typeof error === 'object')
@@ -71,7 +71,7 @@ export class BXRestApiError extends Error {
  * else — a success payload, an HTML page from a proxy, an empty body.
  *
  * An empty `error` still counts: Bitrix answers e.g. `crm.deal.get` for a
- * missing ID with `{ error: '', error_description: 'Not found' }`.
+ * missing ID with `{ error: '', error_description: 'Not found' }`
  */
 export function parseBXRestErrorBody(body: unknown)
   : { error: string, error_description: string | undefined } | undefined {
@@ -106,7 +106,7 @@ export function parseBXRestErrorBody(body: unknown)
  * rejects on those.
  *
  * Returns `undefined` for network errors and for responses that are not a
- * Bitrix error body, so the caller can keep its own handling for them.
+ * Bitrix error body, so the caller can keep its own handling for them
  */
 export function bxRestApiErrorFromHttp(err: unknown, method: string): BXRestApiError | undefined {
   const response = httpErrorResponse(err)
@@ -128,7 +128,7 @@ export function bxRestApiErrorFromHttp(err: unknown, method: string): BXRestApiE
 /**
  * HTTP-ответ из ошибки транспорта: `response: { status, data }`. Так устроен
  * `AxiosError`, и так же должны отклоняться свои транспорты (middleware).
- * Для сетевых ошибок, отмены и прочих ошибок — `undefined`.
+ * Для сетевых ошибок, отмены и прочих ошибок — `undefined`
  */
 export function httpErrorResponse(error: unknown): { status: number, data: unknown } | undefined {
   const response = (error && typeof error === 'object') ? (error as { response?: unknown }).response : undefined

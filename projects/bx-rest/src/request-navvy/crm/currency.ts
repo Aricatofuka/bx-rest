@@ -36,9 +36,9 @@ export class BXRestNavvyCrmCurrency {
   public readonly localizations = new BXRestNavvyCrmCurrencyLocalizations()
 
   /**
-   * Создает новую валюту.
+   * Создает новую валюту
    *
-   * @param param Поля новой валюты, включая код ISO 4217, номинал и курс.
+   * @param param Поля новой валюты, включая код ISO 4217, номинал и курс
    * @see https://apidocs.bitrix24.ru/api-reference/crm/currency/crm-currency-add.html
    */
   add(param: iBXRestParamCrmCurrencyAdd) {
@@ -46,9 +46,9 @@ export class BXRestNavvyCrmCurrency {
   }
 
   /**
-   * Обновляет существующую валюту.
+   * Обновляет существующую валюту
    *
-   * @param param Идентификатор валюты и изменяемые поля.
+   * @param param Идентификатор валюты и изменяемые поля
    * @see https://apidocs.bitrix24.ru/api-reference/crm/currency/crm-currency-update.html
    */
   update(param: iBXRestParamCrmCurrencyUpdate) {
@@ -56,9 +56,9 @@ export class BXRestNavvyCrmCurrency {
   }
 
   /**
-   * Возвращает валюту по символьному идентификатору.
+   * Возвращает валюту по символьному идентификатору
    *
-   * @param param Символьный идентификатор валюты по ISO 4217.
+   * @param param Символьный идентификатор валюты по ISO 4217
    * @see https://apidocs.bitrix24.ru/api-reference/crm/currency/crm-currency-get.html
    */
   get(param: iBXRestParamCrmCurrencyGet) {
@@ -70,9 +70,9 @@ export class BXRestNavvyCrmCurrency {
   }
 
   /**
-   * Возвращает список валют с локализацией для текущего языка портала.
+   * Возвращает список валют с локализацией для текущего языка портала
    *
-   * @param param Необязательный порядок сортировки.
+   * @param param Необязательный порядок сортировки
    * @see https://apidocs.bitrix24.ru/api-reference/crm/currency/crm-currency-list.html
    */
   list(param: iBXRestParamCrmCurrencyList = {}) {
@@ -84,9 +84,9 @@ export class BXRestNavvyCrmCurrency {
   }
 
   /**
-   * Удаляет валюту.
+   * Удаляет валюту
    *
-   * @param param Символьный идентификатор удаляемой валюты.
+   * @param param Символьный идентификатор удаляемой валюты
    * @see https://apidocs.bitrix24.ru/api-reference/crm/currency/crm-currency-delete.html
    */
   delete(param: iBXRestParamCrmCurrencyDelete) {
@@ -94,7 +94,7 @@ export class BXRestNavvyCrmCurrency {
   }
 
   /**
-   * Возвращает описание полей валюты.
+   * Возвращает описание полей валюты
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/currency/crm-currency-fields.html
    */

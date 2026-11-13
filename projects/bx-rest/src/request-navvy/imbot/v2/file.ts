@@ -6,7 +6,7 @@ export class BXRestNavvyImBotV2File  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает ссылку для скачивания файла.
+   * Возвращает ссылку для скачивания файла
    */
   download(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyImBotV2File  {
   }
 
   /**
-   * Загружает файл в чат.
+   * Загружает файл в чат
    */
   upload(param: iBXRestGenericParams) {
     return this.Navvy.simple<

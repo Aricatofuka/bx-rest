@@ -9,7 +9,7 @@ export class BXRestNavvyListsFieldType {
   }
 
   /**
-   * Возвращает доступные типы полей для указанного списка.
+   * Возвращает доступные типы полей для указанного списка
    */
   get(param: iBXRestParamListsFieldTypeGet) {
     return this.Navvy.simple<

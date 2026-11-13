@@ -3,15 +3,12 @@ import { iBXRestImDialogUserGet, iBXRestImDialogUserGetHttp } from '../../../typ
 
 export class BXRestMapImDialogUsers {
 
-  static list(value: iBXRestImDialogUserGetHttp | undefined): iBXRestImDialogUserGet | undefined {
-    return (value)
-      ? {
-        ...value,
-        ...{
-          last_activity_date: toDate(value.last_activity_date),
-          mobile_last_date: value.mobile_last_date ? toDate(value.mobile_last_date) : false,
-        }
-      }
-      : undefined
+  /** `result` метода `im.dialog.users.list` — массив участников */
+  static list(value: iBXRestImDialogUserGetHttp[] | undefined): iBXRestImDialogUserGet[] | undefined {
+    return value?.map(user => ({
+      ...user,
+      last_activity_date: toDate(user.last_activity_date),
+      mobile_last_date: user.mobile_last_date ? toDate(user.mobile_last_date) : false,
+    }))
   }
 }

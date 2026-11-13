@@ -52,7 +52,7 @@ export class BXRestNavvyCrmRequisite {
    * Создает реквизит компании или контакта.
    *
    * `ENTITY_TYPE_ID` принимает `3` для контакта или `4` для компании.
-   * Набор полей `RQ_*` зависит от выбранного `PRESET_ID`.
+   * Набор полей `RQ_*` зависит от выбранного `PRESET_ID`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/universal/crm-requisite-add.html
    */
@@ -66,7 +66,7 @@ export class BXRestNavvyCrmRequisite {
   /**
    * Изменяет реквизит, включая его стандартные `RQ_*` и пользовательские `UF_CRM_*` поля.
    *
-   * Адреса и банковские реквизиты изменяются отдельными вложенными навигаторами.
+   * Адреса и банковские реквизиты изменяются отдельными вложенными навигаторами
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/universal/crm-requisite-update.html
    */
@@ -79,7 +79,7 @@ export class BXRestNavvyCrmRequisite {
   }
 
   /**
-   * Возвращает реквизит по идентификатору.
+   * Возвращает реквизит по идентификатору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/universal/crm-requisite-get.html
    */
@@ -95,7 +95,7 @@ export class BXRestNavvyCrmRequisite {
    * Возвращает реквизиты по фильтру.
    *
    * Пользовательские поля не входят в результат по умолчанию: нужные `UF_CRM_*`
-   * следует явно передать в `select`.
+   * следует явно передать в `select`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/universal/crm-requisite-list.html
    */
@@ -108,7 +108,7 @@ export class BXRestNavvyCrmRequisite {
   }
 
   /**
-   * Удаляет реквизит вместе со связанными адресами, банковскими реквизитами и связями.
+   * Удаляет реквизит вместе со связанными адресами, банковскими реквизитами и связями
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/universal/crm-requisite-delete.html
    */
@@ -121,7 +121,7 @@ export class BXRestNavvyCrmRequisite {
   }
 
   /**
-   * Возвращает формальное описание полей реквизита, включая зарегистрированные `UF_CRM_*`.
+   * Возвращает формальное описание полей реквизита, включая зарегистрированные `UF_CRM_*`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/universal/crm-requisite-fields.html
    */

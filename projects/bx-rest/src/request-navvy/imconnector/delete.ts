@@ -6,7 +6,7 @@ export class BXRestNavvyImConnectorDelete  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Удаляет отправленные сообщения.
+   * Удаляет отправленные сообщения
    */
   messages(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$imconnector, $delete, $messages], param)

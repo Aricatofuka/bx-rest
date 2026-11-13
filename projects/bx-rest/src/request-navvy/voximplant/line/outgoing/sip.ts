@@ -6,7 +6,7 @@ export class BXRestNavvyVoxImplantLineOutgoingSip  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Устанавливает исходящую SIP-линию по умолчанию.
+   * Устанавливает исходящую SIP-линию по умолчанию
    */
   set(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$voximplant, $line, $outgoing, $sip, $set], param)

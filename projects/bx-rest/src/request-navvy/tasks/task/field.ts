@@ -6,14 +6,14 @@ export class BXRestNavvyTasksTaskField  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает описание поля задачи.
+   * Возвращает описание поля задачи
    */
   get(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $field, $get], param)
   }
 
   /**
-   * Возвращает список полей задачи.
+   * Возвращает список полей задачи
    */
   list(param: iBXRestTasksParams = {}) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $field, $list], param)

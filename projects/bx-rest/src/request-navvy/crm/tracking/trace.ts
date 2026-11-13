@@ -6,7 +6,7 @@ export class BXRestNavvyCrmTrackingTrace {
   private readonly Navvy = new Navvy()
 
   /**
-   * Создаёт трассировку сквозной аналитики (Sales Intelligence).
+   * Создаёт трассировку сквозной аналитики (Sales Intelligence)
    */
   add(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -15,7 +15,7 @@ export class BXRestNavvyCrmTrackingTrace {
   }
 
   /**
-   * Удаляет трассировку сквозной аналитики.
+   * Удаляет трассировку сквозной аналитики
    */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(

@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogDocument  {
    */
   public readonly mode = new BXRestNavvyCatalogDocumentMode()
   /**
-   * Создаёт документ складского учёта.
+   * Создаёт документ складского учёта
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogDocument  {
     >([$catalog, $document, $add], param)
   }
   /**
-   * Отменяет проведение документа складского учёта.
+   * Отменяет проведение документа складского учёта
    */
   public cancel(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogDocument  {
     >([$catalog, $document, $cancel], param)
   }
   /**
-   * Отменяет проведение нескольких документов складского учёта.
+   * Отменяет проведение нескольких документов складского учёта
    */
   public cancelList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogDocument  {
     >([$catalog, $document, $cancelList], param)
   }
   /**
-   * Проводит документ складского учёта.
+   * Проводит документ складского учёта
    */
   public conduct(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvyCatalogDocument  {
     >([$catalog, $document, $conduct], param)
   }
   /**
-   * Проводит несколько документов складского учёта.
+   * Проводит несколько документов складского учёта
    */
   public conductList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -66,7 +66,7 @@ export class BXRestNavvyCatalogDocument  {
     >([$catalog, $document, $conductList], param)
   }
   /**
-   * Удаляет документ складского учёта.
+   * Удаляет документ складского учёта
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -76,7 +76,7 @@ export class BXRestNavvyCatalogDocument  {
     >([$catalog, $document, $delete], param)
   }
   /**
-   * Удаляет несколько документов складского учёта.
+   * Удаляет несколько документов складского учёта
    */
   public deleteList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -86,7 +86,7 @@ export class BXRestNavvyCatalogDocument  {
     >([$catalog, $document, $deleteList], param)
   }
   /**
-   * Возвращает описание полей документа складского учёта.
+   * Возвращает описание полей документа складского учёта
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -96,7 +96,7 @@ export class BXRestNavvyCatalogDocument  {
     >([$catalog, $document, $getFieldsExact], param)
   }
   /**
-   * Возвращает список документов складского учёта.
+   * Возвращает список документов складского учёта
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -106,7 +106,7 @@ export class BXRestNavvyCatalogDocument  {
     >([$catalog, $document, $list], param, 'documents')
   }
   /**
-   * Обновляет документ складского учёта.
+   * Обновляет документ складского учёта
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

@@ -9,6 +9,7 @@ import {
   iBXRestImDialogRecentListParam
 } from '../../typification/rest/im'
 import { BXRestMapImRecent } from '../../map/im/recent'
+import { IM_LIST_NAV, offsetNav } from '../../services/navvy/sequential-navs'
 
 export class BXRestNavvyImRecent {
 
@@ -35,12 +36,19 @@ export class BXRestNavvyImRecent {
   }
 
   /**
-   * Получить список чатов
+   * Получить список чатов.
+   *
+   * Страницы на портале могут перекрываться, `.resAll()` убирает повторы чатов
    */
   list(param: iBXRestImDialogRecentListParam) {
-    return this.Navvy.simple<iBXRestImDialogRecentListHttp, iBXRestImDialogRecentList, iBXRestImDialogRecentListParam>(
+    return this.Navvy.pagNavSequential<iBXRestImDialogRecentListHttp, iBXRestImDialogRecentList, iBXRestImDialogRecentListParam>(
       this.url.list,
       param,
+      offsetNav(
+        IM_LIST_NAV,
+        result => Boolean(result?.hasMore ?? result?.hasMorePages),
+        { keys: ['items'], unique: 'id' }
+      ),
       BXRestMapImRecent.list
     )
   }

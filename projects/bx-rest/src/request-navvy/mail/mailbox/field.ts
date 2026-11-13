@@ -6,7 +6,7 @@ export class BXRestNavvyMailMailboxField  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает описание поля почтового ящика.
+   * Возвращает описание поля почтового ящика
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
@@ -17,7 +17,7 @@ export class BXRestNavvyMailMailboxField  {
   }
 
   /**
-   * Возвращает список полей почтового ящика.
+   * Возвращает список полей почтового ящика
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<

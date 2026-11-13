@@ -6,7 +6,7 @@ export class BXRestNavvyImBotV2ChatManager  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет менеджеров чата.
+   * Добавляет менеджеров чата
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyImBotV2ChatManager  {
   }
 
   /**
-   * Удаляет менеджеров чата.
+   * Удаляет менеджеров чата
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<

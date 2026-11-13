@@ -21,7 +21,7 @@ export class BXRestNavvyCalendarMeetingStatus {
   }
 
   /**
-   * Возвращает статус участия текущего пользователя во встрече.
+   * Возвращает статус участия текущего пользователя во встрече
    */
   get(param: iBXRestParamCalendarMeetingStatusGet) {
     return this.Navvy.simple<
@@ -32,7 +32,7 @@ export class BXRestNavvyCalendarMeetingStatus {
   }
 
   /**
-   * Устанавливает статус участия текущего пользователя во встрече.
+   * Устанавливает статус участия текущего пользователя во встрече
    */
   set(param: iBXRestParamCalendarMeetingStatusSet) {
     return this.Navvy.simple<

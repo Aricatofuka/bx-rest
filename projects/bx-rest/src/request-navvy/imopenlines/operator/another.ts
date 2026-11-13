@@ -6,7 +6,7 @@ export class BXRestNavvyImOpenLinesOperatorAnother  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Завершает диалог другого оператора.
+   * Завершает диалог другого оператора
    */
   finish(param: iBXRestGenericParams) {
     return this.Navvy.simple<

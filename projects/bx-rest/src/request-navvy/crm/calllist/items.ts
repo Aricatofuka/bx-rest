@@ -16,9 +16,9 @@ export class BXRestNavvyCrmCallListItems {
    * Возвращает контакты или компании из списка обзвона вместе с их текущими статусами.
    *
    * Для фильтрации передайте `FILTER.STATUS`; доступные коды возвращает
-   * `crm.calllist.statuslist`.
+   * `crm.calllist.statuslist`
    *
-   * @param param Идентификатор списка и необязательный фильтр по статусу.
+   * @param param Идентификатор списка и необязательный фильтр по статусу
    * @see https://apidocs.bitrix24.ru/api-reference/crm/call-list/crm-calllist-items-get.html
    */
   get(param: iBXRestParamCrmCallListItemsGet) {

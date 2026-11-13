@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogProductImage  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет изображение товара.
+   * Добавляет изображение товара
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogProductImage  {
     >([$catalog, $productImage, $add], param)
   }
   /**
-   * Удаляет изображение товара.
+   * Удаляет изображение товара
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogProductImage  {
     >([$catalog, $productImage, $delete], param)
   }
   /**
-   * Возвращает изображение товара по идентификатору.
+   * Возвращает изображение товара по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogProductImage  {
     >([$catalog, $productImage, $get], param)
   }
   /**
-   * Возвращает описание полей изображения товара.
+   * Возвращает описание полей изображения товара
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogProductImage  {
     >([$catalog, $productImage, $getFieldsExact], param)
   }
   /**
-   * Возвращает список изображений товара.
+   * Возвращает список изображений товара
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

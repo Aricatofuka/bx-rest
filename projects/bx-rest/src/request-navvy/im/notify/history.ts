@@ -6,7 +6,7 @@ export class BXRestNavvyImNotifyHistory {
   private readonly Navvy = new Navvy()
 
   /**
-   * Выполняет поиск по истории уведомлений.
+   * Выполняет поиск по истории уведомлений
    */
   search(param: iBXRestParamImNotifyHistorySearch = {}) {
     return this.Navvy.simple<

@@ -6,42 +6,42 @@ export class BXRestNavvyCrmActivityTodo  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Создаёт универсальное дело с расширенными настройками.
+   * Создаёт универсальное дело с расширенными настройками
    */
   add(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $activity, $todo, $add], param)
   }
 
   /**
-   * Обновляет универсальное дело.
+   * Обновляет универсальное дело
    */
   update(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $activity, $todo, $update], param)
   }
 
   /**
-   * Изменяет цвет дела.
+   * Изменяет цвет дела
    */
   updateColor(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $activity, $todo, $updateColor], param)
   }
 
   /**
-   * Изменяет срок исполнения дела.
+   * Изменяет срок исполнения дела
    */
   updateDeadline(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $activity, $todo, $updateDeadline], param)
   }
 
   /**
-   * Изменяет описание дела.
+   * Изменяет описание дела
    */
   updateDescription(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $activity, $todo, $updateDescription], param)
   }
 
   /**
-   * Изменяет ответственного за дело.
+   * Изменяет ответственного за дело
    */
   updateResponsibleUser(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $activity, $todo, $updateResponsibleUser], param)

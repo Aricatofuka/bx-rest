@@ -14,7 +14,7 @@ export class BXRestNavvyOperationDiskStorage {
   private readonly BXRestDiskStorage = new BXRestDiskStorage()
 
   /**
-   * Возвращает (с кэшированием в сессии) общее хранилище приложения.
+   * Возвращает (с кэшированием в сессии) общее хранилище приложения
    */
   getForApp() {
     let res = SessionStorage.getItem<iBXRestAnswer<iBXRestFolderInfo>>(this.constructor.name + this.getForApp.name)
@@ -33,7 +33,7 @@ export class BXRestNavvyOperationDiskStorage {
   }
 
   /**
-   * Возвращает список файлов и папок в хранилище приложения.
+   * Возвращает список файлов и папок в хранилище приложения
    */
   getChildren(param: iBXRestParamGetchildren) {
     return this.BXRestDiskStorage.getChildren(param)
@@ -41,14 +41,14 @@ export class BXRestNavvyOperationDiskStorage {
 
   // TODO: разобраться что возвращает и что вставлять
   /**
-   * Создаёт папку в хранилище приложения.
+   * Создаёт папку в хранилище приложения
    */
   addFolder(param: { id: number, data: { NAME: string } }) {
     return this.BXRestDiskStorage.addFolder(param)
   }
 
   /**
-   * Загружает файл в хранилище приложения.
+   * Загружает файл в хранилище приложения
    */
   uploadFile(param: iBXRestParamUploadFile) {
     return this.BXRestDiskStorage.uploadFile(param)

@@ -6,10 +6,10 @@ export class BXRestNavvyTimemanRecordField {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает описание поля записи о рабочем времени.
+   * Возвращает описание поля записи о рабочем времени
    */
   get(param: iBXRestParamTimemanRecordFieldGet) {
-    return this.Navvy.simple<
+    return this.Navvy.simpleV3<
       iBXRestTimemanItemResult,
       iBXRestTimemanItemResult,
       iBXRestParamTimemanRecordFieldGet
@@ -17,10 +17,10 @@ export class BXRestNavvyTimemanRecordField {
   }
 
   /**
-   * Возвращает список полей записи о рабочем времени.
+   * Возвращает список полей записи о рабочем времени
    */
   list(param: iBXRestParamTimemanRecordFieldList = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.simpleV3<
       iBXRestTimemanItemsResult,
       iBXRestTimemanItemsResult,
       iBXRestParamTimemanRecordFieldList

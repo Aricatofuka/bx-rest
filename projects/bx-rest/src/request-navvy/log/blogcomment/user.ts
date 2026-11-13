@@ -9,7 +9,7 @@ export class BXRestNavvyLogBlogCommentUser {
   }
 
   /**
-   * Возвращает список комментариев к сообщению Ленты новостей.
+   * Возвращает список комментариев к сообщению Ленты новостей
    */
   get(param: iBXRestParamLogBlogCommentUserGet = {}) {
     return this.Navvy.simple<

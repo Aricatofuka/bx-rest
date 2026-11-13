@@ -6,14 +6,14 @@ export class BXRestNavvyCrmLeadProductRows {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает товары лида.
+   * Возвращает товары лида
    */
   get(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>([$crm, $lead, $productrows, $get], param)
   }
 
   /**
-   * Устанавливает список товаров в лид.
+   * Устанавливает список товаров в лид
    */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $lead, $productrows, $set], param)

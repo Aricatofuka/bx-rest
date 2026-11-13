@@ -6,7 +6,7 @@ export class BXRestNavvySalePaymentItemBasket  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Привязывает элемент корзины к оплате.
+   * Привязывает элемент корзины к оплате
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySalePaymentItemBasket  {
     >([$sale, $paymentItemBasket, $add], param)
   }
   /**
-   * Удаляет привязку элемента корзины к оплате.
+   * Удаляет привязку элемента корзины к оплате
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySalePaymentItemBasket  {
     >([$sale, $paymentItemBasket, $delete], param)
   }
   /**
-   * Возвращает привязку элемента корзины к оплате.
+   * Возвращает привязку элемента корзины к оплате
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySalePaymentItemBasket  {
     >([$sale, $paymentItemBasket, $get], param)
   }
   /**
-   * Возвращает описание полей привязки элемента корзины к оплате.
+   * Возвращает описание полей привязки элемента корзины к оплате
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvySalePaymentItemBasket  {
     >([$sale, $paymentItemBasket, $getFieldsExact], param)
   }
   /**
-   * Возвращает список привязок элементов корзины к оплатам.
+   * Возвращает список привязок элементов корзины к оплатам
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvySalePaymentItemBasket  {
     >([$sale, $paymentItemBasket, $list], param, 'paymentItemsBasket')
   }
   /**
-   * Обновляет привязку элемента корзины к оплате.
+   * Обновляет привязку элемента корзины к оплате
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

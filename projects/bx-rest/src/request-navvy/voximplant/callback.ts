@@ -6,7 +6,7 @@ export class BXRestNavvyVoxImplantCallback  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Запускает обратный звонок.
+   * Запускает обратный звонок
    */
   start(param: iBXRestGenericParams) {
     return this.Navvy.simple<

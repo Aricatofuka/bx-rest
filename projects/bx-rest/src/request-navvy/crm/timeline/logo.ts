@@ -34,7 +34,7 @@ export class BXRestNavvyCrmTimelineLogo {
    * Добавляет пользовательский логотип лог-записи.
    *
    * Метод доступен только администратору. Передайте прозрачный PNG 60×60 пикселей
-   * в виде Base64-строки.
+   * в виде Base64-строки
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/logo/crm-timeline-logo-add.html
    */
@@ -47,7 +47,7 @@ export class BXRestNavvyCrmTimelineLogo {
   }
 
   /**
-   * Возвращает системный или пользовательский логотип по коду.
+   * Возвращает системный или пользовательский логотип по коду
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/logo/crm-timeline-logo-get.html
    */
@@ -62,7 +62,7 @@ export class BXRestNavvyCrmTimelineLogo {
   /**
    * Возвращает список всех доступных системных и пользовательских логотипов.
    *
-   * Поле `isSystem` отличает встроенный логотип от добавленного приложением.
+   * Поле `isSystem` отличает встроенный логотип от добавленного приложением
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/logo/crm-timeline-logo-list.html
    */
@@ -73,7 +73,7 @@ export class BXRestNavvyCrmTimelineLogo {
   /**
    * Удаляет пользовательский логотип. Системные логотипы удалить нельзя.
    *
-   * Метод доступен только администратору.
+   * Метод доступен только администратору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/logo/crm-timeline-logo-delete.html
    */

@@ -33,9 +33,9 @@ export class BXRestNavvyCrmQuote {
   public readonly userfield = new BXRestNavvyCrmQuoteUserField()
 
   /**
-   * Создает коммерческое предложение.
+   * Создает коммерческое предложение
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.item.add`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.item.add`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/crm-quote-add.html
    */
   add(param: iBXRestParamCrmQuoteAdd) {
@@ -43,9 +43,9 @@ export class BXRestNavvyCrmQuote {
   }
 
   /**
-   * Изменяет существующее коммерческое предложение.
+   * Изменяет существующее коммерческое предложение
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.item.update`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.item.update`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/crm-quote-update.html
    */
   update(param: iBXRestParamCrmQuoteUpdate) {
@@ -53,9 +53,9 @@ export class BXRestNavvyCrmQuote {
   }
 
   /**
-   * Возвращает коммерческое предложение по идентификатору.
+   * Возвращает коммерческое предложение по идентификатору
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.item.get`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.item.get`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/crm-quote-get.html
    */
   get(param: iBXRestParamCrmQuoteGet) {
@@ -63,9 +63,9 @@ export class BXRestNavvyCrmQuote {
   }
 
   /**
-   * Возвращает список коммерческих предложений по фильтру.
+   * Возвращает список коммерческих предложений по фильтру
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.item.list`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.item.list`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/crm-quote-list.html
    */
   list(param: iBXRestParamCrmQuoteList = {}) {
@@ -73,9 +73,9 @@ export class BXRestNavvyCrmQuote {
   }
 
   /**
-   * Удаляет коммерческое предложение.
+   * Удаляет коммерческое предложение
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.item.delete`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.item.delete`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/crm-quote-delete.html
    */
   delete(param: iBXRestParamCrmQuoteDelete) {
@@ -83,9 +83,9 @@ export class BXRestNavvyCrmQuote {
   }
 
   /**
-   * Возвращает описание полей коммерческого предложения.
+   * Возвращает описание полей коммерческого предложения
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.item.fields`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.item.fields`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/crm-quote-fields.html
    */
   fields() {

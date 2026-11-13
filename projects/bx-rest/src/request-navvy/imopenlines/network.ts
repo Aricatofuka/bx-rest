@@ -12,7 +12,7 @@ export class BXRestNavvyImOpenLinesNetwork  {
   public readonly message = new BXRestNavvyImOpenLinesNetworkMessage()
 
   /**
-   * Подключает внешнюю открытую линию к порталу.
+   * Подключает внешнюю открытую линию к порталу
    */
   join(param: iBXRestGenericParams) {
     return this.Navvy.simple<

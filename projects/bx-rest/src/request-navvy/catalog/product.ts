@@ -21,7 +21,7 @@ export class BXRestNavvyCatalogProduct  {
    */
   public readonly sku = new BXRestNavvyCatalogProductSku()
   /**
-   * Добавляет товар.
+   * Добавляет товар
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -31,7 +31,7 @@ export class BXRestNavvyCatalogProduct  {
     >([$catalog, $product, $add], param)
   }
   /**
-   * Удаляет товар.
+   * Удаляет товар
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -41,7 +41,7 @@ export class BXRestNavvyCatalogProduct  {
     >([$catalog, $product, $delete], param)
   }
   /**
-   * Скачивает изображение товара.
+   * Скачивает изображение товара
    */
   public download(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -51,7 +51,7 @@ export class BXRestNavvyCatalogProduct  {
     >([$catalog, $product, $download], param)
   }
   /**
-   * Возвращает товар по идентификатору.
+   * Возвращает товар по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -61,7 +61,7 @@ export class BXRestNavvyCatalogProduct  {
     >([$catalog, $product, $get], param)
   }
   /**
-   * Возвращает описание полей товаров с учётом фильтра.
+   * Возвращает описание полей товаров с учётом фильтра
    */
   public getFieldsByFilter(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -71,7 +71,7 @@ export class BXRestNavvyCatalogProduct  {
     >([$catalog, $product, $getFieldsByFilter], param)
   }
   /**
-   * Возвращает список товаров.
+   * Возвращает список товаров
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -81,7 +81,7 @@ export class BXRestNavvyCatalogProduct  {
     >([$catalog, $product, $list], param, 'products')
   }
   /**
-   * Обновляет товар.
+   * Обновляет товар
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

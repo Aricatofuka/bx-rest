@@ -13,7 +13,7 @@ export class BXRestNavvyUserOption {
    * Сохраняет или обновляет настройки текущего пользователя для приложения.
    *
    * Метод работает только в контексте приложения. Пустой объект `options`
-   * приводит к ошибке `ArgumentNullException`.
+   * приводит к ошибке `ArgumentNullException`
    */
   set(param: iBXRestParamUserOptionSet) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamUserOptionSet>(
@@ -26,7 +26,7 @@ export class BXRestNavvyUserOption {
    * Возвращает одну пользовательскую настройку или все настройки сразу.
    *
    * Если `option` не указан, возвращаются все свойства, сохраненные через
-   * `user.option.set`. Метод работает только в контексте приложения.
+   * `user.option.set`. Метод работает только в контексте приложения
    */
   get(param: iBXRestParamUserOptionGet = {}) {
     return this.Navvy.simple<

@@ -6,7 +6,7 @@ export class BXRestNavvyCrmItemDetailsConfiguration {
   private readonly Navvy = new Navvy()
 
   /**
-   * Принудительно устанавливает общую карточку элемента для всех пользователей.
+   * Принудительно устанавливает общую карточку элемента для всех пользователей
    */
   forceCommonScopeForAll(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -16,7 +16,7 @@ export class BXRestNavvyCrmItemDetailsConfiguration {
   }
 
   /**
-   * Возвращает настройки карточки элемента CRM.
+   * Возвращает настройки карточки элемента CRM
    */
   get(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>(
@@ -26,7 +26,7 @@ export class BXRestNavvyCrmItemDetailsConfiguration {
   }
 
   /**
-   * Сбрасывает настройки карточки элемента CRM.
+   * Сбрасывает настройки карточки элемента CRM
    */
   reset(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -36,7 +36,7 @@ export class BXRestNavvyCrmItemDetailsConfiguration {
   }
 
   /**
-   * Устанавливает настройки карточки элемента CRM.
+   * Устанавливает настройки карточки элемента CRM
    */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(

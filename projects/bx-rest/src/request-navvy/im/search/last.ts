@@ -6,7 +6,7 @@ export class BXRestNavvyImSearchLast {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет запрос в историю поиска.
+   * Добавляет запрос в историю поиска
    */
   add(param: iBXRestParamImSearchLastDialog) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImSearchLastDialog>(
@@ -16,7 +16,7 @@ export class BXRestNavvyImSearchLast {
   }
 
   /**
-   * Удаляет запрос из истории поиска.
+   * Удаляет запрос из истории поиска
    */
   delete(param: iBXRestParamImSearchLastDialog) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImSearchLastDialog>(
@@ -26,7 +26,7 @@ export class BXRestNavvyImSearchLast {
   }
 
   /**
-   * Возвращает историю поиска.
+   * Возвращает историю поиска
    */
   get(param: iBXRestParamImSearchLastGet = {}) {
     return this.Navvy.simple<

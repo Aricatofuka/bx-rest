@@ -15,11 +15,11 @@ export class BXRestNavvyPullConfig {
 
   /**
    * Возвращает настройки подключения к серверам Push & Pull для пользователя.
-   * Приложению нужен `pull.application.config.get`: `bx.pull.application.config.get()`.
+   * Приложению нужен `pull.application.config.get`: `bx.pull.application.config.get()`
    *
    * @experimental
    * Метода нет в документации Bitrix24, ответ сверен только с официальным JS SDK.
-   * Типы могут измениться.
+   * Типы могут измениться
    */
   get(param?: iBXRestParamPullConfigGet) {
     return this.Navvy.simple<iBXRestPullConfigGetHttp, iBXRestPullConfigGet, iBXRestParamPullConfigGet>(

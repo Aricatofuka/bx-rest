@@ -17,7 +17,7 @@ export class BXRestNavvyBookingV1Waitlist  {
   public readonly externalData = new BXRestNavvyBookingV1WaitlistExternalData()
 
   /**
-   * Добавляет запись в лист ожидания.
+   * Добавляет запись в лист ожидания
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyBookingV1Waitlist  {
   }
 
   /**
-   * Создаёт запись в листе ожидания из бронирования.
+   * Создаёт запись в листе ожидания из бронирования
    */
   createFromBooking(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -39,7 +39,7 @@ export class BXRestNavvyBookingV1Waitlist  {
   }
 
   /**
-   * Удаляет запись из листа ожидания.
+   * Удаляет запись из листа ожидания
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -50,7 +50,7 @@ export class BXRestNavvyBookingV1Waitlist  {
   }
 
   /**
-   * Возвращает запись из листа ожидания.
+   * Возвращает запись из листа ожидания
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -61,7 +61,7 @@ export class BXRestNavvyBookingV1Waitlist  {
   }
 
   /**
-   * Возвращает список записей из листа ожидания.
+   * Возвращает список записей из листа ожидания
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -72,7 +72,7 @@ export class BXRestNavvyBookingV1Waitlist  {
   }
 
   /**
-   * Обновляет запись в листе ожидания.
+   * Обновляет запись в листе ожидания
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<

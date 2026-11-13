@@ -32,14 +32,14 @@ export class BXRestNavvyImConnector  {
   public readonly update = new BXRestNavvyImConnectorUpdate()
 
   /**
-   * Активирует коннектор.
+   * Активирует коннектор
    */
   activate(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$imconnector, $activate], param)
   }
 
   /**
-   * Возвращает список коннекторов.
+   * Возвращает список коннекторов
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -50,14 +50,14 @@ export class BXRestNavvyImConnector  {
   }
 
   /**
-   * Регистрирует коннектор открытых линий.
+   * Регистрирует коннектор открытых линий
    */
   register(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$imconnector, $register], param)
   }
 
   /**
-   * Возвращает статус коннектора.
+   * Возвращает статус коннектора
    */
   status(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -68,7 +68,7 @@ export class BXRestNavvyImConnector  {
   }
 
   /**
-   * Отменяет регистрацию коннектора.
+   * Отменяет регистрацию коннектора
    */
   unregister(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$imconnector, $unregister], param)

@@ -12,7 +12,7 @@ export class BXRestNavvyCrmCompanyContact {
   public readonly items = new BXRestNavvyCrmCompanyContactItems()
 
   /**
-   * Добавляет контакт к указанной компании.
+   * Добавляет контакт к указанной компании
    */
   add(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -22,7 +22,7 @@ export class BXRestNavvyCrmCompanyContact {
   }
 
   /**
-   * Удаляет контакт из указанной компании.
+   * Удаляет контакт из указанной компании
    */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -32,7 +32,7 @@ export class BXRestNavvyCrmCompanyContact {
   }
 
   /**
-   * Возвращает описание полей связи компания-контакт.
+   * Возвращает описание полей связи компания-контакт
    */
   fields() {
     return this.Navvy.simple<iBXRestCrmObject>([$crm, $company, $contact, $fields])

@@ -85,11 +85,11 @@ export class BXRestNavvyRestCalendarEvent {
   }
 
   /**
-   * Метод получает информацию о событии календаря по идентификатору.
+   * Метод получает информацию о событии календаря по идентификатору
    *
    * @param param
    * @param dateTimeFormat Формат полей с датой и временем в ответе (см. {@link BXRestMapCalendarEvent.getById}).
-   *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию.
+   *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию
    */
   getById(param: iBXRestCalendarEventGetByIdParam, dateTimeFormat?: string) {
     return this.Navvy.simple(

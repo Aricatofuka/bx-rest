@@ -6,7 +6,7 @@ export class BXRestNavvyImOpenLinesDialog  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает данные диалога оператора.
+   * Возвращает данные диалога оператора
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<

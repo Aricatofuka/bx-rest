@@ -6,7 +6,7 @@ export class BXRestNavvyDocumentGeneratorDocument  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Создаёт новый документ на основании шаблона.
+   * Создаёт новый документ на основании шаблона
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyDocumentGeneratorDocument  {
   }
 
   /**
-   * Удаляет документ.
+   * Удаляет документ
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyDocumentGeneratorDocument  {
   }
 
   /**
-   * Включает или выключает публичную ссылку на документ.
+   * Включает или выключает публичную ссылку на документ
    */
   enablePublicUrl(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -39,7 +39,7 @@ export class BXRestNavvyDocumentGeneratorDocument  {
   }
 
   /**
-   * Возвращает документ по идентификатору.
+   * Возвращает документ по идентификатору
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -50,7 +50,7 @@ export class BXRestNavvyDocumentGeneratorDocument  {
   }
 
   /**
-   * Возвращает список полей документа.
+   * Возвращает список полей документа
    */
   getFields(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -61,7 +61,7 @@ export class BXRestNavvyDocumentGeneratorDocument  {
   }
 
   /**
-   * Возвращает список документов.
+   * Возвращает список документов
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -72,7 +72,7 @@ export class BXRestNavvyDocumentGeneratorDocument  {
   }
 
   /**
-   * Изменяет существующий документ.
+   * Изменяет существующий документ
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<

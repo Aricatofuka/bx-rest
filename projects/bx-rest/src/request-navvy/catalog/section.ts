@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogSection  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет раздел каталога.
+   * Добавляет раздел каталога
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogSection  {
     >([$catalog, $section, $add], param)
   }
   /**
-   * Удаляет раздел каталога.
+   * Удаляет раздел каталога
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogSection  {
     >([$catalog, $section, $delete], param)
   }
   /**
-   * Возвращает раздел каталога по идентификатору.
+   * Возвращает раздел каталога по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogSection  {
     >([$catalog, $section, $get], param)
   }
   /**
-   * Возвращает описание полей раздела каталога.
+   * Возвращает описание полей раздела каталога
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogSection  {
     >([$catalog, $section, $getFieldsExact], param)
   }
   /**
-   * Возвращает список разделов каталога.
+   * Возвращает список разделов каталога
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvyCatalogSection  {
     >([$catalog, $section, $list], param, 'sections')
   }
   /**
-   * Обновляет раздел каталога.
+   * Обновляет раздел каталога
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

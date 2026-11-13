@@ -70,20 +70,20 @@ export class FrameTransport {
     this.frame = readPortalFrame()
   }
 
-  /** Домен портала из параметров фрейма — как `BX24.getDomain()`. */
+  /** Домен портала из параметров фрейма — как `BX24.getDomain()` */
   get domain(): string {
     return this.frame?.domain ?? ''
   }
 
   /**
    * Команда, на которую портал не отвечает (`reloadWindow`, `imCallTo`, ...).
-   * Вне iframe бросает `BXRestFrameError` с кодом `NOT_IN_FRAME`.
+   * Вне iframe бросает `BXRestFrameError` с кодом `NOT_IN_FRAME`
    */
   post(command: string, params: unknown): void {
     this.send(this.requireFrame(), command, params, '')
   }
 
-  /** Команда с одним ответом портала. */
+  /** Команда с одним ответом портала */
   request(command: string, params: unknown, options: FrameRequestOptions): Promise<unknown> {
     return new Promise((resolve, reject) => {
       let frame: PortalFrame
@@ -144,7 +144,7 @@ export class FrameTransport {
    * Команда, на которую портал отвечает многократно (`placementBindEvent`):
    * `handler` вызывается на каждый ответ. Возвращает функцию отписки —
    * она только перестаёт слушать: отменить подписку на стороне портала
-   * протокол не позволяет. Вне iframe бросает `BXRestFrameError`.
+   * протокол не позволяет. Вне iframe бросает `BXRestFrameError`
    */
   subscribe(command: string, params: unknown, handler: (data: unknown) => void): () => void {
     const frame = this.requireFrame()
@@ -175,7 +175,7 @@ export class FrameTransport {
   /**
    * Формат — как у BX24.js. Обычно строка `команда:параметры:callbackId:APP_SID`
    * (портал разбирает её с конца, поэтому параметры и callbackId могут быть
-   * пустыми); для команд с `:` в имени — объект.
+   * пустыми); для команд с `:` в имени — объект
    */
   private send(frame: PortalFrame, command: string, params: unknown, callbackId: string): void {
     const message = command.includes(':')
@@ -184,7 +184,7 @@ export class FrameTransport {
     window.parent.postMessage(message, frame.origin)
   }
 
-  /** Ответ портала — строка `callbackId:JSON` (или `callbackId:`, если ответ пустой). */
+  /** Ответ портала — строка `callbackId:JSON` (или `callbackId:`, если ответ пустой) */
   private listen(frame: PortalFrame, callbackId: string, onAnswer: (payload: string) => void): () => void {
     const portalWindow = window.parent
     const onMessage = (event: MessageEvent) => {

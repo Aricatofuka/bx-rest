@@ -6,7 +6,7 @@ export class BXRestNavvyImBotV2Event  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает события бота в режиме polling.
+   * Возвращает события бота в режиме polling
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

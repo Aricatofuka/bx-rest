@@ -5,7 +5,7 @@ import {
 import { toDate } from '../../../services/base'
 import { iBXRestPullConfigPublicChannelsGet } from '../../../typification/rest/pull/config/get'
 
-/** Поля `start` и `end` канала — в `Date`. Канал, которого нет в ответе, так и остаётся пустым. */
+/** Поля `start` и `end` канала — в `Date`. Канал, которого нет в ответе, так и остаётся пустым */
 function withDates<T extends { start: string, end: string }>(channel: T | undefined) {
   return channel
     ? { ...channel, start: toDate(channel.start), end: toDate(channel.end) }
@@ -14,7 +14,7 @@ function withDates<T extends { start: string, end: string }>(channel: T | undefi
 
 export class BXRestMapPullApplicationConfig {
   /**
-   * Даты каналов — в `Date`. `publicChannels: false` (сервер версии ниже 4) становится пустым объектом.
+   * Даты каналов — в `Date`. `publicChannels: false` (сервер версии ниже 4) становится пустым объектом
    */
   static get(value: iBXRestPullApplicationConfigGetHttp | undefined): iBXRestPullApplicationConfigGet | undefined {
     if (!value) {

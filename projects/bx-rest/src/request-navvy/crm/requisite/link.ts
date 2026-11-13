@@ -32,7 +32,7 @@ export class BXRestNavvyCrmRequisiteLink {
    * Регистрирует реквизиты покупателя и, при необходимости, продавца у объекта CRM.
    *
    * `REQUISITE_ID`/`BANK_DETAIL_ID` относятся к клиенту, поля с префиксом `MC_` —
-   * к своей компании.
+   * к своей компании
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/links/crm-requisite-link-register.html
    */
@@ -48,7 +48,7 @@ export class BXRestNavvyCrmRequisiteLink {
    * Возвращает связь реквизитов с конкретным объектом CRM.
    *
    * Обратите внимание: API принимает параметры `entityTypeId` и `entityId`
-   * в camelCase.
+   * в camelCase
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/links/crm-requisite-link-get.html
    */
@@ -61,7 +61,7 @@ export class BXRestNavvyCrmRequisiteLink {
   }
 
   /**
-   * Возвращает список связей реквизитов по фильтру и сортировке.
+   * Возвращает список связей реквизитов по фильтру и сортировке
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/links/crm-requisite-link-list.html
    */
@@ -74,7 +74,7 @@ export class BXRestNavvyCrmRequisiteLink {
   }
 
   /**
-   * Удаляет связь реквизитов с объектом, не удаляя сами реквизиты.
+   * Удаляет связь реквизитов с объектом, не удаляя сами реквизиты
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/links/crm-requisite-link-unregister.html
    */
@@ -87,7 +87,7 @@ export class BXRestNavvyCrmRequisiteLink {
   }
 
   /**
-   * Возвращает формальное описание полей связи реквизитов.
+   * Возвращает формальное описание полей связи реквизитов
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/links/crm-requisite-link-fields.html
    */

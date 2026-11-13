@@ -29,7 +29,7 @@ export class BXRestNavvyBizProcRobot {
   }
 
   /**
-   * Регистрирует нового робота для текущего приложения.
+   * Регистрирует нового робота для текущего приложения
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-robot/bizproc-robot-add.html
    */
@@ -41,7 +41,7 @@ export class BXRestNavvyBizProcRobot {
   }
 
   /**
-   * Обновляет поля зарегистрированного робота.
+   * Обновляет поля зарегистрированного робота
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-robot/bizproc-robot-update.html
    */
@@ -53,7 +53,7 @@ export class BXRestNavvyBizProcRobot {
   }
 
   /**
-   * Возвращает список символьных кодов роботов текущего приложения.
+   * Возвращает список символьных кодов роботов текущего приложения
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-robot/bizproc-robot-list.html
    */
@@ -62,7 +62,7 @@ export class BXRestNavvyBizProcRobot {
   }
 
   /**
-   * Удаляет робота, зарегистрированного текущим приложением.
+   * Удаляет робота, зарегистрированного текущим приложением
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-robot/bizproc-robot-delete.html
    */

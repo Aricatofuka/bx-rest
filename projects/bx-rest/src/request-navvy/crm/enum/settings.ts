@@ -11,7 +11,7 @@ export class BXRestNavvyCrmEnumSettings {
 
   /**
    * Возвращает список режимов работы CRM для расшифровки значения,
-   * полученного методом `crm.settings.mode.get`.
+   * полученного методом `crm.settings.mode.get`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/enum/crm-enum-settings-mode.html
    */

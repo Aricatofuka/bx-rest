@@ -6,7 +6,7 @@ export class BXRestNavvySalePropertyRelation  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет привязку свойства заказа.
+   * Добавляет привязку свойства заказа
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySalePropertyRelation  {
     >([$sale, $propertyRelation, $add], param)
   }
   /**
-   * Удаляет привязки свойства заказа по фильтру.
+   * Удаляет привязки свойства заказа по фильтру
    */
   public deleteByFilter(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySalePropertyRelation  {
     >([$sale, $propertyRelation, $deleteByFilter], param)
   }
   /**
-   * Возвращает описание полей привязки свойства заказа.
+   * Возвращает описание полей привязки свойства заказа
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySalePropertyRelation  {
     >([$sale, $propertyRelation, $getFieldsExact], param)
   }
   /**
-   * Возвращает список привязок свойств заказа.
+   * Возвращает список привязок свойств заказа
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<

@@ -6,7 +6,7 @@ export class BXRestNavvyImOpenLinesRevision  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает информацию о ревизиях API.
+   * Возвращает информацию о ревизиях API
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

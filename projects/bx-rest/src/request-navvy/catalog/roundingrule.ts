@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogRoundingRule  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет правило округления цен.
+   * Добавляет правило округления цен
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogRoundingRule  {
     >([$catalog, $roundingRule, $add], param)
   }
   /**
-   * Удаляет правило округления цен.
+   * Удаляет правило округления цен
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogRoundingRule  {
     >([$catalog, $roundingRule, $delete], param)
   }
   /**
-   * Возвращает правило округления цен по идентификатору.
+   * Возвращает правило округления цен по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogRoundingRule  {
     >([$catalog, $roundingRule, $get], param)
   }
   /**
-   * Возвращает описание полей правила округления цен.
+   * Возвращает описание полей правила округления цен
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogRoundingRule  {
     >([$catalog, $roundingRule, $getFieldsExact], param)
   }
   /**
-   * Возвращает список правил округления цен.
+   * Возвращает список правил округления цен
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvyCatalogRoundingRule  {
     >([$catalog, $roundingRule, $list], param, 'roundingRules')
   }
   /**
-   * Обновляет правило округления цен.
+   * Обновляет правило округления цен
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

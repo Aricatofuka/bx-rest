@@ -6,7 +6,7 @@ export class BXRestNavvyBookingV1BookingExternalData  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает связи бронирования с внешними системами.
+   * Возвращает связи бронирования с внешними системами
    */
   list(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyBookingV1BookingExternalData  {
   }
 
   /**
-   * Устанавливает связи для бронирования с внешними системами.
+   * Устанавливает связи для бронирования с внешними системами
    */
   set(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyBookingV1BookingExternalData  {
   }
 
   /**
-   * Удаляет связи для бронирования с внешними системами.
+   * Удаляет связи для бронирования с внешними системами
    */
   unset(param: iBXRestGenericParams) {
     return this.Navvy.simple<

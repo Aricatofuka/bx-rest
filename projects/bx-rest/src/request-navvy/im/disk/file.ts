@@ -6,7 +6,7 @@ export class BXRestNavvyImDiskFile {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет файл в чат (устаревший метод).
+   * Добавляет файл в чат (устаревший метод)
    */
   commit(param: iBXRestParamImDiskFileCommit) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyImDiskFile {
   }
 
   /**
-   * Удаляет файл из папки чата.
+   * Удаляет файл из папки чата
    */
   delete(param: iBXRestParamImDiskFileDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamImDiskFileDelete>(
@@ -27,7 +27,7 @@ export class BXRestNavvyImDiskFile {
   }
 
   /**
-   * Сохраняет файл чата на Диск.
+   * Сохраняет файл чата на Диск
    */
   save(param: iBXRestParamImDiskFileSave) {
     return this.Navvy.simple<

@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogRatio  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает коэффициент единицы измерения по идентификатору.
+   * Возвращает коэффициент единицы измерения по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogRatio  {
     >([$catalog, $ratio, $get], param)
   }
   /**
-   * Возвращает описание полей коэффициента единицы измерения.
+   * Возвращает описание полей коэффициента единицы измерения
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogRatio  {
     >([$catalog, $ratio, $getFieldsExact], param)
   }
   /**
-   * Возвращает список коэффициентов единиц измерения.
+   * Возвращает список коэффициентов единиц измерения
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<

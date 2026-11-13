@@ -6,7 +6,7 @@ export class BXRestNavvyImDiskFolder {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает папку файлового хранилища чата (устаревший метод).
+   * Возвращает папку файлового хранилища чата (устаревший метод)
    */
   get(param: iBXRestParamImDiskFolderGet) {
     return this.Navvy.simple<

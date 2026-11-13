@@ -7,7 +7,7 @@ export class BXRestMapCalendarSection {
    * @param item
    * @param dateTimeFormat Формат полей `DATE_CREATE`/`TIMESTAMP_X`. По умолчанию — распространённый на многих
    *   порталах `'dd.MM.yyyy HH:mm:ss'`, но реальный формат зависит от настроек портала (Настройки → формат
-   *   даты и времени) — если он известен, передавайте его явно.
+   *   даты и времени) — если он известен, передавайте его явно
    */
   static get(
     item: iBXRestCalendarSectionGetHttp[] | undefined,

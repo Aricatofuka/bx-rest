@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет параметр свойства товара.
+   * Добавляет параметр свойства товара
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
     >([$catalog, $productPropertyFeature, $add], param)
   }
   /**
-   * Возвращает параметр свойства товара по идентификатору.
+   * Возвращает параметр свойства товара по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
     >([$catalog, $productPropertyFeature, $get], param)
   }
   /**
-   * Возвращает доступные параметры для указанного свойства.
+   * Возвращает доступные параметры для указанного свойства
    */
   public getAvailableFeaturesByProperty(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -38,7 +38,7 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
   ], param)
   }
   /**
-   * Возвращает описание полей параметра свойства.
+   * Возвращает описание полей параметра свойства
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -48,7 +48,7 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
     >([$catalog, $productPropertyFeature, $getFieldsExact], param)
   }
   /**
-   * Возвращает список параметров свойств товаров.
+   * Возвращает список параметров свойств товаров
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -58,7 +58,7 @@ export class BXRestNavvyCatalogProductPropertyFeature  {
     >([$catalog, $productPropertyFeature, $list], param, 'productPropertyFeatures')
   }
   /**
-   * Обновляет параметр свойства товара.
+   * Обновляет параметр свойства товара
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

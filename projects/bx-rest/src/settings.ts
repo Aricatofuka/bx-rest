@@ -29,7 +29,7 @@ export const BXRestSettings = {
    * @deprecated Переименовано в `BXRestSettings.value` — имя `date` не
    * отражало содержимое (настройки auth/urls, а не дату) и сбивало с толку
    * в публичном API. Геттер/сеттер оставлен только для обратной совместимости
-   * с кодом, написанным против API до 1.0.
+   * с кодом, написанным против API до 1.0
    */
   get date(): iBXRestSettings {
     return this.value

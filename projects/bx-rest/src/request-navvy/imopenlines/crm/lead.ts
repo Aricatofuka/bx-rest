@@ -6,7 +6,7 @@ export class BXRestNavvyImOpenLinesCrmLead  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Создаёт лид CRM по диалогу.
+   * Создаёт лид CRM по диалогу
    */
   create(param: iBXRestGenericParams) {
     return this.Navvy.simple<

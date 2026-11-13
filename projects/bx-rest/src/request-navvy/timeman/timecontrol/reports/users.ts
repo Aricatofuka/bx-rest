@@ -6,7 +6,7 @@ export class BXRestNavvyTimemanTimeControlReportsUsers {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список пользователей указанного подразделения.
+   * Возвращает список пользователей указанного подразделения
    */
   get(param: iBXRestParamTimemanTimeControlReportsUsersGet = {}) {
     return this.Navvy.simple<

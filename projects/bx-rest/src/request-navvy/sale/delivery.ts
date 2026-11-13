@@ -26,7 +26,7 @@ export class BXRestNavvySaleDelivery  {
    */
   public readonly request = new BXRestNavvySaleDeliveryRequest()
   /**
-   * Добавляет службу доставки.
+   * Добавляет службу доставки
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySaleDelivery  {
     >([$sale, $delivery, $add], param)
   }
   /**
-   * Удаляет службу доставки.
+   * Удаляет службу доставки
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvySaleDelivery  {
     >([$sale, $delivery, $delete], param)
   }
   /**
-   * Возвращает список служб доставки.
+   * Возвращает список служб доставки
    */
   public getList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvySaleDelivery  {
     >([$sale, $delivery, $getList], param)
   }
   /**
-   * Обновляет службу доставки.
+   * Обновляет службу доставки
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

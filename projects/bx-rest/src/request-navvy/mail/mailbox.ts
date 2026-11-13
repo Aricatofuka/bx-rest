@@ -1,6 +1,8 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
 import { $get, $list, $mail, $mailbox, $senders } from '../../consts/part-name-methods'
+import { restV3PageNav } from '../../services/navvy/sequential-navs'
+import { MAIL_MAILBOX_MAX_PAGE_SIZE, MAIL_PAGE_SIZE } from '../../consts/page-size'
 import { BXRestNavvyMailMailboxField } from './mailbox/field'
 
 export class BXRestNavvyMailMailbox  {
@@ -12,7 +14,7 @@ export class BXRestNavvyMailMailbox  {
   public readonly field = new BXRestNavvyMailMailboxField()
 
   /**
-   * Возвращает почтовый ящик по идентификатору.
+   * Возвращает почтовый ящик по идентификатору
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -23,18 +25,18 @@ export class BXRestNavvyMailMailbox  {
   }
 
   /**
-   * Возвращает список почтовых ящиков текущего пользователя.
+   * Возвращает список почтовых ящиков текущего пользователя
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simpleV3<
+    return this.Navvy.pagNavSequentialV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$mail, $mailbox, $list], param)
+    >([$mail, $mailbox, $list], param, restV3PageNav(MAIL_PAGE_SIZE, MAIL_MAILBOX_MAX_PAGE_SIZE))
   }
 
   /**
-   * Возвращает адреса отправителей, доступные текущему пользователю.
+   * Возвращает адреса отправителей, доступные текущему пользователю
    */
   senders(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<

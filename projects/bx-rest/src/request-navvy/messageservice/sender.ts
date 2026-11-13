@@ -6,7 +6,7 @@ export class BXRestNavvyMessageServiceSender {
   private readonly Navvy = new Navvy()
 
   /**
-   * Регистрирует СМС-провайдер или провайдер сообщений.
+   * Регистрирует СМС-провайдер или провайдер сообщений
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<iBXRestGenericObject, iBXRestGenericObject, iBXRestGenericParams>(
@@ -15,7 +15,7 @@ export class BXRestNavvyMessageServiceSender {
   }
 
   /**
-   * Удаляет СМС-провайдер или провайдер сообщений.
+   * Удаляет СМС-провайдер или провайдер сообщений
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(
@@ -24,7 +24,7 @@ export class BXRestNavvyMessageServiceSender {
   }
 
   /**
-   * Возвращает список СМС-провайдеров или провайдеров сообщений.
+   * Возвращает список СМС-провайдеров или провайдеров сообщений
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -35,7 +35,7 @@ export class BXRestNavvyMessageServiceSender {
   }
 
   /**
-   * Обновляет СМС-провайдер или провайдер сообщений.
+   * Обновляет СМС-провайдер или провайдер сообщений
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<iBXRestGenericObject, iBXRestGenericObject, iBXRestGenericParams>(

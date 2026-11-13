@@ -6,7 +6,7 @@ export class BXRestNavvySaleCashboxCheck  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Формирует чек для кассы.
+   * Формирует чек для кассы
    */
   public apply(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

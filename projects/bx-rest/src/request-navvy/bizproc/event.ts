@@ -19,7 +19,7 @@ export class BXRestNavvyBizProcEvent {
    * Возвращает выходные значения действию или роботу и завершает ожидание.
    *
    * Регистрация должна содержать `USE_SUBSCRIPTION: 'Y'`, а переданный
-   * `EVENT_TOKEN` должен оставаться актуальным.
+   * `EVENT_TOKEN` должен оставаться актуальным
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-robot/bizproc-event-send.html
    */

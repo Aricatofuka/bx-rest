@@ -27,7 +27,7 @@ export type BXRestSend = (config: BXRestRequestConfig) => Promise<unknown>
  */
 export type BXRestMiddleware = (config: BXRestRequestConfig, next: BXRestSend) => Promise<unknown>
 
-/** Первый middleware в списке — внешний: он первым видит запрос и последним — ответ. */
+/** Первый middleware в списке — внешний: он первым видит запрос и последним — ответ */
 export function composeMiddleware(middleware: readonly BXRestMiddleware[], terminal: BXRestSend): BXRestSend {
   return middleware.reduceRight<BXRestSend>((next, step) => config => step(config, next), terminal)
 }

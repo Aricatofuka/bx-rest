@@ -6,7 +6,7 @@ export class BXRestNavvySalePaySystemSettingsPayment  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает настройки оплаты платёжной системы.
+   * Возвращает настройки оплаты платёжной системы
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

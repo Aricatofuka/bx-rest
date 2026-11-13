@@ -135,12 +135,25 @@ A request is sent when the `Observable` is subscribed to or passed to `firstValu
 
 `.res()` has one option, `throwOnApiError`, `false` by default. With `true`, a Bitrix error in a 2xx response arrives as a `BXRestApiError` instead of `undefined`. See [Error handling](#error-handling).
 
-`.resAll()` exists on list methods that page through `start`. It requests the first page itself and the rest in packs through `batch`. The result has the same shape as `.res()`:
+`.resAll()` exists on paged list methods. The result has the same shape as `.res()`:
 
 - if the method returns an array (`crm.deal.list`, `crm.activity.list`), `.resAll()` returns an array of all records;
-- if `result` is an object with the list under a key, as with `catalog.product.list` (`{ products: [...] }`) or `sale.order.list` (`{ orders: [...] }`), `.resAll()` returns the same object with the records of all pages under that key.
+- if `result` is an object with the list under a key, as with `catalog.product.list` (`{ products: [...] }`), `sale.order.list` (`{ orders: [...] }`) or REST v3 methods (`{ items: [...] }`), `.resAll()` returns the same object with the records of all pages under that key.
 
-Methods that return the whole list in one response or page in another way (`OFFSET`/`LIMIT`, a page number, the REST v3 `pagination` object) have no `.resAll()`. They are listed with reasons in [list-pagination.spec.ts](https://github.com/Aricatofuka/bx-rest/blob/main/projects/bx-rest/src/rest/list-pagination.spec.ts).
+How `.resAll()` pages depends on the method:
+
+| How the method pages | Methods | Requests of `.resAll()` |
+| --- | --- | --- |
+| `start`, the response has `total` | Most `*.list` methods | The first page, then the rest in packs through `batch` |
+| `OFFSET`/`LIMIT`, the response has `total` | `im.dialog.users.list`, `im.department.colleagues.list`, `im.search.{chat,department,user}.list` | The same |
+| `OFFSET`/`LIMIT` or a page number, no `total` | `im.recent.list`, `imbot.v2.Bot.list`, `sign.b2e.company.provider.list`, `biconnector.{connector,dataset,source}.list` | One page at a time, until the portal says there are no more pages or returns a short one |
+| The REST v3 `pagination` object | `mail.mailbox.list`, `mail.message.list`, `main.eventlog.list`, `timeman.record.list`, `note.collection.list` (cursor) | One page at a time, the same way |
+
+`.resAll()` takes the page size from the request. If the request has none, `.resAll()` passes the method's documented default explicitly, and if it is larger than the method accepts, `.resAll()` lowers it. A larger page means fewer requests, which shows when pages go one at a time.
+
+When pages go one at a time, the fields of `result` other than the lists (`hasMore`, `nextCursor`) come from the last page. For `imbot.v2.Bot.list` both lists are collected, `bots` and `users`. The pages of `im.recent.list` overlap on the portal, and `.resAll()` drops the repeated chats.
+
+Methods that return the whole list in one response have no `.resAll()`. They and the other exceptions are listed with reasons in [list-pagination.spec.ts](https://github.com/Aricatofuka/bx-rest/blob/main/projects/bx-rest/src/rest/list-pagination.spec.ts). For example, `note.document.search.list` returns only the first page: the response has no pointer to the next one.
 
 ## Usage in Angular
 
@@ -412,7 +425,8 @@ if (!answer || !isBXRestAnswerSuccess(answer)) {
 
 - on a Bitrix error with a non-2xx status all three fail with the original axios error, with the response body in `err.response.data`;
 - an error in the body of a 2xx response comes back as is from `.resVanilla()` and `.mapForVanilla()`;
-- `.resAll()` fails with a `BXRestApiError` on such an error: it has no `throwOnApiError` option. It fails the same way when any page inside a batch request returns an error (`result_error`). `.resAll()` never gives a partial list.
+- `.resAll()` fails with a `BXRestApiError` on such an error: it has no `throwOnApiError` option. It fails the same way when any later page returns an error, as a separate request or inside a batch request (`result_error`). `.resAll()` never gives a partial list.
+- If, when paging one page at a time, the portal returns the same page twice in a row, it did not understand the pagination parameter. `.resAll()` then fails with an error instead of requesting pages forever.
 
 ## Authorization refresh
 
@@ -911,6 +925,38 @@ this.navvy.pagNavKeyed<BlogItems, BlogItems, iBXRestCustomParamBlogList>(
   'items'
 )
 ```
+
+If the method pages by offset and returns `total`, use `pagNavOffset()`. Its third argument holds the parameter names and the page size, and `.resAll()` requests the rest of the pages in packs:
+
+```typescript
+this.navvy.pagNavOffset<iBXRestCustomBlogGetHttp[], iBXRestCustomBlogGet[], { OFFSET?: number, LIMIT?: number }>(
+  ['blog', 'post', PNM.$list],
+  param,
+  { offset: 'OFFSET', limit: 'LIMIT', pageSize: 50, maxPageSize: 200 },
+  BXCustomBlogMap.get
+)
+```
+
+If the next page is known only from the response to the previous one (by a flag, a cursor or a short page), use `pagNavSequential()`, or `pagNavSequentialV3()` for REST v3. The third argument describes the paging: `next()` takes the parameters and the result of a page and returns the parameters of the next page, or `undefined` if the page was the last one:
+
+```typescript
+type BlogFeed = { items: iBXRestCustomBlogGetHttp[], nextCursor: string | null }
+
+this.navvy.pagNavSequential<BlogFeed, BlogFeed, { cursor?: string }>(
+  ['blog', 'feed', PNM.$list],
+  param,
+  {
+    next: (param, result) => (result.nextCursor ? { ...param, cursor: result.nextCursor } : undefined),
+    keys: ['items'],
+  }
+)
+```
+
+- `keys` are the keys of the lists if `result` is an object. The records under them are collected from all pages, the other fields come from the last page.
+- `first()` gives the parameters of the first page, for example an explicit page size.
+- `unique` is the record field used to drop repeats when pages overlap.
+
+The types of these settings are `BXRestOffsetNav` and `BXRestSequentialNav`.
 
 ## Specific methods
 

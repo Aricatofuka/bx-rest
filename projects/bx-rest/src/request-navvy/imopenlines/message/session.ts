@@ -6,7 +6,7 @@ export class BXRestNavvyImOpenLinesMessageSession  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Запускает новую сессию на основании сообщения.
+   * Запускает новую сессию на основании сообщения
    */
   start(param: iBXRestGenericParams) {
     return this.Navvy.simple<

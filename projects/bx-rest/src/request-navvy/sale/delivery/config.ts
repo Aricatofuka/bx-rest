@@ -6,7 +6,7 @@ export class BXRestNavvySaleDeliveryConfig  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает настройки службы доставки.
+   * Возвращает настройки службы доставки
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySaleDeliveryConfig  {
     >([$sale, $delivery, $config, $get], param)
   }
   /**
-   * Обновляет настройки службы доставки.
+   * Обновляет настройки службы доставки
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

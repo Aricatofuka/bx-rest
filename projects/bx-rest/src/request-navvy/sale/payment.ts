@@ -6,7 +6,7 @@ export class BXRestNavvySalePayment  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет оплату.
+   * Добавляет оплату
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySalePayment  {
     >([$sale, $payment, $add], param)
   }
   /**
-   * Удаляет оплату.
+   * Удаляет оплату
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySalePayment  {
     >([$sale, $payment, $delete], param)
   }
   /**
-   * Возвращает оплату по идентификатору.
+   * Возвращает оплату по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySalePayment  {
     >([$sale, $payment, $get], param)
   }
   /**
-   * Возвращает описание полей оплаты.
+   * Возвращает описание полей оплаты
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvySalePayment  {
     >([$sale, $payment, $getFieldsExact], param)
   }
   /**
-   * Возвращает список оплат.
+   * Возвращает список оплат
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvySalePayment  {
     >([$sale, $payment, $list], param, 'payments')
   }
   /**
-   * Обновляет оплату.
+   * Обновляет оплату
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

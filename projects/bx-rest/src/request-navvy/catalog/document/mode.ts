@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogDocumentMode  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает или устанавливает режим работы с документами складского учёта.
+   * Возвращает или устанавливает режим работы с документами складского учёта
    */
   public status(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

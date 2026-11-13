@@ -2,6 +2,8 @@ import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
 import { $createcalendarevent, $createchat, $createcrmactivity, $createfeedpost, $createtask, $forward, $get, $list, $mail, $message, $movetofolder, $removecrmactivity, $reply, $send, $thread } from '../../consts/part-name-methods'
 import { BXRestNavvyMailMessageField } from './message/field'
+import { restV3PageNav } from '../../services/navvy/sequential-navs'
+import { MAIL_MESSAGE_MAX_PAGE_SIZE, MAIL_PAGE_SIZE } from '../../consts/page-size'
 
 export class BXRestNavvyMailMessage  {
   private readonly Navvy = new Navvy()
@@ -12,7 +14,7 @@ export class BXRestNavvyMailMessage  {
   public readonly field = new BXRestNavvyMailMessageField()
 
   /**
-   * Создаёт событие календаря из письма.
+   * Создаёт событие календаря из письма
    */
   createcalendarevent(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -23,7 +25,7 @@ export class BXRestNavvyMailMessage  {
   }
 
   /**
-   * Создаёт чат из письма.
+   * Создаёт чат из письма
    */
   createchat(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -34,7 +36,7 @@ export class BXRestNavvyMailMessage  {
   }
 
   /**
-   * Создаёт дело CRM из письма.
+   * Создаёт дело CRM из письма
    */
   createcrmactivity(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -45,7 +47,7 @@ export class BXRestNavvyMailMessage  {
   }
 
   /**
-   * Создаёт сообщение Ленты новостей из письма.
+   * Создаёт сообщение Ленты новостей из письма
    */
   createfeedpost(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -56,7 +58,7 @@ export class BXRestNavvyMailMessage  {
   }
 
   /**
-   * Создаёт задачу из письма.
+   * Создаёт задачу из письма
    */
   createtask(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -67,7 +69,7 @@ export class BXRestNavvyMailMessage  {
   }
 
   /**
-   * Пересылает письмо.
+   * Пересылает письмо
    */
   forward(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -78,7 +80,7 @@ export class BXRestNavvyMailMessage  {
   }
 
   /**
-   * Возвращает письмо по идентификатору.
+   * Возвращает письмо по идентификатору
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -89,18 +91,18 @@ export class BXRestNavvyMailMessage  {
   }
 
   /**
-   * Ищет письма в почтовых ящиках текущего пользователя.
+   * Ищет письма в почтовых ящиках текущего пользователя
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simpleV3<
+    return this.Navvy.pagNavSequentialV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$mail, $message, $list], param)
+    >([$mail, $message, $list], param, restV3PageNav(MAIL_PAGE_SIZE, MAIL_MESSAGE_MAX_PAGE_SIZE))
   }
 
   /**
-   * Перемещает письма в папку, спам или корзину.
+   * Перемещает письма в папку, спам или корзину
    */
   movetofolder(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -111,7 +113,7 @@ export class BXRestNavvyMailMessage  {
   }
 
   /**
-   * Удаляет связь письма с делом CRM.
+   * Удаляет связь письма с делом CRM
    */
   removecrmactivity(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -122,7 +124,7 @@ export class BXRestNavvyMailMessage  {
   }
 
   /**
-   * Отправляет ответ на письмо.
+   * Отправляет ответ на письмо
    */
   reply(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -133,7 +135,7 @@ export class BXRestNavvyMailMessage  {
   }
 
   /**
-   * Отправляет новое письмо.
+   * Отправляет новое письмо
    */
   send(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -144,7 +146,7 @@ export class BXRestNavvyMailMessage  {
   }
 
   /**
-   * Возвращает цепочку писем по идентификатору одного письма.
+   * Возвращает цепочку писем по идентификатору одного письма
    */
   thread(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<

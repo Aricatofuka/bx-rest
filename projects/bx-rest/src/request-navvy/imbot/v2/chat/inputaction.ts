@@ -6,7 +6,7 @@ export class BXRestNavvyImBotV2ChatInputAction  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Показывает индикатор действия бота в чате.
+   * Показывает индикатор действия бота в чате
    */
   notify(param: iBXRestGenericParams) {
     return this.Navvy.simple<

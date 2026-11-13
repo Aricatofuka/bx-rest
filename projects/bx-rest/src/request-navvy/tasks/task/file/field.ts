@@ -6,14 +6,14 @@ export class BXRestNavvyTasksTaskFileField  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает описание поля файлов задачи.
+   * Возвращает описание поля файлов задачи
    */
   get(param: iBXRestTasksParams = {}) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $file, $field, $get], param)
   }
 
   /**
-   * Возвращает список полей файлов задачи.
+   * Возвращает список полей файлов задачи
    */
   list(param: iBXRestTasksParams = {}) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $file, $field, $list], param)

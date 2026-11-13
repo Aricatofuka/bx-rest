@@ -17,49 +17,49 @@ export class BXRestNavvyCrmItemPayment {
   public readonly product = new BXRestNavvyCrmItemPaymentProduct()
 
   /**
-   * Создаёт оплату для объекта CRM.
+   * Создаёт оплату для объекта CRM
    */
   add(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $item, $payment, $add], param)
   }
 
   /**
-   * Удаляет оплату.
+   * Удаляет оплату
    */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $item, $payment, $delete], param)
   }
 
   /**
-   * Возвращает краткую информацию об оплате.
+   * Возвращает краткую информацию об оплате
    */
   get(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $item, $payment, $get], param)
   }
 
   /**
-   * Возвращает список оплат конкретного объекта CRM.
+   * Возвращает список оплат конкретного объекта CRM
    */
   list(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>([$crm, $item, $payment, $list], param)
   }
 
   /**
-   * Изменяет статус оплаты на «Оплачено».
+   * Изменяет статус оплаты на «Оплачено»
    */
   pay(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $item, $payment, $pay], param)
   }
 
   /**
-   * Изменяет статус оплаты на «Не оплачено».
+   * Изменяет статус оплаты на «Не оплачено»
    */
   unpay(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $item, $payment, $unpay], param)
   }
 
   /**
-   * Изменяет набор полей оплаты.
+   * Изменяет набор полей оплаты
    */
   update(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $item, $payment, $update], param)

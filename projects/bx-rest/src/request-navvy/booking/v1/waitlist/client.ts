@@ -6,7 +6,7 @@ export class BXRestNavvyBookingV1WaitlistClient  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список клиентов записи в лист ожидания.
+   * Возвращает список клиентов записи в лист ожидания
    */
   list(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyBookingV1WaitlistClient  {
   }
 
   /**
-   * Добавляет клиентов к записи в лист ожидания.
+   * Добавляет клиентов к записи в лист ожидания
    */
   set(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyBookingV1WaitlistClient  {
   }
 
   /**
-   * Удаляет клиентов из записи в лист ожидания.
+   * Удаляет клиентов из записи в лист ожидания
    */
   unset(param: iBXRestGenericParams) {
     return this.Navvy.simple<

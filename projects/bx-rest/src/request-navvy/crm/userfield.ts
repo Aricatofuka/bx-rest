@@ -16,14 +16,14 @@ export class BXRestNavvyCrmUserField {
   public readonly settings = new BXRestNavvyCrmUserFieldSettings()
 
   /**
-   * Возвращает описание характеристик пользовательских полей.
+   * Возвращает описание характеристик пользовательских полей
    */
   fields() {
     return this.Navvy.simple<iBXRestCrmObject>([$crm, $userfield, $fields])
   }
 
   /**
-   * Возвращает список типов пользовательских полей.
+   * Возвращает список типов пользовательских полей
    */
   types() {
     return this.Navvy.simple<iBXRestCrmObject[]>([$crm, $userfield, $types])

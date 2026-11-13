@@ -6,7 +6,7 @@ export class BXRestNavvyPlacement {
   private readonly Navvy = new Navvy()
 
   /**
-   * Регистрирует обработчик виджета в указанной точке встраивания.
+   * Регистрирует обработчик виджета в указанной точке встраивания
    */
   public bind(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyPlacement {
     >([$placement, $bind], param)
   }
   /**
-   * Возвращает обработчики, зарегистрированные приложением.
+   * Возвращает обработчики, зарегистрированные приложением
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyPlacement {
     >([$placement, $get], param)
   }
   /**
-   * Возвращает точки встраивания, доступные приложению.
+   * Возвращает точки встраивания, доступные приложению
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyPlacement {
     >([$placement, $list], param)
   }
   /**
-   * Удаляет регистрацию обработчика виджета.
+   * Удаляет регистрацию обработчика виджета
    */
   public unbind(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

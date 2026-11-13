@@ -6,7 +6,7 @@ export class BXRestNavvyNoteCollectionField  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает описание поля базы знаний.
+   * Возвращает описание поля базы знаний
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
@@ -17,7 +17,7 @@ export class BXRestNavvyNoteCollectionField  {
   }
 
   /**
-   * Возвращает список полей базы знаний.
+   * Возвращает список полей базы знаний
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<

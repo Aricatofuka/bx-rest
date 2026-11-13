@@ -6,7 +6,7 @@ export class BXRestNavvyCrmOrderEntity {
   private readonly Navvy = new Navvy()
 
   /**
-   * Создаёт привязку заказа к объекту CRM.
+   * Создаёт привязку заказа к объекту CRM
    */
   add(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -15,7 +15,7 @@ export class BXRestNavvyCrmOrderEntity {
   }
 
   /**
-   * Удаляет привязки заказов к объектам CRM по фильтру.
+   * Удаляет привязки заказов к объектам CRM по фильтру
    */
   deleteByFilter(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -24,14 +24,14 @@ export class BXRestNavvyCrmOrderEntity {
   }
 
   /**
-   * Возвращает описание полей привязки заказа к объекту CRM.
+   * Возвращает описание полей привязки заказа к объекту CRM
    */
   getFields() {
     return this.Navvy.simple<iBXRestCrmObject>([$crm, $orderentity, $getFieldsExact])
   }
 
   /**
-   * Возвращает список привязок заказов к объектам CRM.
+   * Возвращает список привязок заказов к объектам CRM
    */
   list(param: iBXRestCrmParams = {}) {
     return this.Navvy.pagNavKeyed<

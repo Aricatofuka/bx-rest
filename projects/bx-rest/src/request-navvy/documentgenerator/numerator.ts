@@ -6,7 +6,7 @@ export class BXRestNavvyDocumentGeneratorNumerator  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет нумератор.
+   * Добавляет нумератор
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyDocumentGeneratorNumerator  {
   }
 
   /**
-   * Удаляет нумератор.
+   * Удаляет нумератор
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyDocumentGeneratorNumerator  {
   }
 
   /**
-   * Возвращает нумератор по идентификатору.
+   * Возвращает нумератор по идентификатору
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -39,7 +39,7 @@ export class BXRestNavvyDocumentGeneratorNumerator  {
   }
 
   /**
-   * Возвращает список нумераторов.
+   * Возвращает список нумераторов
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -50,7 +50,7 @@ export class BXRestNavvyDocumentGeneratorNumerator  {
   }
 
   /**
-   * Изменяет нумератор.
+   * Изменяет нумератор
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<

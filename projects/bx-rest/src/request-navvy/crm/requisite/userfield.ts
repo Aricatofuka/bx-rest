@@ -33,7 +33,7 @@ export class BXRestNavvyCrmRequisiteUserField {
    * Создает пользовательское поле реквизита.
    *
    * Передавайте `ENTITY_ID: 'CRM_REQUISITE'`; `FIELD_NAME` задается без префикса
-   * `UF_CRM_`. Для типа `enumeration` варианты передаются в `LIST`.
+   * `UF_CRM_`. Для типа `enumeration` варианты передаются в `LIST`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/user-fields/crm-requisite-userfield-add.html
    */
@@ -48,7 +48,7 @@ export class BXRestNavvyCrmRequisiteUserField {
   /**
    * Изменяет пользовательское поле реквизита.
    *
-   * Тип и символьный код существующего поля изменить нельзя.
+   * Тип и символьный код существующего поля изменить нельзя
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/user-fields/crm-requisite-userfield-update.html
    */
@@ -61,7 +61,7 @@ export class BXRestNavvyCrmRequisiteUserField {
   }
 
   /**
-   * Возвращает пользовательское поле реквизита по идентификатору.
+   * Возвращает пользовательское поле реквизита по идентификатору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/user-fields/crm-requisite-userfield-get.html
    */
@@ -76,7 +76,7 @@ export class BXRestNavvyCrmRequisiteUserField {
   /**
    * Возвращает пользовательские поля реквизитов по фильтру.
    *
-   * Язык подписей можно выбрать через `filter.LANG`.
+   * Язык подписей можно выбрать через `filter.LANG`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/user-fields/crm-requisite-userfield-list.html
    */
@@ -89,7 +89,7 @@ export class BXRestNavvyCrmRequisiteUserField {
   }
 
   /**
-   * Удаляет пользовательское поле реквизита.
+   * Удаляет пользовательское поле реквизита
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/user-fields/crm-requisite-userfield-delete.html
    */

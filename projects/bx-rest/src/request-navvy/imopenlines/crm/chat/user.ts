@@ -6,7 +6,7 @@ export class BXRestNavvyImOpenLinesCrmChatUser  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет пользователя в существующий CRM-чат.
+   * Добавляет пользователя в существующий CRM-чат
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyImOpenLinesCrmChatUser  {
   }
 
   /**
-   * Удаляет пользователя из CRM-чата.
+   * Удаляет пользователя из CRM-чата
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<

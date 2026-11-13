@@ -6,7 +6,7 @@ export class BXRestNavvySaleBasketItem  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет элемент корзины.
+   * Добавляет элемент корзины
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySaleBasketItem  {
     >([$sale, $basketItem, $add], param)
   }
   /**
-   * Добавляет в корзину товар из каталога.
+   * Добавляет в корзину товар из каталога
    */
   public addCatalogProduct(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySaleBasketItem  {
     >([$sale, $basketItem, $addCatalogProduct], param)
   }
   /**
-   * Удаляет элемент корзины.
+   * Удаляет элемент корзины
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySaleBasketItem  {
     >([$sale, $basketItem, $delete], param)
   }
   /**
-   * Возвращает элемент корзины по идентификатору.
+   * Возвращает элемент корзины по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvySaleBasketItem  {
     >([$sale, $basketItem, $get], param)
   }
   /**
-   * Возвращает описание полей элемента корзины.
+   * Возвращает описание полей элемента корзины
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvySaleBasketItem  {
     >([$sale, $basketItem, $getFieldsExact], param)
   }
   /**
-   * Возвращает описание полей элемента корзины для товара каталога.
+   * Возвращает описание полей элемента корзины для товара каталога
    */
   public getFieldsCatalogProduct(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -68,7 +68,7 @@ export class BXRestNavvySaleBasketItem  {
   ], param)
   }
   /**
-   * Возвращает список элементов корзины.
+   * Возвращает список элементов корзины
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -78,7 +78,7 @@ export class BXRestNavvySaleBasketItem  {
     >([$sale, $basketItem, $list], param, 'basketItems')
   }
   /**
-   * Обновляет элемент корзины.
+   * Обновляет элемент корзины
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -88,7 +88,7 @@ export class BXRestNavvySaleBasketItem  {
     >([$sale, $basketItem, $update], param)
   }
   /**
-   * Обновляет элемент корзины для товара каталога.
+   * Обновляет элемент корзины для товара каталога
    */
   public updateCatalogProduct(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

@@ -6,7 +6,7 @@ export class BXRestNavvyMessageServiceMessageStatus {
   private readonly Navvy = new Navvy()
 
   /**
-   * Обновляет статус доставки сообщения.
+   * Обновляет статус доставки сообщения
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(

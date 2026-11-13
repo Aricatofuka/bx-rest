@@ -16,7 +16,7 @@ export class BXRestNavvyLogBlogComment {
   public readonly user = new BXRestNavvyLogBlogCommentUser()
 
   /**
-   * Добавляет комментарий к сообщению Ленты новостей.
+   * Добавляет комментарий к сообщению Ленты новостей
    */
   add(param: iBXRestParamLogBlogCommentAdd) {
     return this.Navvy.simple<number, number, iBXRestParamLogBlogCommentAdd>(
@@ -26,7 +26,7 @@ export class BXRestNavvyLogBlogComment {
   }
 
   /**
-   * Удаляет комментарий к сообщению Ленты новостей.
+   * Удаляет комментарий к сообщению Ленты новостей
    */
   delete(param: iBXRestParamLogBlogCommentDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamLogBlogCommentDelete>(

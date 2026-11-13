@@ -6,7 +6,7 @@ export class BXRestNavvyCrmStageHistory {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает историю движения элемента по стадиям.
+   * Возвращает историю движения элемента по стадиям
    */
   list(param: iBXRestCrmParams = {}) {
     return this.Navvy.pagNavKeyed<

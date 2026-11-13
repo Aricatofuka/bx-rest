@@ -47,7 +47,7 @@ export class BXRestNavvyCrmActivity  {
   public readonly type = new BXRestNavvyCrmActivityType()
 
   /**
-   * Создаёт новое дело.
+   * Создаёт новое дело
    */
   add(param: iBXRestCrmParams) {
     return this.Navvy.simple<number, number, iBXRestCrmParams>(
@@ -56,35 +56,35 @@ export class BXRestNavvyCrmActivity  {
   }
 
   /**
-   * Удаляет дело любого типа.
+   * Удаляет дело любого типа
    */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $activity, $delete], param)
   }
 
   /**
-   * Возвращает описание полей дела.
+   * Возвращает описание полей дела
    */
   fields() {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $activity, $fields], {})
   }
 
   /**
-   * Возвращает дело по идентификатору.
+   * Возвращает дело по идентификатору
    */
   get(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $activity, $get], param)
   }
 
   /**
-   * Возвращает список дел всех типов по фильтру.
+   * Возвращает список дел всех типов по фильтру
    */
   list(param: iBXRestCrmParams = {}) {
     return this.Navvy.pagNav<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $activity, $list], param)
   }
 
   /**
-   * Обновляет дело.
+   * Обновляет дело
    */
   update(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $activity, $update], param)

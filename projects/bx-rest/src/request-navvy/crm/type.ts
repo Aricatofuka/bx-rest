@@ -15,7 +15,7 @@ export class BXRestNavvyCrmType {
   private readonly Navvy = new Navvy()
 
   /**
-   * Создаёт новый смарт-процесс.
+   * Создаёт новый смарт-процесс
    */
   add(param: iBXRestParamCrmTypeAdd) {
     return this.Navvy.simple<iBXRestCrmTypeResult, iBXRestCrmTypeResult, iBXRestParamCrmTypeAdd>(
@@ -24,7 +24,7 @@ export class BXRestNavvyCrmType {
   }
 
   /**
-   * Удаляет смарт-процесс.
+   * Удаляет смарт-процесс
    */
   delete(param: iBXRestParamCrmTypeId) {
     return this.Navvy.simple<null, null, iBXRestParamCrmTypeId>(
@@ -33,14 +33,14 @@ export class BXRestNavvyCrmType {
   }
 
   /**
-   * Возвращает поля смарт-процесса.
+   * Возвращает поля смарт-процесса
    */
   fields() {
     return this.Navvy.simple<iBXRestCrmObject>([$crm, $type, $fields])
   }
 
   /**
-   * Возвращает смарт-процесс по идентификатору.
+   * Возвращает смарт-процесс по идентификатору
    */
   get(param: iBXRestParamCrmTypeId) {
     return this.Navvy.simple<iBXRestCrmTypeResult, iBXRestCrmTypeResult, iBXRestParamCrmTypeId>(
@@ -49,7 +49,7 @@ export class BXRestNavvyCrmType {
   }
 
   /**
-   * Возвращает смарт-процесс по entityTypeId.
+   * Возвращает смарт-процесс по entityTypeId
    */
   getByEntityTypeId(param: iBXRestParamCrmEntityType) {
     return this.Navvy.simple<iBXRestCrmTypeResult, iBXRestCrmTypeResult, iBXRestParamCrmEntityType>(
@@ -58,7 +58,7 @@ export class BXRestNavvyCrmType {
   }
 
   /**
-   * Возвращает список смарт-процессов.
+   * Возвращает список смарт-процессов
    */
   list(param: iBXRestParamCrmTypeList = {}) {
     return this.Navvy.pagNavResultKey<
@@ -70,7 +70,7 @@ export class BXRestNavvyCrmType {
   }
 
   /**
-   * Обновляет смарт-процесс.
+   * Обновляет смарт-процесс
    */
   update(param: iBXRestParamCrmTypeUpdate) {
     return this.Navvy.simple<iBXRestCrmTypeResult, iBXRestCrmTypeResult, iBXRestParamCrmTypeUpdate>(

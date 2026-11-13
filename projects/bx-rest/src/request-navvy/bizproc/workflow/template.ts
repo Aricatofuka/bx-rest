@@ -35,7 +35,7 @@ export class BXRestNavvyBizProcWorkflowTemplate {
    * Добавляет шаблон бизнес-процесса из файла `.bpt`.
    *
    * Метод работает только в контексте приложения и привязывает новый шаблон
-   * к вызвавшему его приложению.
+   * к вызвавшему его приложению
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/template/bizproc-workflow-template-add.html
    */
@@ -48,7 +48,7 @@ export class BXRestNavvyBizProcWorkflowTemplate {
   }
 
   /**
-   * Обновляет шаблон, ранее созданный текущим приложением.
+   * Обновляет шаблон, ранее созданный текущим приложением
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/template/bizproc-workflow-template-update.html
    */
@@ -61,7 +61,7 @@ export class BXRestNavvyBizProcWorkflowTemplate {
   }
 
   /**
-   * Удаляет шаблон, ранее созданный текущим приложением.
+   * Удаляет шаблон, ранее созданный текущим приложением
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/template/bizproc-workflow-template-delete.html
    */
@@ -74,7 +74,7 @@ export class BXRestNavvyBizProcWorkflowTemplate {
   }
 
   /**
-   * Возвращает список шаблонов с выборкой полей, фильтрацией и сортировкой.
+   * Возвращает список шаблонов с выборкой полей, фильтрацией и сортировкой
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/template/bizproc-workflow-template-list.html
    */

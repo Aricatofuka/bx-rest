@@ -39,7 +39,7 @@ export class BXRestNavvyCrmRequisitePresetField {
    * Добавляет настраиваемое поле в шаблон реквизитов.
    *
    * Пользовательское поле `UF_*` сначала нужно создать через
-   * `crm.requisite.userfield.add`. Список допустимых полей возвращает `availableToAdd()`.
+   * `crm.requisite.userfield.add`. Список допустимых полей возвращает `availableToAdd()`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-add.html
    */
@@ -55,7 +55,7 @@ export class BXRestNavvyCrmRequisitePresetField {
    * Изменяет настраиваемое поле заданного шаблона.
    *
    * API ожидает идентификатор поля в верхнерегистровом `ID`, а идентификатор
-   * шаблона — в `preset.ID`.
+   * шаблона — в `preset.ID`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-update.html
    */
@@ -70,7 +70,7 @@ export class BXRestNavvyCrmRequisitePresetField {
   /**
    * Возвращает имена полей, которые еще можно добавить в указанный шаблон.
    *
-   * Доступный набор зависит от страны шаблона.
+   * Доступный набор зависит от страны шаблона
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-available-to-add.html
    */
@@ -83,7 +83,7 @@ export class BXRestNavvyCrmRequisitePresetField {
   }
 
   /**
-   * Возвращает настраиваемое поле шаблона по идентификатору.
+   * Возвращает настраиваемое поле шаблона по идентификатору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-get.html
    */
@@ -96,7 +96,7 @@ export class BXRestNavvyCrmRequisitePresetField {
   }
 
   /**
-   * Возвращает все настраиваемые поля заданного шаблона.
+   * Возвращает все настраиваемые поля заданного шаблона
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-list.html
    */
@@ -109,7 +109,7 @@ export class BXRestNavvyCrmRequisitePresetField {
   }
 
   /**
-   * Удаляет настраиваемое поле из шаблона, не удаляя пользовательское поле `UF_*`.
+   * Удаляет настраиваемое поле из шаблона, не удаляя пользовательское поле `UF_*`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-delete.html
    */
@@ -122,7 +122,7 @@ export class BXRestNavvyCrmRequisitePresetField {
   }
 
   /**
-   * Возвращает формальное описание настраиваемых полей шаблона.
+   * Возвращает формальное описание настраиваемых полей шаблона
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/fields/crm-requisite-preset-field-fields.html
    */

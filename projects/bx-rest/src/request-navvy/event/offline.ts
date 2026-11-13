@@ -36,7 +36,7 @@ export class BXRestNavvyEventOffline {
    *
    * По умолчанию метод удаляет выбранные записи. Передайте `clear: 0`, чтобы
    * зарезервировать их и получить `process_id` для последующего вызова
-   * `clear` или `error`. Параллельные запросы получают разные наборы записей.
+   * `clear` или `error`. Параллельные запросы получают разные наборы записей
    *
    * @see https://apidocs.bitrix24.ru/api-reference/events/event-offline-get.html
    */
@@ -52,7 +52,7 @@ export class BXRestNavvyEventOffline {
    * Читает одну страницу текущей очереди, не меняя состояние записей.
    *
    * Метод не резервирует записи и не формирует `process_id`. Размер страницы
-   * фиксирован и равен 50 записям.
+   * фиксирован и равен 50 записям
    *
    * @see https://apidocs.bitrix24.ru/api-reference/events/event-offline-list.html
    */
@@ -68,7 +68,7 @@ export class BXRestNavvyEventOffline {
    * Удаляет обработанные записи зарезервированного пакета.
    *
    * Без `id` и `message_id` удаляет все записи с переданным `process_id`.
-   * Если указаны оба массива, `id` имеет приоритет.
+   * Если указаны оба массива, `id` имеет приоритет
    *
    * @see https://apidocs.bitrix24.ru/api-reference/events/event-offline-clear.html
    */
@@ -80,7 +80,7 @@ export class BXRestNavvyEventOffline {
   }
 
   /**
-   * Помечает записи зарезервированного пакета ошибочными.
+   * Помечает записи зарезервированного пакета ошибочными
    *
    * @see https://apidocs.bitrix24.ru/api-reference/events/event-offline-error.html
    */

@@ -6,28 +6,28 @@ export class BXRestNavvyTelephonyExternalCall  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Прикрепляет запись звонка.
+   * Прикрепляет запись звонка
    */
   attachRecord(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$telephony, $externalCall, $attachRecord], param)
   }
 
   /**
-   * Завершает звонок.
+   * Завершает звонок
    */
   finish(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$telephony, $externalCall, $finish], param)
   }
 
   /**
-   * Скрывает карточку звонка у пользователя.
+   * Скрывает карточку звонка у пользователя
    */
   hide(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$telephony, $externalCall, $hide], param)
   }
 
   /**
-   * Регистрирует начало звонка.
+   * Регистрирует начало звонка
    */
   register(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -38,7 +38,7 @@ export class BXRestNavvyTelephonyExternalCall  {
   }
 
   /**
-   * Ищет клиентские объекты CRM по номеру телефона.
+   * Ищет клиентские объекты CRM по номеру телефона
    */
   searchCrmEntities(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -49,7 +49,7 @@ export class BXRestNavvyTelephonyExternalCall  {
   }
 
   /**
-   * Открывает карточку звонка у пользователя.
+   * Открывает карточку звонка у пользователя
    */
   show(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$telephony, $externalCall, $show], param)

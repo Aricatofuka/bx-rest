@@ -6,7 +6,7 @@ export class BXRestNavvySaleTradePlatform  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает описание полей источника заказов.
+   * Возвращает описание полей источника заказов
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySaleTradePlatform  {
     >([$sale, $tradePlatform, $getFieldsExact], param)
   }
   /**
-   * Возвращает список источников заказов.
+   * Возвращает список источников заказов
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<

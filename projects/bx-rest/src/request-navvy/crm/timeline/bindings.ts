@@ -30,7 +30,7 @@ export class BXRestNavvyCrmTimelineBindings {
   }
 
   /**
-   * Добавляет связь записи таймлайна с элементом CRM.
+   * Добавляет связь записи таймлайна с элементом CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/bindings/crm-timeline-bindings-bind.html
    */
@@ -42,7 +42,7 @@ export class BXRestNavvyCrmTimelineBindings {
   }
 
   /**
-   * Возвращает все связи записи таймлайна по обязательному `OWNER_ID`.
+   * Возвращает все связи записи таймлайна по обязательному `OWNER_ID`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/bindings/crm-timeline-bindings-list.html
    */
@@ -55,7 +55,7 @@ export class BXRestNavvyCrmTimelineBindings {
   }
 
   /**
-   * Удаляет связь записи таймлайна с указанным элементом CRM.
+   * Удаляет связь записи таймлайна с указанным элементом CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/bindings/crm-timeline-bindings-unbind.html
    */
@@ -67,7 +67,7 @@ export class BXRestNavvyCrmTimelineBindings {
   }
 
   /**
-   * Возвращает описание полей связи записи таймлайна с элементом CRM.
+   * Возвращает описание полей связи записи таймлайна с элементом CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/bindings/crm-timeline-bindings-fields.html
    */

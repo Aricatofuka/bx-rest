@@ -6,7 +6,7 @@ export class BXRestNavvySalePropertyGroup  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет группу свойств заказа.
+   * Добавляет группу свойств заказа
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySalePropertyGroup  {
     >([$sale, $propertyGroup, $add], param)
   }
   /**
-   * Удаляет группу свойств заказа.
+   * Удаляет группу свойств заказа
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySalePropertyGroup  {
     >([$sale, $propertyGroup, $delete], param)
   }
   /**
-   * Возвращает группу свойств заказа по идентификатору.
+   * Возвращает группу свойств заказа по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySalePropertyGroup  {
     >([$sale, $propertyGroup, $get], param)
   }
   /**
-   * Возвращает описание полей группы свойств заказа.
+   * Возвращает описание полей группы свойств заказа
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvySalePropertyGroup  {
     >([$sale, $propertyGroup, $getFieldsExact], param)
   }
   /**
-   * Возвращает список групп свойств заказа.
+   * Возвращает список групп свойств заказа
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvySalePropertyGroup  {
     >([$sale, $propertyGroup, $list], param)
   }
   /**
-   * Обновляет группу свойств заказа.
+   * Обновляет группу свойств заказа
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

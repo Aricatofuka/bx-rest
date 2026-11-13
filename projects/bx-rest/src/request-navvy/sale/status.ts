@@ -6,7 +6,7 @@ export class BXRestNavvySaleStatus  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет статус.
+   * Добавляет статус
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySaleStatus  {
     >([$sale, $status, $add], param)
   }
   /**
-   * Удаляет статус.
+   * Удаляет статус
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySaleStatus  {
     >([$sale, $status, $delete], param)
   }
   /**
-   * Возвращает статус по идентификатору.
+   * Возвращает статус по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySaleStatus  {
     >([$sale, $status, $get], param)
   }
   /**
-   * Возвращает описание полей статуса.
+   * Возвращает описание полей статуса
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvySaleStatus  {
     >([$sale, $status, $getFieldsExact], param)
   }
   /**
-   * Возвращает список статусов.
+   * Возвращает список статусов
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvySaleStatus  {
     >([$sale, $status, $list], param, 'statuses')
   }
   /**
-   * Обновляет статус.
+   * Обновляет статус
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

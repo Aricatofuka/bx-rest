@@ -6,7 +6,7 @@ export class BXRestNavvyMailRecipientField  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает описание поля получателя.
+   * Возвращает описание поля получателя
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
@@ -17,7 +17,7 @@ export class BXRestNavvyMailRecipientField  {
   }
 
   /**
-   * Возвращает список полей получателя.
+   * Возвращает список полей получателя
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<

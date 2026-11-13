@@ -25,7 +25,7 @@ export class BXRestNavvyListsSection {
   }
 
   /**
-   * Создаёт раздел списка.
+   * Создаёт раздел списка
    */
   add(param: iBXRestParamListsSectionAdd) {
     return this.Navvy.simple<number, number, iBXRestParamListsSectionAdd>(
@@ -35,7 +35,7 @@ export class BXRestNavvyListsSection {
   }
 
   /**
-   * Удаляет раздел списка.
+   * Удаляет раздел списка
    */
   delete(param: iBXRestParamListsSectionDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsSectionDelete>(
@@ -45,7 +45,7 @@ export class BXRestNavvyListsSection {
   }
 
   /**
-   * Возвращает раздел или список разделов.
+   * Возвращает раздел или список разделов
    */
   get(param: iBXRestParamListsSectionGet) {
     return this.Navvy.pagNav<
@@ -56,7 +56,7 @@ export class BXRestNavvyListsSection {
   }
 
   /**
-   * Обновляет раздел списка.
+   * Обновляет раздел списка
    */
   update(param: iBXRestParamListsSectionUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsSectionUpdate>(

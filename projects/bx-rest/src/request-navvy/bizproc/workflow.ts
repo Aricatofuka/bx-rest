@@ -35,7 +35,7 @@ export class BXRestNavvyBXRestBizProcWorkflow {
   }
 
   /**
-   * Запускает новый бизнес-процесс по шаблону для указанного документа.
+   * Запускает новый бизнес-процесс по шаблону для указанного документа
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-workflow-start.html
    */
@@ -47,7 +47,7 @@ export class BXRestNavvyBXRestBizProcWorkflow {
   }
 
   /**
-   * Возвращает список запущенных бизнес-процессов.
+   * Возвращает список запущенных бизнес-процессов
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-workflow-instances.html
    */
@@ -60,7 +60,7 @@ export class BXRestNavvyBXRestBizProcWorkflow {
   }
 
   /**
-   * Прерывает активный бизнес-процесс с сохранением его данных.
+   * Прерывает активный бизнес-процесс с сохранением его данных
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-workflow-terminate.html
    */
@@ -72,7 +72,7 @@ export class BXRestNavvyBXRestBizProcWorkflow {
   }
 
   /**
-   * Удаляет запущенный бизнес-процесс вместе со всеми его данными.
+   * Удаляет запущенный бизнес-процесс вместе со всеми его данными
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-workflow-kill.html
    */

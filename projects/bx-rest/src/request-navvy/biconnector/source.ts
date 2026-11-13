@@ -1,12 +1,14 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
 import { $add, $biconnector, $delete, $fields, $get, $list, $source, $update } from '../../consts/part-name-methods'
+import { pageNumberNav } from '../../services/navvy/sequential-navs'
+import { PAGE_SIZE } from '../../consts/page-size'
 
 export class BXRestNavvyBiConnectorSource {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет новый источник.
+   * Добавляет новый источник
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +19,7 @@ export class BXRestNavvyBiConnectorSource {
   }
 
   /**
-   * Удаляет источник.
+   * Удаляет источник
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(
@@ -27,7 +29,7 @@ export class BXRestNavvyBiConnectorSource {
   }
 
   /**
-   * Возвращает описание полей источника.
+   * Возвращает описание полей источника
    */
   fields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -38,7 +40,7 @@ export class BXRestNavvyBiConnectorSource {
   }
 
   /**
-   * Возвращает информацию об источнике.
+   * Возвращает информацию об источнике
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -49,18 +51,18 @@ export class BXRestNavvyBiConnectorSource {
   }
 
   /**
-   * Возвращает список доступных источников.
+   * Возвращает список доступных источников
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavSequential<
       iBXRestGenericObject[],
       iBXRestGenericObject[],
       iBXRestGenericParams
-    >([$biconnector, $source, $list], param)
+    >([$biconnector, $source, $list], param, pageNumberNav(PAGE_SIZE))
   }
 
   /**
-   * Обновляет существующий источник.
+   * Обновляет существующий источник
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(

@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogPriceType  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет тип цены.
+   * Добавляет тип цены
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogPriceType  {
     >([$catalog, $priceType, $add], param)
   }
   /**
-   * Удаляет тип цены.
+   * Удаляет тип цены
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogPriceType  {
     >([$catalog, $priceType, $delete], param)
   }
   /**
-   * Возвращает тип цены по идентификатору.
+   * Возвращает тип цены по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogPriceType  {
     >([$catalog, $priceType, $get], param)
   }
   /**
-   * Возвращает описание полей типа цены.
+   * Возвращает описание полей типа цены
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogPriceType  {
     >([$catalog, $priceType, $getFieldsExact], param)
   }
   /**
-   * Возвращает список типов цен.
+   * Возвращает список типов цен
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvyCatalogPriceType  {
     >([$catalog, $priceType, $list], param, 'priceTypes')
   }
   /**
-   * Обновляет тип цены.
+   * Обновляет тип цены
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

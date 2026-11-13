@@ -6,7 +6,7 @@ export class BXRestNavvySalePaySystemHandler  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Регистрирует обработчик платёжной системы.
+   * Регистрирует обработчик платёжной системы
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySalePaySystemHandler  {
     >([$sale, $paysystem, $handler, $add], param)
   }
   /**
-   * Удаляет обработчик платёжной системы.
+   * Удаляет обработчик платёжной системы
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySalePaySystemHandler  {
     >([$sale, $paysystem, $handler, $delete], param)
   }
   /**
-   * Возвращает список обработчиков платёжных систем.
+   * Возвращает список обработчиков платёжных систем
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySalePaySystemHandler  {
     >([$sale, $paysystem, $handler, $list], param)
   }
   /**
-   * Обновляет обработчик платёжной системы.
+   * Обновляет обработчик платёжной системы
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

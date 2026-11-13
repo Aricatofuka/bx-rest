@@ -6,7 +6,7 @@ export class BXRestNavvyDocumentGeneratorTemplate  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Загружает новый шаблон документа.
+   * Загружает новый шаблон документа
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyDocumentGeneratorTemplate  {
   }
 
   /**
-   * Удаляет шаблон документа.
+   * Удаляет шаблон документа
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyDocumentGeneratorTemplate  {
   }
 
   /**
-   * Возвращает шаблон документа по идентификатору.
+   * Возвращает шаблон документа по идентификатору
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -39,7 +39,7 @@ export class BXRestNavvyDocumentGeneratorTemplate  {
   }
 
   /**
-   * Возвращает карту полей шаблона.
+   * Возвращает карту полей шаблона
    */
   getFields(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -50,7 +50,7 @@ export class BXRestNavvyDocumentGeneratorTemplate  {
   }
 
   /**
-   * Возвращает список шаблонов документов по фильтру.
+   * Возвращает список шаблонов документов по фильтру
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -61,7 +61,7 @@ export class BXRestNavvyDocumentGeneratorTemplate  {
   }
 
   /**
-   * Обновляет существующий шаблон документа.
+   * Обновляет существующий шаблон документа
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<

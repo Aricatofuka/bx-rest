@@ -11,7 +11,7 @@ export class BXRestNavvyCrmCurrencyBase {
   }
 
   /**
-   * Возвращает символьный идентификатор базовой валюты.
+   * Возвращает символьный идентификатор базовой валюты
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/currency/crm-currency-base-get.html
    */
@@ -21,9 +21,9 @@ export class BXRestNavvyCrmCurrencyBase {
 
   /**
    * Устанавливает указанную валюту в качестве базовой.
-   * После смены базовой валюты курсы остальных валют необходимо обновить вручную.
+   * После смены базовой валюты курсы остальных валют необходимо обновить вручную
    *
-   * @param param Символьный идентификатор новой базовой валюты.
+   * @param param Символьный идентификатор новой базовой валюты
    * @see https://apidocs.bitrix24.ru/api-reference/crm/currency/crm-currency-base-set.html
    */
   set(param: iBXRestParamCrmCurrencyBaseSet) {

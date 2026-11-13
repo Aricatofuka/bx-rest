@@ -9,7 +9,7 @@ export class BXRestNavvyCalendarResourceBooking {
     list: [$calendar, $resource, $booking, $list]
   }
 
-  /** Returns bookings matching one resource filter. */
+  /** Returns bookings matching one resource filter */
   list(param: iBXRestParamCalendarResourceBookingList) {
     return this.Navvy.pagNav<
       iBXRestCalendarResourceBooking,

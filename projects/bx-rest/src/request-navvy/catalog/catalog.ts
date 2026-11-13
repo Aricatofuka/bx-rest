@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogCatalog  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Регистрирует инфоблок как торговый каталог.
+   * Регистрирует инфоблок как торговый каталог
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogCatalog  {
     >([$catalog, $catalog, $add], param)
   }
   /**
-   * Отменяет регистрацию инфоблока как торгового каталога.
+   * Отменяет регистрацию инфоблока как торгового каталога
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogCatalog  {
     >([$catalog, $catalog, $delete], param)
   }
   /**
-   * Возвращает параметры торгового каталога.
+   * Возвращает параметры торгового каталога
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogCatalog  {
     >([$catalog, $catalog, $get], param)
   }
   /**
-   * Возвращает описание полей торгового каталога.
+   * Возвращает описание полей торгового каталога
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogCatalog  {
     >([$catalog, $catalog, $getFieldsExact], param)
   }
   /**
-   * Проверяет, содержит ли каталог товары-вариации (SKU).
+   * Проверяет, содержит ли каталог товары-вариации (SKU)
    */
   public isOffers(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvyCatalogCatalog  {
     >([$catalog, $catalog, $isOffers], param)
   }
   /**
-   * Возвращает список торговых каталогов.
+   * Возвращает список торговых каталогов
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -66,7 +66,7 @@ export class BXRestNavvyCatalogCatalog  {
     >([$catalog, $catalog, $list], param, 'catalogs')
   }
   /**
-   * Обновляет параметры торгового каталога.
+   * Обновляет параметры торгового каталога
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

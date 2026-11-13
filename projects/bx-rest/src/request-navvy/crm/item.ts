@@ -38,7 +38,7 @@ export class BXRestNavvyCrmItem {
   public readonly productRow = new BXRestNavvyCrmItemProductRow()
 
   /**
-   * Создаёт элемент CRM.
+   * Создаёт элемент CRM
    */
   add(param: iBXRestParamCrmItemFields) {
     return this.Navvy.simple<iBXRestCrmItemResult, iBXRestCrmItemResult, iBXRestParamCrmItemFields>(
@@ -47,7 +47,7 @@ export class BXRestNavvyCrmItem {
   }
 
   /**
-   * Пакетно импортирует элементы CRM.
+   * Пакетно импортирует элементы CRM
    */
   batchImport(param: iBXRestParamCrmItemBatchImport) {
     return this.Navvy.simple<
@@ -58,7 +58,7 @@ export class BXRestNavvyCrmItem {
   }
 
   /**
-   * Удаляет элемент CRM.
+   * Удаляет элемент CRM
    */
   delete(param: iBXRestParamCrmItemId) {
     return this.Navvy.simple<null, null, iBXRestParamCrmItemId>(
@@ -67,7 +67,7 @@ export class BXRestNavvyCrmItem {
   }
 
   /**
-   * Возвращает описание полей элемента CRM.
+   * Возвращает описание полей элемента CRM
    */
   fields(param: iBXRestParamCrmEntityType) {
     return this.Navvy.simple<iBXRestCrmItemFieldsResult, iBXRestCrmItemFieldsResult, iBXRestParamCrmEntityType>(
@@ -76,7 +76,7 @@ export class BXRestNavvyCrmItem {
   }
 
   /**
-   * Возвращает данные элемента CRM по идентификатору.
+   * Возвращает данные элемента CRM по идентификатору
    */
   get(param: iBXRestParamCrmItemId) {
     return this.Navvy.simple<iBXRestCrmItemResult, iBXRestCrmItemResult, iBXRestParamCrmItemId>(
@@ -85,7 +85,7 @@ export class BXRestNavvyCrmItem {
   }
 
   /**
-   * Импортирует элемент CRM.
+   * Импортирует элемент CRM
    */
   import(param: iBXRestParamCrmItemImport) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmItemImport>(
@@ -94,7 +94,7 @@ export class BXRestNavvyCrmItem {
   }
 
   /**
-   * Возвращает список элементов CRM.
+   * Возвращает список элементов CRM
    */
   list(param: iBXRestParamCrmItemList) {
     return this.Navvy.pagNavResultKey<
@@ -106,7 +106,7 @@ export class BXRestNavvyCrmItem {
   }
 
   /**
-   * Изменяет поля элемента CRM.
+   * Изменяет поля элемента CRM
    */
   update(param: iBXRestParamCrmItemUpdate) {
     return this.Navvy.simple<iBXRestCrmItemResult, iBXRestCrmItemResult, iBXRestParamCrmItemUpdate>(

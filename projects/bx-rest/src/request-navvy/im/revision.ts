@@ -6,7 +6,7 @@ export class BXRestNavvyImRevision {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает ревизии API модуля IM.
+   * Возвращает ревизии API модуля IM
    */
   get() {
     return this.Navvy.simple<iBXRestImObject>([$im, $revision, $get])

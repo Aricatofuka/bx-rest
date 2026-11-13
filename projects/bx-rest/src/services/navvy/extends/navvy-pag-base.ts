@@ -11,9 +11,7 @@ import {
 import { iBXRestPagination } from '../../../typification/rest/base/api-pagination-bx'
 import { iBXRestBatch } from '../../../typification/rest/batch'
 import { serializeBitrixParams } from '../../../functions/serializeBitrixParams'
-
-/** Больше команд в одном запросе `batch` Bitrix не принимает. */
-const BATCH_COMMANDS_LIMIT = 50
+import { BATCH_COMMANDS_LIMIT, PAGE_SIZE } from '../../../consts/page-size'
 
 export interface BXRestResOptions {
   /**
@@ -32,7 +30,7 @@ export interface BXRestResOptions {
 
 /**
  * Параметры остальных страниц для методов с постраничной навигацией через `start`.
- * Отсчёт идёт от `start` самого запроса: первая страница уже получена именно с него.
+ * Отсчёт идёт от `start` самого запроса: первая страница уже получена именно с него
  */
 export function offsetPageParams<P extends iBXRestPagination>(param: P, total: number | undefined, pageSize: number): P[] {
   const pages: P[] = []
@@ -46,7 +44,7 @@ export abstract class NavvyPagBase<T, R, P> {
 
   protected readonly http: HttpBXServices
   protected requestHeaders?: Record<string, string>
-  pageSize = 50 // стандартный размер страницы
+  pageSize = PAGE_SIZE
 
   public constructor(
     protected url: string[],
@@ -61,7 +59,7 @@ export abstract class NavvyPagBase<T, R, P> {
    * HTTP-заголовки только для этого запроса — поверх `BXRestSettings.headers`
    * (при совпадении имени побеждает значение отсюда). Повторные вызовы
    * дополняют уже заданные заголовки. Действует на `.res()`, `.resVanilla()`,
-   * `.mapForVanilla()` и на все batch-запросы `.resAll()`.
+   * `.mapForVanilla()` и на все batch-запросы `.resAll()`
    *
    * @example
    * bx.crm.deal.list({ ... }).withHeaders({ 'X-Request-Source': 'report' }).resAll()
@@ -139,10 +137,15 @@ export abstract class NavvyPagBase<T, R, P> {
 
   /**
    * Первая страница для `.resAll()`. Ошибка Bitrix в теле ответа 2xx становится `BXRestApiError`:
-   * страниц в таком ответе нет, и без этого `.resAll()` завершился бы безликим `EmptyError`.
+   * страниц в таком ответе нет, и без этого `.resAll()` завершился бы безликим `EmptyError`
    */
   protected resFirstPage(): Observable<iBXRestAnswerSuccess<T>> {
-    return this.resVanilla().pipe(
+    return this.resPage(this.param)
+  }
+
+  /** Одна страница с параметрами `param`, с теми же проверками ответа, что у {@link resFirstPage} */
+  protected resPage(param: P): Observable<iBXRestAnswerSuccess<T>> {
+    return this.http.post<T>(this.url, param, this.restApi, this.requestHeaders).pipe(
       map(v => {
         if (!v || typeof v !== 'object') {
           throw this.notRestAnswerError()
@@ -158,7 +161,7 @@ export abstract class NavvyPagBase<T, R, P> {
   /**
    * Остальные страницы для `.resAll()`, в порядке `params`. Команды уходят через `batch`,
    * пакеты — по очереди. Ошибка любой страницы завершает весь запрос: неполный список
-   * выглядел бы для вызывающего кода как полный.
+   * выглядел бы для вызывающего кода как полный
    */
   protected resPages<Page>(params: P[]): Observable<Page[]> {
     const method = this.http.getNameMethod(this.url)

@@ -12,7 +12,7 @@ export class BXRestNavvyImOpenLinesBotSession  {
   public readonly message = new BXRestNavvyImOpenLinesBotSessionMessage()
 
   /**
-   * Завершает диалог от имени чат-бота.
+   * Завершает диалог от имени чат-бота
    */
   finish(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -23,7 +23,7 @@ export class BXRestNavvyImOpenLinesBotSession  {
   }
 
   /**
-   * Переключает диалог на свободного оператора.
+   * Переключает диалог на свободного оператора
    */
   operator(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -34,7 +34,7 @@ export class BXRestNavvyImOpenLinesBotSession  {
   }
 
   /**
-   * Переводит диалог на оператора или в очередь.
+   * Переводит диалог на оператора или в очередь
    */
   transfer(param: iBXRestGenericParams) {
     return this.Navvy.simple<

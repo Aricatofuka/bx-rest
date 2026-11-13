@@ -6,7 +6,7 @@ export class BXRestNavvyEntitySection  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет раздел хранилища.
+   * Добавляет раздел хранилища
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,14 +17,14 @@ export class BXRestNavvyEntitySection  {
   }
 
   /**
-   * Удаляет раздел хранилища.
+   * Удаляет раздел хранилища
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $section, $delete], param)
   }
 
   /**
-   * Возвращает список разделов хранилища.
+   * Возвращает список разделов хранилища
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -35,7 +35,7 @@ export class BXRestNavvyEntitySection  {
   }
 
   /**
-   * Изменяет раздел хранилища.
+   * Изменяет раздел хранилища
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $section, $update], param)

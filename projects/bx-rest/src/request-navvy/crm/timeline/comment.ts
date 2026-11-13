@@ -42,7 +42,7 @@ export class BXRestNavvyCrmTimelineComment {
    * Добавляет новый комментарий в таймлайн элемента CRM.
    *
    * Содержимое файлов передается в Base64. Начиная с CRM 23.100.0 внешний ключ
-   * параметров должен называться именно `fields` в нижнем регистре.
+   * параметров должен называться именно `fields` в нижнем регистре
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/comments/crm-timeline-comment-add.html
    */
@@ -57,7 +57,7 @@ export class BXRestNavvyCrmTimelineComment {
    * Обновляет текст и/или прикрепленные файлы комментария.
    *
    * `ownerTypeId` и `ownerId` уточняют элемент CRM, когда комментарий связан
-   * сразу с несколькими элементами.
+   * сразу с несколькими элементами
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/comments/crm-timeline-comment-update.html
    */
@@ -69,7 +69,7 @@ export class BXRestNavvyCrmTimelineComment {
   }
 
   /**
-   * Возвращает комментарий по его идентификатору.
+   * Возвращает комментарий по его идентификатору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/comments/crm-timeline-comment-get.html
    */
@@ -85,7 +85,7 @@ export class BXRestNavvyCrmTimelineComment {
    * Возвращает комментарии указанного элемента CRM с выборкой полей,
    * сортировкой и постраничной навигацией.
    *
-   * Размер страницы REST API фиксирован и равен 50 записям.
+   * Размер страницы REST API фиксирован и равен 50 записям
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/comments/crm-timeline-comment-list.html
    */
@@ -101,7 +101,7 @@ export class BXRestNavvyCrmTimelineComment {
    * Удаляет комментарий.
    *
    * Если передать `ownerTypeId` и `ownerId`, у комментария с несколькими
-   * связями будет удалена только привязка к указанному элементу.
+   * связями будет удалена только привязка к указанному элементу
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/comments/crm-timeline-comment-delete.html
    */
@@ -113,7 +113,7 @@ export class BXRestNavvyCrmTimelineComment {
   }
 
   /**
-   * Возвращает описание всех полей комментария таймлайна.
+   * Возвращает описание всех полей комментария таймлайна
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/comments/crm-timeline-comment-fields.html
    */

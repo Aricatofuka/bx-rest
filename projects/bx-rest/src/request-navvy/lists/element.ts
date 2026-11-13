@@ -29,7 +29,7 @@ export class BXRestNavvyListsElement {
   }
 
   /**
-   * Возвращает элемент или список элементов.
+   * Возвращает элемент или список элементов
    */
   get(param: iBXRestParamListsElementGet) {
     return this.Navvy.pagNav(
@@ -40,7 +40,7 @@ export class BXRestNavvyListsElement {
   }
 
   /**
-   * Создаёт элемент списка.
+   * Создаёт элемент списка
    */
   add(param: iBXRestParamListsElementAdd) {
     return this.Navvy.simple<number, number, iBXRestParamListsElementAdd>(
@@ -50,7 +50,7 @@ export class BXRestNavvyListsElement {
   }
 
   /**
-   * Удаляет элемент списка.
+   * Удаляет элемент списка
    */
   delete(param: iBXRestParamListsElementDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsElementDelete>(
@@ -60,7 +60,7 @@ export class BXRestNavvyListsElement {
   }
 
   /**
-   * Обновляет элемент списка.
+   * Обновляет элемент списка
    */
   update(param: iBXRestParamListsElementUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsElementUpdate>(
@@ -70,7 +70,7 @@ export class BXRestNavvyListsElement {
   }
 
   /**
-   * Возвращает путь к файлу.
+   * Возвращает путь к файлу
    */
   getFileUrl(param: iBXRestParamListsElementGetFileUrl) {
     return this.Navvy.simple<

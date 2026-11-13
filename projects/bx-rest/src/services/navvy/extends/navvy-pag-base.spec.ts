@@ -132,6 +132,8 @@ describe('.resAll() error handling', () => {
     ['pagNavResultKeyObject', () => new Navvy().pagNavResultKeyObject(url, {}, 'items').resAll()],
     ['pagNavWithUselessKey', () => new Navvy().pagNavWithUselessKey(url, {}).resAll()],
     ['alterPagNav', () => new Navvy().alterPagNav(url, {}).resAll()],
+    ['pagNavOffset', () => new Navvy().pagNavOffset(url, {}, { offset: 'OFFSET', limit: 'LIMIT', pageSize: 50 }).resAll()],
+    ['pagNavSequential', () => new Navvy().pagNavSequential(url, {}, { next: () => undefined }).resAll()],
   ]
 
   it.each(resAll)('%s: a Bitrix error in a 2xx body fails with BXRestApiError', async (_, request) => {

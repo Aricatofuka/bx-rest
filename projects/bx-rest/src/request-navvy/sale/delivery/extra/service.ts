@@ -6,7 +6,7 @@ export class BXRestNavvySaleDeliveryExtraService  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет дополнительную услугу службы доставки.
+   * Добавляет дополнительную услугу службы доставки
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySaleDeliveryExtraService  {
     >([$sale, $delivery, $extra, $service, $add], param)
   }
   /**
-   * Удаляет дополнительную услугу службы доставки.
+   * Удаляет дополнительную услугу службы доставки
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySaleDeliveryExtraService  {
     >([$sale, $delivery, $extra, $service, $delete], param)
   }
   /**
-   * Возвращает дополнительную услугу службы доставки.
+   * Возвращает дополнительную услугу службы доставки
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySaleDeliveryExtraService  {
     >([$sale, $delivery, $extra, $service, $get], param)
   }
   /**
-   * Обновляет дополнительную услугу службы доставки.
+   * Обновляет дополнительную услугу службы доставки
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

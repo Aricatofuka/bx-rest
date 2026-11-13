@@ -42,7 +42,7 @@ export class BXRestNavvyTaskStages {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет стадии канбана или «Моего плана».
+   * Добавляет стадии канбана или «Моего плана»
    */
   add(param: iBXRestAddTaskStage) {
     return this.Navvy.simple<number, number, iBXRestAddTaskStage>(
@@ -52,7 +52,7 @@ export class BXRestNavvyTaskStages {
   }
 
   /**
-   * Возвращает стадии канбана или «Моего плана».
+   * Возвращает стадии канбана или «Моего плана»
    */
   get(param: iBXRestParamTaskStageGet) {
     return this.Navvy.simple<iBXRestTaskStage[], iBXRestTaskStage[], iBXRestParamTaskStageGet>(
@@ -62,7 +62,7 @@ export class BXRestNavvyTaskStages {
   }
 
   /**
-   * Обновляет стадии канбана или «Моего плана».
+   * Обновляет стадии канбана или «Моего плана»
    */
   update(param: iBXRestParamTaskStagesUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesUpdate>(
@@ -72,7 +72,7 @@ export class BXRestNavvyTaskStages {
   }
 
   /**
-   * Определяет, может ли пользователь перемещать задачи между стадиями.
+   * Определяет, может ли пользователь перемещать задачи между стадиями
    */
   canMoveTask(param: iBXRestParamTaskStagesCanMoveTask) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesCanMoveTask>(
@@ -82,7 +82,7 @@ export class BXRestNavvyTaskStages {
   }
 
   /**
-   * Удаляет стадии канбана или «Моего плана».
+   * Удаляет стадии канбана или «Моего плана»
    */
   delete(param: iBXRestParamTaskStagesDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesDelete>(
@@ -92,7 +92,7 @@ export class BXRestNavvyTaskStages {
   }
 
   /**
-   * Перемещает задачи из одной стадии в другую.
+   * Перемещает задачи из одной стадии в другую
    */
   moveTask(param: iBXRestParamTaskStagesMoveTask) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskStagesMoveTask>(

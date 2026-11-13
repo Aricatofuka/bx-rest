@@ -6,7 +6,7 @@ export class BXRestNavvyImNotifySystem {
   private readonly Navvy = new Navvy()
 
   /**
-   * Отправляет системное уведомление.
+   * Отправляет системное уведомление
    */
   add(param: iBXRestParamImNotifySystemAdd) {
     return this.Navvy.simple<number, number, iBXRestParamImNotifySystemAdd>(

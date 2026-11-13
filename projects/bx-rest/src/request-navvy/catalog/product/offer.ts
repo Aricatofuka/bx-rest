@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogProductOffer  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет товар-вариацию (торговое предложение).
+   * Добавляет товар-вариацию (торговое предложение)
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogProductOffer  {
     >([$catalog, $product, $offer, $add], param)
   }
   /**
-   * Удаляет товар-вариацию.
+   * Удаляет товар-вариацию
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogProductOffer  {
     >([$catalog, $product, $offer, $delete], param)
   }
   /**
-   * Скачивает изображение товара-вариации.
+   * Скачивает изображение товара-вариации
    */
   public download(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogProductOffer  {
     >([$catalog, $product, $offer, $download], param)
   }
   /**
-   * Возвращает товар-вариацию по идентификатору.
+   * Возвращает товар-вариацию по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogProductOffer  {
     >([$catalog, $product, $offer, $get], param)
   }
   /**
-   * Возвращает описание полей товаров-вариаций с учётом фильтра.
+   * Возвращает описание полей товаров-вариаций с учётом фильтра
    */
   public getFieldsByFilter(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -58,7 +58,7 @@ export class BXRestNavvyCatalogProductOffer  {
   ], param)
   }
   /**
-   * Возвращает список товаров-вариаций.
+   * Возвращает список товаров-вариаций
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -68,7 +68,7 @@ export class BXRestNavvyCatalogProductOffer  {
     >([$catalog, $product, $offer, $list], param, 'offers')
   }
   /**
-   * Обновляет товар-вариацию.
+   * Обновляет товар-вариацию
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

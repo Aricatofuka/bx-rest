@@ -37,7 +37,7 @@ function stub(): any {
   })
 }
 
-/** Все публичные методы клиента в порядке обхода. */
+/** Все публичные методы клиента в порядке обхода */
 export function listClientMethods(): ClientMethod[] {
   const SKIP = new Set(['constructor', 'url', ...PRIVATE_FIELDS])
   const seen = new Set<object>()

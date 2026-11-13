@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogEnum  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает справочник типов округления цен.
+   * Возвращает справочник типов округления цен
    */
   public getRoundTypes(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogEnum  {
     >([$catalog, $enum, $getRoundTypes], param)
   }
   /**
-   * Возвращает справочник типов документов складского учёта.
+   * Возвращает справочник типов документов складского учёта
    */
   public getStoreDocumentTypes(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

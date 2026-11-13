@@ -32,9 +32,9 @@ export class BXRestNavvyCrmStatus {
 
   /**
    * Создает новый элемент в указанном справочнике CRM.
-   * Для стадий пользовательских воронок Bitrix24 автоматически добавляет к `STATUS_ID` префикс воронки.
+   * Для стадий пользовательских воронок Bitrix24 автоматически добавляет к `STATUS_ID` префикс воронки
    *
-   * @param param Тип справочника и поля нового элемента.
+   * @param param Тип справочника и поля нового элемента
    * @see https://apidocs.bitrix24.ru/api-reference/crm/status/crm-status-add.html
    */
   add(param: iBXRestParamCrmStatusAdd) {
@@ -42,9 +42,9 @@ export class BXRestNavvyCrmStatus {
   }
 
   /**
-   * Обновляет название, сортировку или цвет существующего элемента справочника.
+   * Обновляет название, сортировку или цвет существующего элемента справочника
    *
-   * @param param Идентификатор элемента и изменяемые поля.
+   * @param param Идентификатор элемента и изменяемые поля
    * @see https://apidocs.bitrix24.ru/api-reference/crm/status/crm-status-update.html
    */
   update(param: iBXRestParamCrmStatusUpdate) {
@@ -52,9 +52,9 @@ export class BXRestNavvyCrmStatus {
   }
 
   /**
-   * Возвращает элемент справочника по числовому идентификатору.
+   * Возвращает элемент справочника по числовому идентификатору
    *
-   * @param param Идентификатор элемента справочника.
+   * @param param Идентификатор элемента справочника
    * @see https://apidocs.bitrix24.ru/api-reference/crm/status/crm-status-get.html
    */
   get(param: iBXRestParamCrmStatusGet) {
@@ -67,9 +67,9 @@ export class BXRestNavvyCrmStatus {
 
   /**
    * Возвращает список элементов справочников по фильтру с заданной сортировкой.
-   * Навигатор поддерживает получение всех страниц результата через `resAll()`.
+   * Навигатор поддерживает получение всех страниц результата через `resAll()`
    *
-   * @param param Фильтр, сортировка и начальная позиция страницы.
+   * @param param Фильтр, сортировка и начальная позиция страницы
    * @see https://apidocs.bitrix24.ru/api-reference/crm/status/crm-status-list.html
    */
   list(param: iBXRestParamCrmStatusList = {}) {
@@ -82,9 +82,9 @@ export class BXRestNavvyCrmStatus {
 
   /**
    * Удаляет элемент справочника.
-   * Для системного элемента передайте `params.FORCED: 'Y'`.
+   * Для системного элемента передайте `params.FORCED: 'Y'`
    *
-   * @param param Идентификатор элемента и необязательный флаг принудительного удаления.
+   * @param param Идентификатор элемента и необязательный флаг принудительного удаления
    * @see https://apidocs.bitrix24.ru/api-reference/crm/status/crm-status-delete.html
    */
   delete(param: iBXRestParamCrmStatusDelete) {
@@ -92,7 +92,7 @@ export class BXRestNavvyCrmStatus {
   }
 
   /**
-   * Возвращает описание полей элементов справочников CRM.
+   * Возвращает описание полей элементов справочников CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/status/crm-status-fields.html
    */

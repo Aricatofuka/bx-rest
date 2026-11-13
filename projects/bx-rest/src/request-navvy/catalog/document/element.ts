@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogDocumentElement  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет товарную позицию в документ складского учёта.
+   * Добавляет товарную позицию в документ складского учёта
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogDocumentElement  {
     >([$catalog, $document, $element, $add], param)
   }
   /**
-   * Удаляет товарную позицию документа складского учёта.
+   * Удаляет товарную позицию документа складского учёта
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogDocumentElement  {
     >([$catalog, $document, $element, $delete], param)
   }
   /**
-   * Возвращает описание полей товарной позиции документа.
+   * Возвращает описание полей товарной позиции документа
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogDocumentElement  {
     >([$catalog, $document, $element, $getFieldsExact], param)
   }
   /**
-   * Возвращает список товарных позиций документа складского учёта.
+   * Возвращает список товарных позиций документа складского учёта
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogDocumentElement  {
     >([$catalog, $document, $element, $list], param, 'documentElements')
   }
   /**
-   * Обновляет товарную позицию документа складского учёта.
+   * Обновляет товарную позицию документа складского учёта
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

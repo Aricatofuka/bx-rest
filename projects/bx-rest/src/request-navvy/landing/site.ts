@@ -6,7 +6,7 @@ export class BXRestNavvyLandingSite  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет сайт.
+   * Добавляет сайт
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $add], param)
   }
   /**
-   * Добавляет папку в сайт.
+   * Добавляет папку в сайт
    */
   public addFolder(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $addFolder], param)
   }
   /**
-   * Привязывает базу знаний к рабочей группе.
+   * Привязывает базу знаний к рабочей группе
    */
   public bindingToGroup(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $bindingToGroup], param)
   }
   /**
-   * Привязывает базу знаний к меню.
+   * Привязывает базу знаний к меню
    */
   public bindingToMenu(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $bindingToMenu], param)
   }
   /**
-   * Удаляет сайт.
+   * Удаляет сайт
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $delete], param)
   }
   /**
-   * Экспортирует сайт и его страницы в массив.
+   * Экспортирует сайт и его страницы в массив
    */
   public fullExport(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -66,7 +66,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $fullExport], param)
   }
   /**
-   * Возвращает дополнительные поля сайта.
+   * Возвращает дополнительные поля сайта
    */
   public getAdditionalFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -78,7 +78,7 @@ export class BXRestNavvyLandingSite  {
   ], param)
   }
   /**
-   * Возвращает папки сайта.
+   * Возвращает папки сайта
    */
   public getFolders(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -88,7 +88,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $getFolders], param)
   }
   /**
-   * Возвращает привязки баз знаний к рабочим группам.
+   * Возвращает привязки баз знаний к рабочим группам
    */
   public getGroupBindings(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -98,7 +98,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $getGroupBindings], param)
   }
   /**
-   * Возвращает список сайтов.
+   * Возвращает список сайтов
    */
   public getList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -108,7 +108,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $getList], param)
   }
   /**
-   * Возвращает привязки баз знаний к меню.
+   * Возвращает привязки баз знаний к меню
    */
   public getMenuBindings(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -118,7 +118,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $getMenuBindings], param)
   }
   /**
-   * Возвращает URL превью сайта.
+   * Возвращает URL превью сайта
    */
   public getPreview(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -128,7 +128,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $getPreview], param)
   }
   /**
-   * Возвращает публичный URL сайта.
+   * Возвращает публичный URL сайта
    */
   public getPublicUrl(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -138,7 +138,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $getPublicUrl], param)
   }
   /**
-   * Возвращает права текущего пользователя на сайт.
+   * Возвращает права текущего пользователя на сайт
    */
   public getRights(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -148,7 +148,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $getRights], param)
   }
   /**
-   * Помечает сайт как удалённый.
+   * Помечает сайт как удалённый
    */
   public markDelete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -158,7 +158,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $markDelete], param)
   }
   /**
-   * Помечает папку сайта как удалённую.
+   * Помечает папку сайта как удалённую
    */
   public markFolderDelete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -168,7 +168,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $markFolderDelete], param)
   }
   /**
-   * Восстанавливает папку сайта из корзины.
+   * Восстанавливает папку сайта из корзины
    */
   public markFolderUndelete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -180,7 +180,7 @@ export class BXRestNavvyLandingSite  {
   ], param)
   }
   /**
-   * Восстанавливает сайт из корзины.
+   * Восстанавливает сайт из корзины
    */
   public markUndelete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -190,7 +190,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $markUndelete], param)
   }
   /**
-   * Публикует сайт и все его страницы.
+   * Публикует сайт и все его страницы
    */
   public publication(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -200,7 +200,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $publication], param)
   }
   /**
-   * Публикует папку сайта.
+   * Публикует папку сайта
    */
   public publicationFolder(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -210,7 +210,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $publicationFolder], param)
   }
   /**
-   * Устанавливает права доступа к сайту.
+   * Устанавливает права доступа к сайту
    */
   public setRights(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -220,7 +220,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $setRights], param)
   }
   /**
-   * Отвязывает базу знаний от рабочей группы.
+   * Отвязывает базу знаний от рабочей группы
    */
   public unbindingFromGroup(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -232,7 +232,7 @@ export class BXRestNavvyLandingSite  {
   ], param)
   }
   /**
-   * Отвязывает базу знаний от меню.
+   * Отвязывает базу знаний от меню
    */
   public unbindingFromMenu(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -244,7 +244,7 @@ export class BXRestNavvyLandingSite  {
   ], param)
   }
   /**
-   * Снимает сайт и все его страницы с публикации.
+   * Снимает сайт и все его страницы с публикации
    */
   public unpublic(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -254,7 +254,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $unpublic], param)
   }
   /**
-   * Снимает папку сайта с публикации.
+   * Снимает папку сайта с публикации
    */
   public unpublicFolder(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -264,7 +264,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $unpublicFolder], param)
   }
   /**
-   * Обновляет параметры сайта.
+   * Обновляет параметры сайта
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -274,7 +274,7 @@ export class BXRestNavvyLandingSite  {
     >([$landing, $site, $update], param)
   }
   /**
-   * Обновляет параметры папки сайта.
+   * Обновляет параметры папки сайта
    */
   public updateFolder(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

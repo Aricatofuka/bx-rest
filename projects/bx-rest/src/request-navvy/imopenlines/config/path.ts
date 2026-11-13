@@ -6,7 +6,7 @@ export class BXRestNavvyImOpenLinesConfigPath  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает ссылку на публичную страницу открытых линий портала.
+   * Возвращает ссылку на публичную страницу открытых линий портала
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<

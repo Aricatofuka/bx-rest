@@ -6,21 +6,21 @@ export class BXRestNavvyEntityItemProperty  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет дополнительное свойство элементов.
+   * Добавляет дополнительное свойство элементов
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $item, $property, $add], param)
   }
 
   /**
-   * Удаляет дополнительное свойство элементов.
+   * Удаляет дополнительное свойство элементов
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $item, $property, $delete], param)
   }
 
   /**
-   * Возвращает список дополнительных свойств элементов.
+   * Возвращает список дополнительных свойств элементов
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -31,7 +31,7 @@ export class BXRestNavvyEntityItemProperty  {
   }
 
   /**
-   * Изменяет дополнительное свойство элементов.
+   * Изменяет дополнительное свойство элементов
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $item, $property, $update], param)

@@ -12,7 +12,7 @@ export class BXRestNavvyNoteDocumentSearch  {
   public readonly field = new BXRestNavvyNoteDocumentSearchField()
 
   /**
-   * Ищет документы по заголовку и содержимому.
+   * Ищет документы по заголовку и содержимому
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<

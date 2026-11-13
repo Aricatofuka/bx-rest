@@ -6,7 +6,7 @@ export class BXRestNavvyCrmDealContactItems {
   private readonly Navvy = new Navvy()
 
   /**
-   * Убирает из сделки все контакты.
+   * Убирает из сделки все контакты
    */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -16,7 +16,7 @@ export class BXRestNavvyCrmDealContactItems {
   }
 
   /**
-   * Возвращает набор контактов, связанных со сделкой.
+   * Возвращает набор контактов, связанных со сделкой
    */
   get(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>(
@@ -26,7 +26,7 @@ export class BXRestNavvyCrmDealContactItems {
   }
 
   /**
-   * Заменяет набор контактов сделки на переданный.
+   * Заменяет набор контактов сделки на переданный
    */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(

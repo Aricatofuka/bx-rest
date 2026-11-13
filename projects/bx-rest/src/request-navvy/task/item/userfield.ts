@@ -47,7 +47,7 @@ export class BXRestNavvyTaskItemUserField {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список пользовательских полей задачи.
+   * Возвращает список пользовательских полей задачи
    */
   getList(param: iBXRestParamTaskItemUserFieldGetlist = {}){
     return this.Navvy.pagNav<iBXRestTaskItemUserFieldGetlistHttp, iBXRestTaskItemUserFieldGetlist, iBXRestParamTaskItemUserFieldGetlist>(
@@ -58,7 +58,7 @@ export class BXRestNavvyTaskItemUserField {
   }
 
   /**
-   * Создаёт новое пользовательское поле задачи.
+   * Создаёт новое пользовательское поле задачи
    */
   add(param: iBXRestParamTaskItemUserFieldAdd) {
     return this.Navvy.simple<number, number, iBXRestParamTaskItemUserFieldAdd>(
@@ -68,7 +68,7 @@ export class BXRestNavvyTaskItemUserField {
   }
 
   /**
-   * Удаляет пользовательское поле задачи.
+   * Удаляет пользовательское поле задачи
    */
   delete(param: iBXRestParamTaskItemUserFieldId) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskItemUserFieldId>(
@@ -78,7 +78,7 @@ export class BXRestNavvyTaskItemUserField {
   }
 
   /**
-   * Возвращает пользовательское поле задачи по идентификатору.
+   * Возвращает пользовательское поле задачи по идентификатору
    */
   get(param: iBXRestParamTaskItemUserFieldId) {
     return this.Navvy.simple<
@@ -89,21 +89,21 @@ export class BXRestNavvyTaskItemUserField {
   }
 
   /**
-   * Возвращает доступные поля пользовательского поля задачи.
+   * Возвращает доступные поля пользовательского поля задачи
    */
   getFields() {
     return this.Navvy.simple<iBXRestTaskObject>([$task, $item, $userfield, $getFields])
   }
 
   /**
-   * Возвращает все доступные типы данных пользовательских полей.
+   * Возвращает все доступные типы данных пользовательских полей
    */
   getTypes() {
     return this.Navvy.simple<iBXRestTaskObject>([$task, $item, $userfield, $gettypes])
   }
 
   /**
-   * Обновляет параметры пользовательского поля задачи.
+   * Обновляет параметры пользовательского поля задачи
    */
   update(param: iBXRestParamTaskItemUserFieldUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskItemUserFieldUpdate>(

@@ -15,7 +15,7 @@ export class HttpServices {
    * @param settings свои настройки, как у `new BXRestNavvy(settings)`: запросы
    *   идут на этот портал с этим токеном, а `BXRestSettings` на них не влияют.
    *   Без них — настройки клиента, внутри которого создан объект, или
-   *   глобальные `BXRestSettings`.
+   *   глобальные `BXRestSettings`
    */
   constructor(settings?: iBXRestSettings) {
     this.session = settings
@@ -26,7 +26,7 @@ export class HttpServices {
   /**
    * Экземпляр axios клиента. Один на контекст (клиента со своими настройками
    * или глобальные настройки) и создаётся при первом запросе — раньше каждый
-   * объект запроса создавал свой.
+   * объект запроса создавал свой
    */
   protected get axiosInstance(): AxiosInstance {
     return this.session.ctx.axios ??= axios.create()

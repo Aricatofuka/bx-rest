@@ -6,14 +6,14 @@ export class BXRestNavvyTasksTaskFavorite  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет задачу в избранное.
+   * Добавляет задачу в избранное
    */
   add(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $favorite, $add], param)
   }
 
   /**
-   * Удаляет задачу из избранного.
+   * Удаляет задачу из избранного
    */
   remove(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $favorite, $remove], param)

@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogStore  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет склад.
+   * Добавляет склад
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogStore  {
     >([$catalog, $store, $add], param)
   }
   /**
-   * Удаляет склад.
+   * Удаляет склад
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogStore  {
     >([$catalog, $store, $delete], param)
   }
   /**
-   * Возвращает склад по идентификатору.
+   * Возвращает склад по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogStore  {
     >([$catalog, $store, $get], param)
   }
   /**
-   * Возвращает описание полей склада.
+   * Возвращает описание полей склада
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogStore  {
     >([$catalog, $store, $getFieldsExact], param)
   }
   /**
-   * Возвращает список складов.
+   * Возвращает список складов
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvyCatalogStore  {
     >([$catalog, $store, $list], param, 'stores')
   }
   /**
-   * Обновляет склад.
+   * Обновляет склад
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

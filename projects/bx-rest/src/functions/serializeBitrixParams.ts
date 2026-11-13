@@ -18,7 +18,7 @@ const BITRIX_STRINGIFY_OPTIONS: IStringifyOptions = {
 
 /**
  * Serializes nested REST parameters using the indexed bracket notation
- * expected by Bitrix, for example: fields[PHONE][0][VALUE].
+ * expected by Bitrix, for example: fields[PHONE][0][VALUE]
  */
 export function serializeBitrixParams(params: unknown): string {
   return stringify(params, BITRIX_STRINGIFY_OPTIONS)

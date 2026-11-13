@@ -12,7 +12,7 @@ export class BXRestNavvyTasksTaskFile  {
   public readonly field = new BXRestNavvyTasksTaskFileField()
 
   /**
-   * Прикрепляет файлы к задаче.
+   * Прикрепляет файлы к задаче
    */
   attach(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $file, $attach], param)

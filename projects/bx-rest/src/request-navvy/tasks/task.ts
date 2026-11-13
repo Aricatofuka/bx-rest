@@ -149,7 +149,7 @@ export class BXRestNavvyTasksTask {
 
   // TODO: переписать нормально
   /**
-   * Принимает задачу.
+   * Принимает задачу
    */
   approve(param: iBXRestParamTasksTaskApprove) {
     return this.Navvy.simple<
@@ -160,7 +160,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Переводит задачу в статус «завершена».
+   * Переводит задачу в статус «завершена»
    */
   complete(param: iBXRestParamTasksTaskComplete) {
     return this.Navvy.simple<
@@ -171,7 +171,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Переводит задачу в статус «отложена».
+   * Переводит задачу в статус «отложена»
    */
   defer(param: iBXRestParamTasksTaskDefer) {
     return this.Navvy.simple<
@@ -233,7 +233,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Возвращает список полей задачи.
+   * Возвращает список полей задачи
    */
   getFields() {
     return this.Navvy.simple<iBXRestTasksTaskGetFields>(
@@ -242,7 +242,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Проверяет доступ к задаче.
+   * Проверяет доступ к задаче
    */
   getAccess(param: iBXRestParamTaskGetAccess) {
     return this.Navvy.simple<iBXRestTaskGetAccess, Record<number, iBXRestTaskGetAccessItem>, iBXRestParamTaskGetAccess>(
@@ -253,7 +253,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Удаляет задачу.
+   * Удаляет задачу
    */
   delete(param: iBXRestParamTasksTaskId) {
     return this.Navvy.simple<
@@ -264,7 +264,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Отклоняет задачу.
+   * Отклоняет задачу
    */
   disapprove(param: iBXRestParamTasksTaskId) {
     return this.Navvy.simple<
@@ -275,7 +275,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Включает режим «Без звука» для задачи.
+   * Включает режим «Без звука» для задачи
    */
   mute(param: iBXRestParamTasksTaskId) {
     return this.Navvy.simple<
@@ -286,7 +286,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Останавливает выполнение задачи и переводит в статус «ждёт».
+   * Останавливает выполнение задачи и переводит в статус «ждёт»
    */
   pause(param: iBXRestParamTasksTaskId) {
     return this.Navvy.simple<
@@ -297,7 +297,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Закрепляет задачу в списке.
+   * Закрепляет задачу в списке
    */
   pin(param: iBXRestParamTasksTaskId) {
     return this.Navvy.simple<
@@ -308,7 +308,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Возобновляет задачу после завершения.
+   * Возобновляет задачу после завершения
    */
   renew(param: iBXRestParamTasksTaskId) {
     return this.Navvy.simple<
@@ -319,7 +319,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Переводит задачу в статус «выполняется».
+   * Переводит задачу в статус «выполняется»
    */
   start(param: iBXRestParamTasksTaskId) {
     return this.Navvy.simple<
@@ -330,7 +330,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Включает наблюдение за задачей.
+   * Включает наблюдение за задачей
    */
   startWatch(param: iBXRestParamTasksTaskId) {
     return this.Navvy.simple<
@@ -341,7 +341,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Отключает наблюдение за задачей.
+   * Отключает наблюдение за задачей
    */
   stopWatch(param: iBXRestParamTasksTaskId) {
     return this.Navvy.simple<
@@ -352,7 +352,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Выключает режим «Без звука» для задачи.
+   * Выключает режим «Без звука» для задачи
    */
   unmute(param: iBXRestParamTasksTaskId) {
     return this.Navvy.simple<
@@ -363,7 +363,7 @@ export class BXRestNavvyTasksTask {
   }
 
   /**
-   * Открепляет задачу в списке.
+   * Открепляет задачу в списке
    */
   unpin(param: iBXRestParamTasksTaskId) {
     return this.Navvy.simple<

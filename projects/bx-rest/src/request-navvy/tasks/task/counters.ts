@@ -6,7 +6,7 @@ export class BXRestNavvyTasksTaskCounters  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает счётчики задач пользователя.
+   * Возвращает счётчики задач пользователя
    */
   get(param: iBXRestTasksParams = {}) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $counters, $get], param)

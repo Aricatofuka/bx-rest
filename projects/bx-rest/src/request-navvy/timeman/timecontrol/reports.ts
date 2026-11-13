@@ -16,7 +16,7 @@ export class BXRestNavvyTimemanTimeControlReports {
   public readonly users = new BXRestNavvyTimemanTimeControlReportsUsers()
 
   /**
-   * Возвращает отчёт о выявленных отсутствиях.
+   * Возвращает отчёт о выявленных отсутствиях
    */
   get(param: iBXRestParamTimemanTimeControlReportsGet) {
     return this.Navvy.simple<

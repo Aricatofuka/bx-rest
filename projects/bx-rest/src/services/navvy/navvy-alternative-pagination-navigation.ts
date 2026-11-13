@@ -28,7 +28,7 @@ export class NavvyAlterPagNav<T, R, P extends iBXRestAlternativePagination> exte
 
   /**
    * Параметры остальных страниц. Размер страницы берётся из запроса: портал ограничивает
-   * его 50 записями, но вызывающий код может попросить и меньше.
+   * его 50 записями, но вызывающий код может попросить и меньше
    */
   private pageParams(total = 0): P[] {
     const nav = this.param.PARAMS?.NAV_PARAMS

@@ -6,7 +6,7 @@ export class BXRestNavvyImNotifyPersonal {
   private readonly Navvy = new Navvy()
 
   /**
-   * Отправляет персональное уведомление.
+   * Отправляет персональное уведомление
    */
   add(param: iBXRestParamImNotifyPersonalAdd) {
     return this.Navvy.simple<number, number, iBXRestParamImNotifyPersonalAdd>(

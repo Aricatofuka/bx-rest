@@ -133,12 +133,25 @@ BXRestSettings.update({
 
 У `.res()` одна опция — `throwOnApiError`, по умолчанию `false`. С `true` ошибка Bitrix в ответе 2xx приходит как `BXRestApiError`, а не как `undefined`. Подробнее — в разделе [Обработка ошибок](#обработка-ошибок).
 
-`.resAll()` есть у списочных методов, которые листаются через `start`. Первую страницу он запрашивает сам, остальные — пакетами через `batch`. Результат той же формы, что у `.res()`:
+`.resAll()` есть у списочных методов с постраничной навигацией. Результат той же формы, что у `.res()`:
 
 - если метод отдаёт массив (`crm.deal.list`, `crm.activity.list`), `.resAll()` отдаёт массив всех записей;
-- если `result` — объект со списком под ключом, как у `catalog.product.list` (`{ products: [...] }`) или `sale.order.list` (`{ orders: [...] }`), `.resAll()` отдаёт такой же объект, где под ключом собраны записи всех страниц.
+- если `result` — объект со списком под ключом, как у `catalog.product.list` (`{ products: [...] }`), `sale.order.list` (`{ orders: [...] }`) или методов REST v3 (`{ items: [...] }`), `.resAll()` отдаёт такой же объект, где под ключом собраны записи всех страниц.
 
-У методов, которые отдают весь список одним ответом или листаются иначе (`OFFSET`/`LIMIT`, номер страницы, объект `pagination` в REST v3), `.resAll()` нет. Они перечислены с причинами в [list-pagination.spec.ts](https://github.com/Aricatofuka/bx-rest/blob/main/projects/bx-rest/src/rest/list-pagination.spec.ts).
+Как `.resAll()` листает, зависит от метода:
+
+| Как листается метод | Методы | Запросы `.resAll()` |
+| --- | --- | --- |
+| `start`, в ответе есть `total` | Большинство `*.list` | Первая страница, остальные пакетами через `batch` |
+| `OFFSET`/`LIMIT`, в ответе есть `total` | `im.dialog.users.list`, `im.department.colleagues.list`, `im.search.{chat,department,user}.list` | Так же |
+| `OFFSET`/`LIMIT` или номер страницы, `total` нет | `im.recent.list`, `imbot.v2.Bot.list`, `sign.b2e.company.provider.list`, `biconnector.{connector,dataset,source}.list` | По одной странице, пока портал не ответит, что страниц больше нет, или не отдаст неполную |
+| Объект `pagination` REST v3 | `mail.mailbox.list`, `mail.message.list`, `main.eventlog.list`, `timeman.record.list`, `note.collection.list` (курсор) | По одной странице, так же |
+
+Размер страницы `.resAll()` берёт из запроса. Если в запросе его нет, `.resAll()` явно передаёт умолчание метода из документации, а если он больше, чем принимает метод, уменьшает его. Чем крупнее страница, тем меньше запросов, а при обходе по одной странице это заметно.
+
+При обходе по одной странице поля `result` кроме списков (`hasMore`, `nextCursor`) берутся с последней страницы. У `imbot.v2.Bot.list` собираются оба списка, `bots` и `users`. Страницы `im.recent.list` на портале перекрываются, повторы чатов `.resAll()` убирает.
+
+У методов, которые отдают весь список одним ответом, `.resAll()` нет. Они и другие исключения перечислены с причинами в [list-pagination.spec.ts](https://github.com/Aricatofuka/bx-rest/blob/main/projects/bx-rest/src/rest/list-pagination.spec.ts). Например, `note.document.search.list` отдаёт только первую страницу: ссылки на следующую в ответе нет.
 
 ## Использование в Angular
 
@@ -410,7 +423,8 @@ if (!answer || !isBXRestAnswerSuccess(answer)) {
 
 - на ошибку Bitrix со статусом не 2xx все три завершаются исходной ошибкой axios, тело ответа — в `err.response.data`;
 - ошибку в теле ответа 2xx `.resVanilla()` и `.mapForVanilla()` отдают как есть;
-- `.resAll()` на такую ошибку завершается `BXRestApiError`: опции `throwOnApiError` у него нет. Так же он завершается, если ошибку вернула любая страница внутри batch-запроса (`result_error`). Неполный список `.resAll()` не отдаёт.
+- `.resAll()` на такую ошибку завершается `BXRestApiError`: опции `throwOnApiError` у него нет. Так же он завершается, если ошибку вернула любая следующая страница, отдельным запросом или внутри batch-запроса (`result_error`). Неполный список `.resAll()` не отдаёт.
+- Если при обходе по одной странице портал дважды подряд отдал одну и ту же страницу, значит, параметр пагинации он не понял. `.resAll()` тогда завершается ошибкой, а не запрашивает страницы бесконечно.
 
 ## Продление авторизации
 
@@ -909,6 +923,38 @@ this.navvy.pagNavKeyed<BlogItems, BlogItems, iBXRestCustomParamBlogList>(
   'items'
 )
 ```
+
+Если метод листается по смещению и отдаёт `total`, используйте `pagNavOffset()`. Его третий аргумент — имена параметров и размер страницы, остальные страницы `.resAll()` запросит пакетами:
+
+```typescript
+this.navvy.pagNavOffset<iBXRestCustomBlogGetHttp[], iBXRestCustomBlogGet[], { OFFSET?: number, LIMIT?: number }>(
+  ['blog', 'post', PNM.$list],
+  param,
+  { offset: 'OFFSET', limit: 'LIMIT', pageSize: 50, maxPageSize: 200 },
+  BXCustomBlogMap.get
+)
+```
+
+Если следующая страница видна только из ответа на предыдущую (по флагу, курсору или неполной странице), используйте `pagNavSequential()`, а для REST v3 — `pagNavSequentialV3()`. Третий аргумент описывает обход: `next()` по параметрам и результату страницы возвращает параметры следующей или `undefined`, если страница последняя:
+
+```typescript
+type BlogFeed = { items: iBXRestCustomBlogGetHttp[], nextCursor: string | null }
+
+this.navvy.pagNavSequential<BlogFeed, BlogFeed, { cursor?: string }>(
+  ['blog', 'feed', PNM.$list],
+  param,
+  {
+    next: (param, result) => (result.nextCursor ? { ...param, cursor: result.nextCursor } : undefined),
+    keys: ['items'],
+  }
+)
+```
+
+- `keys` — ключи списков, если `result` — объект. Записи под ними собираются со всех страниц, остальные поля берутся с последней.
+- `first()` — параметры первой страницы, например явный размер страницы.
+- `unique` — поле записи, по которому убираются повторы, если страницы перекрываются.
+
+Типы этих настроек — `BXRestOffsetNav` и `BXRestSequentialNav`.
 
 ## Специфичные методы
 

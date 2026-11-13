@@ -20,13 +20,13 @@ export class BXRestNavvyDepartment {
   }
   protected Navvy = new Navvy()
 
-  /** Returns names and descriptions of the available department fields. */
+  /** Returns names and descriptions of the available department fields */
   fields() {
     return this.Navvy.simple<iBXRestDepartmentFields>(this.url.fields)
   }
 
   /**
-   * Возвращает список подразделений.
+   * Возвращает список подразделений
    */
   get(param: iBXRestParamDepartmentGet = {}) {
     return this.Navvy.pagNav(
@@ -36,21 +36,21 @@ export class BXRestNavvyDepartment {
   }
 
   /**
-   * Создаёт подразделение.
+   * Создаёт подразделение
    */
   add(param: iBXRestParamDepartmentAdd) {
     return this.Navvy.simple<number, number, iBXRestParamDepartmentAdd>(this.url.add, param)
   }
 
   /**
-   * Удаляет подразделение.
+   * Удаляет подразделение
    */
   del(id: number) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamDepartmentDel>(this.url.del, {ID: id})
   }
 
   /**
-   * Изменяет подразделение.
+   * Изменяет подразделение
    */
   update(param: iBXRestDepartmentUpdate) {
     param.NAME = param.NAME.trim()

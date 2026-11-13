@@ -7,6 +7,7 @@ import {
   $logmessage,
   $timeline
 } from '../../../consts/part-name-methods'
+import { CRM_TIMELINE_LOGMESSAGE_PAGE_SIZE } from '../../../consts/page-size'
 import { Navvy } from '../../../services/navvy'
 import {
   iBXRestCrmTimelineLogMessage,
@@ -34,7 +35,7 @@ export class BXRestNavvyCrmTimelineLogMessage {
   /**
    * Добавляет новую лог-запись приложения в таймлайн элемента CRM.
    *
-   * Значение `iconCode` должно присутствовать в результате `crm.timeline.icon.list`.
+   * Значение `iconCode` должно присутствовать в результате `crm.timeline.icon.list`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/crm-timeline-logmessage-add.html
    */
@@ -47,7 +48,7 @@ export class BXRestNavvyCrmTimelineLogMessage {
   }
 
   /**
-   * Возвращает лог-запись, ранее добавленную приложением.
+   * Возвращает лог-запись, ранее добавленную приложением
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/crm-timeline-logmessage-get.html
    */
@@ -63,7 +64,7 @@ export class BXRestNavvyCrmTimelineLogMessage {
    * Возвращает лог-записи приложения для указанного элемента CRM.
    *
    * Системные записи метод не возвращает. Размер страницы REST API фиксирован
-   * и равен 10 записям; `resAll()` учитывает этот размер.
+   * и равен 10 записям; `resAll()` учитывает этот размер
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/crm-timeline-logmessage-list.html
    */
@@ -73,12 +74,12 @@ export class BXRestNavvyCrmTimelineLogMessage {
       iBXRestCrmTimelineLogMessage,
       iBXRestParamCrmTimelineLogMessageList
     >(this.url.list, param)
-    request.pageSize = 10
+    request.pageSize = CRM_TIMELINE_LOGMESSAGE_PAGE_SIZE
     return request
   }
 
   /**
-   * Удаляет лог-запись, ранее добавленную приложением.
+   * Удаляет лог-запись, ранее добавленную приложением
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/crm-timeline-logmessage-delete.html
    */

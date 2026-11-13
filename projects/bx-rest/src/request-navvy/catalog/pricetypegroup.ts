@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogPriceTypeGroup  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Привязывает тип цены к группе покупателей.
+   * Привязывает тип цены к группе покупателей
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogPriceTypeGroup  {
     >([$catalog, $priceTypeGroup, $add], param)
   }
   /**
-   * Удаляет привязку типа цены к группе покупателей.
+   * Удаляет привязку типа цены к группе покупателей
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogPriceTypeGroup  {
     >([$catalog, $priceTypeGroup, $delete], param)
   }
   /**
-   * Возвращает описание полей привязки типа цены к группе.
+   * Возвращает описание полей привязки типа цены к группе
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogPriceTypeGroup  {
     >([$catalog, $priceTypeGroup, $getFieldsExact], param)
   }
   /**
-   * Возвращает список привязок типов цен к группам покупателей.
+   * Возвращает список привязок типов цен к группам покупателей
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<

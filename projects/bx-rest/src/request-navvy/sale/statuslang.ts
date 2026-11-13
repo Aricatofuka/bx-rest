@@ -6,7 +6,7 @@ export class BXRestNavvySaleStatusLang  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет локализацию статуса.
+   * Добавляет локализацию статуса
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySaleStatusLang  {
     >([$sale, $statusLang, $add], param)
   }
   /**
-   * Удаляет локализации статуса по фильтру.
+   * Удаляет локализации статуса по фильтру
    */
   public deleteByFilter(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySaleStatusLang  {
     >([$sale, $statusLang, $deleteByFilter], param)
   }
   /**
-   * Возвращает описание полей локализации статуса.
+   * Возвращает описание полей локализации статуса
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySaleStatusLang  {
     >([$sale, $statusLang, $getFieldsExact], param)
   }
   /**
-   * Возвращает список доступных языков локализации статусов.
+   * Возвращает список доступных языков локализации статусов
    */
   public getListLangs(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvySaleStatusLang  {
     >([$sale, $statusLang, $getListLangs], param)
   }
   /**
-   * Возвращает список локализаций статусов.
+   * Возвращает список локализаций статусов
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<

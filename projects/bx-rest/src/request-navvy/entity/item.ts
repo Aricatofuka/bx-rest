@@ -12,7 +12,7 @@ export class BXRestNavvyEntityItem  {
   public readonly property = new BXRestNavvyEntityItemProperty()
 
   /**
-   * Добавляет элемент хранилища.
+   * Добавляет элемент хранилища
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -23,14 +23,14 @@ export class BXRestNavvyEntityItem  {
   }
 
   /**
-   * Удаляет элемент хранилища.
+   * Удаляет элемент хранилища
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $item, $delete], param)
   }
 
   /**
-   * Возвращает список элементов хранилища.
+   * Возвращает список элементов хранилища
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -41,7 +41,7 @@ export class BXRestNavvyEntityItem  {
   }
 
   /**
-   * Изменяет элемент хранилища.
+   * Изменяет элемент хранилища
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $item, $update], param)

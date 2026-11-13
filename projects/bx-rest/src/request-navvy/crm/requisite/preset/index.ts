@@ -44,7 +44,7 @@ export class BXRestNavvyCrmRequisitePreset {
    * Создает шаблон реквизитов для выбранной страны.
    *
    * Родительский тип шаблона всегда `ENTITY_TYPE_ID: 8`. Доступные страны
-   * возвращает `countries()`.
+   * возвращает `countries()`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/crm-requisite-preset-add.html
    */
@@ -57,7 +57,7 @@ export class BXRestNavvyCrmRequisitePreset {
   }
 
   /**
-   * Изменяет существующий шаблон реквизитов.
+   * Изменяет существующий шаблон реквизитов
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/crm-requisite-preset-update.html
    */
@@ -70,7 +70,7 @@ export class BXRestNavvyCrmRequisitePreset {
   }
 
   /**
-   * Возвращает страны, для которых Bitrix24 предоставляет наборы полей реквизитов.
+   * Возвращает страны, для которых Bitrix24 предоставляет наборы полей реквизитов
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/crm-requisite-preset-countries.html
    */
@@ -81,7 +81,7 @@ export class BXRestNavvyCrmRequisitePreset {
   }
 
   /**
-   * Возвращает шаблон реквизитов по идентификатору.
+   * Возвращает шаблон реквизитов по идентификатору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/crm-requisite-preset-get.html
    */
@@ -96,7 +96,7 @@ export class BXRestNavvyCrmRequisitePreset {
   /**
    * Возвращает шаблоны реквизитов по фильтру.
    *
-   * Поддерживает выборку `select`, сортировку `order` и постраничную навигацию.
+   * Поддерживает выборку `select`, сортировку `order` и постраничную навигацию
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/crm-requisite-preset-list.html
    */
@@ -109,7 +109,7 @@ export class BXRestNavvyCrmRequisitePreset {
   }
 
   /**
-   * Удаляет шаблон реквизитов.
+   * Удаляет шаблон реквизитов
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/crm-requisite-preset-delete.html
    */
@@ -122,7 +122,7 @@ export class BXRestNavvyCrmRequisitePreset {
   }
 
   /**
-   * Возвращает формальное описание полей шаблона реквизитов.
+   * Возвращает формальное описание полей шаблона реквизитов
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/presets/crm-requisite-preset-fields.html
    */

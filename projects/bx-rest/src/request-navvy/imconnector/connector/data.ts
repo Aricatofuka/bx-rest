@@ -6,7 +6,7 @@ export class BXRestNavvyImConnectorConnectorData  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Изменяет настройки коннектора.
+   * Изменяет настройки коннектора
    */
   set(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$imconnector, $connector, $data, $set], param)

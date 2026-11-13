@@ -21,7 +21,7 @@ export class BXRestNavvySalePaySystem  {
    */
   public readonly settings = new BXRestNavvySalePaySystemSettings()
   /**
-   * Добавляет платёжную систему.
+   * Добавляет платёжную систему
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -31,7 +31,7 @@ export class BXRestNavvySalePaySystem  {
     >([$sale, $paysystem, $add], param)
   }
   /**
-   * Удаляет платёжную систему.
+   * Удаляет платёжную систему
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -41,7 +41,7 @@ export class BXRestNavvySalePaySystem  {
     >([$sale, $paysystem, $delete], param)
   }
   /**
-   * Возвращает список платёжных систем.
+   * Возвращает список платёжных систем
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -51,7 +51,7 @@ export class BXRestNavvySalePaySystem  {
     >([$sale, $paysystem, $list], param)
   }
   /**
-   * Обновляет платёжную систему.
+   * Обновляет платёжную систему
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

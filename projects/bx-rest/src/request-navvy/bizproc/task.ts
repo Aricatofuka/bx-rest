@@ -30,7 +30,7 @@ export class BXRestNavvyBizProcTask {
    * Возвращает список заданий бизнес-процессов.
    *
    * Если `USER_ID` не задан, обычный пользователь получает только свои
-   * задания; руководитель и администратор могут запрашивать задания других.
+   * задания; руководитель и администратор могут запрашивать задания других
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-task/bizproc-task-list.html
    */
@@ -43,7 +43,7 @@ export class BXRestNavvyBizProcTask {
   }
 
   /**
-   * Выполняет доступное текущему пользователю задание бизнес-процесса.
+   * Выполняет доступное текущему пользователю задание бизнес-процесса
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-task/bizproc-task-complete.html
    */
@@ -55,7 +55,7 @@ export class BXRestNavvyBizProcTask {
   }
 
   /**
-   * Делегирует задания бизнес-процесса другому пользователю.
+   * Делегирует задания бизнес-процесса другому пользователю
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-task/bizproc-task-delegate.html
    */

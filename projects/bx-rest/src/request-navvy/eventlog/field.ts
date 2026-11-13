@@ -6,20 +6,20 @@ export class BXRestNavvyEventLogField  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает описание поля записи журнала событий по имени.
+   * Возвращает описание поля записи журнала событий по имени
    */
   public get(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
     >([$main, $eventlog, $field, $get], param)
   }
   /**
-   * Возвращает список полей записи журнала событий.
+   * Возвращает список полей записи журнала событий
    */
   public list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams

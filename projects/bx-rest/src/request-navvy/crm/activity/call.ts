@@ -6,7 +6,7 @@ export class BXRestNavvyCrmActivityCall  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает готовую расшифровку звонка.
+   * Возвращает готовую расшифровку звонка
    */
   getTranscript(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $activity, $call, $getTranscript], param)

@@ -34,7 +34,7 @@ export class BXRestNavvyCrmTimelineIcon {
    * Добавляет пользовательскую иконку лог-записи.
    *
    * Метод доступен только администратору. Передайте прозрачный PNG 24×24 пикселя
-   * в виде Base64-строки.
+   * в виде Base64-строки
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/icons/crm-timeline-icon-add.html
    */
@@ -47,7 +47,7 @@ export class BXRestNavvyCrmTimelineIcon {
   }
 
   /**
-   * Возвращает системную или пользовательскую иконку по коду.
+   * Возвращает системную или пользовательскую иконку по коду
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/icons/crm-timeline-icon-get.html
    */
@@ -62,7 +62,7 @@ export class BXRestNavvyCrmTimelineIcon {
   /**
    * Возвращает список всех доступных системных и пользовательских иконок.
    *
-   * Поле `isSystem` отличает встроенную иконку от добавленной приложением.
+   * Поле `isSystem` отличает встроенную иконку от добавленной приложением
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/icons/crm-timeline-icon-list.html
    */
@@ -73,7 +73,7 @@ export class BXRestNavvyCrmTimelineIcon {
   /**
    * Удаляет пользовательскую иконку. Системные иконки удалить нельзя.
    *
-   * Метод доступен только администратору.
+   * Метод доступен только администратору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/logmessage/icons/crm-timeline-icon-delete.html
    */

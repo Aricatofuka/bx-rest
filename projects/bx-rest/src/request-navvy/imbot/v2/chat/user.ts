@@ -6,7 +6,7 @@ export class BXRestNavvyImBotV2ChatUser  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет участников в чат.
+   * Добавляет участников в чат
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyImBotV2ChatUser  {
   }
 
   /**
-   * Удаляет участника из чата.
+   * Удаляет участника из чата
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyImBotV2ChatUser  {
   }
 
   /**
-   * Возвращает список участников чата.
+   * Возвращает список участников чата
    */
   list(param: iBXRestGenericParams) {
     return this.Navvy.simple<

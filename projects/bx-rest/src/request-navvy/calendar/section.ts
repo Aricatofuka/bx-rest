@@ -27,11 +27,11 @@ export class BXRestNavvyRestCalendarSection {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает описание разделов, всегда весь список, паганации в методе нет да и не нужна.
+   * Возвращает описание разделов, всегда весь список, паганации в методе нет да и не нужна
    *
    * @param param
    * @param dateTimeFormat Формат полей `DATE_CREATE`/`TIMESTAMP_X` в ответе (см. {@link BXRestMapCalendarSection.get}).
-   *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию.
+   *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию
    */
   get(param: iBXRestCalendarSectionGetParam, dateTimeFormat?: string) {
     return this.Navvy.simple(

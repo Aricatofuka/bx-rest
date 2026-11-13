@@ -12,7 +12,7 @@ export class BXRestNavvyImOpenLinesOperator  {
   public readonly another = new BXRestNavvyImOpenLinesOperatorAnother()
 
   /**
-   * Передаёт диалог текущему оператору.
+   * Передаёт диалог текущему оператору
    */
   answer(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -23,7 +23,7 @@ export class BXRestNavvyImOpenLinesOperator  {
   }
 
   /**
-   * Завершает диалог от имени текущего оператора.
+   * Завершает диалог от имени текущего оператора
    */
   finish(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -34,7 +34,7 @@ export class BXRestNavvyImOpenLinesOperator  {
   }
 
   /**
-   * Передаёт диалог следующему оператору в очереди.
+   * Передаёт диалог следующему оператору в очереди
    */
   skip(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -45,7 +45,7 @@ export class BXRestNavvyImOpenLinesOperator  {
   }
 
   /**
-   * Отмечает диалог как спам.
+   * Отмечает диалог как спам
    */
   spam(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvyImOpenLinesOperator  {
   }
 
   /**
-   * Передаёт диалог другому оператору или в другую линию.
+   * Передаёт диалог другому оператору или в другую линию
    */
   transfer(param: iBXRestGenericParams) {
     return this.Navvy.simple<

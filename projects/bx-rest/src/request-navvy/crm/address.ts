@@ -31,9 +31,9 @@ export class BXRestNavvyCrmAddress {
    * Добавляет адрес к реквизиту, лиду или поддерживаемому объекту старого режима.
    *
    * Адрес уникален по сочетанию `TYPE_ID`, `ENTITY_TYPE_ID` и `ENTITY_ID`.
-   * Типы адресов возвращает `crm.enum.addresstype`, типы объектов — `crm.enum.ownertype`.
+   * Типы адресов возвращает `crm.enum.addresstype`, типы объектов — `crm.enum.ownertype`
    *
-   * @param param Составной ключ адреса и его почтовые поля.
+   * @param param Составной ключ адреса и его почтовые поля
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/addresses/crm-address-add.html
    */
   add(param: iBXRestParamCrmAddressAdd) {
@@ -46,9 +46,9 @@ export class BXRestNavvyCrmAddress {
   /**
    * Изменяет адрес, найденный по составному ключу в `fields`.
    *
-   * Поля `ANCHOR_TYPE_ID` и `ANCHOR_ID` являются служебными и заполняются автоматически.
+   * Поля `ANCHOR_TYPE_ID` и `ANCHOR_ID` являются служебными и заполняются автоматически
    *
-   * @param param Ключ адреса и изменяемые значения.
+   * @param param Ключ адреса и изменяемые значения
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/addresses/crm-address-update.html
    */
   update(param: iBXRestParamCrmAddressUpdate) {
@@ -62,7 +62,7 @@ export class BXRestNavvyCrmAddress {
    * Возвращает адреса по фильтру с выборкой полей, сортировкой и пагинацией.
    *
    * Для адресов реквизита обычно фильтруют по `ENTITY_TYPE_ID: 8` и идентификатору
-   * реквизита в `ENTITY_ID`.
+   * реквизита в `ENTITY_ID`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/addresses/crm-address-list.html
    */
@@ -75,7 +75,7 @@ export class BXRestNavvyCrmAddress {
   }
 
   /**
-   * Удаляет адрес по составному ключу `TYPE_ID`, `ENTITY_TYPE_ID`, `ENTITY_ID`.
+   * Удаляет адрес по составному ключу `TYPE_ID`, `ENTITY_TYPE_ID`, `ENTITY_ID`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/addresses/crm-address-delete.html
    */
@@ -87,7 +87,7 @@ export class BXRestNavvyCrmAddress {
   }
 
   /**
-   * Возвращает формальное описание полей адреса.
+   * Возвращает формальное описание полей адреса
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/addresses/crm-address-fields.html
    */

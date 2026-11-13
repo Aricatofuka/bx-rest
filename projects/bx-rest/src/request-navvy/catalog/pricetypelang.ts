@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogPriceTypeLang  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет перевод названия типа цены.
+   * Добавляет перевод названия типа цены
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogPriceTypeLang  {
     >([$catalog, $priceTypeLang, $add], param)
   }
   /**
-   * Удаляет перевод названия типа цены.
+   * Удаляет перевод названия типа цены
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogPriceTypeLang  {
     >([$catalog, $priceTypeLang, $delete], param)
   }
   /**
-   * Возвращает перевод названия типа цены.
+   * Возвращает перевод названия типа цены
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogPriceTypeLang  {
     >([$catalog, $priceTypeLang, $get], param)
   }
   /**
-   * Возвращает описание полей перевода названия типа цены.
+   * Возвращает описание полей перевода названия типа цены
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogPriceTypeLang  {
     >([$catalog, $priceTypeLang, $getFieldsExact], param)
   }
   /**
-   * Возвращает список доступных языков портала.
+   * Возвращает список доступных языков портала
    */
   public getLanguages(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvyCatalogPriceTypeLang  {
     >([$catalog, $priceTypeLang, $getLanguages], param)
   }
   /**
-   * Возвращает список переводов названий типов цен.
+   * Возвращает список переводов названий типов цен
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -66,7 +66,7 @@ export class BXRestNavvyCatalogPriceTypeLang  {
     >([$catalog, $priceTypeLang, $list], param, 'priceTypeLangs')
   }
   /**
-   * Обновляет перевод названия типа цены.
+   * Обновляет перевод названия типа цены
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

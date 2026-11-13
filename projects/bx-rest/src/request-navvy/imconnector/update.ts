@@ -6,7 +6,7 @@ export class BXRestNavvyImConnectorUpdate  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Изменяет отправленные сообщения.
+   * Изменяет отправленные сообщения
    */
   messages(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$imconnector, $update, $messages], param)

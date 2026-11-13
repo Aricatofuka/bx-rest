@@ -6,7 +6,7 @@ export class BXRestNavvyVoxImplantSipConnector  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает текущий статус SIP-коннектора.
+   * Возвращает текущий статус SIP-коннектора
    */
   status(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

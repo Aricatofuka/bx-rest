@@ -29,7 +29,7 @@ export class BXRestNavvyCrmTimelineNote {
   /**
    * Возвращает заметку к записи истории таймлайна или делу CRM.
    *
-   * В `itemType` передайте `1` для записи истории или `2` для дела.
+   * В `itemType` передайте `1` для записи истории или `2` для дела
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/note/crm-timeline-note-get.html
    */
@@ -42,7 +42,7 @@ export class BXRestNavvyCrmTimelineNote {
   }
 
   /**
-   * Создает заметку или заменяет текст существующей.
+   * Создает заметку или заменяет текст существующей
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/note/crm-timeline-note-save.html
    */
@@ -54,7 +54,7 @@ export class BXRestNavvyCrmTimelineNote {
   }
 
   /**
-   * Удаляет заметку у записи истории таймлайна или дела CRM.
+   * Удаляет заметку у записи истории таймлайна или дела CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/note/crm-timeline-note-delete.html
    */

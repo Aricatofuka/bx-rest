@@ -6,7 +6,7 @@ export class BXRestNavvyVoxImplantUrl  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает ссылки для навигации по страницам телефонии.
+   * Возвращает ссылки для навигации по страницам телефонии
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

@@ -12,7 +12,7 @@ export class BXRestNavvyMailRecipient  {
   public readonly field = new BXRestNavvyMailRecipientField()
 
   /**
-   * Ищет контакты из адресной книги.
+   * Ищет контакты из адресной книги
    */
   listcontacts(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
@@ -23,7 +23,7 @@ export class BXRestNavvyMailRecipient  {
   }
 
   /**
-   * Ищет сотрудников по имени или e-mail.
+   * Ищет сотрудников по имени или e-mail
    */
   listemployees(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<

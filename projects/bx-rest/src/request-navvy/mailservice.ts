@@ -6,7 +6,7 @@ export class BXRestNavvyMailService {
   private readonly Navvy = new Navvy()
 
   /**
-   * Создаёт почтовый сервис.
+   * Создаёт почтовый сервис
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<number, number, iBXRestGenericParams>(
@@ -15,7 +15,7 @@ export class BXRestNavvyMailService {
   }
 
   /**
-   * Удаляет почтовый сервис.
+   * Удаляет почтовый сервис
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(
@@ -24,14 +24,14 @@ export class BXRestNavvyMailService {
   }
 
   /**
-   * Возвращает названия полей почтового сервиса.
+   * Возвращает названия полей почтового сервиса
    */
   fields() {
     return this.Navvy.simple<iBXRestGenericObject>([$mailservice, $fields])
   }
 
   /**
-   * Возвращает параметры почтового сервиса по идентификатору.
+   * Возвращает параметры почтового сервиса по идентификатору
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<iBXRestGenericObject, iBXRestGenericObject, iBXRestGenericParams>(
@@ -40,7 +40,7 @@ export class BXRestNavvyMailService {
   }
 
   /**
-   * Возвращает список активных почтовых сервисов текущего сайта.
+   * Возвращает список активных почтовых сервисов текущего сайта
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -51,7 +51,7 @@ export class BXRestNavvyMailService {
   }
 
   /**
-   * Обновляет параметры почтового сервиса.
+   * Обновляет параметры почтового сервиса
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(

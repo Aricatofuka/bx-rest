@@ -14,7 +14,7 @@ export class BXRestNavvyPullApplicationPush {
    * У приложения должно быть заполнено название на текущем языке, иначе портал ответит `EMPTY_APP_NAME`.
    *
    * Работает только в контексте приложения и только у администратора портала.
-   * `true` в ответе значит, что уведомление принято к отправке, а не что оно дошло.
+   * `true` в ответе значит, что уведомление принято к отправке, а не что оно дошло
    *
    * @see https://apidocs.bitrix24.com/settings/interactivity/pull-application-push-add.html
    */

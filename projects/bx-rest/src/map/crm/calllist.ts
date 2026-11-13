@@ -9,18 +9,18 @@ import { toDate, toNum } from '../../services/base'
 
 export class BXRestMapCrmCallList {
   /**
-   * Преобразует данные списка обзвона из формата Bitrix24 в локальный формат.
+   * Преобразует данные списка обзвона из формата Bitrix24 в локальный формат
    *
    * @param value
    * @param dateTimeFormat Формат поля `DATE_CREATE`. По умолчанию — `'yyyy-MM-dd HH:mm:ss'`, но реальный
    *   формат зависит от настроек портала (Настройки → формат даты и времени) — если он известен,
-   *   передавайте его явно.
+   *   передавайте его явно
    */
   static get(value: iBXRestCrmCallListHttp | undefined, dateTimeFormat = 'yyyy-MM-dd HH:mm:ss'): iBXRestCrmCallList | undefined {
     return this.mapItem(value, dateTimeFormat) as iBXRestCrmCallList | undefined
   }
 
-  /** Преобразует список обзвонов с учетом полей, выбранных через `SELECT`. @see get */
+  /** Преобразует список обзвонов с учетом полей, выбранных через `SELECT` @see get */
   static list(
     value: iBXRestCrmCallListListItemHttp[] | undefined,
     dateTimeFormat = 'yyyy-MM-dd HH:mm:ss'

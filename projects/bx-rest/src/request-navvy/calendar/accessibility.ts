@@ -12,7 +12,7 @@ export class BXRestNavvyCalendarAccessibility {
     get: [$calendar, $accessibility, $get]
   }
 
-  /** Returns busy intervals for the requested users and period. */
+  /** Returns busy intervals for the requested users and period */
   get(param: iBXRestParamCalendarAccessibilityGet) {
     return this.Navvy.simple<
       iBXRestCalendarAccessibility,

@@ -41,9 +41,9 @@ export class BXRestNavvyCrmCallList {
   /**
    * Создает список обзвона из контактов или компаний.
    *
-   * В одном списке могут находиться объекты только одного типа, заданного в `ENTITY_TYPE`.
+   * В одном списке могут находиться объекты только одного типа, заданного в `ENTITY_TYPE`
    *
-   * @param param Тип объектов, их идентификаторы и необязательная CRM-форма.
+   * @param param Тип объектов, их идентификаторы и необязательная CRM-форма
    * @see https://apidocs.bitrix24.ru/api-reference/crm/call-list/crm-calllist-add.html
    */
   add(param: iBXRestParamCrmCallListAdd) {
@@ -53,11 +53,11 @@ export class BXRestNavvyCrmCallList {
   /**
    * Возвращает данные списка обзвона по идентификатору без списка участников.
    *
-   * Участников можно получить через `items.get()`.
+   * Участников можно получить через `items.get()`
    *
-   * @param param Идентификатор списка обзвона.
+   * @param param Идентификатор списка обзвона
    * @param dateTimeFormat Формат поля `DATE_CREATE` в ответе (см. {@link BXRestMapCrmCallList.get}).
-   *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию.
+   *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию
    * @see https://apidocs.bitrix24.ru/api-reference/crm/call-list/crm-calllist-get.html
    */
   get(param: iBXRestParamCrmCallListGet, dateTimeFormat?: string) {
@@ -71,11 +71,11 @@ export class BXRestNavvyCrmCallList {
   /**
    * Возвращает списки обзвона с выборкой полей, фильтрацией и сортировкой.
    *
-   * Набор полей каждого элемента результата зависит от `SELECT`.
+   * Набор полей каждого элемента результата зависит от `SELECT`
    *
-   * @param param Выбираемые поля, фильтр и порядок сортировки.
+   * @param param Выбираемые поля, фильтр и порядок сортировки
    * @param dateTimeFormat Формат поля `DATE_CREATE` в ответе (см. {@link BXRestMapCrmCallList.list}).
-   *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию.
+   *   Передавайте явно, если формат дат на портале отличается от значения по умолчанию
    * @see https://apidocs.bitrix24.ru/api-reference/crm/call-list/crm-calllist-list.html
    */
   list(param: iBXRestParamCrmCallListList = {}, dateTimeFormat?: string) {
@@ -91,7 +91,7 @@ export class BXRestNavvyCrmCallList {
    *
    * Значение `STATUS_ID` можно передать в `items.get({ FILTER: { STATUS } })`.
    * Создание, изменение и удаление статусов выполняется методами `crm.status.*`
-   * со значением `ENTITY_ID: 'CALL_LIST'`.
+   * со значением `ENTITY_ID: 'CALL_LIST'`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/call-list/crm-calllist-statuslist.html
    */
@@ -104,9 +104,9 @@ export class BXRestNavvyCrmCallList {
    *
    * `ENTITIES` перезаписывается целиком: чтобы добавить участников, передайте и текущие,
    * и новые идентификаторы; чтобы удалить — только те, которые должны остаться.
-   * Если `WEBFORM_ID` не передан, ранее установленная CRM-форма будет очищена.
+   * Если `WEBFORM_ID` не передан, ранее установленная CRM-форма будет очищена
    *
-   * @param param Идентификатор списка и его новый полный состав.
+   * @param param Идентификатор списка и его новый полный состав
    * @see https://apidocs.bitrix24.ru/api-reference/crm/call-list/crm-calllist-update.html
    */
   update(param: iBXRestParamCrmCallListUpdate) {

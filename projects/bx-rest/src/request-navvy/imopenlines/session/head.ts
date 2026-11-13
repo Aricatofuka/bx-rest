@@ -6,7 +6,7 @@ export class BXRestNavvyImOpenLinesSessionHead  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Сохраняет оценку руководителя по завершённой сессии.
+   * Сохраняет оценку руководителя по завершённой сессии
    */
   vote(param: iBXRestGenericParams) {
     return this.Navvy.simple<

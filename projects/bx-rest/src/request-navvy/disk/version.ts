@@ -12,7 +12,7 @@ export class BXRestNavvyDiskVersion {
   }
 
   /**
-   * Возвращает версию файла по идентификатору.
+   * Возвращает версию файла по идентификатору
    */
   get(param: iBXRestParamDiskVersionGet) {
     return this.Navvy.simple<

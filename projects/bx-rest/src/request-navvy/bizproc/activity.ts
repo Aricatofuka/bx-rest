@@ -33,7 +33,7 @@ export class BXRestNavvyBizProcActivity {
   }
 
   /**
-   * Регистрирует новое действие бизнес-процесса для текущего приложения.
+   * Регистрирует новое действие бизнес-процесса для текущего приложения
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-activity/bizproc-activity-add.html
    */
@@ -45,7 +45,7 @@ export class BXRestNavvyBizProcActivity {
   }
 
   /**
-   * Обновляет поля зарегистрированного действия.
+   * Обновляет поля зарегистрированного действия
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-activity/bizproc-activity-update.html
    */
@@ -58,7 +58,7 @@ export class BXRestNavvyBizProcActivity {
   }
 
   /**
-   * Возвращает список символьных кодов действий текущего приложения.
+   * Возвращает список символьных кодов действий текущего приложения
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-activity/bizproc-activity-list.html
    */
@@ -70,7 +70,7 @@ export class BXRestNavvyBizProcActivity {
    * Записывает сообщение в журнал бизнес-процесса.
    *
    * Регистрация действия должна содержать `USE_SUBSCRIPTION: 'Y'`, а токен
-   * события должен оставаться актуальным.
+   * события должен оставаться актуальным
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-activity/bizproc-activity-log.html
    */
@@ -82,7 +82,7 @@ export class BXRestNavvyBizProcActivity {
   }
 
   /**
-   * Удаляет действие, зарегистрированное текущим приложением.
+   * Удаляет действие, зарегистрированное текущим приложением
    *
    * @see https://apidocs.bitrix24.ru/api-reference/bizproc/bizproc-activity/bizproc-activity-delete.html
    */

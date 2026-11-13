@@ -23,7 +23,7 @@ export class BXRestNavvySonetGroupUser {
   }
 
   /**
-   * Добавляет пользователей в рабочую группу.
+   * Добавляет пользователей в рабочую группу
    */
   add(param: iBXRestParamSonetGroupUserChange) {
     return this.Navvy.simple<number[], number[], iBXRestParamSonetGroupUserChange>(
@@ -33,7 +33,7 @@ export class BXRestNavvySonetGroupUser {
   }
 
   /**
-   * Удаляет пользователей из рабочей группы.
+   * Удаляет пользователей из рабочей группы
    */
   delete(param: iBXRestParamSonetGroupUserChange) {
     return this.Navvy.simple<number[], number[], iBXRestParamSonetGroupUserChange>(
@@ -43,7 +43,7 @@ export class BXRestNavvySonetGroupUser {
   }
 
   /**
-   * Возвращает список участников рабочей группы.
+   * Возвращает список участников рабочей группы
    */
   get(param: iBXRestParamSonetGroupUserGet) {
     return this.Navvy.simple<
@@ -54,14 +54,14 @@ export class BXRestNavvySonetGroupUser {
   }
 
   /**
-   * Возвращает список групп текущего пользователя.
+   * Возвращает список групп текущего пользователя
    */
   groups() {
     return this.Navvy.simple<iBXRestSonetGroupUserGroup[]>(this.url.groups)
   }
 
   /**
-   * Приглашает пользователей в рабочую группу.
+   * Приглашает пользователей в рабочую группу
    */
   invite(param: iBXRestParamSonetGroupUserInvite) {
     return this.Navvy.simple<number[], number[], iBXRestParamSonetGroupUserInvite>(
@@ -71,7 +71,7 @@ export class BXRestNavvySonetGroupUser {
   }
 
   /**
-   * Отправляет запрос на вступление в рабочую группу.
+   * Отправляет запрос на вступление в рабочую группу
    */
   request(param: iBXRestParamSonetGroupUserRequest) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamSonetGroupUserRequest>(
@@ -81,7 +81,7 @@ export class BXRestNavvySonetGroupUser {
   }
 
   /**
-   * Изменяет роль пользователя в рабочей группе.
+   * Изменяет роль пользователя в рабочей группе
    */
   update(param: iBXRestParamSonetGroupUserUpdate) {
     return this.Navvy.simple<number[], number[], iBXRestParamSonetGroupUserUpdate>(

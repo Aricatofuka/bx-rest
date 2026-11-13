@@ -6,7 +6,7 @@ export class BXRestNavvyCrmCompanyContactItems {
   private readonly Navvy = new Navvy()
 
   /**
-   * Очищает набор контактов компании.
+   * Очищает набор контактов компании
    */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -16,7 +16,7 @@ export class BXRestNavvyCrmCompanyContactItems {
   }
 
   /**
-   * Возвращает набор контактов, связанных с компанией.
+   * Возвращает набор контактов, связанных с компанией
    */
   get(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>(
@@ -26,7 +26,7 @@ export class BXRestNavvyCrmCompanyContactItems {
   }
 
   /**
-   * Устанавливает набор контактов для компании.
+   * Устанавливает набор контактов для компании
    */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(

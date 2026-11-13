@@ -13,7 +13,7 @@ export class BXRestNavvyTaskChecklistItem {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет элемент чек-листа к задаче.
+   * Добавляет элемент чек-листа к задаче
    */
   add(param: iBXRestParamTaskChecklistItemAdd) {
     return this.Navvy.simple<number, number, iBXRestParamTaskChecklistItemAdd>(
@@ -23,7 +23,7 @@ export class BXRestNavvyTaskChecklistItem {
   }
 
   /**
-   * Отмечает элемент чек-листа как выполненный.
+   * Отмечает элемент чек-листа как выполненный
    */
   complete(param: iBXRestParamTaskChecklistItem) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskChecklistItem>(
@@ -33,7 +33,7 @@ export class BXRestNavvyTaskChecklistItem {
   }
 
   /**
-   * Удаляет элемент чек-листа.
+   * Удаляет элемент чек-листа
    */
   delete(param: iBXRestParamTaskChecklistItem) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskChecklistItem>(
@@ -43,7 +43,7 @@ export class BXRestNavvyTaskChecklistItem {
   }
 
   /**
-   * Возвращает элемент чек-листа по идентификатору.
+   * Возвращает элемент чек-листа по идентификатору
    */
   get(param: iBXRestParamTaskChecklistItem) {
     return this.Navvy.simple<
@@ -54,7 +54,7 @@ export class BXRestNavvyTaskChecklistItem {
   }
 
   /**
-   * Возвращает список элементов чек-листа.
+   * Возвращает список элементов чек-листа
    */
   getlist(param: Pick<iBXRestParamTaskChecklistItem, 'TASKID'>) {
     return this.Navvy.simple<
@@ -65,14 +65,14 @@ export class BXRestNavvyTaskChecklistItem {
   }
 
   /**
-   * Возвращает список методов чек-листа и их описание.
+   * Возвращает список методов чек-листа и их описание
    */
   getmanifest() {
     return this.Navvy.simple<iBXRestTaskObject>([$task, $checklistitem, $getmanifest])
   }
 
   /**
-   * Проверяет, разрешено ли действие с элементом чек-листа.
+   * Проверяет, разрешено ли действие с элементом чек-листа
    */
   isactionallowed(param: iBXRestParamTaskChecklistItemAction) {
     return this.Navvy.simple<
@@ -83,7 +83,7 @@ export class BXRestNavvyTaskChecklistItem {
   }
 
   /**
-   * Помещает элемент чек-листа после указанного.
+   * Помещает элемент чек-листа после указанного
    */
   moveafteritem(param: iBXRestParamTaskChecklistItemMove) {
     return this.Navvy.simple<
@@ -94,7 +94,7 @@ export class BXRestNavvyTaskChecklistItem {
   }
 
   /**
-   * Отмечает выполненный элемент чек-листа как активный.
+   * Отмечает выполненный элемент чек-листа как активный
    */
   renew(param: iBXRestParamTaskChecklistItem) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskChecklistItem>(
@@ -104,7 +104,7 @@ export class BXRestNavvyTaskChecklistItem {
   }
 
   /**
-   * Обновляет данные элемента чек-листа.
+   * Обновляет данные элемента чек-листа
    */
   update(param: iBXRestParamTaskChecklistItemUpdate) {
     return this.Navvy.simple<

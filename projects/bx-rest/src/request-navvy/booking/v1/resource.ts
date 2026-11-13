@@ -12,7 +12,7 @@ export class BXRestNavvyBookingV1Resource  {
   public readonly slots = new BXRestNavvyBookingV1ResourceSlots()
 
   /**
-   * Добавляет новый ресурс.
+   * Добавляет новый ресурс
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -23,7 +23,7 @@ export class BXRestNavvyBookingV1Resource  {
   }
 
   /**
-   * Удаляет ресурс.
+   * Удаляет ресурс
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -34,7 +34,7 @@ export class BXRestNavvyBookingV1Resource  {
   }
 
   /**
-   * Возвращает ресурс.
+   * Возвращает ресурс
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -45,7 +45,7 @@ export class BXRestNavvyBookingV1Resource  {
   }
 
   /**
-   * Возвращает список ресурсов.
+   * Возвращает список ресурсов
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvyBookingV1Resource  {
   }
 
   /**
-   * Обновляет ресурс.
+   * Обновляет ресурс
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<

@@ -8,12 +8,12 @@ import {
 import { toBool, toNum } from '../../services/base'
 
 export class BXRestMapCrmStatus {
-  /** Преобразует список элементов справочника из формата Bitrix24 в локальный формат. */
+  /** Преобразует список элементов справочника из формата Bitrix24 в локальный формат */
   static list(value: iBXRestCrmStatusHttp[] | undefined): iBXRestCrmStatus[] | undefined {
     return value?.map(item => BXRestMapCrmStatus.get(item) as iBXRestCrmStatus)
   }
 
-  /** Преобразует элемент справочника из формата Bitrix24 в локальный формат. */
+  /** Преобразует элемент справочника из формата Bitrix24 в локальный формат */
   static get(value: iBXRestCrmStatusHttp | undefined): iBXRestCrmStatus | undefined {
     if (!value) return undefined
 
@@ -25,7 +25,7 @@ export class BXRestMapCrmStatus {
     })
   }
 
-  /** Нормализует идентификаторы воронок в описаниях типов справочников. */
+  /** Нормализует идентификаторы воронок в описаниях типов справочников */
   static entityTypes(
     value: iBXRestCrmStatusEntityTypeHttp[] | undefined
   ): iBXRestCrmStatusEntityType[] | undefined {

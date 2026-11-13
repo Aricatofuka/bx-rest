@@ -6,7 +6,7 @@ export class BXRestNavvyImBotV2ChatMessageReaction  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет реакцию на сообщение.
+   * Добавляет реакцию на сообщение
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyImBotV2ChatMessageReaction  {
   }
 
   /**
-   * Удаляет реакцию с сообщения.
+   * Удаляет реакцию с сообщения
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<

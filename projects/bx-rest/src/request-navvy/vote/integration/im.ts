@@ -6,7 +6,7 @@ export class BXRestNavvyVoteIntegrationIm {
   private readonly Navvy = new Navvy()
 
   /**
-   * Создаёт и отправляет голосование в чат.
+   * Создаёт и отправляет голосование в чат
    */
   send(param: iBXRestGenericParams) {
     return this.Navvy.simple<iBXRestGenericObject, iBXRestGenericObject, iBXRestGenericParams>(

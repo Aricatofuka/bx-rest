@@ -6,7 +6,7 @@ export class BXRestNavvyLandingRepoWidget  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Включает режим отладки виджета.
+   * Включает режим отладки виджета
    */
   public debug(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyLandingRepoWidget  {
     >([$landing, $repowidget, $debug], param)
   }
   /**
-   * Возвращает список виджетов.
+   * Возвращает список виджетов
    */
   public getList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyLandingRepoWidget  {
     >([$landing, $repowidget, $getlist], param)
   }
   /**
-   * Добавляет виджет на стартовую страницу.
+   * Добавляет виджет на стартовую страницу
    */
   public register(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyLandingRepoWidget  {
     >([$landing, $repowidget, $register], param)
   }
   /**
-   * Удаляет виджет.
+   * Удаляет виджет
    */
   public unregister(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

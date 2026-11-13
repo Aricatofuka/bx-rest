@@ -20,7 +20,7 @@ export class BXRestNavvyCrmTimelineItem {
   }
 
   /**
-   * Закрепляет запись в таймлайне указанного элемента CRM.
+   * Закрепляет запись в таймлайне указанного элемента CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/timeline-item/crm-timeline-item-pin.html
    */
@@ -32,7 +32,7 @@ export class BXRestNavvyCrmTimelineItem {
   }
 
   /**
-   * Открепляет запись в таймлайне указанного элемента CRM.
+   * Открепляет запись в таймлайне указанного элемента CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/timeline-item/crm-timeline-item-unpin.html
    */

@@ -11,7 +11,7 @@ export class BXRestNavvyMethod {
   /**
    * Проверяет, существует ли метод на портале и доступен ли он приложению.
    *
-   * Передавайте имя метода в нижнем регистре, например `{ name: 'user.get' }`.
+   * Передавайте имя метода в нижнем регистре, например `{ name: 'user.get' }`
    */
   get(param: iBXRestParamMethodGet) {
     return this.Navvy.simple<

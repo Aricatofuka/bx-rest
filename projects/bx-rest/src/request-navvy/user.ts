@@ -41,7 +41,7 @@ export class BXRestNavvyUser {
   public readonly option = new BXRestNavvyUserOption()
   private readonly Navvy = new Navvy()
 
-  /** Invites an intranet or extranet user. Requires user invitation rights. */
+  /** Invites an intranet or extranet user. Requires user invitation rights */
   add(param: iBXRestParamUserAdd) {
     return this.Navvy.simple<number, number, iBXRestParamUserAdd>(
       this.url.add,
@@ -53,7 +53,7 @@ export class BXRestNavvyUser {
    * Проверяет, может ли текущий пользователь управлять настройками приложений.
    *
    * Возвращает `true` для пользователя с соответствующими административными
-   * правами и `false` в остальных случаях.
+   * правами и `false` в остальных случаях
    */
   admin() {
     return this.Navvy.simple<boolean>(
@@ -62,7 +62,7 @@ export class BXRestNavvyUser {
   }
 
   /**
-   * Возвращает список пользователей по фильтру.
+   * Возвращает список пользователей по фильтру
    */
   get(params: iBXRestParamUserGet = {}) {
     let copyParams = clone(params)
@@ -75,7 +75,7 @@ export class BXRestNavvyUser {
   }
 
   /**
-   * Возвращает информацию о текущем пользователе.
+   * Возвращает информацию о текущем пользователе
    */
   current() {
     return this.Navvy.simple<iBXRestUserHttp, iBXRestUser>(
@@ -86,7 +86,7 @@ export class BXRestNavvyUser {
   }
 
   /**
-   * Обновляет данные пользователя. Доступно только пользователю с правами приглашения пользователей.
+   * Обновляет данные пользователя. Доступно только пользователю с правами приглашения пользователей
    */
   update(param: iBXRestParamUserUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamUserUpdate>(
@@ -107,7 +107,7 @@ export class BXRestNavvyUser {
    * Проверяет наличие хотя бы одного из указанных кодов доступа.
    *
    * Для обратной совместимости можно передать как объект
-   * `{ ACCESS: ['G2', 'AU'] }`, так и непосредственно массив кодов.
+   * `{ ACCESS: ['G2', 'AU'] }`, так и непосредственно массив кодов
    */
   access(params: iBXRestParamUserAccess | string[]) {
     const preparedParams: iBXRestParamUserAccess = Array.isArray(params)
@@ -121,14 +121,14 @@ export class BXRestNavvyUser {
   }
 
   /**
-   * Возвращает список полей профиля пользователя.
+   * Возвращает список полей профиля пользователя
    */
   fields() {
     return this.Navvy.simple<iBXRestUserHttpField>(this.url.fields)
   }
 
   /**
-   * Дополняет параметры запроса пользователей значениями по умолчанию (ACTIVE, start).
+   * Дополняет параметры запроса пользователей значениями по умолчанию (ACTIVE, start)
    */
   private setDefParam(params: iBXRestParamUserGet) {
     if (!params.FILTER) {

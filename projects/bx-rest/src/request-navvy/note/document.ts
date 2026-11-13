@@ -22,7 +22,7 @@ export class BXRestNavvyNoteDocument  {
   public readonly tree = new BXRestNavvyNoteDocumentTree()
 
   /**
-   * Создаёт документ.
+   * Создаёт документ
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -33,7 +33,7 @@ export class BXRestNavvyNoteDocument  {
   }
 
   /**
-   * Архивирует документ и его дочерние страницы.
+   * Архивирует документ и его дочерние страницы
    */
   archive(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -44,7 +44,7 @@ export class BXRestNavvyNoteDocument  {
   }
 
   /**
-   * Переносит документ и его дочерние страницы в корзину.
+   * Переносит документ и его дочерние страницы в корзину
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -55,7 +55,7 @@ export class BXRestNavvyNoteDocument  {
   }
 
   /**
-   * Возвращает документ с содержимым в Markdown.
+   * Возвращает документ с содержимым в Markdown
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -66,7 +66,7 @@ export class BXRestNavvyNoteDocument  {
   }
 
   /**
-   * Обновляет заголовок и содержимое документа.
+   * Обновляет заголовок и содержимое документа
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<

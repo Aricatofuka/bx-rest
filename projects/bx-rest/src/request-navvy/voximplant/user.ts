@@ -6,21 +6,21 @@ export class BXRestNavvyVoxImplantUser  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Устанавливает сотруднику признак наличия SIP-аппарата.
+   * Устанавливает сотруднику признак наличия SIP-аппарата
    */
   activatephone(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$voximplant, $user, $activatephone], param)
   }
 
   /**
-   * Снимает с сотрудника признак наличия SIP-аппарата.
+   * Снимает с сотрудника признак наличия SIP-аппарата
    */
   deactivatephone(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$voximplant, $user, $deactivatephone], param)
   }
 
   /**
-   * Возвращает настройки пользователей телефонии.
+   * Возвращает настройки пользователей телефонии
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

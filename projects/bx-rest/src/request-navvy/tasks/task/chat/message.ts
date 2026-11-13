@@ -12,7 +12,7 @@ export class BXRestNavvyTasksTaskChatMessage  {
   public readonly field = new BXRestNavvyTasksTaskChatMessageField()
 
   /**
-   * Отправляет сообщение в чат задачи.
+   * Отправляет сообщение в чат задачи
    */
   send(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $chat, $message, $send], param)

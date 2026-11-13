@@ -6,7 +6,7 @@ export class BXRestNavvyImBotV2ChatTextField  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Включает или отключает поле ввода текста в чате.
+   * Включает или отключает поле ввода текста в чате
    */
   enabled(param: iBXRestGenericParams) {
     return this.Navvy.simple<

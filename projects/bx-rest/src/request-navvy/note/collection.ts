@@ -2,6 +2,8 @@ import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
 import { $add, $archive, $collection, $delete, $get, $list, $note, $update } from '../../consts/part-name-methods'
 import { BXRestNavvyNoteCollectionField } from './collection/field'
+import { restV3CursorNav } from '../../services/navvy/sequential-navs'
+import { NOTE_COLLECTION_MAX_PAGE_SIZE, PAGE_SIZE } from '../../consts/page-size'
 
 export class BXRestNavvyNoteCollection  {
   private readonly Navvy = new Navvy()
@@ -12,7 +14,7 @@ export class BXRestNavvyNoteCollection  {
   public readonly field = new BXRestNavvyNoteCollectionField()
 
   /**
-   * Создаёт базу знаний.
+   * Создаёт базу знаний
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -23,7 +25,7 @@ export class BXRestNavvyNoteCollection  {
   }
 
   /**
-   * Архивирует базу знаний.
+   * Архивирует базу знаний
    */
   archive(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -34,7 +36,7 @@ export class BXRestNavvyNoteCollection  {
   }
 
   /**
-   * Переносит базу знаний в корзину.
+   * Переносит базу знаний в корзину
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -45,7 +47,7 @@ export class BXRestNavvyNoteCollection  {
   }
 
   /**
-   * Возвращает базу знаний по идентификатору.
+   * Возвращает базу знаний по идентификатору
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<
@@ -56,18 +58,18 @@ export class BXRestNavvyNoteCollection  {
   }
 
   /**
-   * Возвращает список доступных пользователю баз знаний.
+   * Возвращает список доступных пользователю баз знаний
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simpleV3<
+    return this.Navvy.pagNavSequentialV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
       iBXRestGenericParams
-    >([$note, $collection, $list], param)
+    >([$note, $collection, $list], param, restV3CursorNav(PAGE_SIZE, NOTE_COLLECTION_MAX_PAGE_SIZE))
   }
 
   /**
-   * Переименовывает базу знаний.
+   * Переименовывает базу знаний
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<

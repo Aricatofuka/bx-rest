@@ -6,7 +6,7 @@ export class BXRestNavvyCrmLeadContactItems {
   private readonly Navvy = new Navvy()
 
   /**
-   * Удаляет список контактов у лида.
+   * Удаляет список контактов у лида
    */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -16,7 +16,7 @@ export class BXRestNavvyCrmLeadContactItems {
   }
 
   /**
-   * Возвращает список связанных с лидом контактов.
+   * Возвращает список связанных с лидом контактов
    */
   get(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>(
@@ -26,7 +26,7 @@ export class BXRestNavvyCrmLeadContactItems {
   }
 
   /**
-   * Прикрепляет список контактов к указанному лиду.
+   * Прикрепляет список контактов к указанному лиду
    */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(

@@ -17,21 +17,21 @@ export class BXRestNavvyEntity  {
   public readonly section = new BXRestNavvyEntitySection()
 
   /**
-   * Создаёт хранилище данных.
+   * Создаёт хранилище данных
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $add], param)
   }
 
   /**
-   * Удаляет хранилище.
+   * Удаляет хранилище
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $delete], param)
   }
 
   /**
-   * Возвращает параметры хранилища или список всех хранилищ приложения.
+   * Возвращает параметры хранилища или список всех хранилищ приложения
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -42,7 +42,7 @@ export class BXRestNavvyEntity  {
   }
 
   /**
-   * Возвращает или изменяет права доступа к хранилищу.
+   * Возвращает или изменяет права доступа к хранилищу
    */
   rights(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -53,7 +53,7 @@ export class BXRestNavvyEntity  {
   }
 
   /**
-   * Изменяет параметры хранилища данных.
+   * Изменяет параметры хранилища данных
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $update], param)

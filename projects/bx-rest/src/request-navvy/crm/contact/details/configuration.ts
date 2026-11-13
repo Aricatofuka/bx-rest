@@ -6,7 +6,7 @@ export class BXRestNavvyCrmContactDetailsConfiguration {
   private readonly Navvy = new Navvy()
 
   /**
-   * Принудительно устанавливает общую карточку контакта для всех пользователей.
+   * Принудительно устанавливает общую карточку контакта для всех пользователей
    */
   forceCommonScopeForAll(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -16,7 +16,7 @@ export class BXRestNavvyCrmContactDetailsConfiguration {
   }
 
   /**
-   * Возвращает настройки карточки контакта.
+   * Возвращает настройки карточки контакта
    */
   get(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>(
@@ -26,7 +26,7 @@ export class BXRestNavvyCrmContactDetailsConfiguration {
   }
 
   /**
-   * Сбрасывает настройки карточки контакта.
+   * Сбрасывает настройки карточки контакта
    */
   reset(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -36,7 +36,7 @@ export class BXRestNavvyCrmContactDetailsConfiguration {
   }
 
   /**
-   * Устанавливает настройки карточки контакта.
+   * Устанавливает настройки карточки контакта
    */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(

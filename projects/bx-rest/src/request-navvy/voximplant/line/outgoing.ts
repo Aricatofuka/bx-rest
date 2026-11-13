@@ -12,7 +12,7 @@ export class BXRestNavvyVoxImplantLineOutgoing  {
   public readonly sip = new BXRestNavvyVoxImplantLineOutgoingSip()
 
   /**
-   * Возвращает идентификатор текущей исходящей линии по умолчанию.
+   * Возвращает идентификатор текущей исходящей линии по умолчанию
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -23,7 +23,7 @@ export class BXRestNavvyVoxImplantLineOutgoing  {
   }
 
   /**
-   * Устанавливает исходящую линию по умолчанию.
+   * Устанавливает исходящую линию по умолчанию
    */
   set(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$voximplant, $line, $outgoing, $set], param)

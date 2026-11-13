@@ -12,7 +12,7 @@ export class BXRestNavvyTasksTaskAccess  {
   public readonly field = new BXRestNavvyTasksTaskAccessField()
 
   /**
-   * Проверяет доступ к задаче.
+   * Проверяет доступ к задаче
    */
   get(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $access, $get], param)

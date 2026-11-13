@@ -6,7 +6,7 @@ export class BXRestNavvyAiEngine {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список зарегистрированных AI-сервисов.
+   * Возвращает список зарегистрированных AI-сервисов
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyAiEngine {
   }
 
   /**
-   * Регистрирует пользовательский AI-сервис.
+   * Регистрирует пользовательский AI-сервис
    */
   register(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(
@@ -26,7 +26,7 @@ export class BXRestNavvyAiEngine {
   }
 
   /**
-   * Удаляет зарегистрированный AI-сервис.
+   * Удаляет зарегистрированный AI-сервис
    */
   unregister(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(

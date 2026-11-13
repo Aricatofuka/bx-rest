@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogExtra  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает наценку по идентификатору.
+   * Возвращает наценку по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogExtra  {
     >([$catalog, $extra, $get], param)
   }
   /**
-   * Возвращает описание полей наценки.
+   * Возвращает описание полей наценки
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogExtra  {
     >([$catalog, $extra, $getFieldsExact], param)
   }
   /**
-   * Возвращает список наценок.
+   * Возвращает список наценок
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<

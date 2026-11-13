@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogPrice  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет цену.
+   * Добавляет цену
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogPrice  {
     >([$catalog, $price, $add], param)
   }
   /**
-   * Удаляет цену.
+   * Удаляет цену
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogPrice  {
     >([$catalog, $price, $delete], param)
   }
   /**
-   * Возвращает цену по идентификатору.
+   * Возвращает цену по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogPrice  {
     >([$catalog, $price, $get], param)
   }
   /**
-   * Возвращает описание полей цены.
+   * Возвращает описание полей цены
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogPrice  {
     >([$catalog, $price, $getFieldsExact], param)
   }
   /**
-   * Возвращает список цен.
+   * Возвращает список цен
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvyCatalogPrice  {
     >([$catalog, $price, $list], param, 'prices')
   }
   /**
-   * Устанавливает или изменяет цену товара, создавая запись при её отсутствии.
+   * Устанавливает или изменяет цену товара, создавая запись при её отсутствии
    */
   public modify(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -66,7 +66,7 @@ export class BXRestNavvyCatalogPrice  {
     >([$catalog, $price, $modify], param)
   }
   /**
-   * Обновляет цену.
+   * Обновляет цену
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

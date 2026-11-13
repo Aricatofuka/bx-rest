@@ -6,7 +6,7 @@ export class BXRestNavvyTimemanTimeControlReportsSettings {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает настройки интерфейса отчётов пользователя.
+   * Возвращает настройки интерфейса отчётов пользователя
    */
   get() {
     return this.Navvy.simple<iBXRestTimemanTimeControlSettings>(

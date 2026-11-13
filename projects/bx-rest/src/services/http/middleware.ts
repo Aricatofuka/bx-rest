@@ -29,7 +29,7 @@ export interface ThrottleState {
  * Встроенные шаги из настроек, в этом порядке: повтор, очередь, таймаут, журнал.
  * Повтор — снаружи: каждая попытка заново встаёт в очередь и получает свой
  * таймаут. Таймаут — внутри очереди: ожидание своей очереди его не тратит.
- * Журнал — внутри всех: каждая попытка — своя запись, без времени в очереди.
+ * Журнал — внутри всех: каждая попытка — своя запись, без времени в очереди
  */
 export function builtInMiddleware(settings: iBXRestSettings, state: ThrottleState): BXRestMiddleware[] {
   const steps: BXRestMiddleware[] = []
@@ -81,7 +81,7 @@ function abortReason(signal: AbortSignal): unknown {
   return signal.reason ?? new Error('The request was aborted')
 }
 
-/** Пауза, которую прерывает отмена запроса. */
+/** Пауза, которую прерывает отмена запроса */
 function wait(ms: number, signal?: AbortSignal): Promise<void> {
   return new Promise((resolve, reject) => {
     if (signal?.aborted) {
@@ -103,7 +103,7 @@ function wait(ms: number, signal?: AbortSignal): Promise<void> {
 /**
  * Повтор при `QUERY_LIMIT_EXCEEDED`: портал отвечает так (HTTP 503), когда
  * превышен лимит частоты запросов. Пауза растёт вдвое: `delay`, `2 × delay`, ...
- * `attempts` — сколько всего попыток, вместе с первой.
+ * `attempts` — сколько всего попыток, вместе с первой
  */
 function retryOnQueryLimit(attempts: number, delay: number): BXRestMiddleware {
   return async (config, next) => {
@@ -123,7 +123,7 @@ function retryOnQueryLimit(attempts: number, delay: number): BXRestMiddleware {
 
 /**
  * Не больше `perSecond` запросов в секунду: лишние ждут своей очереди.
- * Очередь общая для всех запросов клиента (`state` — его контекст).
+ * Очередь общая для всех запросов клиента (`state` — его контекст)
  */
 function throttle(perSecond: number, state: ThrottleState): BXRestMiddleware {
   const interval = 1000 / perSecond
@@ -148,7 +148,7 @@ function throttle(perSecond: number, state: ThrottleState): BXRestMiddleware {
   }
 }
 
-/** Код ошибки Bitrix из тела ответа или, если его нет, текст ошибки запроса. */
+/** Код ошибки Bitrix из тела ответа или, если его нет, текст ошибки запроса */
 function errorText(body: unknown, error?: unknown): string | undefined {
   const code = parseBXRestErrorBody(body)?.error
   if (code) {
@@ -159,7 +159,7 @@ function errorText(body: unknown, error?: unknown): string | undefined {
 
 /**
  * Пишет в журнал запись о каждом HTTP-запросе. Исключение из `log` проглатывается:
- * журнал не должен ломать запрос.
+ * журнал не должен ломать запрос
  */
 function logRequests(log: (entry: BXRestRequestLogEntry) => void): BXRestMiddleware {
   const write = (entry: BXRestRequestLogEntry) => {
@@ -192,7 +192,7 @@ function logRequests(log: (entry: BXRestRequestLogEntry) => void): BXRestMiddlew
   }
 }
 
-/** Отменяет запрос, если он не завершился за `ms` миллисекунд. */
+/** Отменяет запрос, если он не завершился за `ms` миллисекунд */
 function timeout(ms: number): BXRestMiddleware {
   return (config, next) => {
     const controller = new AbortController()

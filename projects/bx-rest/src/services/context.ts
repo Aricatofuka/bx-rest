@@ -24,7 +24,7 @@ export class BXRestContext {
 
   /**
    * Свои настройки клиента, а без них — глобальные `BXRestSettings.value`,
-   * прочитанные в момент обращения: `BXRestSettings.update()` заменяет объект.
+   * прочитанные в момент обращения: `BXRestSettings.update()` заменяет объект
    */
   get settings(): iBXRestSettings {
     return this.own ?? BXRestSettings.value
@@ -47,7 +47,7 @@ export function currentContext(): BXRestContext {
 /**
  * Делает `ctx` текущим и возвращает прежний контекст. Вызывающий обязан
  * вернуть его через `restoreContext()` в `finally`: иначе после исключения
- * чужие настройки достанутся объектам, созданным позже.
+ * чужие настройки достанутся объектам, созданным позже
  */
 export function enterContext(ctx: BXRestContext): BXRestContext {
   const previous = current
@@ -59,7 +59,7 @@ export function restoreContext(previous: BXRestContext): void {
   current = previous
 }
 
-/** Создаёт объекты в контексте `ctx` и возвращает прежний контекст, даже при исключении. */
+/** Создаёт объекты в контексте `ctx` и возвращает прежний контекст, даже при исключении */
 export function runInContext<T>(ctx: BXRestContext, build: () => T): T {
   const previous = enterContext(ctx)
   try {

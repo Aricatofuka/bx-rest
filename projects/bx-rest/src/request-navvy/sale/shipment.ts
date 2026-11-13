@@ -6,7 +6,7 @@ export class BXRestNavvySaleShipment  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет отгрузку.
+   * Добавляет отгрузку
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySaleShipment  {
     >([$sale, $shipment, $add], param)
   }
   /**
-   * Удаляет отгрузку.
+   * Удаляет отгрузку
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySaleShipment  {
     >([$sale, $shipment, $delete], param)
   }
   /**
-   * Возвращает отгрузку по идентификатору.
+   * Возвращает отгрузку по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySaleShipment  {
     >([$sale, $shipment, $get], param)
   }
   /**
-   * Возвращает описание полей отгрузки.
+   * Возвращает описание полей отгрузки
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvySaleShipment  {
     >([$sale, $shipment, $getFieldsExact], param)
   }
   /**
-   * Возвращает список отгрузок.
+   * Возвращает список отгрузок
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvySaleShipment  {
     >([$sale, $shipment, $list], param, 'shipments')
   }
   /**
-   * Обновляет отгрузку.
+   * Обновляет отгрузку
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

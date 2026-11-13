@@ -6,7 +6,7 @@ export class BXRestNavvyCrmSettingsMode {
   private readonly Navvy = new Navvy()
 
   /**
-   * Определяет текущий режим работы CRM (простой или классический).
+   * Определяет текущий режим работы CRM (простой или классический)
    */
   get() {
     return this.Navvy.simple<iBXRestCrmObject>([$crm, $settings, $mode, $get])

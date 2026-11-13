@@ -6,7 +6,7 @@ export class BXRestNavvySalePaySystemPay  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Выполняет оплату через платёжную систему.
+   * Выполняет оплату через платёжную систему
    */
   public payment(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

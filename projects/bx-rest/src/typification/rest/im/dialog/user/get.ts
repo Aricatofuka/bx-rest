@@ -5,11 +5,17 @@ export interface iBXRestImDialogUserGetParam extends iBXRestImDialogGetParam {
   /**
    * Пропустить всех системных пользователей - 'Y'|'N' (по умолчанию 'N')
    */
-  SKIP_EXTERNAL: iBXRestYesNo
+  SKIP_EXTERNAL?: iBXRestYesNo
   /**
    * Строка с теми типами системных пользователей, которых нужно оставить в выборке
    */
-  SKIP_EXTERNAL_EXCEPT_TYPES: string
+  SKIP_EXTERNAL_EXCEPT_TYPES?: string
+  /** Число участников на странице. По умолчанию 50, не больше 200 */
+  LIMIT?: number
+  /** Смещение от начала списка. По умолчанию 0 */
+  OFFSET?: number
+  /** Идентификатор последнего участника предыдущей страницы, для последовательной загрузки */
+  LAST_ID?: number
 }
 
 export interface iBXRestImDialogUserGet extends iBXRestImDialogUserGetBase {

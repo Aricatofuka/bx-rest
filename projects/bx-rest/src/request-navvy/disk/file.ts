@@ -34,21 +34,21 @@ export class BXRestNavvyDiskFile {
   }
 
   /**
-   * Возвращает файл по идентификатору.
+   * Возвращает файл по идентификатору
    */
   get(param: iBXRestParamDiskFileGet) {
     return this.Navvy.simple(this.url.get, param, BXRestMapDiskFile.get)
   }
 
   /**
-   * Возвращает описание полей файла.
+   * Возвращает описание полей файла
    */
   getFields() {
     return this.Navvy.simple<Record<string, unknown>>(this.url.getFields)
   }
 
   /**
-   * Переименовывает файл.
+   * Переименовывает файл
    */
   rename(param: iBXRestParamDiskFileRename) {
     return this.Navvy.simple<iBXRestDiskFileHttp, iBXRestDiskFileHttp, iBXRestParamDiskFileRename>(
@@ -58,7 +58,7 @@ export class BXRestNavvyDiskFile {
   }
 
   /**
-   * Копирует файл в указанную папку.
+   * Копирует файл в указанную папку
    */
   copyTo(param: iBXRestParamDiskFileTarget) {
     return this.Navvy.simple<iBXRestDiskFileHttp, iBXRestDiskFileHttp, iBXRestParamDiskFileTarget>(
@@ -68,7 +68,7 @@ export class BXRestNavvyDiskFile {
   }
 
   /**
-   * Перемещает файл в указанную папку.
+   * Перемещает файл в указанную папку
    */
   moveTo(param: iBXRestParamDiskFileTarget) {
     return this.Navvy.simple<iBXRestDiskFileHttp, iBXRestDiskFileHttp, iBXRestParamDiskFileTarget>(
@@ -78,7 +78,7 @@ export class BXRestNavvyDiskFile {
   }
 
   /**
-   * Уничтожает файл навсегда.
+   * Уничтожает файл навсегда
    */
   delete(param: iBXRestParamDiskFileGet) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamDiskFileGet>(
@@ -88,7 +88,7 @@ export class BXRestNavvyDiskFile {
   }
 
   /**
-   * Перемещает файл в корзину.
+   * Перемещает файл в корзину
    */
   markDeleted(param: iBXRestParamDiskFileMarkDeleted) {
     return this.Navvy.simple(
@@ -99,7 +99,7 @@ export class BXRestNavvyDiskFile {
   }
 
   /**
-   * Восстанавливает файл из корзины.
+   * Восстанавливает файл из корзины
    */
   restore(param: iBXRestParamDiskFileGet) {
     return this.Navvy.simple<iBXRestDiskFileHttp, iBXRestDiskFileHttp, iBXRestParamDiskFileGet>(
@@ -109,7 +109,7 @@ export class BXRestNavvyDiskFile {
   }
 
   /**
-   * Загружает новую версию файла.
+   * Загружает новую версию файла
    */
   uploadVersion(param: iBXRestParamDiskFileUploadVersion) {
     return this.Navvy.simple<iBXRestDiskFileHttp, iBXRestDiskFileHttp, iBXRestParamDiskFileUploadVersion>(
@@ -119,7 +119,7 @@ export class BXRestNavvyDiskFile {
   }
 
   /**
-   * Возвращает список версий файла.
+   * Возвращает список версий файла
    */
   getVersions(param: iBXRestParamDiskFileGetVersions) {
     return this.Navvy.pagNav<
@@ -130,7 +130,7 @@ export class BXRestNavvyDiskFile {
   }
 
   /**
-   * Восстанавливает файл из указанной версии.
+   * Восстанавливает файл из указанной версии
    */
   restoreFromVersion(param: iBXRestParamDiskFileRestoreFromVersion) {
     return this.Navvy.simple<iBXRestDiskFileHttp, iBXRestDiskFileHttp, iBXRestParamDiskFileRestoreFromVersion>(
@@ -140,7 +140,7 @@ export class BXRestNavvyDiskFile {
   }
 
   /**
-   * Возвращает публичную ссылку на файл.
+   * Возвращает публичную ссылку на файл
    */
   getExternalLink(param: iBXRestParamDiskFileGet) {
     return this.Navvy.simple<string, string, iBXRestParamDiskFileGet>(
@@ -150,7 +150,7 @@ export class BXRestNavvyDiskFile {
   }
 
   /**
-   * Находит файлы и папки по текстовому запросу.
+   * Находит файлы и папки по текстовому запросу
    */
   search(param: iBXRestParamDiskFileSearch) {
     return this.Navvy.pagNav<

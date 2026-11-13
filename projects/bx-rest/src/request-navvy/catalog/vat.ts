@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogVat  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет ставку НДС.
+   * Добавляет ставку НДС
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogVat  {
     >([$catalog, $vat, $add], param)
   }
   /**
-   * Удаляет ставку НДС.
+   * Удаляет ставку НДС
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogVat  {
     >([$catalog, $vat, $delete], param)
   }
   /**
-   * Возвращает ставку НДС по идентификатору.
+   * Возвращает ставку НДС по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogVat  {
     >([$catalog, $vat, $get], param)
   }
   /**
-   * Возвращает описание полей ставки НДС.
+   * Возвращает описание полей ставки НДС
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogVat  {
     >([$catalog, $vat, $getFieldsExact], param)
   }
   /**
-   * Возвращает список ставок НДС.
+   * Возвращает список ставок НДС
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvyCatalogVat  {
     >([$catalog, $vat, $list], param, 'vats')
   }
   /**
-   * Обновляет ставку НДС.
+   * Обновляет ставку НДС
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

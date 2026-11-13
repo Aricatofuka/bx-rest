@@ -6,7 +6,7 @@ export class BXRestNavvyBookingV1ResourceType  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет новый тип ресурса.
+   * Добавляет новый тип ресурса
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyBookingV1ResourceType  {
   }
 
   /**
-   * Удаляет тип ресурса.
+   * Удаляет тип ресурса
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyBookingV1ResourceType  {
   }
 
   /**
-   * Возвращает тип ресурса.
+   * Возвращает тип ресурса
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -39,7 +39,7 @@ export class BXRestNavvyBookingV1ResourceType  {
   }
 
   /**
-   * Возвращает список типов ресурсов.
+   * Возвращает список типов ресурсов
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -50,7 +50,7 @@ export class BXRestNavvyBookingV1ResourceType  {
   }
 
   /**
-   * Обновляет тип ресурса.
+   * Обновляет тип ресурса
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<

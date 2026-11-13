@@ -31,7 +31,7 @@ export class BXRestNavvySonetGroup {
   public readonly user = new BXRestNavvySonetGroupUser()
 
   /**
-   * Создаёт рабочую группу или проект.
+   * Создаёт рабочую группу или проект
    */
   create(param: iBXRestParamSonetGroupCreate) {
     return this.Navvy.simple<number, number, iBXRestParamSonetGroupCreate>(
@@ -41,7 +41,7 @@ export class BXRestNavvySonetGroup {
   }
 
   /**
-   * Удаляет рабочую группу.
+   * Удаляет рабочую группу
    */
   delete(param: iBXRestParamSonetGroupId) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamSonetGroupId>(
@@ -51,14 +51,14 @@ export class BXRestNavvySonetGroup {
   }
 
   /**
-   * Возвращает список рабочих групп.
+   * Возвращает список рабочих групп
    */
   get(param: iBXRestParamSonetGroupGet = {}) {
     return this.Navvy.simple(this.url.get, param, BXRestMapSonetGroup.get)
   }
 
   /**
-   * Изменяет владельца рабочей группы.
+   * Изменяет владельца рабочей группы
    */
   setOwner(param: iBXRestParamSonetGroupSetOwner) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamSonetGroupSetOwner>(
@@ -68,7 +68,7 @@ export class BXRestNavvySonetGroup {
   }
 
   /**
-   * Изменяет параметры рабочей группы.
+   * Изменяет параметры рабочей группы
    */
   update(param: iBXRestParamSonetGroupUpdate) {
     return this.Navvy.simple<number, number, iBXRestParamSonetGroupUpdate>(

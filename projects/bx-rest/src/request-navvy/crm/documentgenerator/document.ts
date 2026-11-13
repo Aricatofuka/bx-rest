@@ -43,7 +43,7 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
   /**
    * Создаёт документ по шаблону для указанного CRM-объекта.
    *
-   * `pdfUrl` и `imageUrl` могут появиться позднее, поскольку конвертация выполняется асинхронно.
+   * `pdfUrl` и `imageUrl` могут появиться позднее, поскольку конвертация выполняется асинхронно
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-add.html
    */
@@ -58,7 +58,7 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
   /**
    * Обновляет значения существующего документа и запускает его повторную генерацию.
    *
-   * `pdfUrl` и `imageUrl` могут появиться позднее, поскольку конвертация выполняется асинхронно.
+   * `pdfUrl` и `imageUrl` могут появиться позднее, поскольку конвертация выполняется асинхронно
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-update.html
    */
@@ -73,7 +73,7 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
   /**
    * Возвращает документ по идентификатору.
    *
-   * Если конвертация ещё не завершилась, повторите запрос через 30–40 секунд.
+   * Если конвертация ещё не завершилась, повторите запрос через 30–40 секунд
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-get.html
    */
@@ -86,7 +86,7 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
   }
 
   /**
-   * Возвращает список документов по фильтру с поддержкой постраничной навигации.
+   * Возвращает список документов по фильтру с поддержкой постраничной навигации
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-list.html
    */
@@ -100,7 +100,7 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
   }
 
   /**
-   * Удаляет документ.
+   * Удаляет документ
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-delete.html
    */
@@ -113,7 +113,7 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
 
   /**
    * Включает или выключает публичную ссылку на документ.
-   * Если `status` не передан, ссылка включается.
+   * Если `status` не передан, ссылка включается
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-enable-public-url.html
    */
@@ -127,7 +127,7 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
 
   /**
    * Загружает готовый DOCX-документ и прикрепляет его к CRM-объекту.
-   * Дополнительно можно передать готовые PDF и изображение в Base64.
+   * Дополнительно можно передать готовые PDF и изображение в Base64
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-upload.html
    */
@@ -141,7 +141,7 @@ export class BXRestNavvyCrmDocumentGeneratorDocument {
 
   /**
    * Возвращает карточку полей созданного документа.
-   * Переданные `values` используются только для вычисления ответа и не изменяют документ.
+   * Переданные `values` используются только для вычисления ответа и не изменяют документ
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/documents/crm-document-generator-document-get-fields.html
    */

@@ -6,7 +6,7 @@ export class BXRestNavvyVoxImplantStatistic  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список звонков.
+   * Возвращает список звонков
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

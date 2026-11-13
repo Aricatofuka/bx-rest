@@ -12,7 +12,7 @@ export class BXRestNavvyImOpenLinesCrmChat  {
   public readonly user = new BXRestNavvyImOpenLinesCrmChatUser()
 
   /**
-   * Возвращает чат по объекту CRM.
+   * Возвращает чат по объекту CRM
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -23,7 +23,7 @@ export class BXRestNavvyImOpenLinesCrmChat  {
   }
 
   /**
-   * Возвращает идентификатор последнего CRM-чата.
+   * Возвращает идентификатор последнего CRM-чата
    */
   getLastId(param: iBXRestGenericParams) {
     return this.Navvy.simple<

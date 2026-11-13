@@ -6,7 +6,7 @@ export class BXRestNavvyLandingLanding  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет страницу.
+   * Добавляет страницу
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $add], param)
   }
   /**
-   * Добавляет новый блок на страницу.
+   * Добавляет новый блок на страницу
    */
   public addBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $addBlock], param)
   }
   /**
-   * Создаёт страницу по шаблону.
+   * Создаёт страницу по шаблону
    */
   public addByTemplate(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $addByTemplate], param)
   }
   /**
-   * Копирует страницу.
+   * Копирует страницу
    */
   public copy(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $copy], param)
   }
   /**
-   * Копирует блок со страницы на страницу.
+   * Копирует блок со страницы на страницу
    */
   public copyBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $copyBlock], param)
   }
   /**
-   * Удаляет страницу.
+   * Удаляет страницу
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -66,7 +66,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $delete], param)
   }
   /**
-   * Удаляет блок со страницы.
+   * Удаляет блок со страницы
    */
   public deleteBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -76,7 +76,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $deleteBlock], param)
   }
   /**
-   * Опускает блок на одну позицию вниз.
+   * Опускает блок на одну позицию вниз
    */
   public downBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -86,7 +86,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $downBlock], param)
   }
   /**
-   * Сохраняет блок в «Мои блоки».
+   * Сохраняет блок в «Мои блоки»
    */
   public favoriteBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -96,7 +96,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $favoriteBlock], param)
   }
   /**
-   * Возвращает дополнительные поля страницы.
+   * Возвращает дополнительные поля страницы
    */
   public getAdditionalFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -108,7 +108,7 @@ export class BXRestNavvyLandingLanding  {
   ], param)
   }
   /**
-   * Возвращает список страниц.
+   * Возвращает список страниц
    */
   public getList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -118,7 +118,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $getList], param)
   }
   /**
-   * Возвращает путь к превью страницы.
+   * Возвращает путь к превью страницы
    */
   public getPreview(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -128,7 +128,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $getPreview], param)
   }
   /**
-   * Возвращает публичный URL страницы.
+   * Возвращает публичный URL страницы
    */
   public getPublicUrl(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -138,7 +138,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $getPublicUrl], param)
   }
   /**
-   * Скрывает блок на странице.
+   * Скрывает блок на странице
    */
   public hideBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -148,7 +148,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $hideBlock], param)
   }
   /**
-   * Помечает страницу как удалённую.
+   * Помечает страницу как удалённую
    */
   public markDelete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -158,7 +158,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $markDelete], param)
   }
   /**
-   * Помечает блок как удалённый без физического удаления.
+   * Помечает блок как удалённый без физического удаления
    */
   public markDeletedBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -170,7 +170,7 @@ export class BXRestNavvyLandingLanding  {
   ], param)
   }
   /**
-   * Восстанавливает страницу из удалённых.
+   * Восстанавливает страницу из удалённых
    */
   public markUndelete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -180,7 +180,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $markUndelete], param)
   }
   /**
-   * Восстанавливает блок из удалённых.
+   * Восстанавливает блок из удалённых
    */
   public markUndeletedBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -192,7 +192,7 @@ export class BXRestNavvyLandingLanding  {
   ], param)
   }
   /**
-   * Перемещает страницу в другой сайт или папку.
+   * Перемещает страницу в другой сайт или папку
    */
   public move(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -202,7 +202,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $move], param)
   }
   /**
-   * Перемещает блок со страницы на страницу.
+   * Перемещает блок со страницы на страницу
    */
   public moveBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -212,7 +212,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $moveBlock], param)
   }
   /**
-   * Публикует страницу.
+   * Публикует страницу
    */
   public publication(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -222,7 +222,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $publication], param)
   }
   /**
-   * Удаляет блоки и изображения страницы.
+   * Удаляет блоки и изображения страницы
    */
   public removeEntities(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -232,7 +232,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $removeEntities], param)
   }
   /**
-   * Возвращает идентификатор страницы по публичному URL.
+   * Возвращает идентификатор страницы по публичному URL
    */
   public resolveIdByPublicUrl(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -244,7 +244,7 @@ export class BXRestNavvyLandingLanding  {
   ], param)
   }
   /**
-   * Показывает скрытый блок на странице.
+   * Показывает скрытый блок на странице
    */
   public showBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -254,7 +254,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $showBlock], param)
   }
   /**
-   * Удаляет блок из «Моих блоков».
+   * Удаляет блок из «Моих блоков»
    */
   public unfavoriteBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -264,7 +264,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $unfavoriteBlock], param)
   }
   /**
-   * Снимает страницу с публикации.
+   * Снимает страницу с публикации
    */
   public unpublic(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -274,7 +274,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $unpublic], param)
   }
   /**
-   * Поднимает блок на одну позицию вверх.
+   * Поднимает блок на одну позицию вверх
    */
   public upBlock(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -284,7 +284,7 @@ export class BXRestNavvyLandingLanding  {
     >([$landing, $landing, $upBlock], param)
   }
   /**
-   * Изменяет параметры страницы.
+   * Изменяет параметры страницы
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

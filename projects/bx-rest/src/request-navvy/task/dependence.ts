@@ -6,7 +6,7 @@ export class BXRestNavvyTaskDependence {
   private readonly Navvy = new Navvy()
 
   /**
-   * Создаёт зависимость одной задачи от другой.
+   * Создаёт зависимость одной задачи от другой
    */
   add(param: iBXRestParamTaskDependence) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskDependence>(
@@ -16,7 +16,7 @@ export class BXRestNavvyTaskDependence {
   }
 
   /**
-   * Удаляет зависимость одной задачи от другой.
+   * Удаляет зависимость одной задачи от другой
    */
   delete(param: iBXRestParamTaskDependence) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTaskDependence>(

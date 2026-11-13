@@ -31,7 +31,7 @@ export class BXRestNavvyCrmAutomatedSolution {
   private Navvy = new Navvy()
 
   /**
-   * Создает новое цифровое рабочее место.
+   * Создает новое цифровое рабочее место
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/automated-solution/crm-automated-solution-add.html
    */
@@ -48,7 +48,7 @@ export class BXRestNavvyCrmAutomatedSolution {
   }
 
   /**
-   * Возвращает цифровое рабочее место по идентификатору.
+   * Возвращает цифровое рабочее место по идентификатору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/automated-solution/crm-automated-solution-get.html
    */
@@ -65,7 +65,7 @@ export class BXRestNavvyCrmAutomatedSolution {
   }
 
   /**
-   * Возвращает список цифровых рабочих мест.
+   * Возвращает список цифровых рабочих мест
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/automated-solution/crm-automated-solution-list.html
    */
@@ -85,7 +85,7 @@ export class BXRestNavvyCrmAutomatedSolution {
 
   /**
    * Обновляет существующее цифровое рабочее место.
-   * При передаче `typeIds` список привязанных смарт-процессов перезаписывается целиком.
+   * При передаче `typeIds` список привязанных смарт-процессов перезаписывается целиком
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/automated-solution/crm-automated-solution-update.html
    */
@@ -103,7 +103,7 @@ export class BXRestNavvyCrmAutomatedSolution {
 
   /**
    * Удаляет цифровое рабочее место.
-   * Удаление возможно только если к рабочему месту не привязаны смарт-процессы.
+   * Удаление возможно только если к рабочему месту не привязаны смарт-процессы
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/automated-solution/crm-automated-solution-delete.html
    */
@@ -112,7 +112,7 @@ export class BXRestNavvyCrmAutomatedSolution {
   }
 
   /**
-   * Возвращает описание полей цифрового рабочего места.
+   * Возвращает описание полей цифрового рабочего места
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/automated-solution/crm-automated-solution-fields.html
    */

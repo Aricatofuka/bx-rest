@@ -20,7 +20,7 @@ export class BXRestNavvySocialNetworkApiWorkgroup {
   }
 
   /**
-   * Возвращает данные рабочей группы.
+   * Возвращает данные рабочей группы
    */
   get(param: iBXRestParamSocialNetworkWorkgroupGet) {
     return this.Navvy.simple<
@@ -31,7 +31,7 @@ export class BXRestNavvySocialNetworkApiWorkgroup {
   }
 
   /**
-   * Возвращает список рабочих групп.
+   * Возвращает список рабочих групп
    */
   list(param: iBXRestParamSocialNetworkWorkgroupList = {}) {
     return this.Navvy.pagNavResultKey<

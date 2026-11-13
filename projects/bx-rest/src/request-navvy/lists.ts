@@ -45,7 +45,7 @@ export class BXRestNavvyLists {
   public readonly section = new BXRestNavvyListsSection()
 
   /**
-   * Создаёт универсальный список.
+   * Создаёт универсальный список
    */
   add(param: iBXRestParamListsAdd) {
     return this.Navvy.simple<number, number, iBXRestParamListsAdd>(
@@ -55,7 +55,7 @@ export class BXRestNavvyLists {
   }
 
   /**
-   * Удаляет универсальный список.
+   * Удаляет универсальный список
    */
   delete(param: iBXRestParamListsDelete) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsDelete>(
@@ -65,14 +65,14 @@ export class BXRestNavvyLists {
   }
 
   /**
-   * Возвращает данные универсального списка или массив списков.
+   * Возвращает данные универсального списка или массив списков
    */
   get(param: iBXRestParamListGet) {
     return this.Navvy.pagNav(this.url.get, param, BXRestMapLists.get)
   }
 
   /**
-   * Обновляет универсальный список.
+   * Обновляет универсальный список
    */
   update(param: iBXRestParamListsUpdate) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamListsUpdate>(
@@ -82,7 +82,7 @@ export class BXRestNavvyLists {
   }
 
   /**
-   * Возвращает идентификатор типа инфоблока.
+   * Возвращает идентификатор типа инфоблока
    */
   getIBlockTypeId(param: iBXRestParamListsGetIBlockTypeId) {
     return this.Navvy.simple<

@@ -12,7 +12,7 @@ export class BXRestNavvyImConnectorSend  {
   public readonly status = new BXRestNavvyImConnectorSendStatus()
 
   /**
-   * Отправляет сообщения в Битрикс24.
+   * Отправляет сообщения в Битрикс24
    */
   messages(param: iBXRestGenericParams) {
     return this.Navvy.simple<

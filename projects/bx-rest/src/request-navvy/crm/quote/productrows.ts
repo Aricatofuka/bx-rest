@@ -17,9 +17,9 @@ export class BXRestNavvyCrmQuoteProductRows {
   }
 
   /**
-   * Возвращает товарные позиции коммерческого предложения.
+   * Возвращает товарные позиции коммерческого предложения
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.item.productrow.*`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.item.productrow.*`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/crm-quote-product-rows-get.html
    */
   get(param: iBXRestParamCrmQuoteProductRowsGet) {
@@ -32,9 +32,9 @@ export class BXRestNavvyCrmQuoteProductRows {
 
   /**
    * Полностью заменяет товарные позиции коммерческого предложения.
-   * Передайте пустой массив `rows`, чтобы удалить все позиции.
+   * Передайте пустой массив `rows`, чтобы удалить все позиции
    *
-   * @deprecated Развитие метода остановлено. Используйте `crm.item.productrow.*`.
+   * @deprecated Развитие метода остановлено. Используйте `crm.item.productrow.*`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/crm-quote-product-rows-set.html
    */
   set(param: iBXRestParamCrmQuoteProductRowsSet) {

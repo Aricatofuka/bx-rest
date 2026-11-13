@@ -6,7 +6,7 @@ export class BXRestNavvyTelephonyExternalLine  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Регистрирует внешнюю линию.
+   * Регистрирует внешнюю линию
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,14 +17,14 @@ export class BXRestNavvyTelephonyExternalLine  {
   }
 
   /**
-   * Удаляет внешнюю линию.
+   * Удаляет внешнюю линию
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$telephony, $externalLine, $delete], param)
   }
 
   /**
-   * Возвращает список внешних линий.
+   * Возвращает список внешних линий
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -35,7 +35,7 @@ export class BXRestNavvyTelephonyExternalLine  {
   }
 
   /**
-   * Изменяет внешнюю линию.
+   * Изменяет внешнюю линию
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$telephony, $externalLine, $update], param)

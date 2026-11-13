@@ -6,7 +6,7 @@ export class BXRestNavvyLandingBlock  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет карточку блока с изменённым содержимым.
+   * Добавляет карточку блока с изменённым содержимым
    */
   public addCard(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $addCard], param)
   }
   /**
-   * Изменяет символьный код якоря блока.
+   * Изменяет символьный код якоря блока
    */
   public changeAnchor(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $changeAnchor], param)
   }
   /**
-   * Изменяет название тега ноды блока.
+   * Изменяет название тега ноды блока
    */
   public changeNodeName(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $changeNodeName], param)
   }
   /**
-   * Клонирует карточку блока.
+   * Клонирует карточку блока
    */
   public cloneCard(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $cloneCard], param)
   }
   /**
-   * Возвращает блок по идентификатору.
+   * Возвращает блок по идентификатору
    */
   public getById(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $getById], param)
   }
   /**
-   * Возвращает содержимое блока.
+   * Возвращает содержимое блока
    */
   public getContent(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -66,7 +66,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $getContent], param)
   }
   /**
-   * Возвращает содержимое блока из репозитория до его добавления на страницу.
+   * Возвращает содержимое блока из репозитория до его добавления на страницу
    */
   public getContentFromRepository(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -78,7 +78,7 @@ export class BXRestNavvyLandingBlock  {
   ], param)
   }
   /**
-   * Возвращает список блоков страницы.
+   * Возвращает список блоков страницы
    */
   public getList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -88,7 +88,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $getList], param)
   }
   /**
-   * Возвращает манифест блока, уже размещённого на странице.
+   * Возвращает манифест блока, уже размещённого на странице
    */
   public getManifest(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -98,7 +98,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $getManifest], param)
   }
   /**
-   * Возвращает манифест блока из репозитория.
+   * Возвращает манифест блока из репозитория
    */
   public getManifestFile(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -108,7 +108,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $getManifestFile], param)
   }
   /**
-   * Возвращает список блоков из репозитория.
+   * Возвращает список блоков из репозитория
    */
   public getRepository(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -118,7 +118,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $getRepository], param)
   }
   /**
-   * Удаляет карточку блока.
+   * Удаляет карточку блока
    */
   public removeCard(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -128,7 +128,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $removeCard], param)
   }
   /**
-   * Изменяет атрибуты нод блока.
+   * Изменяет атрибуты нод блока
    */
   public updateAttrs(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -138,7 +138,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $updateAttrs], param)
   }
   /**
-   * Массово изменяет карточки блока.
+   * Массово изменяет карточки блока
    */
   public updateCards(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -148,7 +148,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $updateCards], param)
   }
   /**
-   * Обновляет содержимое размещённого на странице блока произвольным содержимым.
+   * Обновляет содержимое размещённого на странице блока произвольным содержимым
    */
   public updateContent(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -158,7 +158,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $updateContent], param)
   }
   /**
-   * Изменяет содержимое нод блока.
+   * Изменяет содержимое нод блока
    */
   public updateNodes(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -168,7 +168,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $updateNodes], param)
   }
   /**
-   * Изменяет стили блока.
+   * Изменяет стили блока
    */
   public updateStyles(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -178,7 +178,7 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $updateStyles], param)
   }
   /**
-   * Загружает файл и привязывает его к блоку.
+   * Загружает файл и привязывает его к блоку
    */
   public uploadFile(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

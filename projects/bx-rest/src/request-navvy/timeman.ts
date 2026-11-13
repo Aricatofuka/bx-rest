@@ -60,7 +60,7 @@ export class BXRestNavvyTimeMan {
   protected Navvy = new Navvy()
 
   /**
-   * Возвращает информацию о текущем рабочем дне пользователя.
+   * Возвращает информацию о текущем рабочем дне пользователя
    */
   status(param: iBXRestParamTimeManStatus | undefined = undefined){
     return this.Navvy.simple(
@@ -71,7 +71,7 @@ export class BXRestNavvyTimeMan {
   }
 
   /**
-   * Начинает новый рабочий день или возобновляет закрытый.
+   * Начинает новый рабочий день или возобновляет закрытый
    */
   open(param: iBXRestParamTimeManOpen = {}) {
     if(param && param.TIME instanceof Date){
@@ -85,7 +85,7 @@ export class BXRestNavvyTimeMan {
   }
 
   /**
-   * Ставит рабочий день на паузу.
+   * Ставит рабочий день на паузу
    */
   pause(param: iBXRestParamTimeManPause = {}) {
     return this.Navvy.simple<iBXRestTimeManStatusHttp, iBXRestTimeManStatus, iBXRestParamTimeManPause>(
@@ -96,7 +96,7 @@ export class BXRestNavvyTimeMan {
   }
 
   /**
-   * Закрывает рабочий день.
+   * Закрывает рабочий день
    */
   close(param: iBXRestParamTimeManClose = {}) {
     if(param && param.TIME instanceof Date){
@@ -110,7 +110,7 @@ export class BXRestNavvyTimeMan {
   }
 
   /**
-   * Возвращает настройки рабочего времени пользователя.
+   * Возвращает настройки рабочего времени пользователя
    */
   settings(param: iBXRestParamTimeManSettings = {}) {
     return this.Navvy.simple<iBXRestTimeManSettings, iBXRestTimeManSettings, iBXRestParamTimeManSettings>(

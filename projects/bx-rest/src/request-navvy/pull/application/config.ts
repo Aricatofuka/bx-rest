@@ -16,7 +16,7 @@ export class BXRestNavvyPullApplicationConfig {
    * Настройки личные: канал `private` принадлежит пользователю, с чьим токеном идёт запрос.
    * Запрашивайте их заново, когда истекут `exp` или `end` каналов.
    *
-   * Работает только в контексте приложения: через вебхук портал ответит `WRONG_AUTH_TYPE`.
+   * Работает только в контексте приложения: через вебхук портал ответит `WRONG_AUTH_TYPE`
    *
    * @see https://apidocs.bitrix24.com/settings/interactivity/pull-application-config-get.html
    */

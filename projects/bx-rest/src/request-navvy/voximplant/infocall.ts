@@ -6,7 +6,7 @@ export class BXRestNavvyVoxImplantInfoCall  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Запускает автозвонок и воспроизводит MP3-файл по URL.
+   * Запускает автозвонок и воспроизводит MP3-файл по URL
    */
   startwithsound(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyVoxImplantInfoCall  {
   }
 
   /**
-   * Запускает автозвонок с синтезом речи заданного текста.
+   * Запускает автозвонок с синтезом речи заданного текста
    */
   startwithtext(param: iBXRestGenericParams) {
     return this.Navvy.simple<

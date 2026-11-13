@@ -6,7 +6,7 @@ export class BXRestNavvyCrmCompanyDetailsConfiguration {
   private readonly Navvy = new Navvy()
 
   /**
-   * Принудительно устанавливает общую карточку компаний для всех пользователей.
+   * Принудительно устанавливает общую карточку компаний для всех пользователей
    */
   forceCommonScopeForAll(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -16,7 +16,7 @@ export class BXRestNavvyCrmCompanyDetailsConfiguration {
   }
 
   /**
-   * Возвращает настройки карточки компаний.
+   * Возвращает настройки карточки компаний
    */
   get(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>(
@@ -26,7 +26,7 @@ export class BXRestNavvyCrmCompanyDetailsConfiguration {
   }
 
   /**
-   * Сбрасывает настройки карточки компаний.
+   * Сбрасывает настройки карточки компаний
    */
   reset(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -36,7 +36,7 @@ export class BXRestNavvyCrmCompanyDetailsConfiguration {
   }
 
   /**
-   * Устанавливает настройки карточки компаний.
+   * Устанавливает настройки карточки компаний
    */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(

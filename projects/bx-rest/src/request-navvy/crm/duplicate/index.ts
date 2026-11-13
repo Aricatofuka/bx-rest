@@ -20,9 +20,9 @@ export class BXRestNavvyCrmDuplicate {
 
   /**
    * Возвращает идентификаторы лидов, контактов и компаний с совпадающими телефонами или email.
-   * Добавочный номер телефона при поиске не учитывается; за один вызов можно передать до 20 значений.
+   * Добавочный номер телефона при поиске не учитывается; за один вызов можно передать до 20 значений
    *
-   * @param param Тип коммуникации, искомые значения и необязательное ограничение типа CRM-объекта.
+   * @param param Тип коммуникации, искомые значения и необязательное ограничение типа CRM-объекта
    * @see https://apidocs.bitrix24.ru/api-reference/crm/duplicates/crm-duplicate-find-by-comm.html
    */
   findByComm(param: iBXRestParamCrmDuplicateFindByComm) {

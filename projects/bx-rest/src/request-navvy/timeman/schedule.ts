@@ -6,7 +6,7 @@ export class BXRestNavvyTimemanSchedule {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает рабочий график по идентификатору.
+   * Возвращает рабочий график по идентификатору
    */
   get(param: iBXRestParamTimemanScheduleGet = {}) {
     return this.Navvy.simple<

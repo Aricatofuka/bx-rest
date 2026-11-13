@@ -6,7 +6,7 @@ export class BXRestNavvyImBotV2Revision  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает номера ревизий API и клиентских протоколов.
+   * Возвращает номера ревизий API и клиентских протоколов
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

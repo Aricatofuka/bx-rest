@@ -6,7 +6,7 @@ export class BXRestNavvyLandingDemos  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список зарегистрированных шаблонов.
+   * Возвращает список зарегистрированных шаблонов
    */
   public getList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyLandingDemos  {
     >([$landing, $demos, $getList], param)
   }
   /**
-   * Возвращает список шаблонов для создания страниц.
+   * Возвращает список шаблонов для создания страниц
    */
   public getPageList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyLandingDemos  {
     >([$landing, $demos, $getPageList], param)
   }
   /**
-   * Возвращает список шаблонов для создания сайтов.
+   * Возвращает список шаблонов для создания сайтов
    */
   public getSiteList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyLandingDemos  {
     >([$landing, $demos, $getSiteList], param)
   }
   /**
-   * Регистрирует шаблон в мастере создания сайта и страницы.
+   * Регистрирует шаблон в мастере создания сайта и страницы
    */
   public register(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyLandingDemos  {
     >([$landing, $demos, $register], param)
   }
   /**
-   * Удаляет зарегистрированный пользовательский шаблон.
+   * Удаляет зарегистрированный пользовательский шаблон
    */
   public unregister(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

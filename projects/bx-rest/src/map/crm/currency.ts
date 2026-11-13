@@ -8,12 +8,12 @@ import {
 import { toBool, toDate, toNum } from '../../services/base'
 
 export class BXRestMapCrmCurrency {
-  /** Преобразует список валют из формата Bitrix24 в локальный формат библиотеки. */
+  /** Преобразует список валют из формата Bitrix24 в локальный формат библиотеки */
   static list(value: iBXRestCrmCurrencyHttp[] | undefined): iBXRestCrmCurrency[] | undefined {
     return value?.map(item => BXRestMapCrmCurrency.get(item) as iBXRestCrmCurrency)
   }
 
-  /** Преобразует валюту из формата Bitrix24 в локальный формат библиотеки. */
+  /** Преобразует валюту из формата Bitrix24 в локальный формат библиотеки */
   static get(value: iBXRestCrmCurrencyHttp | undefined): iBXRestCrmCurrency | undefined {
     if (!value) return undefined
 

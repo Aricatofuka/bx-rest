@@ -1,6 +1,8 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
 import { $add, $biconnector, $dataset, $delete, $fields, $get, $list, $update } from '../../consts/part-name-methods'
+import { pageNumberNav } from '../../services/navvy/sequential-navs'
+import { PAGE_SIZE } from '../../consts/page-size'
 import { BXRestNavvyBiConnectorDatasetFields } from './dataset/fields'
 
 export class BXRestNavvyBiConnectorDataset {
@@ -16,7 +18,7 @@ export class BXRestNavvyBiConnectorDataset {
   )
 
   /**
-   * Добавляет новый датасет.
+   * Добавляет новый датасет
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -27,7 +29,7 @@ export class BXRestNavvyBiConnectorDataset {
   }
 
   /**
-   * Удаляет датасет.
+   * Удаляет датасет
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(
@@ -37,7 +39,7 @@ export class BXRestNavvyBiConnectorDataset {
   }
 
   /**
-   * Возвращает информацию о датасете.
+   * Возвращает информацию о датасете
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -48,18 +50,18 @@ export class BXRestNavvyBiConnectorDataset {
   }
 
   /**
-   * Возвращает список доступных датасетов.
+   * Возвращает список доступных датасетов
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavSequential<
       iBXRestGenericObject[],
       iBXRestGenericObject[],
       iBXRestGenericParams
-    >([$biconnector, $dataset, $list], param)
+    >([$biconnector, $dataset, $list], param, pageNumberNav(PAGE_SIZE))
   }
 
   /**
-   * Обновляет существующий датасет.
+   * Обновляет существующий датасет
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(

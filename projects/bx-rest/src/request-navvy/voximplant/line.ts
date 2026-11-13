@@ -12,7 +12,7 @@ export class BXRestNavvyVoxImplantLine  {
   public readonly outgoing = new BXRestNavvyVoxImplantLineOutgoing()
 
   /**
-   * Возвращает список доступных исходящих линий.
+   * Возвращает список доступных исходящих линий
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

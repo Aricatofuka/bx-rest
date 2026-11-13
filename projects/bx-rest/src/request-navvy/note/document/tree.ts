@@ -12,7 +12,7 @@ export class BXRestNavvyNoteDocumentTree  {
   public readonly field = new BXRestNavvyNoteDocumentTreeField()
 
   /**
-   * Возвращает дерево документов одной базы знаний.
+   * Возвращает дерево документов одной базы знаний
    */
   list(param: iBXRestGenericParams) {
     return this.Navvy.simpleV3<

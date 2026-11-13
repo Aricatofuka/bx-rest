@@ -6,7 +6,7 @@ export class BXRestNavvyImV2Event  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает накопленные события в режиме polling.
+   * Возвращает накопленные события в режиме polling
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyImV2Event  {
   }
 
   /**
-   * Подписывает текущего пользователя на запись событий.
+   * Подписывает текущего пользователя на запись событий
    */
   subscribe(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyImV2Event  {
   }
 
   /**
-   * Отписывает текущего пользователя от записи событий.
+   * Отписывает текущего пользователя от записи событий
    */
   unsubscribe(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

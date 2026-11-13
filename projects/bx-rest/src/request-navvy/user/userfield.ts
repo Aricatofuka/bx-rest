@@ -31,7 +31,7 @@ export class BXRestNavvyUserUserfield {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список пользовательских полей.
+   * Возвращает список пользовательских полей
    */
   list() {
     return this.Navvy.simple<iBXRestUserUserField[]>(this.url.list)

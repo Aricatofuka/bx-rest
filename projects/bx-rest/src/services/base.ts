@@ -98,7 +98,7 @@ const TIME_ONLY_TOKENS = new Set(['HH', 'H', 'mm', 'm', 'ss', 's'])
  * ним (например, `'dd.MM.yyyy HH:mm:ss'` → `'dd.MM.yyyy'`). Порядок день/месяц/год у полей
  * "дата" и "дата-время" на одном портале Bitrix24 всегда согласован — различается только
  * наличие `HH:mm:ss`, поэтому нет смысла заставлять вызывающего передавать оба формата и
- * держать их в синхроне вручную.
+ * держать их в синхроне вручную
  */
 export function deriveDateOnlyFormat(dateTimeFormat: string): string {
   DATE_FORMAT_TOKEN_REGEX.lastIndex = 0
@@ -140,7 +140,7 @@ const FALLBACK_DATE_FORMATS = [
  * Разбирает строку даты по простому шаблону (yyyy, MM, dd, HH, mm, ss и их однобуквенные
  * варианты, например 'dd.MM.yyyy HH:mm:ss'). Разделители между токенами берутся из шаблона
  * как есть. Не поддерживает локали, названия месяцев и часовые пояса — для REST-ответов
- * Bitrix24 они не требуются, значения всегда приходят в фиксированном числовом виде.
+ * Bitrix24 они не требуются, значения всегда приходят в фиксированном числовом виде
  */
 function parseDateWithFormat(val: string, format: string): Date | null {
   const tokenMap = new Map(DATE_FORMAT_TOKENS)
@@ -180,7 +180,7 @@ function parseDateWithFormat(val: string, format: string): Date | null {
   return buildDate(year, month, day, hour, minute, second)
 }
 
-/** Собирает дату, отбрасывая несуществующие дни месяца: new Date() превратил бы 31 февраля в 3 марта. */
+/** Собирает дату, отбрасывая несуществующие дни месяца: new Date() превратил бы 31 февраля в 3 марта */
 function buildDate(year: number, month: number, day: number, hour: number, minute: number, second: number): Date | null {
   const date = new Date(year, month - 1, day, hour, minute, second)
   return (isNaN(date.getTime()) || date.getMonth() !== month - 1 || date.getDate() !== day) ? null : date
@@ -199,7 +199,7 @@ function buildDate(year: number, month: number, day: number, hour: number, minut
  *
  * Не решает и не пытается решить неоднозначность день/месяц в чисто числовых форматах вида
  * `MM/dd/yyyy` (США), где оба сегмента могут быть ≤12 — угадывать это без знания локали
- * значило бы иногда молча путать день с месяцем, что хуже явной ошибки.
+ * значило бы иногда молча путать день с месяцем, что хуже явной ошибки
  */
 function parseDateHeuristically(val: string): Date | null {
   const parts = val.match(/\d+/g)
@@ -243,7 +243,7 @@ function parseDateHeuristically(val: string): Date | null {
  * две попытки: другие распространённые форматы Bitrix24, а затем — позиционная эвристика
  * (см. parseDateHeuristically), которая распознаёт практически любой чисто числовой формат
  * даты независимо от разделителя. Если приложению точно известен формат конкретного портала,
- * его стоит передавать явным `format` — это всегда приоритетнее угадывания.
+ * его стоит передавать явным `format` — это всегда приоритетнее угадывания
  */
 export function toDate(val: number | string | Date, format?: string, opt?: ToDateOptions, throwError = true): Date {
   if (val instanceof Date) {
@@ -287,7 +287,7 @@ export function toDate(val: number | string | Date, format?: string, opt?: ToDat
  *
  * Форматирование делегировано toLocalAtom() — раньше здесь была вторая,
  * независимая копия той же формулы (paddind + смещение таймзоны), которая
- * могла разойтись с toLocalAtom() при правке одной из них и не другой.
+ * могла разойтись с toLocalAtom() при правке одной из них и не другой
  *
  * @param date
  * @param throwError

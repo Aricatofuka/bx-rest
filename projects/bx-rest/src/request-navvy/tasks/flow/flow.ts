@@ -6,7 +6,7 @@ export class BXRestNavvyTasksFlowFlow {
   private readonly Navvy = new Navvy()
 
   /**
-   * Включает или выключает поток.
+   * Включает или выключает поток
    */
   activate(param: iBXRestParamTasksFlowId) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTasksFlowId>(
@@ -15,7 +15,7 @@ export class BXRestNavvyTasksFlowFlow {
   }
 
   /**
-   * Создаёт поток.
+   * Создаёт поток
    */
   create(param: iBXRestParamTasksFlowCreate) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyTasksFlowFlow {
   }
 
   /**
-   * Удаляет поток.
+   * Удаляет поток
    */
   delete(param: iBXRestParamTasksFlowId) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTasksFlowId>(
@@ -35,7 +35,7 @@ export class BXRestNavvyTasksFlowFlow {
   }
 
   /**
-   * Возвращает поток.
+   * Возвращает поток
    */
   get(param: iBXRestParamTasksFlowId) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyTasksFlowFlow {
   }
 
   /**
-   * Проверяет существование потока по названию.
+   * Проверяет существование потока по названию
    */
   isExists(param: iBXRestParamTasksFlowId) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTasksFlowId>(
@@ -55,7 +55,7 @@ export class BXRestNavvyTasksFlowFlow {
   }
 
   /**
-   * Закрепляет поток в списке.
+   * Закрепляет поток в списке
    */
   pin(param: iBXRestParamTasksFlowId) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamTasksFlowId>(
@@ -64,7 +64,7 @@ export class BXRestNavvyTasksFlowFlow {
   }
 
   /**
-   * Изменяет поток.
+   * Изменяет поток
    */
   update(param: iBXRestParamTasksFlowUpdate) {
     return this.Navvy.simple<

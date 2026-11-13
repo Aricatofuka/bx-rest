@@ -6,7 +6,7 @@ export class BXRestNavvySaleOrder  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет заказ.
+   * Добавляет заказ
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySaleOrder  {
     >([$sale, $order, $add], param)
   }
   /**
-   * Удаляет заказ.
+   * Удаляет заказ
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySaleOrder  {
     >([$sale, $order, $delete], param)
   }
   /**
-   * Возвращает заказ по идентификатору.
+   * Возвращает заказ по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySaleOrder  {
     >([$sale, $order, $get], param)
   }
   /**
-   * Возвращает описание полей заказа.
+   * Возвращает описание полей заказа
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvySaleOrder  {
     >([$sale, $order, $getFieldsExact], param)
   }
   /**
-   * Возвращает список заказов.
+   * Возвращает список заказов
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvySaleOrder  {
     >([$sale, $order, $list], param, 'orders')
   }
   /**
-   * Обновляет заказ.
+   * Обновляет заказ
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

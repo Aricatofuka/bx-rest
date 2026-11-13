@@ -7,6 +7,8 @@ import { NavvyPag } from './navvy/navvy-pag'
 import { NavvyPagNavResultKey } from './navvy/navvy-pag-nav-result-key'
 import { NavvyPagNavResultKeyObject } from './navvy/navvy-pag-nav-result-key-object'
 import { NavvyPagNavKeyed } from './navvy/navvy-pag-nav-keyed'
+import { BXRestOffsetNav, NavvyPagOffset } from './navvy/navvy-pag-offset'
+import { BXRestSequentialNav, NavvyPagSequential } from './navvy/navvy-pag-sequential'
 import { BXRestContext, currentContext, runInContext } from './context'
 import { iBXRestSettings } from '../typification/settings'
 
@@ -18,6 +20,8 @@ export * from './navvy/navvy-pag-nav-result-key'
 export * from './navvy/navvy-pag'
 export * from './navvy/navvy-pag-nav-result-key-object'
 export * from './navvy/navvy-pag-nav-keyed'
+export * from './navvy/navvy-pag-offset'
+export * from './navvy/navvy-pag-sequential'
 export * from './navvy/navvy-support'
 
 export class Navvy {
@@ -30,12 +34,24 @@ export class Navvy {
    * @param settings свои настройки, как у `new BXRestNavvy(settings)`: запросы
    *   идут на этот портал с этим токеном, а `BXRestSettings` на них не влияют.
    *   Без них — настройки клиента, внутри которого создан объект, или
-   *   глобальные `BXRestSettings`.
+   *   глобальные `BXRestSettings`
    */
   constructor(settings?: iBXRestSettings) {
     this.ctx = settings ? new BXRestContext(settings) : currentContext()
   }
 
+  /**
+   * Запрос к методу REST API по адресу `rest/<метод>`. Так вызывается большинство методов
+   * портала: в REST v3 перенесена только часть модулей, а обе версии работают одновременно
+   * и не заменяют друг друга.
+   *
+   * Метод, который есть только в REST v3, по этому адресу не найдётся: портал ответит
+   * `ERROR_METHOD_NOT_FOUND`. Такой метод вызывайте через {@link simpleV3}. Версию метода
+   * видно на его странице в документации: у методов REST v3 вверху стоит пометка об этом
+   *
+   * @see https://apidocs.bitrix24.ru/settings/how-to-call-rest-api/index.html Как вызывать REST API
+   * @see https://apidocs.bitrix24.ru/api-reference/rest-v3.html#where Какие модули есть в REST v3
+   */
   simple<T, R = T, A = undefined>(
     url: string[],
     arg?: A,
@@ -48,6 +64,27 @@ export class Navvy {
     ))
   }
 
+  /**
+   * Запрос к методу REST v3 (в документации — REST 3.0): к базовому адресу добавляется `api/`,
+   * у приложения запрос уходит на `rest/api/<метод>`.
+   *
+   * Метод с тем же именем может быть и в старой версии, но с другими параметрами и ответом,
+   * как `tasks.task.get`. Какая версия ответит, решает адрес. Чем отличается REST v3:
+   * - ответ всегда объект: запись в `result.item`, список в `result.items`, итог операции
+   *   в `result.result`;
+   * - фильтр — массив условий `["поле", "оператор", значение]`, а в `select` можно брать
+   *   поля связанных объектов через точку;
+   * - вместо `start` и `total` — объект `pagination` с `page` и `limit`, общего числа записей
+   *   в ответе нет;
+   * - ошибка приходит как `{ error: { code, message } }`, библиотека разбирает её так же,
+   *   как ошибки старой версии;
+   * - тело запроса — только JSON;
+   * - у batch свой формат, поэтому `.resAll()` у списков REST v3 запрашивает страницы по одной
+   *
+   * @see https://apidocs.bitrix24.ru/api-reference/rest-v3.html Обзор REST 3.0
+   * @see https://apidocs.bitrix24.ru/api-reference/rest-v3.html#table Сравнение со старой версией
+   * @see https://apidocs.bitrix24.ru/settings/how-to-call-rest-api/batch-v3.html Batch в REST 3.0
+   */
   simpleV3<T, R = T, A = undefined>(
     url: string[],
     arg?: A,
@@ -106,7 +143,7 @@ export class Navvy {
   /**
    * Для методов, у которых `result` — объект со списком под ключом `key`, например
    * `{ products: [...] }`. `.res()` отдаёт объект как есть, `.resAll()` — такой же объект
-   * с записями всех страниц под ключом.
+   * с записями всех страниц под ключом
    */
   pagNavKeyed<T extends object, R, A extends iBXRestPagination>(
     url: string[],
@@ -131,5 +168,48 @@ export class Navvy {
     map?: (param: T[] | undefined) => R[] | undefined
   ) {
     return runInContext(this.ctx, () => new NavvyAlterPagNav(url, arg, map))
+  }
+
+  /**
+   * Для методов, которые листаются по смещению (`OFFSET`/`LIMIT`) и отдают общее число
+   * записей в `total`. Имена параметров и размер страницы задаёт `nav`. Как и у методов
+   * с `start`, `.resAll()` запрашивает остальные страницы пакетами через `batch`
+   */
+  pagNavOffset<T, R, A extends object>(
+    url: string[],
+    arg: A,
+    nav: BXRestOffsetNav,
+    map?: (param: T | undefined) => R | undefined
+  ) {
+    return runInContext(this.ctx, () => new NavvyPagOffset<T, R, A>(url, arg, nav, map))
+  }
+
+  /**
+   * Для методов, у которых следующая страница известна только из ответа на предыдущую:
+   * по флагу вроде `hasMore`, по курсору или по неполной странице. Как найти следующую
+   * страницу, задаёт `nav`. `.resAll()` запрашивает страницы по одной
+   */
+  pagNavSequential<T, R, A extends object>(
+    url: string[],
+    arg: A,
+    nav: BXRestSequentialNav<A, T>,
+    map?: (param: T | undefined) => R | undefined
+  ) {
+    return runInContext(this.ctx, () => new NavvyPagSequential<T, R, A>(url, arg, nav, map))
+  }
+
+  /**
+   * {@link pagNavSequential} для методов REST v3: запросы идут туда же, куда у {@link simpleV3}.
+   * Списки REST v3 листаются объектом `pagination`, а `result.items` собирается со всех страниц
+   *
+   * @see https://apidocs.bitrix24.ru/api-reference/rest-v3.html#response Формат ответа REST 3.0
+   */
+  pagNavSequentialV3<T, R, A extends object>(
+    url: string[],
+    arg: A,
+    nav: BXRestSequentialNav<A, T>,
+    map?: (param: T | undefined) => R | undefined
+  ) {
+    return runInContext(this.ctx, () => new NavvyPagSequential<T, R, A>(url, arg, nav, map, true))
   }
 }

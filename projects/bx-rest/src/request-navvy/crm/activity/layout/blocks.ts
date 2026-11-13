@@ -6,21 +6,21 @@ export class BXRestNavvyCrmActivityLayoutBlocks  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Удаляет дополнительные блоки содержимого дела.
+   * Удаляет дополнительные блоки содержимого дела
    */
   delete(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $activity, $layout, $blocks, $delete], param)
   }
 
   /**
-   * Возвращает установленные блоки содержимого дела.
+   * Возвращает установленные блоки содержимого дела
    */
   get(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>([$crm, $activity, $layout, $blocks, $get], param)
   }
 
   /**
-   * Устанавливает дополнительные блоки содержимого дела.
+   * Устанавливает дополнительные блоки содержимого дела
    */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>([$crm, $activity, $layout, $blocks, $set], param)

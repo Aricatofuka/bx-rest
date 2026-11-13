@@ -6,7 +6,7 @@ export class BXRestNavvyBookingV1WaitlistExternalData  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает связи записи в лист ожидания с внешними системами.
+   * Возвращает связи записи в лист ожидания с внешними системами
    */
   list(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyBookingV1WaitlistExternalData  {
   }
 
   /**
-   * Устанавливает связи для записи в лист ожидания с внешними системами.
+   * Устанавливает связи для записи в лист ожидания с внешними системами
    */
   set(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyBookingV1WaitlistExternalData  {
   }
 
   /**
-   * Удаляет связи для записи в лист ожидания с внешними системами.
+   * Удаляет связи для записи в лист ожидания с внешними системами
    */
   unset(param: iBXRestGenericParams) {
     return this.Navvy.simple<

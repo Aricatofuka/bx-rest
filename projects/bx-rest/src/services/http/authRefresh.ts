@@ -22,7 +22,7 @@ const AUTH_ERROR_CODES = ['expired_token', 'invalid_token']
  * - ответ 401 без тела ошибки Bitrix — например, пустой ответ своего
  *   бэкенд-прокси, у которого нет действующего токена.
  *
- * Ответ 401 с другим кодом Bitrix ошибкой авторизации не считается.
+ * Ответ 401 с другим кодом Bitrix ошибкой авторизации не считается
  */
 export function isBXRestAuthError(error: unknown): boolean {
   const response = httpErrorResponse(error)
@@ -65,7 +65,7 @@ function sharedRefresh(refresh: () => Promise<unknown>, ctx: BXRestContext): Pro
  * перехватывается — запрос повторяется не больше одного раза.
  *
  * `ctx` — контекст клиента, из которого берутся `refresh`, `isAuthError` и
- * общее состояние продления.
+ * общее состояние продления
  */
 export function withAuthRefresh<T>(request$: Observable<T>, ctx: BXRestContext = globalContext): Observable<T> {
   return defer(() => {

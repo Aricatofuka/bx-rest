@@ -22,7 +22,7 @@ export class BXRestNavvyImOpenLinesSession  {
   public readonly mode = new BXRestNavvyImOpenLinesSessionMode()
 
   /**
-   * Переводит диалог на текущего оператора.
+   * Переводит диалог на текущего оператора
    */
   intercept(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -33,7 +33,7 @@ export class BXRestNavvyImOpenLinesSession  {
   }
 
   /**
-   * Присоединяет оператора к диалогу.
+   * Присоединяет оператора к диалогу
    */
   join(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -44,7 +44,7 @@ export class BXRestNavvyImOpenLinesSession  {
   }
 
   /**
-   * Возвращает идентификатор чата по коду пользователя.
+   * Возвращает идентификатор чата по коду пользователя
    */
   open(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -55,7 +55,7 @@ export class BXRestNavvyImOpenLinesSession  {
   }
 
   /**
-   * Запускает новую сессию в чате.
+   * Запускает новую сессию в чате
    */
   start(param: iBXRestGenericParams) {
     return this.Navvy.simple<

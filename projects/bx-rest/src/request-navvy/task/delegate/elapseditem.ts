@@ -2,13 +2,14 @@ import { iBXRestParamElapseditemGet } from '../../../typification/rest/task'
 import { Navvy } from '../../../services/navvy'
 import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
 import { $elapseditem, $getlist, $task } from '../../../consts/part-name-methods'
+import { PAGE_SIZE } from '../../../consts/page-size'
 
 export class BXRestNavvyDelegateElapsedItem {
 
   private Navvy = new Navvy()
 
   /**
-   * Возвращает список записей о затраченном времени по задаче.
+   * Возвращает список записей о затраченном времени по задаче
    */
   getList(
     param: iBXRestParamElapseditemGet = {}
@@ -20,7 +21,7 @@ export class BXRestNavvyDelegateElapsedItem {
       if (!param.TASKID && !param.PARAMS) {
         param.PARAMS = {
           NAV_PARAMS: {
-            nPageSize: 50,
+            nPageSize: PAGE_SIZE,
             iNumPage: 1
           }
         }

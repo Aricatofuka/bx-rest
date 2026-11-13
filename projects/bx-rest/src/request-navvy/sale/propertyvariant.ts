@@ -6,7 +6,7 @@ export class BXRestNavvySalePropertyVariant  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет значение списочного свойства заказа.
+   * Добавляет значение списочного свойства заказа
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvySalePropertyVariant  {
     >([$sale, $propertyVariant, $add], param)
   }
   /**
-   * Удаляет значение списочного свойства заказа.
+   * Удаляет значение списочного свойства заказа
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvySalePropertyVariant  {
     >([$sale, $propertyVariant, $delete], param)
   }
   /**
-   * Возвращает значение списочного свойства заказа по идентификатору.
+   * Возвращает значение списочного свойства заказа по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvySalePropertyVariant  {
     >([$sale, $propertyVariant, $get], param)
   }
   /**
-   * Возвращает описание полей значения списочного свойства заказа.
+   * Возвращает описание полей значения списочного свойства заказа
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvySalePropertyVariant  {
     >([$sale, $propertyVariant, $getFieldsExact], param)
   }
   /**
-   * Возвращает список значений списочного свойства заказа.
+   * Возвращает список значений списочного свойства заказа
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvySalePropertyVariant  {
     >([$sale, $propertyVariant, $list], param, 'propertyVariants')
   }
   /**
-   * Обновляет значение списочного свойства заказа.
+   * Обновляет значение списочного свойства заказа
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

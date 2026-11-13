@@ -6,7 +6,7 @@ export class BXRestNavvyCatalogProductPropertyEnum  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет значение списочного свойства товара.
+   * Добавляет значение списочного свойства товара
    */
   public add(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyCatalogProductPropertyEnum  {
     >([$catalog, $productPropertyEnum, $add], param)
   }
   /**
-   * Удаляет значение списочного свойства товара.
+   * Удаляет значение списочного свойства товара
    */
   public delete(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyCatalogProductPropertyEnum  {
     >([$catalog, $productPropertyEnum, $delete], param)
   }
   /**
-   * Возвращает значение списочного свойства по идентификатору.
+   * Возвращает значение списочного свойства по идентификатору
    */
   public get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyCatalogProductPropertyEnum  {
     >([$catalog, $productPropertyEnum, $get], param)
   }
   /**
-   * Возвращает описание полей значения списочного свойства.
+   * Возвращает описание полей значения списочного свойства
    */
   public getFields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyCatalogProductPropertyEnum  {
     >([$catalog, $productPropertyEnum, $getFieldsExact], param)
   }
   /**
-   * Возвращает список значений списочного свойства.
+   * Возвращает список значений списочного свойства
    */
   public list(param: iBXRestGenericParams = {}) {
     return this.Navvy.pagNavKeyed<
@@ -56,7 +56,7 @@ export class BXRestNavvyCatalogProductPropertyEnum  {
     >([$catalog, $productPropertyEnum, $list], param, 'productPropertyEnums')
   }
   /**
-   * Обновляет значение списочного свойства товара.
+   * Обновляет значение списочного свойства товара
    */
   public update(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

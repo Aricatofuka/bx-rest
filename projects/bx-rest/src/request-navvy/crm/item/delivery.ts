@@ -6,14 +6,14 @@ export class BXRestNavvyCrmItemDelivery {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает информацию о доставке по идентификатору.
+   * Возвращает информацию о доставке по идентификатору
    */
   get(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $item, $delivery, $get], param)
   }
 
   /**
-   * Возвращает список доставок объекта CRM.
+   * Возвращает список доставок объекта CRM
    */
   list(param: iBXRestCrmParams) {
     return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>([$crm, $item, $delivery, $list], param)

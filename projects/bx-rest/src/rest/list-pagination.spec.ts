@@ -10,9 +10,7 @@ import { listClientMethods } from '../testing/client-methods'
 const NO_PAGINATION = 'no pagination: the docs describe no start parameter, the whole list comes in one response'
 const FIELDS = 'field descriptions, not a paged list'
 const UNCONFIRMED = 'start is not confirmed by the docs (no total in the response or start only in examples): check on a portal'
-const PAGE_NUMBER = 'page-number pagination (page) without total: .resAll() supports start only'
-const OFFSET_LIMIT = 'OFFSET/LIMIT pagination: .resAll() supports start only'
-const REST_V3 = 'REST v3 pagination object without total: .resAll() supports start only'
+const FIRST_PAGE_ONLY = 'only the first page: the response has hasMore but no cursor or offset for the next page'
 
 const WITHOUT_RES_ALL: Record<string, string> = {
   'ai.engine.list': NO_PAGINATION,
@@ -96,25 +94,7 @@ const WITHOUT_RES_ALL: Record<string, string> = {
   'sale.propertyGroup.list': UNCONFIRMED,
   'tasks.task.history.list': UNCONFIRMED,
 
-  'biconnector.connector.list': PAGE_NUMBER,
-  'biconnector.dataset.list': PAGE_NUMBER,
-  'biconnector.source.list': PAGE_NUMBER,
-
-  'im.department.colleagues.list': OFFSET_LIMIT,
-  'im.dialog.users.list': OFFSET_LIMIT,
-  'im.recent.list': OFFSET_LIMIT,
-  'im.search.chat.list': OFFSET_LIMIT,
-  'im.search.department.list': OFFSET_LIMIT,
-  'im.search.user.list': OFFSET_LIMIT,
-  'imbot.v2.Bot.list': OFFSET_LIMIT,
-  'sign.b2e.company.provider.list': OFFSET_LIMIT,
-
-  'mail.mailbox.list': REST_V3,
-  'mail.message.list': REST_V3,
-  'main.eventlog.list': REST_V3,
-  'note.collection.list': REST_V3,
-  'note.document.search.list': REST_V3,
-  'timeman.record.list': REST_V3,
+  'note.document.search.list': FIRST_PAGE_ONLY,
 
   'im.notify.read.list': 'not a list: marks notifications as read',
 }

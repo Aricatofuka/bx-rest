@@ -39,7 +39,7 @@ export class BXRestNavvyCrmDocumentGeneratorNumerator {
   }
 
   /**
-   * Добавляет новый нумератор.
+   * Добавляет новый нумератор
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/numerator/crm-document-generator-numerator-add.html
    */
@@ -52,7 +52,7 @@ export class BXRestNavvyCrmDocumentGeneratorNumerator {
   }
 
   /**
-   * Обновляет существующий нумератор и возвращает его актуальные данные.
+   * Обновляет существующий нумератор и возвращает его актуальные данные
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/numerator/crm-document-generator-numerator-update.html
    */
@@ -65,7 +65,7 @@ export class BXRestNavvyCrmDocumentGeneratorNumerator {
   }
 
   /**
-   * Возвращает информацию о нумераторе по идентификатору.
+   * Возвращает информацию о нумераторе по идентификатору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/numerator/crm-document-generator-numerator-get.html
    */
@@ -78,7 +78,7 @@ export class BXRestNavvyCrmDocumentGeneratorNumerator {
   }
 
   /**
-   * Возвращает список нумераторов с поддержкой постраничной навигации.
+   * Возвращает список нумераторов с поддержкой постраничной навигации
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/numerator/crm-document-generator-numerator-list.html
    */
@@ -92,7 +92,7 @@ export class BXRestNavvyCrmDocumentGeneratorNumerator {
   }
 
   /**
-   * Удаляет нумератор. Удалить можно только нумератор, созданный через REST.
+   * Удаляет нумератор. Удалить можно только нумератор, созданный через REST
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/numerator/crm-document-generator-numerator-delete.html
    */

@@ -10,6 +10,7 @@ import {
 } from '../../../typification/rest/task'
 import { HttpBXServices } from '../../../services/http/HttpBX'
 import { $elapseditem, $getaccess, $getlist, $isactionallowed, $task, $tasks } from '../../../consts/part-name-methods'
+import { PAGE_SIZE } from '../../../consts/page-size'
 import { map, take } from 'rxjs/operators'
 import { BXRestMapTaskElapsedItem } from '../../../map/task/elapseditem'
 import { mergeMap, Observable, of, throwError } from 'rxjs'
@@ -26,7 +27,7 @@ interface BatchValues<T> {
   total: Record<string, number | undefined>
 }
 
-/** Результаты и `total` команд из ответов batch по ключам команд. Команды с ошибкой пропускаются. */
+/** Результаты и `total` команд из ответов batch по ключам команд. Команды с ошибкой пропускаются */
 function batchValues<T>(answers: iBatchRequestAnswer<T>[] | undefined): BatchValues<T> {
   const values: BatchValues<T> = { result: {}, total: {} }
   for (const answer of answers ?? []) {
@@ -50,7 +51,7 @@ export class BXRestNavvyOperationElapsedItem {
   }
 
   /**
-   * Возвращает записи о затраченном времени пользователей за период.
+   * Возвращает записи о затраченном времени пользователей за период
    */
   getByInterval(idsUsers: number[], dateStart: Date, dateEnd: Date) {
     const param: iBXRestParamElapseditemGet = {
@@ -75,14 +76,14 @@ export class BXRestNavvyOperationElapsedItem {
    * затем второй и так далее.
    *
    * Портал отдаёт не больше 50 записей на страницу. Первые страницы всех задач уходят одним
-   * batch, остальные страницы запрашиваются только у задач, где записей больше 50.
+   * batch, остальные страницы запрашиваются только у задач, где записей больше 50
    */
   getListByIDTask(ids: number[]) {
     // Пустой batch завершается без значения, и вызывающий код получил бы EmptyError
     if (!ids.length) {
       return of([])
     }
-    const pageSize = 50
+    const pageSize = PAGE_SIZE
     const key = (index: number, page: number) => `${index}_${page}`
     const commands = (pages: { index: number, page: number }[]) => Object.fromEntries(pages.map(({ index, page }) => [
       key(index, page),
@@ -117,7 +118,7 @@ export class BXRestNavvyOperationElapsedItem {
   }
 
   /**
-   * Проверяет право на добавление затраченного времени сразу по нескольким задачам.
+   * Проверяет право на добавление затраченного времени сразу по нескольким задачам
    */
   checkPermissionAddElapsedTimeToTaskArr(tasks: number[], userCurrent: iBXRestUser | undefined = undefined) {
     // Убираем дубли, чтобы не проверять права по одной задаче несколько раз.
@@ -307,7 +308,7 @@ export class BXRestNavvyOperationElapsedItem {
   }
 
   /**
-   * Проверяет право на изменение записи о затраченном времени.
+   * Проверяет право на изменение записи о затраченном времени
    */
   isAllowedModify(idTask: number, idItem: number) {
     return this.BXRestNavvyElapsedItem.isActionAllowed({
@@ -364,7 +365,7 @@ export class BXRestNavvyOperationElapsedItem {
   }
 
   /**
-   * Проверяет право на удаление записи о затраченном времени.
+   * Проверяет право на удаление записи о затраченном времени
    */
   private isAllowedRemove(idTask: number, idItem: number) {
     return this.isActionAllowed(

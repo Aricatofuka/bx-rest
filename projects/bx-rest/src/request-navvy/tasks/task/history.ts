@@ -6,7 +6,7 @@ export class BXRestNavvyTasksTaskHistory  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает историю задачи.
+   * Возвращает историю задачи
    */
   list(param: iBXRestTasksParams) {
     return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $history, $list], param)

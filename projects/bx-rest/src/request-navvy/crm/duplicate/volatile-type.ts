@@ -20,9 +20,9 @@ export class BXRestNavvyCrmDuplicateVolatileType {
   }
 
   /**
-   * Возвращает стандартные и пользовательские поля, доступные для поиска дубликатов.
+   * Возвращает стандартные и пользовательские поля, доступные для поиска дубликатов
    *
-   * @param param Необязательный тип CRM-объекта: `1` — лид, `3` — контакт, `4` — компания.
+   * @param param Необязательный тип CRM-объекта: `1` — лид, `3` — контакт, `4` — компания
    * @see https://apidocs.bitrix24.ru/api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-fields.html
    */
   fields(param: iBXRestParamCrmDuplicateVolatileTypeFields = {}) {
@@ -34,7 +34,7 @@ export class BXRestNavvyCrmDuplicateVolatileType {
   }
 
   /**
-   * Возвращает нестандартные поля, уже участвующие в поиске дубликатов.
+   * Возвращает нестандартные поля, уже участвующие в поиске дубликатов
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-list.html
    */
@@ -44,9 +44,9 @@ export class BXRestNavvyCrmDuplicateVolatileType {
 
   /**
    * Добавляет стандартное или пользовательское поле в поиск дубликатов.
-   * Суммарно для лидов, контактов и компаний можно зарегистрировать до семи полей.
+   * Суммарно для лидов, контактов и компаний можно зарегистрировать до семи полей
    *
-   * @param param Тип CRM-объекта и код поля из результата метода `fields`.
+   * @param param Тип CRM-объекта и код поля из результата метода `fields`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-register.html
    */
   register(param: iBXRestParamCrmDuplicateVolatileTypeRegister) {
@@ -58,9 +58,9 @@ export class BXRestNavvyCrmDuplicateVolatileType {
   }
 
   /**
-   * Удаляет нестандартное поле из поиска дубликатов.
+   * Удаляет нестандартное поле из поиска дубликатов
    *
-   * @param param Идентификатор записи из результата метода `list` или `register`.
+   * @param param Идентификатор записи из результата метода `list` или `register`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-unregister.html
    */
   unregister(param: iBXRestParamCrmDuplicateVolatileTypeUnregister) {

@@ -6,7 +6,7 @@ export class BXRestNavvyLandingRole  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Включает модель прав доступа для приложения.
+   * Включает модель прав доступа для приложения
    */
   public enable(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -16,7 +16,7 @@ export class BXRestNavvyLandingRole  {
     >([$landing, $role, $enable], param)
   }
   /**
-   * Возвращает список ролей модели прав доступа.
+   * Возвращает список ролей модели прав доступа
    */
   public getList(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -26,7 +26,7 @@ export class BXRestNavvyLandingRole  {
     >([$landing, $role, $getList], param)
   }
   /**
-   * Возвращает права роли модели прав доступа.
+   * Возвращает права роли модели прав доступа
    */
   public getRights(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -36,7 +36,7 @@ export class BXRestNavvyLandingRole  {
     >([$landing, $role, $getRights], param)
   }
   /**
-   * Проверяет, включена ли модель прав доступа для приложения.
+   * Проверяет, включена ли модель прав доступа для приложения
    */
   public isEnabled(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -46,7 +46,7 @@ export class BXRestNavvyLandingRole  {
     >([$landing, $role, $isEnabled], param)
   }
   /**
-   * Назначает роли коды доступа пользователей и групп.
+   * Назначает роли коды доступа пользователей и групп
    */
   public setAccessCodes(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -56,7 +56,7 @@ export class BXRestNavvyLandingRole  {
     >([$landing, $role, $setAccessCodes], param)
   }
   /**
-   * Устанавливает права роли модели прав доступа.
+   * Устанавливает права роли модели прав доступа
    */
   public setRights(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

@@ -6,7 +6,7 @@ export class BXRestNavvyImOpenLinesNetworkMessage  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Отправляет сообщение пользователю от имени открытой линии.
+   * Отправляет сообщение пользователю от имени открытой линии
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<

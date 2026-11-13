@@ -21,7 +21,7 @@ export class BXRestNavvyImDepartment {
   public readonly managers = new BXRestNavvyImDepartmentManagers()
 
   /**
-   * Возвращает информацию о подразделении.
+   * Возвращает информацию о подразделении
    */
   get(param: iBXRestParamImDepartmentGet) {
     return this.Navvy.simple<

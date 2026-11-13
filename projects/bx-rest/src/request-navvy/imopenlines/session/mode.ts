@@ -6,7 +6,7 @@ export class BXRestNavvyImOpenLinesSessionMode  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Закрепляет или открепляет выбранный диалог.
+   * Закрепляет или открепляет выбранный диалог
    */
   pin(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyImOpenLinesSessionMode  {
   }
 
   /**
-   * Закрепляет все доступные диалоги за оператором.
+   * Закрепляет все доступные диалоги за оператором
    */
   pinAll(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyImOpenLinesSessionMode  {
   }
 
   /**
-   * Включает или выключает скрытый режим диалога.
+   * Включает или выключает скрытый режим диалога
    */
   silent(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -39,7 +39,7 @@ export class BXRestNavvyImOpenLinesSessionMode  {
   }
 
   /**
-   * Открепляет все закреплённые диалоги оператора.
+   * Открепляет все закреплённые диалоги оператора
    */
   unpinAll(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

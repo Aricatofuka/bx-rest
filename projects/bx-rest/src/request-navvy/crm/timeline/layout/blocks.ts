@@ -33,7 +33,7 @@ export class BXRestNavvyCrmTimelineLayoutBlocks {
    *
    * Новый вызов полностью заменяет набор, ранее установленный тем же приложением.
    * Метод доступен администратору и не применяется к делам, лог-записям и
-   * устаревшим типам записей таймлайна.
+   * устаревшим типам записей таймлайна
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/layout/blocks/crm-timeline-layout-blocks-set.html
    */
@@ -46,7 +46,7 @@ export class BXRestNavvyCrmTimelineLayoutBlocks {
   }
 
   /**
-   * Возвращает набор дополнительных контентных блоков, установленный текущим приложением.
+   * Возвращает набор дополнительных контентных блоков, установленный текущим приложением
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/layout/blocks/crm-timeline-layout-blocks-get.html
    */
@@ -59,7 +59,7 @@ export class BXRestNavvyCrmTimelineLayoutBlocks {
   }
 
   /**
-   * Удаляет набор дополнительных контентных блоков текущего приложения.
+   * Удаляет набор дополнительных контентных блоков текущего приложения
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/timeline/layout/blocks/crm-timeline-layout-blocks-delete.html
    */

@@ -13,7 +13,7 @@ export class BXRestNavvyCrmCategory {
   private readonly Navvy = new Navvy()
 
   /**
-   * Создаёт новую воронку.
+   * Создаёт новую воронку
    */
   add(param: iBXRestParamCrmCategoryAdd) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmCategoryAdd>(
@@ -22,7 +22,7 @@ export class BXRestNavvyCrmCategory {
   }
 
   /**
-   * Удаляет воронку.
+   * Удаляет воронку
    */
   delete(param: iBXRestParamCrmCategoryId) {
     return this.Navvy.simple<null, null, iBXRestParamCrmCategoryId>(
@@ -31,7 +31,7 @@ export class BXRestNavvyCrmCategory {
   }
 
   /**
-   * Возвращает описание полей воронки.
+   * Возвращает описание полей воронки
    */
   fields(param: iBXRestParamCrmEntityType) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmEntityType>(
@@ -40,7 +40,7 @@ export class BXRestNavvyCrmCategory {
   }
 
   /**
-   * Возвращает воронку по идентификатору.
+   * Возвращает воронку по идентификатору
    */
   get(param: iBXRestParamCrmCategoryId) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestParamCrmCategoryId>(
@@ -49,7 +49,7 @@ export class BXRestNavvyCrmCategory {
   }
 
   /**
-   * Возвращает список воронок.
+   * Возвращает список воронок
    */
   list(param: iBXRestParamCrmCategoryList) {
     return this.Navvy.pagNavResultKey<
@@ -61,7 +61,7 @@ export class BXRestNavvyCrmCategory {
   }
 
   /**
-   * Обновляет воронку.
+   * Обновляет воронку
    */
   update(param: iBXRestParamCrmCategoryUpdate) {
     return this.Navvy.simple<

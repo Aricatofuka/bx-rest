@@ -6,7 +6,7 @@ export class BXRestNavvyBookingV1BookingClient  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список клиентов бронирования.
+   * Возвращает список клиентов бронирования
    */
   list(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyBookingV1BookingClient  {
   }
 
   /**
-   * Добавляет клиентов к бронированию.
+   * Добавляет клиентов к бронированию
    */
   set(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -28,7 +28,7 @@ export class BXRestNavvyBookingV1BookingClient  {
   }
 
   /**
-   * Удаляет клиентов из бронирования.
+   * Удаляет клиентов из бронирования
    */
   unset(param: iBXRestGenericParams) {
     return this.Navvy.simple<

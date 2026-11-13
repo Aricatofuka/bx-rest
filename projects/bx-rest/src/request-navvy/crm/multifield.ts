@@ -11,7 +11,7 @@ export class BXRestNavvyCrmMultifield {
 
   /**
    * Возвращает описание множественных полей для телефонов, email-адресов
-   * и другой контактной информации лидов, контактов и компаний.
+   * и другой контактной информации лидов, контактов и компаний
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/auxiliary/multifield/crm-multifield-fields.html
    */

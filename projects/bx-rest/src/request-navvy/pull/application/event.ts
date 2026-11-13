@@ -14,7 +14,7 @@ export class BXRestNavvyPullApplicationEvent {
    * пользователей. Событие получает клиент Push & Pull, подписанный на эти `MODULE_ID` и `COMMAND`.
    *
    * Работает только в контексте приложения: через вебхук портал ответит `WRONG_AUTH_TYPE`.
-   * `true` в ответе значит, что событие принято к отправке, а не что оно дошло до клиента.
+   * `true` в ответе значит, что событие принято к отправке, а не что оно дошло до клиента
    *
    * @see https://apidocs.bitrix24.com/settings/interactivity/pull-application-event-add.html
    */

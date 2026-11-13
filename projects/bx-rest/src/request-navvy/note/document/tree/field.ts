@@ -6,7 +6,7 @@ export class BXRestNavvyNoteDocumentTreeField  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает описание поля дерева документов.
+   * Возвращает описание поля дерева документов
    */
   get(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<
@@ -17,7 +17,7 @@ export class BXRestNavvyNoteDocumentTreeField  {
   }
 
   /**
-   * Возвращает список полей дерева документов.
+   * Возвращает список полей дерева документов
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simpleV3<

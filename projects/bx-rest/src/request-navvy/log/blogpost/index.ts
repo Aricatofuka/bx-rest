@@ -20,7 +20,7 @@ export class BXRestNavvyLogBlogPost {
   public readonly getUsers = new BXRestNavvyLogBlogPostGetUsers()
 
   /**
-   * Добавляет сообщение в Ленту новостей от имени текущего пользователя.
+   * Добавляет сообщение в Ленту новостей от имени текущего пользователя
    */
   add(param: iBXRestParamLogBlogPostAdd) {
     return this.Navvy.simple<number, number, iBXRestParamLogBlogPostAdd>(
@@ -30,14 +30,14 @@ export class BXRestNavvyLogBlogPost {
   }
 
   /**
-   * Возвращает доступные текущему пользователю сообщения Ленты новостей.
+   * Возвращает доступные текущему пользователю сообщения Ленты новостей
    */
   get(param: iBXRestParamBlogPostGet = {}) {
     return this.Navvy.pagNav(this.url.get, param, BXRestMapLogBlogPost.get)
   }
 
   /**
-   * Удаляет сообщение Ленты новостей.
+   * Удаляет сообщение Ленты новостей
    */
   delete(param: iBXRestParamLogBlogPostId) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamLogBlogPostId>(
@@ -47,7 +47,7 @@ export class BXRestNavvyLogBlogPost {
   }
 
   /**
-   * Добавляет получателей сообщению Ленты новостей.
+   * Добавляет получателей сообщению Ленты новостей
    */
   share(param: iBXRestParamLogBlogPostShare) {
     return this.Navvy.simple<boolean, boolean, iBXRestParamLogBlogPostShare>(
@@ -57,7 +57,7 @@ export class BXRestNavvyLogBlogPost {
   }
 
   /**
-   * Изменяет сообщение Ленты новостей.
+   * Изменяет сообщение Ленты новостей
    */
   update(param: iBXRestParamLogBlogPostUpdate) {
     return this.Navvy.simple<number, number, iBXRestParamLogBlogPostUpdate>(

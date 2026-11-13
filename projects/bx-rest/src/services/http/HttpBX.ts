@@ -15,6 +15,7 @@ import { withAuthRefresh } from './authRefresh'
 import { BXRestRequestConfig, composeMiddleware } from './transport'
 import { builtInMiddleware } from './middleware'
 import { fetchSend } from './fetch'
+import { BATCH_COMMANDS_LIMIT } from '../../consts/page-size'
 
 export class HttpBXServices extends HttpServices {
 
@@ -26,7 +27,7 @@ export class HttpBXServices extends HttpServices {
   branch<T, A>(param: iBatchRequestParamArr<T> | iBatchRequestParam<T>[])
     : Observable<iBatchRequestAnswer<A>[] | undefined> {
     let prepareParam = Object.entries<string>(this.prepareBatch<T>(param))
-    const size = 50 // больше не отдаст
+    const size = BATCH_COMMANDS_LIMIT
     let subarray = [] //массив в который будет выведен результат.
     for (let i = 0; i < Math.ceil(prepareParam.length / size); i++) {
       subarray[i] = prepareParam.slice((i * size), (i * size) + size)
@@ -79,7 +80,8 @@ export class HttpBXServices extends HttpServices {
    *
    * @param name
    * @param params
-   * @param restApi
+   * @param restApi `true` — метод REST v3: к базовому адресу добавляется `api/`, подробнее
+   *   у `Navvy.simpleV3()`
    * @param headers заголовки только для этого запроса, поверх `BXRestSettings.headers`
    */
   post<T>(name: string[], params: any = {}, restApi = false, headers?: Record<string, string>) {
@@ -211,7 +213,7 @@ export class HttpBXServices extends HttpServices {
    * клиента — axios или `fetch` (`transport`). Настройки читаются при
    * подписке. Отписка отменяет HTTP-запрос (AbortSignal). Ошибка транспорта
    * уходит дальше как есть: у axios в ней весь запрос, вместе с токеном и
-   * секретом вебхука (см. README, «Обработка ошибок»).
+   * секретом вебхука (см. README, «Обработка ошибок»)
    */
   private send<T>(config: BXRestRequestConfig): Observable<T | undefined> {
     return new Observable<T | undefined>(subscriber => {
@@ -233,7 +235,7 @@ export class HttpBXServices extends HttpServices {
     })
   }
 
-  /** Транспорт по умолчанию: axios клиента, как и раньше через post()/get(). */
+  /** Транспорт по умолчанию: axios клиента, как и раньше через post()/get() */
   private axiosSend(config: BXRestRequestConfig): Promise<unknown> {
     const options = { headers: config.headers, withCredentials: config.withCredentials, signal: config.signal }
     const request = (config.method === 'GET')
@@ -246,7 +248,7 @@ export class HttpBXServices extends HttpServices {
    * Заголовки запроса: `BXRestSettings.headers`, поверх них — заголовки
    * конкретного запроса, поверх всего — `required`. В `required` идёт
    * `Content-Type`: от него зависит, как сервер разберёт тело, поэтому
-   * пользовательские заголовки его не перебивают.
+   * пользовательские заголовки его не перебивают
    */
   private buildHeaders(headers?: Record<string, string>, required: Record<string, string> = {}) {
     return { ...this.session.getHeaders(), ...headers, ...required }

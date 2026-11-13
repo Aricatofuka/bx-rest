@@ -6,7 +6,7 @@ export class BXRestNavvyUserConsentAgreement {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список соглашений.
+   * Возвращает список соглашений
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -17,7 +17,7 @@ export class BXRestNavvyUserConsentAgreement {
   }
 
   /**
-   * Возвращает текст соглашения.
+   * Возвращает текст соглашения
    */
   text(param: iBXRestGenericParams) {
     return this.Navvy.simple<string, string, iBXRestGenericParams>(

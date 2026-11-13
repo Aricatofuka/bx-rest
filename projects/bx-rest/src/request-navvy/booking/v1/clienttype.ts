@@ -6,7 +6,7 @@ export class BXRestNavvyBookingV1ClientType  {
   private readonly Navvy = new Navvy()
 
   /**
-   * Возвращает список типов клиентов.
+   * Возвращает список типов клиентов
    */
   list(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<

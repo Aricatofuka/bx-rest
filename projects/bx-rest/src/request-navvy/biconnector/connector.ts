@@ -1,12 +1,14 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
 import { $add, $biconnector, $connector, $delete, $fields, $get, $list, $update } from '../../consts/part-name-methods'
+import { pageNumberNav } from '../../services/navvy/sequential-navs'
+import { PAGE_SIZE } from '../../consts/page-size'
 
 export class BXRestNavvyBiConnectorConnector {
   private readonly Navvy = new Navvy()
 
   /**
-   * Добавляет новый коннектор.
+   * Добавляет новый коннектор
    */
   add(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -17,7 +19,7 @@ export class BXRestNavvyBiConnectorConnector {
   }
 
   /**
-   * Удаляет коннектор.
+   * Удаляет коннектор
    */
   delete(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(
@@ -27,7 +29,7 @@ export class BXRestNavvyBiConnectorConnector {
   }
 
   /**
-   * Возвращает описание полей коннектора.
+   * Возвращает описание полей коннектора
    */
   fields(param: iBXRestGenericParams = {}) {
     return this.Navvy.simple<
@@ -38,7 +40,7 @@ export class BXRestNavvyBiConnectorConnector {
   }
 
   /**
-   * Возвращает информацию о коннекторе.
+   * Возвращает информацию о коннекторе
    */
   get(param: iBXRestGenericParams) {
     return this.Navvy.simple<
@@ -49,18 +51,18 @@ export class BXRestNavvyBiConnectorConnector {
   }
 
   /**
-   * Возвращает список доступных коннекторов.
+   * Возвращает список доступных коннекторов
    */
   list(param: iBXRestGenericParams = {}) {
-    return this.Navvy.simple<
+    return this.Navvy.pagNavSequential<
       iBXRestGenericObject[],
       iBXRestGenericObject[],
       iBXRestGenericParams
-    >([$biconnector, $connector, $list], param)
+    >([$biconnector, $connector, $list], param, pageNumberNav(PAGE_SIZE))
   }
 
   /**
-   * Обновляет существующий коннектор.
+   * Обновляет существующий коннектор
    */
   update(param: iBXRestGenericParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>(

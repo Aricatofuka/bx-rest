@@ -6,7 +6,7 @@ export class BXRestNavvyCrmLeadDetailsConfiguration {
   private readonly Navvy = new Navvy()
 
   /**
-   * Принудительно устанавливает общую карточку лидов для всех пользователей.
+   * Принудительно устанавливает общую карточку лидов для всех пользователей
    */
   forceCommonScopeForAll(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -16,7 +16,7 @@ export class BXRestNavvyCrmLeadDetailsConfiguration {
   }
 
   /**
-   * Возвращает параметры настройки карточки лидов.
+   * Возвращает параметры настройки карточки лидов
    */
   get(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>(
@@ -26,7 +26,7 @@ export class BXRestNavvyCrmLeadDetailsConfiguration {
   }
 
   /**
-   * Сбрасывает настройки карточки лидов.
+   * Сбрасывает настройки карточки лидов
    */
   reset(param: iBXRestCrmParams = {}) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(
@@ -36,7 +36,7 @@ export class BXRestNavvyCrmLeadDetailsConfiguration {
   }
 
   /**
-   * Устанавливает настройки карточки лидов.
+   * Устанавливает настройки карточки лидов
    */
   set(param: iBXRestCrmParams) {
     return this.Navvy.simple<boolean, boolean, iBXRestCrmParams>(

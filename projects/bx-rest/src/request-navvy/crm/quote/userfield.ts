@@ -24,7 +24,7 @@ export class BXRestNavvyCrmQuoteUserField {
 
   /**
    * Создает пользовательское поле для предложений.
-   * Метод доступен администратору CRM.
+   * Метод доступен администратору CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/user-field/crm-quote-user-field-add.html
    */
@@ -34,7 +34,7 @@ export class BXRestNavvyCrmQuoteUserField {
 
   /**
    * Обновляет существующее пользовательское поле предложений.
-   * Метод доступен администратору CRM.
+   * Метод доступен администратору CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/user-field/crm-quote-user-field-update.html
    */
@@ -43,7 +43,7 @@ export class BXRestNavvyCrmQuoteUserField {
   }
 
   /**
-   * Возвращает пользовательское поле предложения по идентификатору.
+   * Возвращает пользовательское поле предложения по идентификатору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/user-field/crm-quote-user-field-get.html
    */
@@ -56,7 +56,7 @@ export class BXRestNavvyCrmQuoteUserField {
   }
 
   /**
-   * Возвращает список пользовательских полей предложений по фильтру.
+   * Возвращает список пользовательских полей предложений по фильтру
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/user-field/crm-quote-user-field-list.html
    */
@@ -70,7 +70,7 @@ export class BXRestNavvyCrmQuoteUserField {
 
   /**
    * Удаляет пользовательское поле предложений.
-   * Метод доступен администратору CRM.
+   * Метод доступен администратору CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/quote/user-field/crm-quote-user-field-delete.html
    */

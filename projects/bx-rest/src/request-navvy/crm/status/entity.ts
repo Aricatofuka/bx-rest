@@ -17,9 +17,9 @@ export class BXRestNavvyCrmStatusEntity {
   }
 
   /**
-   * Возвращает все элементы указанного справочника с сортировкой по полю `SORT`.
+   * Возвращает все элементы указанного справочника с сортировкой по полю `SORT`
    *
-   * @param param Символьный идентификатор справочника в поле `entityId`.
+   * @param param Символьный идентификатор справочника в поле `entityId`
    * @see https://apidocs.bitrix24.ru/api-reference/crm/status/crm-status-entity-items.html
    */
   items(param: iBXRestParamCrmStatusEntityItems) {
@@ -32,7 +32,7 @@ export class BXRestNavvyCrmStatusEntity {
 
   /**
    * Возвращает все поддерживаемые типы справочников и их символьные идентификаторы.
-   * Для справочников стадий ответ также содержит сведения о воронке и семантике.
+   * Для справочников стадий ответ также содержит сведения о воронке и семантике
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/status/crm-status-entity-types.html
    */

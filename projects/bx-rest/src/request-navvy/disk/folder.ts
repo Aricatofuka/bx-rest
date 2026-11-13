@@ -162,7 +162,7 @@ export class BXRestNavvyDiskFolder {
   }
 
   /**
-   * Назначает права доступа на папку.
+   * Назначает права доступа на папку
    */
   shareToUser(param: iBXRestParamDiskFolderShareToUser) {
     return this.Navvy.simple<

@@ -35,7 +35,7 @@ export class BXRestNavvyCrmDocumentGeneratorTemplate {
   }
 
   /**
-   * Добавляет новый шаблон документа из файла DOCX.
+   * Добавляет новый шаблон документа из файла DOCX
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/templates/crm-document-generator-template-add.html
    */
@@ -48,7 +48,7 @@ export class BXRestNavvyCrmDocumentGeneratorTemplate {
   }
 
   /**
-   * Обновляет существующий шаблон документа.
+   * Обновляет существующий шаблон документа
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/templates/crm-document-generator-template-update.html
    */
@@ -61,7 +61,7 @@ export class BXRestNavvyCrmDocumentGeneratorTemplate {
   }
 
   /**
-   * Возвращает информацию о шаблоне документа по идентификатору.
+   * Возвращает информацию о шаблоне документа по идентификатору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/templates/crm-document-generator-template-get.html
    */
@@ -76,7 +76,7 @@ export class BXRestNavvyCrmDocumentGeneratorTemplate {
   /**
    * Возвращает список шаблонов с поддержкой постраничной навигации.
    *
-   * В ответе Битрикс24 шаблоны индексированы идентификаторами; навигатор преобразует их в массив.
+   * В ответе Битрикс24 шаблоны индексированы идентификаторами; навигатор преобразует их в массив
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/templates/crm-document-generator-template-list.html
    */
@@ -97,7 +97,7 @@ export class BXRestNavvyCrmDocumentGeneratorTemplate {
   }
 
   /**
-   * Удаляет шаблон документа.
+   * Удаляет шаблон документа
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/templates/crm-document-generator-template-delete.html
    */
@@ -110,7 +110,7 @@ export class BXRestNavvyCrmDocumentGeneratorTemplate {
 
   /**
    * Возвращает карточку полей шаблона для указанного типа и элемента CRM.
-   * Переданные `values` применяются временно и не изменяют данные CRM.
+   * Переданные `values` применяются временно и не изменяют данные CRM
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/document-generator/templates/crm-document-generator-template-get-fields.html
    */

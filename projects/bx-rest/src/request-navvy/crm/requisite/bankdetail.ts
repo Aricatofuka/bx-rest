@@ -35,7 +35,7 @@ export class BXRestNavvyCrmRequisiteBankDetail {
    * Создает банковский реквизит.
    *
    * `ENTITY_ID` — идентификатор родительского реквизита, а набор банковских
-   * полей `RQ_*` зависит от `COUNTRY_ID`.
+   * полей `RQ_*` зависит от `COUNTRY_ID`
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-add.html
    */
@@ -48,7 +48,7 @@ export class BXRestNavvyCrmRequisiteBankDetail {
   }
 
   /**
-   * Изменяет существующий банковский реквизит.
+   * Изменяет существующий банковский реквизит
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-update.html
    */
@@ -61,7 +61,7 @@ export class BXRestNavvyCrmRequisiteBankDetail {
   }
 
   /**
-   * Возвращает банковский реквизит по идентификатору.
+   * Возвращает банковский реквизит по идентификатору
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-get.html
    */
@@ -76,7 +76,7 @@ export class BXRestNavvyCrmRequisiteBankDetail {
   /**
    * Возвращает банковские реквизиты по фильтру.
    *
-   * Поддерживает выборку `select`, сортировку `order` и постраничную навигацию.
+   * Поддерживает выборку `select`, сортировку `order` и постраничную навигацию
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-list.html
    */
@@ -89,7 +89,7 @@ export class BXRestNavvyCrmRequisiteBankDetail {
   }
 
   /**
-   * Удаляет банковский реквизит.
+   * Удаляет банковский реквизит
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-delete.html
    */
@@ -102,7 +102,7 @@ export class BXRestNavvyCrmRequisiteBankDetail {
   }
 
   /**
-   * Возвращает формальное описание полей банковских реквизитов.
+   * Возвращает формальное описание полей банковских реквизитов
    *
    * @see https://apidocs.bitrix24.ru/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-fields.html
    */

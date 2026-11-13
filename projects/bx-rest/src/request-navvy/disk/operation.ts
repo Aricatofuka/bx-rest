@@ -18,7 +18,7 @@ export class BXRestNavvyDiskOperation {
 
   // данные файла в base64
   /**
-   * Загружает файл (в base64) в общее хранилище приложения.
+   * Загружает файл (в base64) в общее хранилище приложения
    */
   loadFileInAppFolder(file: {
     name: string,
@@ -43,7 +43,7 @@ export class BXRestNavvyDiskOperation {
   }
 
   /**
-   * Возвращает содержимое корневой папки приложения, создавая её при отсутствии.
+   * Возвращает содержимое корневой папки приложения, создавая её при отсутствии
    */
   getOfCreateRootContentFolderApp(folderName: string) {
     return this.getOfCreateRootFolderApp(folderName).pipe(
@@ -58,7 +58,7 @@ export class BXRestNavvyDiskOperation {
   }
 
   /**
-   * Возвращает список папок и файлов в общем хранилище приложения.
+   * Возвращает список папок и файлов в общем хранилище приложения
    */
   getRootFoldersApp() {
     return this.storage.getForApp().res().pipe(
