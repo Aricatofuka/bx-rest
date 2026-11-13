@@ -1,8 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { BXRestNavvy } from './navvy'
-import { NavvyPagBase } from '../services/navvy/extends/navvy-pag-base'
-import { Navvy } from '../services/navvy'
-import { HttpServices } from '../services/http/http'
+import { listClientMethods } from '../testing/client-methods'
 
 // Каждый списочный метод клиента (`*.list`, `*.getlist`, `*.items`) либо умеет `.resAll()`,
 // либо стоит в списке ниже с причиной. Без этой проверки метод легко добавить через `simple`:
@@ -124,57 +121,12 @@ const WITHOUT_RES_ALL: Record<string, string> = {
 
 const LIST_METHOD = /\.(list|getlist|items)$/i
 
-// Аргумент-заглушка: любое свойство и вызов дают новую заглушку
-function stub(): any {
-  const target = function () { /* callable */ }
-  return new Proxy(target, {
-    get: (_t, k) => (k === Symbol.toPrimitive ? () => 1 : k === Symbol.iterator ? [][Symbol.iterator].bind([]) : k === 'length' ? 0 : stub()),
-    apply: () => stub(),
-    ownKeys: () => ['prototype'],
-    getOwnPropertyDescriptor: (_t, k) => (k === 'prototype' ? { configurable: false, enumerable: false, value: {}, writable: true } : undefined),
-    has: () => true,
-  })
-}
-
-/** REST-имя и наличие `.resAll()` у каждого метода клиента. */
+/** REST-имя → где этот метод есть у клиента и умеет ли он там `.resAll()`. */
 function listMethods() {
-  const SKIP = new Set(['constructor', 'url'])
-  const seen = new Set<object>()
   const methods = new Map<string, { path: string, resAll: boolean }[]>()
-
-  const walk = (obj: any, path: string) => {
-    if (seen.has(obj)) return
-    seen.add(obj)
-    const names = new Set<string>(Object.getOwnPropertyNames(obj))
-    for (let p = Object.getPrototypeOf(obj); p && p !== Object.prototype; p = Object.getPrototypeOf(p)) {
-      for (const n of Object.getOwnPropertyNames(p)) names.add(n)
-    }
-    for (const name of names) {
-      if (SKIP.has(name)) continue
-      let value: any
-      try { value = obj[name] } catch { continue }
-      // Внутренние объекты запросов: их методы принимают адрес и тело, а не параметры метода REST
-      if (value instanceof HttpServices || value instanceof Navvy) continue
-      if (typeof value === 'function') {
-        let request: unknown
-        try { request = value.call(obj, stub(), stub(), stub()) } catch { continue }
-        if (request instanceof NavvyPagBase) {
-          const rest = (request as unknown as { url: string[] }).url.join('.')
-          const resAll = typeof (request as unknown as { resAll?: unknown }).resAll === 'function'
-          methods.set(rest, [...methods.get(rest) ?? [], { path: `${path}.${name}`, resAll }])
-        }
-      } else if (value && typeof value === 'object' && !Array.isArray(value)) {
-        walk(value, path ? `${path}.${name}` : name)
-      }
-    }
+  for (const { path, rest, resAll } of listClientMethods()) {
+    if (rest !== undefined) methods.set(rest, [...methods.get(rest) ?? [], { path, resAll }])
   }
-  // Часть методов отправляет запрос сразу при вызове. Такой middleware его никуда не отправляет.
-  const offline = new BXRestNavvy({
-    auth: { source: () => 'token', key: 'auth' },
-    urls: { source: 'string', key: 'https://portal.test', additional_part: 'rest' },
-    middleware: [() => new Promise<never>(() => undefined)],
-  })
-  walk(offline, '')
   return methods
 }
 

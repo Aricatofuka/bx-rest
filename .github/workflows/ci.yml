@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
@@ -26,5 +29,57 @@ jobs:
 
       - run: npm ci
       - run: npm run lint
+      # Здесь же снимок методов клиента (method-names.spec.ts): в CI он только сравнивается
       - run: npm run test
       - run: npm run build
+
+      # Сборка (prebuild) переписывает корневые README, README.en.md и CHANGELOG из
+      # projects/bx-rest, а LICENSE пакета — из корневого. Разница значит, что копии
+      # в репозитории устарели или их правили руками.
+      - name: Root README, CHANGELOG and LICENSE match their sources
+        run: |
+          git diff --exit-code -- README.md README.en.md CHANGELOG.md projects/bx-rest/LICENSE || {
+            echo "::error::Copies differ from their sources. Edit projects/bx-rest/README*.md, projects/bx-rest/CHANGELOG.md and the root LICENSE, then run npm run build and commit the copies."
+            exit 1
+          }
+
+      # Установка архива пакета в чистый проект, импорт в Node, типы под bundler
+      # и nodenext, размер бандла только с BXRestFrame
+      - run: npm run check:package
+
+  demos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            projects/*/package-lock.json
+
+      - run: npm ci
+      # Собирает bx-rest и demo-shared, ставит зависимости демо
+      - run: npm run demo:bootstrap
+      # Собирает Vue, React и Angular так же, как для GitHub Pages
+      - run: npm run demo:pages
+
+      - name: Node demo against the mock portal
+        working-directory: projects/demo-node
+        run: |
+          npm run check
+          npm run mock
+
+  # Уязвимости только в зависимостях опубликованного пакета, без dev-зависимостей
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - run: npm audit --omit=dev
