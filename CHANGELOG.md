@@ -54,10 +54,24 @@
   ждал одного участника и искал поле `last_activity_date` у самого массива.
   Поля там нет, и преобразование даты падало. Теперь маппер преобразует даты
   у каждого участника.
-- `main.eventlog.{get,list,tail}`, `main.eventlog.field.{get,list}`,
-  `timeman.record.list` и `timeman.record.field.{get,list}` уходят на адрес
-  REST v3 `rest/api/`. По документации эти методы есть только в REST v3, а по
-  старому адресу портал отвечает `ERROR_METHOD_NOT_FOUND`.
+- Методы, которые есть только в REST v3, уходят на его адрес `rest/api/`.
+  По старому адресу портал на них отвечает `ERROR_METHOD_NOT_FOUND`:
+  - `main.eventlog.{get,list,tail}` и `main.eventlog.field.{get,list}`;
+  - `timeman.record.list` и `timeman.record.field.{get,list}`;
+  - `tasks.task.access.get`, `tasks.task.chat.message.send`,
+    `tasks.task.chat.message.field.{get,list}`, `tasks.task.field.{get,list}`,
+    `tasks.task.file.attach`,
+    `tasks.task.result.{add,addfromchatmessage,delete,update}`;
+  - `tasks.task.access.field.{get,list}` и `tasks.task.file.field.{get,list}`:
+    в документации их нет, но названы они по правилам REST v3.
+
+  `tasks.task.result.list`, `addFromComment` и `deleteFromComment` есть в
+  старой версии и остались там.
+- Адрес методов REST v3 при подключении через вебхук. Раньше `api/`
+  дописывался в конец адреса вебхука, и запрос уходил на
+  `rest/1/CODE/api/<метод>`. Теперь `api/` встаёт сразу после `rest/`:
+  `rest/api/1/CODE/<метод>`, как в документации. У приложения адрес не
+  изменился: `rest/api/<метод>`.
 
 ## [1.7.0] - 2026-11-11
 

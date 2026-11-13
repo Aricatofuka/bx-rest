@@ -19,6 +19,8 @@ export interface ClientMethod {
    */
   kind: string
   resAll: boolean
+  /** Запрос уходит на адрес REST v3 `rest/api/` */
+  restApi?: boolean
 }
 
 // private-поля с вложенными клиентами. Их методы уже есть в публичных разделах,
@@ -71,6 +73,7 @@ export function listClientMethods(): ClientMethod[] {
             rest: (result as unknown as { url: string[] }).url.join('.'),
             kind: result.constructor.name,
             resAll: typeof (result as unknown as { resAll?: unknown }).resAll === 'function',
+            restApi: (result as unknown as { restApi: boolean }).restApi,
           })
         } else {
           const kind = result && typeof result === 'object' ? result.constructor.name : typeof result

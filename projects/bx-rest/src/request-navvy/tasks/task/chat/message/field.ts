@@ -9,14 +9,14 @@ export class BXRestNavvyTasksTaskChatMessageField  {
    * Возвращает описание поля сообщения чата задачи
    */
   get(param: iBXRestTasksParams = {}) {
-    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $chat, $message, $field, $get], param)
+    return this.Navvy.simpleV3<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $chat, $message, $field, $get], param)
   }
 
   /**
    * Возвращает список полей сообщения чата задачи
    */
   list(param: iBXRestTasksParams = {}) {
-    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $chat, $message, $field, $list], param)
+    return this.Navvy.simpleV3<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $chat, $message, $field, $list], param)
   }
 }
 

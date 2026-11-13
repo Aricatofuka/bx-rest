@@ -122,6 +122,8 @@ BXRestSettings.update({
 })
 ```
 
+Адрес для методов [REST v3](https://apidocs.bitrix24.ru/api-reference/rest-v3.html#call) библиотека строит из этого же адреса сама: `https://example.bitrix24.com/rest/api/1/WEBHOOK_CODE/<метод>`.
+
 ### Режимы результата
 
 Запрос уходит, когда на `Observable` подписываются или передают его в `firstValueFrom`. Отписка до ответа отменяет HTTP-запрос: на этом построены `switchMap`, `takeUntil` и оператор `timeout` из RxJS. Отмена не откатывает то, что портал уже сделал: если `crm.deal.add` дошёл до сервера, сделка может быть создана.

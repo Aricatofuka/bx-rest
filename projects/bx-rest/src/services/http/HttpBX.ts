@@ -16,6 +16,7 @@ import { BXRestRequestConfig, composeMiddleware } from './transport'
 import { builtInMiddleware } from './middleware'
 import { fetchSend } from './fetch'
 import { BATCH_COMMANDS_LIMIT } from '../../consts/page-size'
+import { restApiBaseUrl } from './restApiUrl'
 
 export class HttpBXServices extends HttpServices {
 
@@ -80,13 +81,12 @@ export class HttpBXServices extends HttpServices {
    *
    * @param name
    * @param params
-   * @param restApi `true` — метод REST v3: к базовому адресу добавляется `api/`, подробнее
-   *   у `Navvy.simpleV3()`
+   * @param restApi `true` — метод REST v3: в базовый адрес после `rest/` добавляется `api/`,
+   *   подробнее у `Navvy.simpleV3()`
    * @param headers заголовки только для этого запроса, поверх `BXRestSettings.headers`
    */
   post<T>(name: string[], params: any = {}, restApi = false, headers?: Record<string, string>) {
-    const method = this.getNameMethod(name)
-    return this.httpPost<iBXRestAnswer<T>>(restApi ? `api/${method}` : method, params, undefined, headers)
+    return this.httpPost<iBXRestAnswer<T>>(this.getNameMethod(name), params, undefined, headers, restApi)
   }
 
   /**
@@ -102,11 +102,13 @@ export class HttpBXServices extends HttpServices {
 
   // settings не используется и оставлен ради прежней сигнатуры: headers
   // остаётся четвёртым параметром у httpPost и httpGet.
+  // restApi: `url` — метод REST v3, базовый адрес строит restApiBaseUrl().
   httpPost<T>(
     url: string,
     params: any = {},
     settings?: iHttpParamSettings,
-    headers?: Record<string, string>
+    headers?: Record<string, string>,
+    restApi = false
   ): Observable<T | undefined> {
     // defer() откладывает всё содержимое (в том числе чтение BXRestSettings
     // через this.session.*) до реальной подписки — иначе даже с "живым"
@@ -141,7 +143,7 @@ export class HttpBXServices extends HttpServices {
             return throwError(() => this.session.getBaseUrlError('post'))
           }
 
-          const fullUrl = prepareBaseAddress(baseUrl) + url
+          const fullUrl = (restApi ? restApiBaseUrl(baseUrl) : prepareBaseAddress(baseUrl)) + url
           // sessid — тело x-www-form-urlencoded, остальные ключи — JSON
           const urlencoded = key === 'sessid'
 

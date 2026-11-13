@@ -63,27 +63,27 @@ export class BXRestNavvyTasksTaskResult {
    * Добавляет результат к задаче
    */
   add(param: iBXRestTasksParams) {
-    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $add], param)
+    return this.Navvy.simpleV3<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $add], param)
   }
 
   /**
    * Создаёт результат задачи из сообщения чата
    */
   addFromChatMessage(param: iBXRestTasksParams) {
-    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $addfromchatmessage], param)
+    return this.Navvy.simpleV3<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $addfromchatmessage], param)
   }
 
   /**
    * Удаляет результат задачи
    */
   delete(param: iBXRestTasksParams) {
-    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $delete], param)
+    return this.Navvy.simpleV3<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $delete], param)
   }
 
   /**
    * Обновляет текст результата задачи
    */
   update(param: iBXRestTasksParams) {
-    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $update], param)
+    return this.Navvy.simpleV3<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $result, $update], param)
   }
 }

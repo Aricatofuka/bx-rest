@@ -124,6 +124,8 @@ BXRestSettings.update({
 })
 ```
 
+The library builds the address for [REST v3](https://apidocs.bitrix24.com/api-reference/rest-v3.html#call) methods from the same address: `https://example.bitrix24.com/rest/api/1/WEBHOOK_CODE/<method>`.
+
 ### Result modes
 
 A request is sent when the `Observable` is subscribed to or passed to `firstValueFrom`. Unsubscribing before the response aborts the HTTP request: `switchMap`, `takeUntil` and the RxJS `timeout` operator rely on this. Aborting does not undo what the portal has already done: if `crm.deal.add` reached the server, the deal may be created.

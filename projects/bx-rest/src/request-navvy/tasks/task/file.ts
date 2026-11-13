@@ -15,7 +15,7 @@ export class BXRestNavvyTasksTaskFile  {
    * Прикрепляет файлы к задаче
    */
   attach(param: iBXRestTasksParams) {
-    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $file, $attach], param)
+    return this.Navvy.simpleV3<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $file, $attach], param)
   }
 }
 

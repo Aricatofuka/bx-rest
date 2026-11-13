@@ -9,14 +9,14 @@ export class BXRestNavvyTasksTaskField  {
    * Возвращает описание поля задачи
    */
   get(param: iBXRestTasksParams) {
-    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $field, $get], param)
+    return this.Navvy.simpleV3<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $field, $get], param)
   }
 
   /**
    * Возвращает список полей задачи
    */
   list(param: iBXRestTasksParams = {}) {
-    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $field, $list], param)
+    return this.Navvy.simpleV3<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $field, $list], param)
   }
 }
 

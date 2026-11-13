@@ -15,7 +15,7 @@ export class BXRestNavvyTasksTaskChatMessage  {
    * Отправляет сообщение в чат задачи
    */
   send(param: iBXRestTasksParams) {
-    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $chat, $message, $send], param)
+    return this.Navvy.simpleV3<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $chat, $message, $send], param)
   }
 }
 

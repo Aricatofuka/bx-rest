@@ -133,17 +133,23 @@ describe('HttpBXServices', () => {
       expect(config.headers['Content-Type']).toBe('application/json')
     })
 
-    it('restApi=true prefixes the method with "api/"', async () => {
-      BXRestSettings.update({ auth: { source: 'off', key: 'auth' } })
+    // Адрес REST v3: https://apidocs.bitrix24.ru/api-reference/rest-v3.html#call
+    it.each([
+      ['an app with the default address', { key: '', additional_part: 'rest' }, false, 'rest/tasks.task.get'],
+      ['an app with the default address', { key: '', additional_part: 'rest' }, true, 'rest/api/tasks.task.get'],
+      ['an app on a portal address', { key: 'https://b24.example.com', additional_part: 'rest' }, true, 'https://b24.example.com/rest/api/tasks.task.get'],
+      ['a webhook', { key: 'https://b24.example.com/rest/1/CODE', additional_part: '' }, false, 'https://b24.example.com/rest/1/CODE/tasks.task.get'],
+      ['a webhook', { key: 'https://b24.example.com/rest/1/CODE', additional_part: '' }, true, 'https://b24.example.com/rest/api/1/CODE/tasks.task.get'],
+    ])('%s, restApi=%s: POST to %s', async (_, urls, restApi, expected) => {
+      BXRestSettings.update({ auth: { source: 'off', key: 'auth' }, urls: { source: 'string', ...urls } })
       const http = new HttpBXServices()
       const postSpy = vi
         .spyOn((http as any).axiosInstance, 'post')
         .mockResolvedValue({ data: { result: 'ok' } })
 
-      await firstValueFrom(http.post(['crm', 'deal', 'get'], {}, true))
+      await firstValueFrom(http.post(['tasks', 'task', 'get'], {}, restApi))
 
-      const [url] = postSpy.mock.calls[0]
-      expect(url).toContain('api/crm.deal.get')
+      expect(postSpy.mock.calls[0][0]).toBe(expected)
     })
 
     describe('lazy settings resolution', () => {

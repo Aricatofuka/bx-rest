@@ -15,7 +15,7 @@ export class BXRestNavvyTasksTaskAccess  {
    * Проверяет доступ к задаче
    */
   get(param: iBXRestTasksParams) {
-    return this.Navvy.simple<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $access, $get], param)
+    return this.Navvy.simpleV3<iBXRestTasksObject, iBXRestTasksObject, iBXRestTasksParams>([$tasks, $task, $access, $get], param)
   }
 }
 
