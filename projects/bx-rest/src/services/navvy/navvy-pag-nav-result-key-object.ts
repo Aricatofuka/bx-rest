@@ -1,7 +1,8 @@
-import { mergeMap, shareReplay } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { Observable, shareReplay } from 'rxjs'
 import { iBXRestPagination } from '../../typification/rest/base/api-pagination-bx'
-import { NavvyPagBase, offsetPageParams } from './extends/navvy-pag-base'
+import { NavvyPagBase, offsetPageParams, startOf } from './extends/navvy-pag-base'
+import { BXRestResAllEvent } from './res-all-event'
+import { resAllEvents, resAllResult } from './res-all-steps'
 
 type KeyedObjectResult<K extends string, T> = Record<K, Record<string, T> | undefined>
 
@@ -22,16 +23,31 @@ export class NavvyPagNavResultKeyObject<
     super(url, param, mapResult ?? (result => Object.values(result?.[key] ?? {}) as unknown as R[]))
   }
 
-  resAll() {
-    return this.resFirstPage().pipe(
-      mergeMap(first => this.resPages<KeyedObjectResult<K, T>>(offsetPageParams(this.param, first.total, this.pageSize)).pipe(
-        map(pages => {
-          const merged = Object.assign({}, first.result?.[this.key], ...pages.map(page => page[this.key]))
-          return this.map?.({ ...first.result, [this.key]: merged } as KeyedObjectResult<K, T>)
-        })
-      )),
+  resAll(): Observable<R[] | undefined> {
+    return resAllResult(this.resAllSteps()).pipe(
       // refCount: без подписчиков оставшиеся страницы запрашивать незачем
       shareReplay({ bufferSize: 1, refCount: true })
     )
+  }
+
+  /**
+   * Как `.resAll()`, но с ходом загрузки: `progress` с записями каждого HTTP-ответа,
+   * в конце `done` с результатом `.resAll()`
+   */
+  resAllWithProgress(): Observable<BXRestResAllEvent<R[] | undefined>> {
+    return resAllEvents(this.resAllSteps())
+  }
+
+  private resAllSteps() {
+    return this.resAllByBatch({
+      first: this.param,
+      rest: first => offsetPageParams(this.param, first.total, this.pageSize),
+      skipped: startOf(this.param),
+      count: page => Object.keys(page?.[this.key] ?? {}).length,
+      join: pages => {
+        const merged = pages.reduce<Record<string, T>>((all, page) => Object.assign(all, page?.[this.key]), {})
+        return this.map?.({ ...pages[0], [this.key]: merged } as KeyedObjectResult<K, T>)
+      },
+    })
   }
 }

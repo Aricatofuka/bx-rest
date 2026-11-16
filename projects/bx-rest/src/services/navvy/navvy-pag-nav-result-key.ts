@@ -1,8 +1,9 @@
-import { mergeMap, shareReplay } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { Observable, shareReplay } from 'rxjs'
 import { iBXRestPagination } from '../../typification/rest/base/api-pagination-bx'
 import { ReturnTypeNavvy } from './navvy-support'
-import { NavvyPagBase, offsetPageParams } from './extends/navvy-pag-base'
+import { NavvyPagBase, offsetPageParams, startOf } from './extends/navvy-pag-base'
+import { BXRestResAllEvent } from './res-all-event'
+import { resAllEvents, resAllResult } from './res-all-steps'
 
 type KeyedResult<K extends string, T> = Record<K, T[] | undefined>
 
@@ -21,17 +22,35 @@ export class NavvyPagNavResultKey<T, R, P extends iBXRestPagination, K extends s
     super(url, param, map ?? (result => (result?.[key] ?? []) as unknown as R[]), restApi)
   }
 
-  resAll() {
-    return this.resFirstPage().pipe(
-      mergeMap(first => this.resPages<KeyedResult<K, T>>(offsetPageParams(this.param, first.total, this.pageSize)).pipe(
-        map(pages => {
-          const items = [first.result, ...pages].flatMap(page => page?.[this.key] ?? []) as T[]
-          const joined = { ...first.result, [this.key]: items } as KeyedResult<K, T>
-          return (this.map?.(joined) ?? []) as ReturnTypeNavvy<T, R>[]
-        })
-      )),
+  resAll(): Observable<ReturnTypeNavvy<T, R>[]> {
+    return resAllResult(this.resAllSteps()).pipe(
       // refCount: без подписчиков оставшиеся страницы запрашивать незачем
       shareReplay({ bufferSize: 1, refCount: true })
     )
+  }
+
+  /**
+   * Как `.resAll()`, но с ходом загрузки: `progress` с записями каждого HTTP-ответа,
+   * в конце `done` с результатом `.resAll()`
+   */
+  resAllWithProgress(): Observable<BXRestResAllEvent<ReturnTypeNavvy<T, R>[]>> {
+    return resAllEvents(this.resAllSteps())
+  }
+
+  private resAllSteps() {
+    return this.resAllByBatch({
+      first: this.param,
+      rest: first => offsetPageParams(this.param, first.total, this.pageSize),
+      skipped: startOf(this.param),
+      count: page => {
+        const list = page?.[this.key]
+        return Array.isArray(list) ? list.length : 0
+      },
+      join: pages => {
+        const items = pages.flatMap(page => page?.[this.key] ?? []) as T[]
+        const joined = { ...pages[0], [this.key]: items } as KeyedResult<K, T>
+        return (this.map?.(joined) ?? []) as ReturnTypeNavvy<T, R>[]
+      },
+    })
   }
 }

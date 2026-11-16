@@ -1,8 +1,10 @@
-import { EMPTY, expand, Observable, shareReplay, toArray } from 'rxjs'
+import { concatWith, defer, EMPTY, expand, Observable, of, shareReplay } from 'rxjs'
 import { map } from 'rxjs/operators'
 import clone from 'just-clone'
 import { ReturnTypeNavvy } from './navvy-support'
 import { NavvyPagBase } from './extends/navvy-pag-base'
+import { BXRestResAllEvent } from './res-all-event'
+import { resAllEvents, resAllResult, ResAllStep } from './res-all-steps'
 
 /**
  * Как листать метод, у которого следующая страница известна только после предыдущей:
@@ -58,21 +60,49 @@ export class NavvyPagSequential<T, R, P extends object> extends NavvyPagBase<T, 
   }
 
   resAll(): Observable<ReturnTypeNavvy<T, R>> {
-    const first = this.nav.first ? this.nav.first(clone(this.param)) : this.param
-    return this.resNavPage(first).pipe(
-      expand(page => {
-        const next = this.nav.next(page.param, page.result)
-        return next ? this.resNavPage(next, page.json) : EMPTY
-      }),
-      map(page => page.result),
-      toArray(),
-      map(pages => {
-        const joined = this.join(pages)
-        return (this.map ? this.map(joined) : joined) as ReturnTypeNavvy<T, R>
-      }),
+    return resAllResult(this.resAllSteps()).pipe(
       // refCount: без подписчиков оставшиеся страницы запрашивать незачем
       shareReplay({ bufferSize: 1, refCount: true })
     )
+  }
+
+  /**
+   * Как `.resAll()`, но с ходом загрузки: `progress` с записями каждой страницы, в конце `done`
+   * с результатом `.resAll()`. `total` всегда `undefined`: общего числа записей такие методы
+   * не отдают. Повторы, которые `.resAll()` убирает (`nav.unique`), в `items` не попадают и
+   * в `loaded` не считаются. Если списков несколько (`nav.keys`), `loaded` считает записи всех
+   */
+  resAllWithProgress(): Observable<BXRestResAllEvent<ReturnTypeNavvy<T, R>>> {
+    return resAllEvents(this.resAllSteps())
+  }
+
+  /** Обход `.resAll()`: шаг после каждой страницы, в конце — итог. Каждая подписка обходит список заново */
+  private resAllSteps(): Observable<ResAllStep<ReturnTypeNavvy<T, R>>> {
+    const first = this.nav.first ? this.nav.first(clone(this.param)) : this.param
+    return defer(() => {
+      const pages: T[] = []
+      // Значения поля `nav.unique`, которые уже пришли: свои у каждого списка
+      const seen = new Map<string, Set<unknown>>()
+      let loaded = 0
+
+      return this.resNavPage(first).pipe(
+        expand(page => {
+          const next = this.nav.next(page.param, page.result)
+          return next ? this.resNavPage(next, page.json) : EMPTY
+        }),
+        map((page): ResAllStep<ReturnTypeNavvy<T, R>> => {
+          pages.push(page.result)
+          const fresh = this.fresh(page.result, seen)
+          loaded += fresh.count
+          return { type: 'progress', loaded, total: undefined, items: () => this.mapped(fresh.result) }
+        }),
+        concatWith(defer(() => of<ResAllStep<ReturnTypeNavvy<T, R>>>({ type: 'done', result: this.mapped(this.join(pages)) })))
+      )
+    })
+  }
+
+  private mapped(result: T): ReturnTypeNavvy<T, R> {
+    return (this.map ? this.map(result) : result) as ReturnTypeNavvy<T, R>
   }
 
   /**
@@ -107,12 +137,37 @@ export class NavvyPagSequential<T, R, P extends object> extends NavvyPagBase<T, 
     return joined as T
   }
 
-  private unique(items: unknown[]): unknown[] {
+  /**
+   * Записи страницы в форме результата `.resAll()`, без повторов тех, что уже пришли
+   * (`seen` — значения поля `nav.unique` по спискам), и их число
+   */
+  private fresh(page: T, seen: Map<string, Set<unknown>>): { result: T, count: number } {
+    const uniqueIn = (items: unknown[], key: string) => {
+      const list = seen.get(key) ?? new Set<unknown>()
+      seen.set(key, list)
+      return this.unique(items, list)
+    }
+    const keys = this.nav.keys
+    if (!keys) {
+      const items = uniqueIn(Array.isArray(page) ? page : [], '')
+      return { result: items as T, count: items.length }
+    }
+    const result: Record<string, unknown> = { ...(page && typeof page === 'object' ? page : {}) }
+    let count = 0
+    for (const key of keys) {
+      const items = uniqueIn(listIn(page, key), key)
+      result[key] = items
+      count += items.length
+    }
+    return { result: result as T, count }
+  }
+
+  /** Записи без повторов по полю `nav.unique`. `seen` — значения, которые уже встречались */
+  private unique(items: unknown[], seen = new Set<unknown>()): unknown[] {
     const field = this.nav.unique
     if (!field) {
       return items
     }
-    const seen = new Set<unknown>()
     return items.filter(item => {
       const value = (item as Record<string, unknown> | null)?.[field]
       if (value === undefined) {

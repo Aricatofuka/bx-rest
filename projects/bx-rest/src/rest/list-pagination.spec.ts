@@ -125,6 +125,14 @@ describe('list methods', () => {
     expect(missing).toEqual([])
   })
 
+  it('every request with .resAll() also has .resAllWithProgress()', () => {
+    const missing = listClientMethods()
+      .filter(method => method.resAll && !method.resAllWithProgress)
+      .map(method => `${method.path} (${method.kind})`)
+
+    expect(missing).toEqual([])
+  })
+
   it('the exception list has no stale entries', () => {
     const stale = Object.keys(WITHOUT_RES_ALL)
       .filter(rest => !methods.has(rest) || methods.get(rest)!.some(call => call.resAll))

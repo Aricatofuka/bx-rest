@@ -19,6 +19,8 @@ export interface ClientMethod {
    */
   kind: string
   resAll: boolean
+  /** У объекта запроса есть `.resAllWithProgress()` */
+  resAllWithProgress?: boolean
   /** Запрос уходит на адрес REST v3 `rest/api/` */
   restApi?: boolean
 }
@@ -73,6 +75,7 @@ export function listClientMethods(): ClientMethod[] {
             rest: (result as unknown as { url: string[] }).url.join('.'),
             kind: result.constructor.name,
             resAll: typeof (result as unknown as { resAll?: unknown }).resAll === 'function',
+            resAllWithProgress: typeof (result as unknown as { resAllWithProgress?: unknown }).resAllWithProgress === 'function',
             restApi: (result as unknown as { restApi: boolean }).restApi,
           })
         } else {

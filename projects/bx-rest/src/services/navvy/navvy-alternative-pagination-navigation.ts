@@ -1,9 +1,10 @@
-import { mergeMap, shareReplay } from 'rxjs'
+import { Observable, shareReplay } from 'rxjs'
 import clone from 'just-clone'
-import { map } from 'rxjs/operators'
 import { ReturnTypeNavvy } from './navvy-support'
 import { iBXRestAlternativePagination } from '../../typification/rest/base/api-pagination-bx'
 import { NavvyPagBase } from './extends/navvy-pag-base'
+import { BXRestResAllEvent } from './res-all-event'
+import { resAllEvents, resAllResult } from './res-all-steps'
 
 /**
  * Класс-прослойка-обработчик для методов работающих на альтернативной постраничной навигации тика как методы по
@@ -13,31 +14,56 @@ import { NavvyPagBase } from './extends/navvy-pag-base'
  */
 export class NavvyAlterPagNav<T, R, P extends iBXRestAlternativePagination> extends NavvyPagBase<T[], R[], P> {
 
-  resAll() {
-    return this.resFirstPage().pipe(
-      mergeMap(first => this.resPages<T[]>(first.next ? this.pageParams(first.total) : []).pipe(
-        map(pages => {
-          const items = [first.result ?? [], ...pages].flat() as T[]
-          return ((this.map ? this.map(items) : items) ?? []) as ReturnTypeNavvy<T, R>[]
-        })
-      )),
+  resAll(): Observable<ReturnTypeNavvy<T, R>[]> {
+    return resAllResult(this.resAllSteps()).pipe(
       // refCount: без подписчиков оставшиеся страницы запрашивать незачем
       shareReplay({ bufferSize: 1, refCount: true })
     )
   }
 
   /**
-   * Параметры остальных страниц. Размер страницы берётся из запроса: портал ограничивает
-   * его 50 записями, но вызывающий код может попросить и меньше
+   * Как `.resAll()`, но с ходом загрузки: `progress` с записями каждого HTTP-ответа,
+   * в конце `done` с результатом `.resAll()`
    */
+  resAllWithProgress(): Observable<BXRestResAllEvent<ReturnTypeNavvy<T, R>[]>> {
+    return resAllEvents(this.resAllSteps())
+  }
+
+  private resAllSteps() {
+    return this.resAllByBatch({
+      first: this.param,
+      rest: first => (first.next ? this.pageParams(first.total) : []),
+      skipped: (this.firstPageNumber() - 1) * this.navPageSize(),
+      count: page => (Array.isArray(page) ? page.length : 0),
+      join: pages => {
+        const items = pages.map(page => page ?? []).flat() as T[]
+        return ((this.map ? this.map(items) : items) ?? []) as ReturnTypeNavvy<T, R>[]
+      },
+    })
+  }
+
+  /** Параметры остальных страниц */
   private pageParams(total = 0): P[] {
     const nav = this.param.PARAMS?.NAV_PARAMS
-    const nPageSize = Math.min(nav?.nPageSize || this.pageSize, this.pageSize)
+    const nPageSize = this.navPageSize()
     const pages: P[] = []
 
     for (let iNumPage = (nav?.iNumPage || 1) + 1; iNumPage <= Math.ceil(total / nPageSize); iNumPage++) {
       pages.push({ ...clone(this.param), PARAMS: { ...this.param.PARAMS, NAV_PARAMS: { ...nav, nPageSize, iNumPage } } })
     }
     return pages
+  }
+
+  /**
+   * Размер страницы берётся из запроса: портал ограничивает его 50 записями, но вызывающий
+   * код может попросить и меньше
+   */
+  private navPageSize(): number {
+    return Math.min(this.param.PARAMS?.NAV_PARAMS?.nPageSize || this.pageSize, this.pageSize)
+  }
+
+  /** Номер первой страницы `.resAll()`: страница из запроса */
+  private firstPageNumber(): number {
+    return Math.max(Number(this.param.PARAMS?.NAV_PARAMS?.iNumPage) || 1, 1)
   }
 }

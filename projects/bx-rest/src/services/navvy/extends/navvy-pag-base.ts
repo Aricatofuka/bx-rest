@@ -1,4 +1,4 @@
-import { concatMap, from, Observable, toArray } from 'rxjs'
+import { concatMap, concatWith, defer, from, mergeMap, Observable, of, startWith, toArray } from 'rxjs'
 import { iBXRestAnswer, iBXRestAnswerError, iBXRestAnswerSuccess } from '../../../typification/rest/base/answer'
 import { catchError, map } from 'rxjs/operators'
 import clone from 'just-clone'
@@ -12,6 +12,7 @@ import { iBXRestPagination } from '../../../typification/rest/base/api-paginatio
 import { iBXRestBatch } from '../../../typification/rest/batch'
 import { serializeBitrixParams } from '../../../functions/serializeBitrixParams'
 import { BATCH_COMMANDS_LIMIT, PAGE_SIZE } from '../../../consts/page-size'
+import { resAllTotal, ResAllStep } from '../res-all-steps'
 
 export interface BXRestResOptions {
   /**
@@ -34,10 +35,29 @@ export interface BXRestResOptions {
  */
 export function offsetPageParams<P extends iBXRestPagination>(param: P, total: number | undefined, pageSize: number): P[] {
   const pages: P[] = []
-  for (let start = (Number(param?.start) || 0) + pageSize; start < (total ?? 0); start += pageSize) {
+  for (let start = startOf(param) + pageSize; start < (total ?? 0); start += pageSize) {
     pages.push({ ...clone(param), start })
   }
   return pages
+}
+
+/** С какой записи начинается запрос с постраничной навигацией через `start` */
+export function startOf(param: iBXRestPagination | undefined): number {
+  return Number(param?.start) || 0
+}
+
+/** Обход `.resAll()` с пакетами через `batch`, см. {@link NavvyPagBase.resAllByBatch}. */
+export interface ResAllBatchWalk<T, P, A> {
+  /** Параметры первой страницы. */
+  first: P
+  /** Параметры остальных страниц по ответу на первую, в порядке обхода */
+  rest: (answer: iBXRestAnswerSuccess<T>) => P[]
+  /** Сколько записей списка стоит до начала запроса: в обход они не входят, а в `total` из ответа входят. */
+  skipped: number
+  /** Сколько записей на странице */
+  count: (page: T | undefined) => number
+  /** Результат из страниц: из всех — итог `.resAll()`, из страниц одного ответа — его записи */
+  join: (pages: (T | undefined)[]) => A
 }
 
 export abstract class NavvyPagBase<T, R, P> {
@@ -59,7 +79,7 @@ export abstract class NavvyPagBase<T, R, P> {
    * HTTP-заголовки только для этого запроса — поверх `BXRestSettings.headers`
    * (при совпадении имени побеждает значение отсюда). Повторные вызовы
    * дополняют уже заданные заголовки. Действует на `.res()`, `.resVanilla()`,
-   * `.mapForVanilla()` и на все batch-запросы `.resAll()`
+   * `.mapForVanilla()` и на все batch-запросы `.resAll()` и `.resAllWithProgress()`
    *
    * @example
    * bx.crm.deal.list({ ... }).withHeaders({ 'X-Request-Source': 'report' }).resAll()
@@ -159,11 +179,22 @@ export abstract class NavvyPagBase<T, R, P> {
   }
 
   /**
-   * Остальные страницы для `.resAll()`, в порядке `params`. Команды уходят через `batch`,
-   * пакеты — по очереди. Ошибка любой страницы завершает весь запрос: неполный список
-   * выглядел бы для вызывающего кода как полный
+   * Остальные страницы для `.resAll()`, в порядке `params`, одним массивом. Как они
+   * запрашиваются, см. {@link resBatches}
    */
   protected resPages<Page>(params: P[]): Observable<Page[]> {
+    return this.resBatches<Page>(params).pipe(
+      toArray(),
+      map(pages => pages.flat() as Page[])
+    )
+  }
+
+  /**
+   * Остальные страницы для `.resAll()`, в порядке `params`: значение на каждый ответ `batch`,
+   * в нём страницы этого пакета. Команды уходят через `batch`, пакеты — по очереди. Ошибка любой
+   * страницы завершает весь запрос: неполный список выглядел бы для вызывающего кода как полный
+   */
+  protected resBatches<Page>(params: P[]): Observable<Page[]> {
     const method = this.http.getNameMethod(this.url)
     const commands = params.map(param => method + '?' + serializeBitrixParams(param))
     const batches: string[][] = []
@@ -174,10 +205,35 @@ export abstract class NavvyPagBase<T, R, P> {
 
     return from(batches).pipe(
       concatMap(cmd => this.http.post<iBXRestBatch<Page[]>>(['batch'], { halt: 1, cmd }, false, this.requestHeaders)),
-      map(answer => this.batchPages<Page>(answer)),
-      toArray(),
-      map(pages => pages.flat() as Page[])
+      map(answer => this.batchPages<Page>(answer))
     )
+  }
+
+  /**
+   * Обход `.resAll()` для методов, у которых первая страница называет общее число записей,
+   * а остальные страницы уходят пакетами через `batch`. Шаг — после первой страницы и после
+   * каждого пакета, в конце — итог из всех страниц. Каждая подписка обходит список заново
+   */
+  protected resAllByBatch<A>(walk: ResAllBatchWalk<T, P, A>): Observable<ResAllStep<A>> {
+    return defer(() => {
+      const pages: (T | undefined)[] = []
+      let loaded = 0
+      let total: number | undefined
+      const step = (got: (T | undefined)[]): ResAllStep<A> => {
+        pages.push(...got)
+        loaded = got.reduce((sum, page) => sum + walk.count(page), loaded)
+        return { type: 'progress', loaded, total, items: () => walk.join(got) }
+      }
+
+      return this.resPage(walk.first).pipe(
+        mergeMap(first => {
+          total = resAllTotal(first.total, walk.skipped)
+          const firstStep = step([first.result])
+          return this.resBatches<T>(walk.rest(first)).pipe(map(step), startWith(firstStep))
+        }),
+        concatWith(defer(() => of<ResAllStep<A>>({ type: 'done', result: walk.join(pages) })))
+      )
+    })
   }
 
   private batchPages<Page>(answer: iBXRestAnswer<iBXRestBatch<Page[]>> | undefined): Page[] {

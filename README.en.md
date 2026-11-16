@@ -21,6 +21,7 @@ Also known as: Bitrix24 REST client, BX24 REST SDK, Bitrix24 API client, Bitrix 
 - [Quick Start](#quick-start)
   - [Incoming webhook](#incoming-webhook)
   - [Result modes](#result-modes)
+  - [Loading progress](#loading-progress)
 - [Usage in Angular](#usage-in-angular)
 - [Usage in Vue](#usage-in-vue)
 - [Usage in React](#usage-in-react)
@@ -134,6 +135,7 @@ A request is sent when the `Observable` is subscribed to or passed to `firstValu
 | --- | --- |
 | `.res(options?)` | The result from the Bitrix response, passed through the mapper. For list methods, one page. |
 | `.resAll()` | The records of all pages together. Available on paged list methods, see below. |
+| `.resAllWithProgress()` | The same as `.resAll()`, with loading progress: an event after each HTTP response. See [Loading progress](#loading-progress). |
 | `.resVanilla()` | The Bitrix response as is, with `result`, `total` and `next`. |
 | `.mapForVanilla()` | The Bitrix response as is, but with the mapper applied to its `result`. |
 
@@ -158,6 +160,36 @@ How `.resAll()` pages depends on the method:
 When pages go one at a time, the fields of `result` other than the lists (`hasMore`, `nextCursor`) come from the last page. For `imbot.v2.Bot.list` both lists are collected, `bots` and `users`. The pages of `im.recent.list` overlap on the portal, and `.resAll()` drops the repeated chats.
 
 Methods that return the whole list in one response have no `.resAll()`. They and the other exceptions are listed with reasons in [list-pagination.spec.ts](https://github.com/Aricatofuka/bx-rest/blob/main/projects/bx-rest/src/rest/list-pagination.spec.ts). For example, `note.document.search.list` returns only the first page: the response has no pointer to the next one.
+
+### Loading progress
+
+`.resAll()` returns the records as one value once all pages are loaded. With thousands of records that is a long wait. To show loading progress or display records as they arrive, use `.resAllWithProgress()`. Every request with `.resAll()` has it; it pages the same way and emits events:
+
+| Event | When | Fields |
+| --- | --- | --- |
+| `progress` | After each HTTP response: the first page, each `batch` request, each page when pages go one at a time | `items` — the records of this response, `loaded` — how many records have arrived so far, `total` — how many there are |
+| `done` | Once, at the end | `result` — the same as `.resAll()` returns |
+
+```typescript
+bxRest.crm.deal.list({ select: ['ID', 'TITLE'], filter: {} })
+  .resAllWithProgress()
+  .subscribe(event => {
+    if (event.type === 'progress') {
+      showProgress(event.loaded, event.total) // total may be undefined
+      appendDeals(event.items)
+    } else {
+      showDeals(event.result)
+    }
+  })
+```
+
+The event type is `BXRestResAllEvent<R>` from `bx-rest`, where `R` is the result type of `.resAll()`: `import type { BXRestResAllEvent } from 'bx-rest'`.
+
+- **`items`** has the same shape as the result of `.resAll()` and has already been through the method's mapper. For a method that returns an array, it is the array of the response's records. For a method with the list under a key (`{ products: [...] }`), it is the same object with the response's records under the key. Repeats that `.resAll()` drops for `im.recent.list` are not in `items`.
+- **`result`** is not `items` joined together: the mapper runs on the whole list, as in `.resAll()`. So each record goes through the mapper twice, for `items` and for `result`.
+- **`total`** is the total number of records from the Bitrix response. If the request does not start at the first record (`start`, `OFFSET`, a page number), the records before the start are not counted. So at the end `loaded` equals `total`, unless the list changed during loading. Methods that page one page at a time do not return a total; for them `total` is `undefined`.
+- **A step** is one HTTP response. A `batch` request carries up to 50 pages, which is up to 2500 records with 50-record pages. A list of 3000 records arrives in three `progress` events: 50, 2500 and 450 records.
+- **Errors, cancelling, `withHeaders()` and the order of requests** are as with `.resAll()`. An error on any page fails the stream after the `progress` events already sent, and `done` does not come. Unsubscribing aborts the current HTTP request, and no further requests are sent. Each subscription loads the list again.
 
 ## Usage in Angular
 
@@ -640,7 +672,7 @@ BXRestSettings.update({
 
 They are attached to every request the library makes, including the `.resAll()` batch requests, and, like the other settings, are read at subscribe time. `update()` merges settings only at the top level, so `headers` is replaced as a whole. To add a header to the ones already set, pass the full set.
 
-For a single request, use `.withHeaders()`. Its headers go on top of `BXRestSettings.headers`, and when a name matches (case-insensitively), `.withHeaders()` wins. It works with `.res()`, `.resAll()`, `.resVanilla()` and `.mapForVanilla()`:
+For a single request, use `.withHeaders()`. Its headers go on top of `BXRestSettings.headers`, and when a name matches (case-insensitively), `.withHeaders()` wins. It works with `.res()`, `.resAll()`, `.resAllWithProgress()`, `.resVanilla()` and `.mapForVanilla()`:
 
 ```typescript
 const deals = await firstValueFrom(

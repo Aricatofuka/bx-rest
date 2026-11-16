@@ -1,8 +1,9 @@
-import { mergeMap, Observable, shareReplay } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { Observable, shareReplay } from 'rxjs'
 import clone from 'just-clone'
 import { pageSizeOf, ReturnTypeNavvy } from './navvy-support'
 import { NavvyPagBase } from './extends/navvy-pag-base'
+import { BXRestResAllEvent } from './res-all-event'
+import { resAllEvents, resAllResult } from './res-all-steps'
 
 /**
  * Как листать метод по смещению: имена параметров и размер страницы.
@@ -45,17 +46,32 @@ export class NavvyPagOffset<T, R, P extends object> extends NavvyPagBase<T, R, P
   }
 
   resAll(): Observable<ReturnTypeNavvy<T, R>> {
-    const first = withOffsetPageSize(this.param, this.nav)
-    return this.resPage(first).pipe(
-      mergeMap(page => this.resPages<T>(this.pageParams(first, page.total, page.next)).pipe(
-        map(pages => {
-          const joined = joinOffsetPages([page.result, ...pages]) as T
-          return (this.map ? this.map(joined) : joined) as ReturnTypeNavvy<T, R>
-        })
-      )),
+    return resAllResult(this.resAllSteps()).pipe(
       // refCount: без подписчиков оставшиеся страницы запрашивать незачем
       shareReplay({ bufferSize: 1, refCount: true })
     )
+  }
+
+  /**
+   * Как `.resAll()`, но с ходом загрузки: `progress` с записями каждого HTTP-ответа,
+   * в конце `done` с результатом `.resAll()`
+   */
+  resAllWithProgress(): Observable<BXRestResAllEvent<ReturnTypeNavvy<T, R>>> {
+    return resAllEvents(this.resAllSteps())
+  }
+
+  private resAllSteps() {
+    const first = withOffsetPageSize(this.param, this.nav)
+    return this.resAllByBatch({
+      first,
+      rest: page => this.pageParams(first, page.total, page.next),
+      skipped: Number((first as Record<string, unknown>)[this.nav.offset]) || 0,
+      count: recordsIn,
+      join: pages => {
+        const joined = joinOffsetPages(pages) as T
+        return (this.map ? this.map(joined) : joined) as ReturnTypeNavvy<T, R>
+      },
+    })
   }
 
   /**
@@ -90,4 +106,12 @@ function joinOffsetPages(pages: unknown[]): unknown {
   return objects.length
     ? Object.assign({}, ...objects)
     : pages.flatMap(page => (Array.isArray(page) ? page : []))
+}
+
+/** Сколько записей на странице: элементов массива или ключей объекта */
+function recordsIn(page: unknown): number {
+  if (Array.isArray(page)) {
+    return page.length
+  }
+  return (page !== null && typeof page === 'object') ? Object.keys(page).length : 0
 }

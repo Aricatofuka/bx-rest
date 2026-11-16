@@ -23,6 +23,7 @@ export * from './navvy/navvy-pag-nav-keyed'
 export * from './navvy/navvy-pag-offset'
 export * from './navvy/navvy-pag-sequential'
 export * from './navvy/navvy-support'
+export * from './navvy/res-all-event'
 
 export class Navvy {
 
