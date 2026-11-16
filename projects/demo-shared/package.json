@@ -6,9 +6,20 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./method-check": {
+      "types": "./dist/methodCheck/index.d.ts",
+      "default": "./dist/methodCheck/index.js"
+    }
+  },
   "scripts": {
     "generate-typings": "node scripts/generate-typings.mjs",
-    "build": "npm run generate-typings && tsc -p tsconfig.json"
+    "build": "npm run generate-typings && npm run generate-methods && tsc -p tsconfig.json",
+    "generate-methods": "node scripts/generate-methods.mjs"
   },
   "dependencies": {
     "bx-rest": "file:../../dist/bx-rest",

@@ -74,6 +74,67 @@ export interface Strings {
   toast: {
     close: string
   }
+  methodCheck: {
+    tabSandbox: string
+    tabCheck: string
+    heading: string
+    intro: string
+    writeLabel: string
+    writeWarning: string
+    startButton: string
+    stopButton: string
+    downloadButton: string
+    downloadCsvButton: string
+    detailsHint: string
+    details: {
+      address: string
+      httpStatus: string
+      kind: string
+      params: string
+      response: string
+      mapped: string
+      stack: string
+      copy: string
+      copied: string
+      notStored: string
+    }
+    connectFirstHint: string
+    progress: (done: number, total: number) => string
+    current: (method: string) => string
+    stopping: string
+    summaryHeading: string
+    filterLabel: string
+    filterAll: string
+    searchLabel: string
+    topCodesHeading: string
+    columns: { method: string, phase: string, status: string, details: string, ms: string }
+    paginator: {
+      itemsPerPage: string
+      firstPage: string
+      previousPage: string
+      nextPage: string
+      lastPage: string
+      range: (start: number, end: number, total: number) => string
+    }
+    phases: Record<'read' | 'add' | 'update' | 'delete' | 'other', string>
+    statuses: Record<'pending' | 'ok' | 'mapping' | 'api-error' | 'error' | 'skipped', string>
+    reasons: {
+      stopped: string
+      otherPhase: string
+      noRequest: string
+      notRun: string
+      noScenario: string
+      writeOff: string
+      noParams: string
+      needs: (scenario: string) => string
+      noCreatedId: string
+      addFailed: string
+      clientThrew: string
+      notRest: string
+      mapperThrew: string
+      notRequest: string
+    }
+  }
 }
 
 export type AuthModeId =
@@ -159,6 +220,76 @@ const ru: Strings = {
   },
   toast: {
     close: 'Закрыть'
+  },
+  methodCheck: {
+    tabSandbox: 'Песочница',
+    tabCheck: 'Проверка методов',
+    heading: 'Проверка методов на портале',
+    intro:
+      'Вызывает методы клиента на подключённом портале и сверяет ответ с маппером. Сначала идут методы чтения, затем, если включено, добавление, изменение и удаление записей. Остальные методы пока не проверяются. Запросы идут через очередь: не больше двух в секунду.',
+    writeLabel: 'Проверять запись',
+    writeWarning:
+      'Создаёт на портале лид, контакт, компанию, сделку с комментарием, задачу и событие календаря, меняет их и удаляет. В названии — «bx-rest check» и время запуска. Только для тестового портала.',
+    startButton: '▶ Проверить',
+    stopButton: '■ Остановить',
+    downloadButton: 'Скачать отчёт (JSON)',
+    downloadCsvButton: 'Скачать таблицу (CSV)',
+    detailsHint: 'Нажмите на строку, чтобы увидеть параметры запроса и ответ портала.',
+    details: {
+      address: 'Адрес',
+      httpStatus: 'HTTP-статус',
+      kind: 'Класс запроса',
+      params: 'Параметры запроса',
+      response: 'Ответ портала',
+      mapped: 'Результат маппера',
+      stack: 'Стек',
+      copy: 'Скопировать строку (JSON)',
+      copied: 'Скопировано',
+      notStored: 'У успешных запросов ответ не сохраняется'
+    },
+    connectFirstHint: 'Сначала подключитесь к порталу выше.',
+    progress: (done, total) => `${done} из ${total}`,
+    current: method => `Сейчас: ${method}`,
+    stopping: 'Останавливается: созданные записи удаляются…',
+    summaryHeading: 'Итог',
+    filterLabel: 'Статус',
+    filterAll: 'Все',
+    searchLabel: 'Поиск по методу',
+    topCodesHeading: 'Частые ошибки портала',
+    columns: { method: 'Метод', phase: 'Фаза', status: 'Статус', details: 'Подробности', ms: 'мс' },
+    paginator: {
+      itemsPerPage: 'Строк на странице',
+      firstPage: 'Первая страница',
+      previousPage: 'Предыдущая страница',
+      nextPage: 'Следующая страница',
+      lastPage: 'Последняя страница',
+      range: (start, end, total) => `${start}–${end} из ${total}`
+    },
+    phases: { read: 'Чтение', add: 'Добавление', update: 'Изменение', delete: 'Удаление', other: 'Другое' },
+    statuses: {
+      pending: 'Ожидает',
+      ok: '✓ OK',
+      mapping: '⚠ Маппер',
+      'api-error': '✕ Ошибка портала',
+      error: '✕ Ошибка',
+      skipped: '— Пропущен'
+    },
+    reasons: {
+      stopped: 'проверка остановлена',
+      otherPhase: 'не чтение, не добавление, не изменение и не удаление: проверка появится позже',
+      noRequest: 'метод не возвращает объект запроса: проверка появится позже',
+      notRun: 'не запускался',
+      noScenario: 'нет сценария записи',
+      writeOff: 'проверка записи выключена',
+      noParams: 'нечем заполнить обязательные параметры',
+      needs: scenario => `не создана запись ${scenario}`,
+      noCreatedId: 'в ответе нет идентификатора созданной записи',
+      addFailed: 'запись не создана',
+      clientThrew: 'метод клиента упал до запроса',
+      notRest: 'ответ — не ответ REST API',
+      mapperThrew: 'маппер упал',
+      notRequest: 'метод не вернул объект запроса'
+    }
   }
 }
 
@@ -237,6 +368,76 @@ const en: Strings = {
   },
   toast: {
     close: 'Close'
+  },
+  methodCheck: {
+    tabSandbox: 'Sandbox',
+    tabCheck: 'Method check',
+    heading: 'Check methods on the portal',
+    intro:
+      'Calls the client methods on the connected portal and checks each response against its mapper. Read methods go first, then, if enabled, adding, updating and deleting records. Other methods are not checked yet. Requests go through a queue, at most two per second.',
+    writeLabel: 'Check writes',
+    writeWarning:
+      'Creates a lead, a contact, a company, a deal with a comment, a task and a calendar event on the portal, updates them and deletes them. Their names contain "bx-rest check" and the start time. For a test portal only.',
+    startButton: '▶ Check',
+    stopButton: '■ Stop',
+    downloadButton: 'Download report (JSON)',
+    downloadCsvButton: 'Download table (CSV)',
+    detailsHint: 'Click a row to see the request parameters and the portal response.',
+    details: {
+      address: 'Address',
+      httpStatus: 'HTTP status',
+      kind: 'Request class',
+      params: 'Request parameters',
+      response: 'Portal response',
+      mapped: 'Mapper result',
+      stack: 'Stack',
+      copy: 'Copy row (JSON)',
+      copied: 'Copied',
+      notStored: 'The response of a successful request is not stored'
+    },
+    connectFirstHint: 'Connect to a portal above first.',
+    progress: (done, total) => `${done} of ${total}`,
+    current: method => `Now: ${method}`,
+    stopping: 'Stopping: deleting the created records…',
+    summaryHeading: 'Summary',
+    filterLabel: 'Status',
+    filterAll: 'All',
+    searchLabel: 'Search by method',
+    topCodesHeading: 'Frequent portal errors',
+    columns: { method: 'Method', phase: 'Phase', status: 'Status', details: 'Details', ms: 'ms' },
+    paginator: {
+      itemsPerPage: 'Rows per page',
+      firstPage: 'First page',
+      previousPage: 'Previous page',
+      nextPage: 'Next page',
+      lastPage: 'Last page',
+      range: (start, end, total) => `${start}–${end} of ${total}`
+    },
+    phases: { read: 'Read', add: 'Add', update: 'Update', delete: 'Delete', other: 'Other' },
+    statuses: {
+      pending: 'Pending',
+      ok: '✓ OK',
+      mapping: '⚠ Mapper',
+      'api-error': '✕ Portal error',
+      error: '✕ Error',
+      skipped: '— Skipped'
+    },
+    reasons: {
+      stopped: 'the check was stopped',
+      otherPhase: 'not a read, add, update or delete: to be checked later',
+      noRequest: 'the method returns no request object: to be checked later',
+      notRun: 'not run',
+      noScenario: 'no write scenario',
+      writeOff: 'write check is off',
+      noParams: 'nothing to fill the required parameters with',
+      needs: scenario => `no ${scenario} record was created`,
+      noCreatedId: 'the response has no ID of the created record',
+      addFailed: 'the record was not created',
+      clientThrew: 'the client method threw before the request',
+      notRest: 'the response is not a REST API response',
+      mapperThrew: 'the mapper threw',
+      notRequest: 'the method did not return a request object'
+    }
   }
 }
 

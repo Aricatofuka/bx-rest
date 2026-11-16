@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
+import { MatTabsModule } from '@angular/material/tabs'
 import {
   applyConnection,
   EMPTY_CONNECTION,
@@ -21,6 +22,7 @@ import { RecipePickerComponent } from './recipe-picker/recipe-picker.component'
 import { CodeEditorComponent } from './code-editor/code-editor.component'
 import { ResultPanelComponent } from './result-panel/result-panel.component'
 import { ToastHostComponent } from './toast-host/toast-host.component'
+import { MethodCheckComponent } from './method-check/method-check.component'
 
 @Component({
   selector: 'app-root',
@@ -28,6 +30,8 @@ import { ToastHostComponent } from './toast-host/toast-host.component'
   imports: [
     MatButtonModule,
     MatCardModule,
+    MatTabsModule,
+    MethodCheckComponent,
     ConnectionFormComponent,
     RecipePickerComponent,
     CodeEditorComponent,

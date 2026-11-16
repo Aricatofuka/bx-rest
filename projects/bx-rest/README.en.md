@@ -1119,6 +1119,8 @@ The demos are on GitHub Pages: [start page](https://aricatofuka.github.io/bx-res
 
 Each demo has a connection form with every option from [Authentication and OAuth2](#authentication-and-oauth2), a Monaco editor with suggestions from the `bx-rest` types, and a panel that runs your code against the portal. The UI is in Russian or English, depending on the browser language.
 
+The Angular demo also has a "Method check" tab. It calls the client's read methods on the connected portal and checks the responses against the mappers, and optionally creates, updates and deletes test records. The result is a table with the status of every method. See the demo's README for details.
+
 - **Connect a test portal** with a webhook or an access token: the connection, including the token, is saved in the browser's `localStorage`.
 - **The demos cannot be installed in a portal as an app:** Bitrix24 opens apps with a POST request, and GitHub Pages does not accept it.
 

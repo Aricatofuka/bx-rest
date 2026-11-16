@@ -31,6 +31,10 @@
   }
 }
 
+.app__tab {
+  padding-top: 16px;
+}
+
 .run-button {
   margin-top: 10px;
 }

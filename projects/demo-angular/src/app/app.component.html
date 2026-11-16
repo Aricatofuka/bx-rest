@@ -16,25 +16,41 @@
     </mat-card-content>
   </mat-card>
 
-  <main class="app__main">
-    <mat-card class="app__editor">
-      <mat-card-content>
-        <app-recipe-picker (pick)="pickRecipe($event)"></app-recipe-picker>
-        <app-code-editor [value]="code" (valueChange)="code = $event"></app-code-editor>
-        <button mat-raised-button color="primary" class="run-button" [disabled]="!applied" (click)="run()">
-          {{ t.editor.runButton }}
-        </button>
-        @if (!applied) {
-          <p class="app__hint">{{ t.editor.connectFirstHint }}</p>
-        }
-      </mat-card-content>
-    </mat-card>
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab [label]="t.methodCheck.tabSandbox">
+      <main class="app__main app__tab">
+        <mat-card class="app__editor">
+          <mat-card-content>
+            <app-recipe-picker (pick)="pickRecipe($event)"></app-recipe-picker>
+            <app-code-editor [value]="code" (valueChange)="code = $event"></app-code-editor>
+            <button mat-raised-button color="primary" class="run-button" [disabled]="!applied" (click)="run()">
+              {{ t.editor.runButton }}
+            </button>
+            @if (!applied) {
+              <p class="app__hint">{{ t.editor.connectFirstHint }}</p>
+            }
+          </mat-card-content>
+        </mat-card>
 
-    <section class="app__results">
-      <h2>{{ t.results.heading }}</h2>
-      <app-result-panel [results]="results"></app-result-panel>
-    </section>
-  </main>
+        <section class="app__results">
+          <h2>{{ t.results.heading }}</h2>
+          <app-result-panel [results]="results"></app-result-panel>
+        </section>
+      </main>
+    </mat-tab>
+
+    <mat-tab [label]="t.methodCheck.tabCheck">
+      <!-- Проверка методов с полным списком методов клиента грузится отдельным
+           чанком, только когда открыли вкладку: в стартовом бандле она не нужна -->
+      <ng-template matTabContent>
+        <div class="app__tab">
+          @defer {
+            <app-method-check [applied]="applied"></app-method-check>
+          }
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 
   <app-toast-host></app-toast-host>
 </div>
