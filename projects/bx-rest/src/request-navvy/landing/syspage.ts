@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import { iBXRestParamLandingSysPageGet } from '../../typification/rest/landing'
 import { $deleteForLanding, $deleteForSite, $get, $getSpecialPage, $landing, $set, $syspage } from '../../consts/part-name-methods'
 
 export class BXRestNavvyLandingSysPage  {
@@ -27,12 +28,13 @@ export class BXRestNavvyLandingSysPage  {
   }
   /**
    * Возвращает специальные страницы сайта
+   * @see https://apidocs.bitrix24.ru/api-reference/landing/page/special-pages/landing-syspage-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamLandingSysPageGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamLandingSysPageGet
     >([$landing, $syspage, $get], param)
   }
   /**
@@ -56,4 +58,3 @@ export class BXRestNavvyLandingSysPage  {
     >([$landing, $syspage, $set], param)
   }
 }
-

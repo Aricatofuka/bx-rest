@@ -1,5 +1,10 @@
 import { Navvy } from '../../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../../typification/rest/common'
+import {
+  iBXRestNoteCollectionFieldSelect,
+  iBXRestNoteDocumentTreeFieldName,
+  iBXRestParamNoteFieldGet
+} from '../../../../typification/rest/note'
 import { $document, $field, $get, $list, $note, $tree } from '../../../../consts/part-name-methods'
 
 export class BXRestNavvyNoteDocumentTreeField  {
@@ -7,12 +12,19 @@ export class BXRestNavvyNoteDocumentTreeField  {
 
   /**
    * Возвращает описание поля дерева документов
+   * @see https://apidocs.bitrix24.ru/api-reference/note/document/note-document-tree-field-get.html
    */
-  get(param: iBXRestGenericParams = {}) {
+  get(param: iBXRestParamNoteFieldGet<
+    iBXRestNoteDocumentTreeFieldName,
+    iBXRestNoteCollectionFieldSelect
+  >) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamNoteFieldGet<
+        iBXRestNoteDocumentTreeFieldName,
+        iBXRestNoteCollectionFieldSelect
+      >
     >([$note, $document, $tree, $field, $get], param)
   }
 
@@ -27,4 +39,3 @@ export class BXRestNavvyNoteDocumentTreeField  {
     >([$note, $document, $tree, $field, $list], param)
   }
 }
-

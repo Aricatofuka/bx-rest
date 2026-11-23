@@ -1,5 +1,9 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import {
+  iBXRestMailMailboxSelect,
+  iBXRestParamMailGet
+} from '../../typification/rest/mail'
 import { $get, $list, $mail, $mailbox, $senders } from '../../consts/part-name-methods'
 import { restV3PageNav } from '../../services/navvy/sequential-navs'
 import { MAIL_MAILBOX_MAX_PAGE_SIZE, MAIL_PAGE_SIZE } from '../../consts/page-size'
@@ -15,12 +19,13 @@ export class BXRestNavvyMailMailbox  {
 
   /**
    * Возвращает почтовый ящик по идентификатору
+   * @see https://apidocs.bitrix24.ru/api-reference/mail/mailbox/mail-mailbox-get.html
    */
-  get(param: iBXRestGenericParams) {
+  get(param: iBXRestParamMailGet<iBXRestMailMailboxSelect>) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamMailGet<iBXRestMailMailboxSelect>
     >([$mail, $mailbox, $get], param)
   }
 
@@ -46,4 +51,3 @@ export class BXRestNavvyMailMailbox  {
     >([$mail, $mailbox, $senders], param)
   }
 }
-

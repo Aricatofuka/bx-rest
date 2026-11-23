@@ -1,5 +1,10 @@
 import { Navvy } from '../../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../../typification/rest/common'
+import {
+  iBXRestNoteCollectionFieldSelect,
+  iBXRestNoteDocumentSearchFieldName,
+  iBXRestParamNoteFieldGet
+} from '../../../../typification/rest/note'
 import { $document, $field, $get, $list, $note, $search } from '../../../../consts/part-name-methods'
 
 export class BXRestNavvyNoteDocumentSearchField  {
@@ -7,12 +12,19 @@ export class BXRestNavvyNoteDocumentSearchField  {
 
   /**
    * Возвращает описание поля результата поиска документов
+   * @see https://apidocs.bitrix24.ru/api-reference/note/document/note-document-search-field-get.html
    */
-  get(param: iBXRestGenericParams = {}) {
+  get(param: iBXRestParamNoteFieldGet<
+    iBXRestNoteDocumentSearchFieldName,
+    iBXRestNoteCollectionFieldSelect
+  >) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamNoteFieldGet<
+        iBXRestNoteDocumentSearchFieldName,
+        iBXRestNoteCollectionFieldSelect
+      >
     >([$note, $document, $search, $field, $get], param)
   }
 
@@ -27,4 +39,3 @@ export class BXRestNavvyNoteDocumentSearchField  {
     >([$note, $document, $search, $field, $list], param)
   }
 }
-

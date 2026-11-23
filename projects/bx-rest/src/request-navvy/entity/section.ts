@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import { iBXRestParamEntitySectionGet } from '../../typification/rest/entity'
 import { $add, $delete, $entity, $get, $section, $update } from '../../consts/part-name-methods'
 
 export class BXRestNavvyEntitySection  {
@@ -25,12 +26,13 @@ export class BXRestNavvyEntitySection  {
 
   /**
    * Возвращает список разделов хранилища
+   * @see https://apidocs.bitrix24.ru/api-reference/entity/sections/entity-section-get.html
    */
-  get(param: iBXRestGenericParams) {
+  get(param: iBXRestParamEntitySectionGet) {
     return this.Navvy.simple<
       iBXRestGenericObject[],
       iBXRestGenericObject[],
-      iBXRestGenericParams
+      iBXRestParamEntitySectionGet
     >([$entity, $section, $get], param)
   }
 
@@ -41,4 +43,3 @@ export class BXRestNavvyEntitySection  {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $section, $update], param)
   }
 }
-

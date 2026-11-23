@@ -1,5 +1,6 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import { iBXRestParamBookingV1ResourceGet } from '../../../typification/rest/booking'
 import { $add, $booking, $delete, $get, $list, $resource, $update, $v1 } from '../../../consts/part-name-methods'
 import { BXRestNavvyBookingV1ResourceSlots } from './resource/slots'
 
@@ -35,12 +36,13 @@ export class BXRestNavvyBookingV1Resource  {
 
   /**
    * Возвращает ресурс
+   * @see https://apidocs.bitrix24.ru/api-reference/booking/resource/booking-v1-resource-get.html
    */
-  get(param: iBXRestGenericParams) {
+  get(param: iBXRestParamBookingV1ResourceGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamBookingV1ResourceGet
     >([$booking, $v1, $resource, $get], param)
   }
 
@@ -66,4 +68,3 @@ export class BXRestNavvyBookingV1Resource  {
     >([$booking, $v1, $resource, $update], param)
   }
 }
-

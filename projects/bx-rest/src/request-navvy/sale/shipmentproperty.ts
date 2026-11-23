@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import { iBXRestParamSaleGet } from '../../typification/rest/sale'
 import { $add, $delete, $get, $getFieldsByType, $list, $sale, $shipmentProperty, $update } from '../../consts/part-name-methods'
 
 export class BXRestNavvySaleShipmentProperty  {
@@ -27,12 +28,13 @@ export class BXRestNavvySaleShipmentProperty  {
   }
   /**
    * Возвращает свойство отгрузки по идентификатору
+   * @see https://apidocs.bitrix24.ru/api-reference/sale/shipment-property/sale-shipment-property-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamSaleGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamSaleGet
     >([$sale, $shipmentProperty, $get], param)
   }
   /**
@@ -66,4 +68,3 @@ export class BXRestNavvySaleShipmentProperty  {
     >([$sale, $shipmentProperty, $update], param)
   }
 }
-

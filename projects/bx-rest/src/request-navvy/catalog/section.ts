@@ -1,5 +1,9 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import {
+  iBXRestParamCatalogGet,
+  iBXRestParamCatalogSectionList
+} from '../../typification/rest/catalog'
 import { $add, $catalog, $delete, $get, $getFieldsExact, $list, $section, $update } from '../../consts/part-name-methods'
 
 export class BXRestNavvyCatalogSection  {
@@ -27,12 +31,13 @@ export class BXRestNavvyCatalogSection  {
   }
   /**
    * Возвращает раздел каталога по идентификатору
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/section/catalog-section-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamCatalogGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogGet
     >([$catalog, $section, $get], param)
   }
   /**
@@ -47,12 +52,13 @@ export class BXRestNavvyCatalogSection  {
   }
   /**
    * Возвращает список разделов каталога
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/section/catalog-section-list.html
    */
-  public list(param: iBXRestGenericParams = {}) {
+  public list(param: iBXRestParamCatalogSectionList) {
     return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogSectionList
     >([$catalog, $section, $list], param, 'sections')
   }
   /**
@@ -66,4 +72,3 @@ export class BXRestNavvyCatalogSection  {
     >([$catalog, $section, $update], param)
   }
 }
-

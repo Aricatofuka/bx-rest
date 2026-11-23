@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import { iBXRestParamNoteFileGet } from '../../typification/rest/note'
 import { $add, $file, $get, $note } from '../../consts/part-name-methods'
 import { BXRestNavvyNoteFileField } from './file/field'
 
@@ -24,13 +25,13 @@ export class BXRestNavvyNoteFile  {
 
   /**
    * Возвращает данные файла документа и блок Markdown для вставки
+   * @see https://apidocs.bitrix24.ru/api-reference/note/file/note-file-get.html
    */
-  get(param: iBXRestGenericParams) {
+  get(param: iBXRestParamNoteFileGet) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamNoteFileGet
     >([$note, $file, $get], param)
   }
 }
-

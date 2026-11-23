@@ -1,5 +1,6 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import { iBXRestParamImBotChatGet } from '../../../typification/rest/imbot'
 import { $Chat, $add, $get, $imbot, $leave, $setOwner, $update, $v2 } from '../../../consts/part-name-methods'
 import { BXRestNavvyImBotV2ChatInputAction } from './chat/inputaction'
 import { BXRestNavvyImBotV2ChatManager } from './chat/manager'
@@ -44,12 +45,13 @@ export class BXRestNavvyImBotV2Chat  {
 
   /**
    * Возвращает информацию о чате
+   * @see https://apidocs.bitrix24.ru/api-reference/chat-bots/chat-bots-v2/imbot.v2/chats/chat-get.html
    */
-  get(param: iBXRestGenericParams) {
+  get(param: iBXRestParamImBotChatGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamImBotChatGet
     >([$imbot, $v2, $Chat, $get], param)
   }
 
@@ -86,4 +88,3 @@ export class BXRestNavvyImBotV2Chat  {
     >([$imbot, $v2, $Chat, $update], param)
   }
 }
-

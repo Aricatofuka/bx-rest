@@ -1,5 +1,10 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import {
+  iBXRestMailFieldSelect,
+  iBXRestMailMailboxSelect,
+  iBXRestParamMailFieldGet
+} from '../../../typification/rest/mail'
 import { $field, $get, $list, $mail, $mailbox } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyMailMailboxField  {
@@ -7,12 +12,19 @@ export class BXRestNavvyMailMailboxField  {
 
   /**
    * Возвращает описание поля почтового ящика
+   * @see https://apidocs.bitrix24.ru/api-reference/mail/mailbox/mail-mailbox-field-get.html
    */
-  get(param: iBXRestGenericParams = {}) {
+  get(param: iBXRestParamMailFieldGet<
+    iBXRestMailMailboxSelect,
+    iBXRestMailFieldSelect
+  >) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamMailFieldGet<
+        iBXRestMailMailboxSelect,
+        iBXRestMailFieldSelect
+      >
     >([$mail, $mailbox, $field, $get], param)
   }
 
@@ -27,4 +39,3 @@ export class BXRestNavvyMailMailboxField  {
     >([$mail, $mailbox, $field, $list], param)
   }
 }
-

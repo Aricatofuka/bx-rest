@@ -1,5 +1,10 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import {
+  iBXRestParamCatalogFieldsByFilter,
+  iBXRestParamCatalogGet,
+  iBXRestParamCatalogProductList
+} from '../../../typification/rest/catalog'
 import { $add, $catalog, $delete, $download, $get, $getFieldsByFilter, $list, $offer, $product, $update } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyCatalogProductOffer  {
@@ -37,34 +42,37 @@ export class BXRestNavvyCatalogProductOffer  {
   }
   /**
    * Возвращает товар-вариацию по идентификатору
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/product/offer/catalog-product-offer-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamCatalogGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogGet
     >([$catalog, $product, $offer, $get], param)
   }
   /**
    * Возвращает описание полей товаров-вариаций с учётом фильтра
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/product/offer/catalog-product-offer-get-fields-by-filter.html
    */
-  public getFieldsByFilter(param: iBXRestGenericParams = {}) {
+  public getFieldsByFilter(param: iBXRestParamCatalogFieldsByFilter) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogFieldsByFilter
     >([
     $catalog, $product, $offer, $getFieldsByFilter
   ], param)
   }
   /**
    * Возвращает список товаров-вариаций
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/product/offer/catalog-product-offer-list.html
    */
-  public list(param: iBXRestGenericParams = {}) {
+  public list(param: iBXRestParamCatalogProductList) {
     return this.Navvy.pagNavKeyed<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogProductList
     >([$catalog, $product, $offer, $list], param, 'offers')
   }
   /**
@@ -78,4 +86,3 @@ export class BXRestNavvyCatalogProductOffer  {
     >([$catalog, $product, $offer, $update], param)
   }
 }
-

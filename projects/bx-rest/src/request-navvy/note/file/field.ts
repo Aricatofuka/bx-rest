@@ -1,5 +1,10 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import {
+  iBXRestNoteCollectionFieldSelect,
+  iBXRestNoteFileFieldName,
+  iBXRestParamNoteFieldGet
+} from '../../../typification/rest/note'
 import { $field, $file, $get, $list, $note } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyNoteFileField  {
@@ -7,12 +12,19 @@ export class BXRestNavvyNoteFileField  {
 
   /**
    * Возвращает описание поля файла документа
+   * @see https://apidocs.bitrix24.ru/api-reference/note/file/note-file-field-get.html
    */
-  get(param: iBXRestGenericParams = {}) {
+  get(param: iBXRestParamNoteFieldGet<
+    iBXRestNoteFileFieldName,
+    iBXRestNoteCollectionFieldSelect
+  >) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamNoteFieldGet<
+        iBXRestNoteFileFieldName,
+        iBXRestNoteCollectionFieldSelect
+      >
     >([$note, $file, $field, $get], param)
   }
 
@@ -27,4 +39,3 @@ export class BXRestNavvyNoteFileField  {
     >([$note, $file, $field, $list], param)
   }
 }
-

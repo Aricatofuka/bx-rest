@@ -1,5 +1,6 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import { iBXRestParamImBotCommandList } from '../../../typification/rest/imbot'
 import { $Command, $answer, $imbot, $list, $register, $unregister, $update, $v2 } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyImBotV2Command  {
@@ -18,12 +19,13 @@ export class BXRestNavvyImBotV2Command  {
 
   /**
    * Возвращает список команд бота
+   * @see https://apidocs.bitrix24.ru/api-reference/chat-bots/chat-bots-v2/imbot.v2/commands/command-list.html
    */
-  list(param: iBXRestGenericParams = {}) {
+  list(param: iBXRestParamImBotCommandList) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamImBotCommandList
     >([$imbot, $v2, $Command, $list], param)
   }
 
@@ -60,4 +62,3 @@ export class BXRestNavvyImBotV2Command  {
     >([$imbot, $v2, $Command, $update], param)
   }
 }
-

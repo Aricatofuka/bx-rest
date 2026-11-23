@@ -221,3 +221,58 @@ export interface iBXRestParamCrmItemImport extends iBXRestParamCrmEntityType {
 export interface iBXRestParamCrmItemBatchImport extends iBXRestParamCrmEntityType {
   items: iBXRestCrmFields[]
 }
+
+export interface iBXRestParamCrmDealProductRowsGet {
+  id: number
+}
+
+export interface iBXRestParamCrmCompanyContactItems extends Record<string, unknown> {
+  id: number
+  items?: iBXRestCrmFields[]
+}
+
+export interface iBXRestParamCrmItemEntityId extends Record<string, unknown> {
+  entityId: number
+  entityTypeId: number
+  filter?: iBXRestCrmFields
+  order?: Record<string, 'ASC' | 'DESC' | 'asc' | 'desc'>
+}
+
+export interface iBXRestParamCrmPaymentId extends Record<string, unknown> {
+  paymentId: number
+  filter?: iBXRestCrmFields
+  order?: Record<string, 'ASC' | 'DESC' | 'asc' | 'desc'>
+}
+
+export interface iBXRestParamCrmItemProductRowGet {
+  id: number
+}
+
+export interface iBXRestParamCrmItemProductRowList
+  extends iBXRestPagination, Record<string, unknown> {
+  ownerType: string
+  ownerId: number
+}
+
+export interface iBXRestParamCrmItemDetailsConfigurationGet {
+  entityTypeId: number
+  userId?: number
+  scope?: 'P' | 'C'
+  extras?: {
+    categoryId?: number
+    dealCategoryId?: number
+    leadCustomerType?: 1 | 2
+  }
+}
+
+export interface iBXRestParamCrmStageHistoryList
+  extends iBXRestPagination, Record<string, unknown> {
+  entityTypeId?: number
+  order?: Record<string, 'ASC' | 'DESC'>
+  filter?: iBXRestCrmFields
+  select?: string[]
+}
+
+export interface iBXRestParamCrmUserFieldSettingsFields {
+  type: string
+}

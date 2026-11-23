@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import { iBXRestParamNoteGet } from '../../typification/rest/note'
 import { $add, $archive, $delete, $document, $get, $note, $update } from '../../consts/part-name-methods'
 import { BXRestNavvyNoteDocumentField } from './document/field'
 import { BXRestNavvyNoteDocumentSearch } from './document/search'
@@ -56,12 +57,13 @@ export class BXRestNavvyNoteDocument  {
 
   /**
    * Возвращает документ с содержимым в Markdown
+   * @see https://apidocs.bitrix24.ru/api-reference/note/document/note-document-get.html
    */
-  get(param: iBXRestGenericParams) {
+  get(param: iBXRestParamNoteGet) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamNoteGet
     >([$note, $document, $get], param)
   }
 
@@ -76,4 +78,3 @@ export class BXRestNavvyNoteDocument  {
     >([$note, $document, $update], param)
   }
 }
-

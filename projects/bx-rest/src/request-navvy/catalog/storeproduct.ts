@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import { iBXRestParamCatalogGet } from '../../typification/rest/catalog'
 import { $catalog, $get, $getFieldsExact, $list, $storeProduct } from '../../consts/part-name-methods'
 
 export class BXRestNavvyCatalogStoreProduct  {
@@ -7,12 +8,13 @@ export class BXRestNavvyCatalogStoreProduct  {
 
   /**
    * Возвращает остаток товара на складе
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/store-product/catalog-store-product-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamCatalogGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogGet
     >([$catalog, $storeProduct, $get], param)
   }
   /**
@@ -36,4 +38,3 @@ export class BXRestNavvyCatalogStoreProduct  {
     >([$catalog, $storeProduct, $list], param, 'storeProducts')
   }
 }
-

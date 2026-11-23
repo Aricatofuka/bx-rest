@@ -7,8 +7,9 @@ export class BXRestNavvyTimemanSchedule {
 
   /**
    * Возвращает рабочий график по идентификатору
+   * @see https://apidocs.bitrix24.ru/api-reference/timeman/schedule/timeman-schedule-get.html
    */
-  get(param: iBXRestParamTimemanScheduleGet = {}) {
+  get(param: iBXRestParamTimemanScheduleGet) {
     return this.Navvy.simple<
       iBXRestTimemanObject,
       iBXRestTimemanObject,
@@ -16,4 +17,3 @@ export class BXRestNavvyTimemanSchedule {
     >([$timeMan, $schedule, $get], param)
   }
 }
-

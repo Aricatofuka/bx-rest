@@ -122,7 +122,7 @@ interface iBXRestCalendarEventGetAnswerRuleBase {
 
 export interface iBXRestCalendarEventGetParam {
   type: iBXRestCalendarTypeEvent
-  ownerId?: number,
+  ownerId: number,
   from?: Date
   to?: Date
   section?: any // TODO: разобраться

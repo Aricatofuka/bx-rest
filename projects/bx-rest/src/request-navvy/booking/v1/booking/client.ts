@@ -1,5 +1,6 @@
 import { Navvy } from '../../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../../typification/rest/common'
+import { iBXRestParamBookingV1BookingClientList } from '../../../../typification/rest/booking'
 import { $booking, $client, $list, $set, $unset, $v1 } from '../../../../consts/part-name-methods'
 
 export class BXRestNavvyBookingV1BookingClient  {
@@ -7,12 +8,13 @@ export class BXRestNavvyBookingV1BookingClient  {
 
   /**
    * Возвращает список клиентов бронирования
+   * @see https://apidocs.bitrix24.ru/api-reference/booking/booking/client/booking-v1-booking-client-list.html
    */
-  list(param: iBXRestGenericParams) {
+  list(param: iBXRestParamBookingV1BookingClientList) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamBookingV1BookingClientList
     >([$booking, $v1, $booking, $client, $list], param)
   }
 
@@ -38,4 +40,3 @@ export class BXRestNavvyBookingV1BookingClient  {
     >([$booking, $v1, $booking, $client, $unset], param)
   }
 }
-

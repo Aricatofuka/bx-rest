@@ -1,5 +1,6 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import { iBXRestParamNoteDocumentTreeList } from '../../../typification/rest/note'
 import { $document, $list, $note, $tree } from '../../../consts/part-name-methods'
 import { BXRestNavvyNoteDocumentTreeField } from './tree/field'
 
@@ -13,13 +14,13 @@ export class BXRestNavvyNoteDocumentTree  {
 
   /**
    * Возвращает дерево документов одной базы знаний
+   * @see https://apidocs.bitrix24.ru/api-reference/note/document/note-document-tree-list.html
    */
-  list(param: iBXRestGenericParams) {
+  list(param: iBXRestParamNoteDocumentTreeList) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamNoteDocumentTreeList
     >([$note, $document, $tree, $list], param)
   }
 }
-

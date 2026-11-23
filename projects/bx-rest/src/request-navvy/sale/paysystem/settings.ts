@@ -1,5 +1,6 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import { iBXRestParamSalePaySystemSettingsGet } from '../../../typification/rest/sale'
 import { $get, $paysystem, $sale, $settings, $update } from '../../../consts/part-name-methods'
 import { BXRestNavvySalePaySystemSettingsPayment } from './settings/payment'
 
@@ -12,12 +13,13 @@ export class BXRestNavvySalePaySystemSettings  {
   public readonly payment = new BXRestNavvySalePaySystemSettingsPayment()
   /**
    * Возвращает настройки платёжной системы
+   * @see https://apidocs.bitrix24.ru/api-reference/pay-system/sale-pay-system-settings-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamSalePaySystemSettingsGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamSalePaySystemSettingsGet
     >([$sale, $paysystem, $settings, $get], param)
   }
   /**
@@ -31,4 +33,3 @@ export class BXRestNavvySalePaySystemSettings  {
     >([$sale, $paysystem, $settings, $update], param)
   }
 }
-

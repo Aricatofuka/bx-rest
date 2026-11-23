@@ -1,5 +1,6 @@
 import { Navvy } from '../../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../../typification/rest/common'
+import { iBXRestParamBookingV1WaitlistExternalDataList } from '../../../../typification/rest/booking'
 import { $booking, $externaldata, $list, $set, $unset, $v1, $waitlist } from '../../../../consts/part-name-methods'
 
 export class BXRestNavvyBookingV1WaitlistExternalData  {
@@ -7,12 +8,13 @@ export class BXRestNavvyBookingV1WaitlistExternalData  {
 
   /**
    * Возвращает связи записи в лист ожидания с внешними системами
+   * @see https://apidocs.bitrix24.ru/api-reference/booking/waitlist/external-data/booking-v1-waitlist-externaldata-list.html
    */
-  list(param: iBXRestGenericParams) {
+  list(param: iBXRestParamBookingV1WaitlistExternalDataList) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamBookingV1WaitlistExternalDataList
     >([$booking, $v1, $waitlist, $externaldata, $list], param)
   }
 
@@ -38,4 +40,3 @@ export class BXRestNavvyBookingV1WaitlistExternalData  {
     >([$booking, $v1, $waitlist, $externaldata, $unset], param)
   }
 }
-

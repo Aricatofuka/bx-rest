@@ -126,10 +126,8 @@ export type iBXRestParamListsSectionUpdate =
     FIELDS: iBXRestListsSectionFields
   }
 
-export interface iBXRestParamListsSectionGet extends iBXRestPagination {
+export type iBXRestParamListsSectionGet = iBXRestPagination & iBXRestListsIBlockLocator & {
   IBLOCK_TYPE_ID: iBXRestListsIBlockType
-  IBLOCK_ID?: number
-  IBLOCK_CODE?: string
   FILTER?: Record<string, unknown>
   SELECT?: string[]
 }

@@ -1,5 +1,10 @@
 import { Navvy } from '../../../../services/navvy'
-import { iBXRestCrmObject, iBXRestCrmParams } from '../../../../typification/rest/crm'
+import {
+  iBXRestCrmObject,
+  iBXRestCrmParams,
+  iBXRestParamCrmItemProductRowGet,
+  iBXRestParamCrmItemProductRowList
+} from '../../../../typification/rest/crm'
 import { $add, $crm, $delete, $fields, $get, $getAvailableForPayment, $item, $list, $productrow, $set, $update } from '../../../../consts/part-name-methods'
 
 export class BXRestNavvyCrmItemProductRow {
@@ -28,9 +33,14 @@ export class BXRestNavvyCrmItemProductRow {
 
   /**
    * Возвращает информацию о товарной позиции
+   * @see https://apidocs.bitrix24.ru/api-reference/crm/universal/product-rows/crm-item-productrow-get.html
    */
-  get(param: iBXRestCrmParams) {
-    return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>([$crm, $item, $productrow, $get], param)
+  get(param: iBXRestParamCrmItemProductRowGet) {
+    return this.Navvy.simple<
+      iBXRestCrmObject,
+      iBXRestCrmObject,
+      iBXRestParamCrmItemProductRowGet
+    >([$crm, $item, $productrow, $get], param)
   }
 
   /**
@@ -42,12 +52,13 @@ export class BXRestNavvyCrmItemProductRow {
 
   /**
    * Возвращает список товарных позиций
+   * @see https://apidocs.bitrix24.ru/api-reference/crm/universal/product-rows/crm-item-productrow-list.html
    */
-  list(param: iBXRestCrmParams) {
+  list(param: iBXRestParamCrmItemProductRowList) {
     return this.Navvy.pagNavKeyed<
       { productRows?: iBXRestCrmObject[] },
       { productRows?: iBXRestCrmObject[] },
-      iBXRestCrmParams
+      iBXRestParamCrmItemProductRowList
     >([$crm, $item, $productrow, $list], param, 'productRows')
   }
 

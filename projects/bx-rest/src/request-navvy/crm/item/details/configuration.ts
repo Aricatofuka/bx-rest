@@ -1,5 +1,9 @@
 import { Navvy } from '../../../../services/navvy'
-import { iBXRestCrmObject, iBXRestCrmParams } from '../../../../typification/rest/crm'
+import {
+  iBXRestCrmObject,
+  iBXRestCrmParams,
+  iBXRestParamCrmItemDetailsConfigurationGet
+} from '../../../../typification/rest/crm'
 import { $configuration, $crm, $details, $forceCommonScopeForAll, $get, $item, $reset, $set } from '../../../../consts/part-name-methods'
 
 export class BXRestNavvyCrmItemDetailsConfiguration {
@@ -17,9 +21,14 @@ export class BXRestNavvyCrmItemDetailsConfiguration {
 
   /**
    * Возвращает настройки карточки элемента CRM
+   * @see https://apidocs.bitrix24.ru/api-reference/crm/universal/item-details-configuration/crm-item-details-configuration-get.html
    */
-  get(param: iBXRestCrmParams = {}) {
-    return this.Navvy.simple<iBXRestCrmObject, iBXRestCrmObject, iBXRestCrmParams>(
+  get(param: iBXRestParamCrmItemDetailsConfigurationGet) {
+    return this.Navvy.simple<
+      iBXRestCrmObject,
+      iBXRestCrmObject,
+      iBXRestParamCrmItemDetailsConfigurationGet
+    >(
       [$crm, $item, $details, $configuration, $get],
       param
     )

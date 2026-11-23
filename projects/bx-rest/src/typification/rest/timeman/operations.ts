@@ -43,7 +43,7 @@ export interface iBXRestTimemanItemResult<T = iBXRestTimemanObject> {
 }
 
 export interface iBXRestParamTimemanScheduleGet {
-  id?: number
+  id: number
 }
 
 export interface iBXRestParamTimemanTimeControlReportAdd {

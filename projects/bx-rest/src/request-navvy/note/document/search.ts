@@ -1,5 +1,6 @@
 import { Navvy } from '../../../services/navvy'
-import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import { iBXRestGenericObject } from '../../../typification/rest/common'
+import { iBXRestParamNoteDocumentSearchList } from '../../../typification/rest/note'
 import { $document, $list, $note, $search } from '../../../consts/part-name-methods'
 import { BXRestNavvyNoteDocumentSearchField } from './search/field'
 
@@ -13,13 +14,13 @@ export class BXRestNavvyNoteDocumentSearch  {
 
   /**
    * Ищет документы по заголовку и содержимому
+   * @see https://apidocs.bitrix24.ru/api-reference/note/document/note-document-search-list.html
    */
-  list(param: iBXRestGenericParams = {}) {
+  list(param: iBXRestParamNoteDocumentSearchList) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamNoteDocumentSearchList
     >([$note, $document, $search, $list], param)
   }
 }
-

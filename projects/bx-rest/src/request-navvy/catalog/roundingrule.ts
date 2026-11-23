@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import { iBXRestParamCatalogGet } from '../../typification/rest/catalog'
 import { $add, $catalog, $delete, $get, $getFieldsExact, $list, $roundingRule, $update } from '../../consts/part-name-methods'
 
 export class BXRestNavvyCatalogRoundingRule  {
@@ -27,12 +28,13 @@ export class BXRestNavvyCatalogRoundingRule  {
   }
   /**
    * Возвращает правило округления цен по идентификатору
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/rounding-rule/catalog-rounding-rule-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamCatalogGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogGet
     >([$catalog, $roundingRule, $get], param)
   }
   /**
@@ -66,4 +68,3 @@ export class BXRestNavvyCatalogRoundingRule  {
     >([$catalog, $roundingRule, $update], param)
   }
 }
-

@@ -1,5 +1,9 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import {
+  iBXRestParamCatalogGet,
+  iBXRestParamCatalogProductImageList
+} from '../../typification/rest/catalog'
 import { $add, $catalog, $delete, $get, $getFieldsExact, $list, $productImage } from '../../consts/part-name-methods'
 
 export class BXRestNavvyCatalogProductImage  {
@@ -27,12 +31,13 @@ export class BXRestNavvyCatalogProductImage  {
   }
   /**
    * Возвращает изображение товара по идентификатору
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/product-image/catalog-product-image-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamCatalogGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogGet
     >([$catalog, $productImage, $get], param)
   }
   /**
@@ -47,13 +52,13 @@ export class BXRestNavvyCatalogProductImage  {
   }
   /**
    * Возвращает список изображений товара
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/product-image/catalog-product-image-list.html
    */
-  public list(param: iBXRestGenericParams = {}) {
+  public list(param: iBXRestParamCatalogProductImageList) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogProductImageList
     >([$catalog, $productImage, $list], param)
   }
 }
-

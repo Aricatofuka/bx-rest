@@ -1,5 +1,9 @@
 import { Navvy } from '../../../services/navvy'
-import { iBXRestCrmObject, iBXRestCrmParams } from '../../../typification/rest/crm'
+import {
+  iBXRestCrmObject,
+  iBXRestCrmParams,
+  iBXRestParamCrmItemEntityId
+} from '../../../typification/rest/crm'
 import { $crm, $delivery, $get, $item, $list } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyCrmItemDelivery {
@@ -14,8 +18,13 @@ export class BXRestNavvyCrmItemDelivery {
 
   /**
    * Возвращает список доставок объекта CRM
+   * @see https://apidocs.bitrix24.ru/api-reference/crm/universal/delivery/crm-item-delivery-list.html
    */
-  list(param: iBXRestCrmParams) {
-    return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>([$crm, $item, $delivery, $list], param)
+  list(param: iBXRestParamCrmItemEntityId) {
+    return this.Navvy.simple<
+      iBXRestCrmObject[],
+      iBXRestCrmObject[],
+      iBXRestParamCrmItemEntityId
+    >([$crm, $item, $delivery, $list], param)
   }
 }

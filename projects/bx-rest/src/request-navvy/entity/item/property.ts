@@ -1,5 +1,6 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import { iBXRestParamEntityItemPropertyGet } from '../../../typification/rest/entity'
 import { $add, $delete, $entity, $get, $item, $property, $update } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyEntityItemProperty  {
@@ -21,12 +22,13 @@ export class BXRestNavvyEntityItemProperty  {
 
   /**
    * Возвращает список дополнительных свойств элементов
+   * @see https://apidocs.bitrix24.ru/api-reference/entity/items/properties/entity-item-property-get.html
    */
-  get(param: iBXRestGenericParams) {
+  get(param: iBXRestParamEntityItemPropertyGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamEntityItemPropertyGet
     >([$entity, $item, $property, $get], param)
   }
 
@@ -37,4 +39,3 @@ export class BXRestNavvyEntityItemProperty  {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$entity, $item, $property, $update], param)
   }
 }
-

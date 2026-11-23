@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import { iBXRestParamImConnectorStatus } from '../../typification/rest/imconnector'
 import { $activate, $imconnector, $list, $register, $status, $unregister } from '../../consts/part-name-methods'
 import { BXRestNavvyImConnectorChat } from './chat'
 import { BXRestNavvyImConnectorConnector } from './connector'
@@ -58,12 +59,13 @@ export class BXRestNavvyImConnector  {
 
   /**
    * Возвращает статус коннектора
+   * @see https://apidocs.bitrix24.ru/api-reference/imopenlines/imconnector/imconnector-status.html
    */
-  status(param: iBXRestGenericParams) {
+  status(param: iBXRestParamImConnectorStatus) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamImConnectorStatus
     >([$imconnector, $status], param)
   }
 
@@ -74,4 +76,3 @@ export class BXRestNavvyImConnector  {
     return this.Navvy.simple<boolean, boolean, iBXRestGenericParams>([$imconnector, $unregister], param)
   }
 }
-

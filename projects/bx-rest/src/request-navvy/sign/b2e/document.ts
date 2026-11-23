@@ -1,5 +1,6 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import { iBXRestParamSignB2EDocumentGet } from '../../../typification/rest/sign'
 import { $b2e, $document, $get, $send, $sign } from '../../../consts/part-name-methods'
 
 export class BXRestNavvySignB2EDocument  {
@@ -7,12 +8,13 @@ export class BXRestNavvySignB2EDocument  {
 
   /**
    * Возвращает информацию о документе и участниках подписания
+   * @see https://apidocs.bitrix24.ru/api-reference/sign/sign-b2e-document-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamSignB2EDocumentGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamSignB2EDocumentGet
     >([$sign, $b2e, $document, $get], param)
   }
   /**
@@ -26,4 +28,3 @@ export class BXRestNavvySignB2EDocument  {
     >([$sign, $b2e, $document, $send], param)
   }
 }
-

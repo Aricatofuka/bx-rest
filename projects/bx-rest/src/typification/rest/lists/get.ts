@@ -1,13 +1,12 @@
 import { iBXRestPagination } from '../base/api-pagination-bx'
 import { iBXRestYesNo } from '../base/yes-no'
+import { iBXRestListsIBlockLocator } from './operations'
 
-export interface iBXRestParamListGet extends iBXRestPagination {
+export type iBXRestParamListGet = iBXRestPagination & iBXRestListsIBlockLocator & {
   IBLOCK_TYPE_ID: 'lists' | 'bitrix_processes' | 'lists_socnet' // id типа инфоблока:
   // lists - тип инфоблока списка
   // bitrix_processes - тип инфоблока процессов
   // lists_socnet - тип инфоблока списков групп
-  IBLOCK_CODE?: string // код инфоблока
-  IBLOCK_ID?: number, // id инфоблока
   SOCNET_GROUP_ID?: number,	// id группы, обязателен, если список находится в группах
   IBLOCK_ORDER?: any	// TODO: описать подробнее
   // Сортировка. Массив полей разделов информационного блока. Направление сортировки: asc (по возрастания) или desc (по убыванию) Пример:

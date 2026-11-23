@@ -1,5 +1,9 @@
 import { Navvy } from '../../../../services/navvy'
-import { iBXRestCrmObject, iBXRestCrmParams } from '../../../../typification/rest/crm'
+import {
+  iBXRestCrmObject,
+  iBXRestCrmParams,
+  iBXRestParamCrmPaymentId
+} from '../../../../typification/rest/crm'
 import { $add, $crm, $delete, $delivery, $item, $list, $payment, $setDelivery } from '../../../../consts/part-name-methods'
 
 export class BXRestNavvyCrmItemPaymentDelivery {
@@ -21,9 +25,14 @@ export class BXRestNavvyCrmItemPaymentDelivery {
 
   /**
    * Возвращает список позиций доставки по оплате
+   * @see https://apidocs.bitrix24.ru/api-reference/crm/universal/payment/delivery-in-payment/crm-item-payment-delivery-list.html
    */
-  list(param: iBXRestCrmParams) {
-    return this.Navvy.simple<iBXRestCrmObject[], iBXRestCrmObject[], iBXRestCrmParams>([$crm, $item, $payment, $delivery, $list], param)
+  list(param: iBXRestParamCrmPaymentId) {
+    return this.Navvy.simple<
+      iBXRestCrmObject[],
+      iBXRestCrmObject[],
+      iBXRestParamCrmPaymentId
+    >([$crm, $item, $payment, $delivery, $list], param)
   }
 
   /**

@@ -1,5 +1,6 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import { iBXRestParamSaleDeliveryConfigGet } from '../../../typification/rest/sale'
 import { $config, $delivery, $get, $sale, $update } from '../../../consts/part-name-methods'
 
 export class BXRestNavvySaleDeliveryConfig  {
@@ -7,12 +8,13 @@ export class BXRestNavvySaleDeliveryConfig  {
 
   /**
    * Возвращает настройки службы доставки
+   * @see https://apidocs.bitrix24.ru/api-reference/sale/delivery/delivery/sale-delivery-config-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamSaleDeliveryConfigGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamSaleDeliveryConfigGet
     >([$sale, $delivery, $config, $get], param)
   }
   /**
@@ -26,4 +28,3 @@ export class BXRestNavvySaleDeliveryConfig  {
     >([$sale, $delivery, $config, $update], param)
   }
 }
-

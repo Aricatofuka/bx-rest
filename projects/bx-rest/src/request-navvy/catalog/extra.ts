@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import { iBXRestParamCatalogGet } from '../../typification/rest/catalog'
 import { $catalog, $extra, $get, $getFieldsExact, $list } from '../../consts/part-name-methods'
 
 export class BXRestNavvyCatalogExtra  {
@@ -7,12 +8,13 @@ export class BXRestNavvyCatalogExtra  {
 
   /**
    * Возвращает наценку по идентификатору
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/extra/catalog-extra-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamCatalogGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogGet
     >([$catalog, $extra, $get], param)
   }
   /**
@@ -36,4 +38,3 @@ export class BXRestNavvyCatalogExtra  {
     >([$catalog, $extra, $list], param, 'extras')
   }
 }
-

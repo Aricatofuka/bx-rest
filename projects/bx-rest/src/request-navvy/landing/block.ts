@@ -1,5 +1,9 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import {
+  iBXRestParamLandingBlockGetList,
+  iBXRestParamLandingBlockGetManifest
+} from '../../typification/rest/landing'
 import { $addCard, $block, $changeAnchor, $changeNodeName, $cloneCard, $getById, $getContent, $getContentFromRepository, $getList, $getManifest, $getManifestFile, $getRepository, $landing, $removeCard, $updateAttrs, $updateCards, $updateContent, $updateNodes, $updateStyles, $uploadFile } from '../../consts/part-name-methods'
 
 export class BXRestNavvyLandingBlock  {
@@ -79,22 +83,24 @@ export class BXRestNavvyLandingBlock  {
   }
   /**
    * Возвращает список блоков страницы
+   * @see https://apidocs.bitrix24.ru/api-reference/landing/block/methods/landing-block-get-list.html
    */
-  public getList(param: iBXRestGenericParams = {}) {
+  public getList(param: iBXRestParamLandingBlockGetList) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamLandingBlockGetList
     >([$landing, $block, $getList], param)
   }
   /**
    * Возвращает манифест блока, уже размещённого на странице
+   * @see https://apidocs.bitrix24.ru/api-reference/landing/block/methods/landing-block-get-manifest.html
    */
-  public getManifest(param: iBXRestGenericParams = {}) {
+  public getManifest(param: iBXRestParamLandingBlockGetManifest) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamLandingBlockGetManifest
     >([$landing, $block, $getManifest], param)
   }
   /**
@@ -188,4 +194,3 @@ export class BXRestNavvyLandingBlock  {
     >([$landing, $block, $uploadFile], param)
   }
 }
-

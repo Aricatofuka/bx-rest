@@ -1,5 +1,9 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import {
+  iBXRestMailMessageSelect,
+  iBXRestParamMailGet
+} from '../../typification/rest/mail'
 import { $createcalendarevent, $createchat, $createcrmactivity, $createfeedpost, $createtask, $forward, $get, $list, $mail, $message, $movetofolder, $removecrmactivity, $reply, $send, $thread } from '../../consts/part-name-methods'
 import { BXRestNavvyMailMessageField } from './message/field'
 import { restV3PageNav } from '../../services/navvy/sequential-navs'
@@ -81,12 +85,13 @@ export class BXRestNavvyMailMessage  {
 
   /**
    * Возвращает письмо по идентификатору
+   * @see https://apidocs.bitrix24.ru/api-reference/mail/message/mail-message-get.html
    */
-  get(param: iBXRestGenericParams) {
+  get(param: iBXRestParamMailGet<iBXRestMailMessageSelect>) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamMailGet<iBXRestMailMessageSelect>
     >([$mail, $message, $get], param)
   }
 
@@ -156,4 +161,3 @@ export class BXRestNavvyMailMessage  {
     >([$mail, $message, $thread], param)
   }
 }
-

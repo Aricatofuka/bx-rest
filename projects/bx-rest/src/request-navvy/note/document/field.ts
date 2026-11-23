@@ -1,5 +1,6 @@
 import { Navvy } from '../../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../../typification/rest/common'
+import { iBXRestParamNoteFieldGet } from '../../../typification/rest/note'
 import { $document, $field, $get, $list, $note } from '../../../consts/part-name-methods'
 
 export class BXRestNavvyNoteDocumentField  {
@@ -7,12 +8,13 @@ export class BXRestNavvyNoteDocumentField  {
 
   /**
    * Возвращает описание поля документа
+   * @see https://apidocs.bitrix24.ru/api-reference/note/document/note-document-field-get.html
    */
-  get(param: iBXRestGenericParams = {}) {
+  get(param: iBXRestParamNoteFieldGet) {
     return this.Navvy.simpleV3<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamNoteFieldGet
     >([$note, $document, $field, $get], param)
   }
 
@@ -27,4 +29,3 @@ export class BXRestNavvyNoteDocumentField  {
     >([$note, $document, $field, $list], param)
   }
 }
-

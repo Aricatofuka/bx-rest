@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import { iBXRestParamCatalogGet } from '../../typification/rest/catalog'
 import { $catalog, $get, $getFieldsExact, $list, $ratio } from '../../consts/part-name-methods'
 
 export class BXRestNavvyCatalogRatio  {
@@ -7,12 +8,13 @@ export class BXRestNavvyCatalogRatio  {
 
   /**
    * Возвращает коэффициент единицы измерения по идентификатору
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/ratio/catalog-ratio-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamCatalogGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogGet
     >([$catalog, $ratio, $get], param)
   }
   /**
@@ -36,4 +38,3 @@ export class BXRestNavvyCatalogRatio  {
     >([$catalog, $ratio, $list], param, 'ratios')
   }
 }
-

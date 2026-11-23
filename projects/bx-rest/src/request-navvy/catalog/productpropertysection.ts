@@ -1,5 +1,6 @@
 import { Navvy } from '../../services/navvy'
 import { iBXRestGenericObject, iBXRestGenericParams } from '../../typification/rest/common'
+import { iBXRestParamCatalogProductPropertySectionGet } from '../../typification/rest/catalog'
 import { $catalog, $get, $list, $productPropertySection, $set } from '../../consts/part-name-methods'
 
 export class BXRestNavvyCatalogProductPropertySection  {
@@ -7,12 +8,13 @@ export class BXRestNavvyCatalogProductPropertySection  {
 
   /**
    * Возвращает секционные настройки свойства
+   * @see https://apidocs.bitrix24.ru/api-reference/catalog/product-property-section/catalog-product-property-section-get.html
    */
-  public get(param: iBXRestGenericParams = {}) {
+  public get(param: iBXRestParamCatalogProductPropertySectionGet) {
     return this.Navvy.simple<
       iBXRestGenericObject,
       iBXRestGenericObject,
-      iBXRestGenericParams
+      iBXRestParamCatalogProductPropertySectionGet
     >([$catalog, $productPropertySection, $get], param)
   }
   /**
@@ -36,4 +38,3 @@ export class BXRestNavvyCatalogProductPropertySection  {
     >([$catalog, $productPropertySection, $set], param)
   }
 }
-
